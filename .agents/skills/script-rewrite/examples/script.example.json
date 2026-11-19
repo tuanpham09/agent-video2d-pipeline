@@ -1,0 +1,127 @@
+{
+  "meta": {
+    "project": "vidu-short-ai-agent",
+    "title": "AI agent tự làm việc 8 tiếng, tôi chỉ ngồi xem",
+    "format": "9:16",
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "language": "vi"
+  },
+  "characters": [
+    {
+      "id": "host",
+      "name": "Người dẫn",
+      "role": "narrator",
+      "voice": "Hải Đăng",
+      "temperature": 0.85
+    },
+    {
+      "id": "dev",
+      "name": "Linh",
+      "role": "guest",
+      "voice": "Ngọc Huyền",
+      "temperature": 0.85
+    }
+  ],
+  "scenes": [
+    {
+      "id": "S01",
+      "title": "Hook",
+      "goal": "khiến người xem dừng lại vì tò mò",
+      "visual": "Màn hình tối, một dòng log tự chạy; counter thời gian nhảy từ 0 đến 8 giờ",
+      "pause_after": 0.2,
+      "lines": [
+        {
+          "id": "S01_L01",
+          "speaker": "host",
+          "text": "Tôi giao việc cho một con AI. Rồi đi ngủ.",
+          "delivery": "chậm, rõ, bình thản",
+          "pause_after": 0.35,
+          "on_screen": "Giao việc. Đi ngủ."
+        },
+        {
+          "id": "S01_L02",
+          "speaker": "host",
+          "text": "Tám tiếng sau quay lại, nó đã làm xong việc của cả tuần.",
+          "delivery": "nhấn ở 'cả tuần'",
+          "on_screen": "8 tiếng = 1 tuần việc"
+        }
+      ]
+    },
+    {
+      "id": "S02",
+      "title": "Cách nó chạy",
+      "goal": "cho thấy cơ chế, không chỉ kết quả",
+      "visual": "Terminal tự gõ lệnh; cây thư mục mở dần; 3 task tick xanh lần lượt",
+      "pause_after": 0.25,
+      "lines": [
+        {
+          "id": "S02_L01",
+          "speaker": "host",
+          "text": "Điểm khác biệt không nằm ở model. Nằm ở vòng lặp.",
+          "pause_after": 0.2,
+          "on_screen": "Không phải model. Là vòng lặp."
+        },
+        {
+          "id": "S02_L02",
+          "speaker": "dev",
+          "text": "Nó tự đặt việc, tự kiểm tra, sai thì sửa. Mình chỉ chốt kết quả cuối.",
+          "delivery": "tự tin, hơi nhanh",
+          "pause_after": 0.2
+        },
+        {
+          "id": "S02_L03",
+          "speaker": "host",
+          "text": "Ba bước: hiểu việc, làm, rồi tự chấm điểm chính mình.",
+          "on_screen": "Hiểu → Làm → Tự chấm"
+        }
+      ]
+    },
+    {
+      "id": "S03",
+      "title": "Cái giá",
+      "goal": "tạo mâu thuẫn, giữ chân đến cuối",
+      "visual": "Bảng chi phí token tăng vọt; một dòng log đỏ 'retry #14'",
+      "pause_after": 0.3,
+      "lines": [
+        {
+          "id": "S03_L01",
+          "speaker": "host",
+          "text": "Nhưng nó cũng tiêu của tôi một khoản không nhỏ [thở dài].",
+          "pause_after": 0.25,
+          "on_screen": "Không miễn phí"
+        },
+        {
+          "id": "S03_L02",
+          "speaker": "host",
+          "text": "Câu hỏi thật sự là: tiết kiệm thời gian, hay mua thêm việc?",
+          "delivery": "hỏi thật, không kịch",
+          "on_screen": "Tiết kiệm hay mua thêm việc?"
+        }
+      ]
+    },
+    {
+      "id": "S04",
+      "title": "Payoff",
+      "goal": "đóng vòng lặp, đưa một hành động",
+      "visual": "Hai cột so sánh: thời gian tiết kiệm / tiền bỏ ra; kết thúc bằng 1 dòng chữ lớn",
+      "lines": [
+        {
+          "id": "S04_L01",
+          "speaker": "host",
+          "text": "Với việc lặp lại, nó đáng. Với việc cần phán đoán, chưa.",
+          "pause_after": 0.2,
+          "on_screen": "Lặp lại: được. Phán đoán: chưa."
+        },
+        {
+          "id": "S04_L02",
+          "speaker": "host",
+          "text": "Bạn muốn mình thử để nó tự làm cả kênh này không? Bình luận ở dưới.",
+          "delivery": "mời thật, không lên gân",
+          "on_screen": "Thử hay không?"
+        }
+      ]
+    }
+  ]
+}

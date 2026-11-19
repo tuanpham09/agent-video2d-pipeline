@@ -1,0 +1,333 @@
+{
+  "meta": {
+    "project": "ma-thoi-den-thanh-co-tinh-tuyet",
+    "title": "Ma Thổi Đèn: Bí Mật Ngọn Nến Góc Đông Nam",
+    "format": "16:9",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "language": "vi"
+  },
+  "characters": [
+    {
+      "id": "narrator",
+      "name": "Người kể",
+      "role": "narrator",
+      "voice": "Đức Trí",
+      "temperature": 0.75,
+      "denoise": true
+    },
+    {
+      "id": "ho_bat_nhat",
+      "name": "Hồ Bát Nhất",
+      "role": "character",
+      "voice": "Xuân Vĩnh",
+      "temperature": 0.75,
+      "denoise": true
+    },
+    {
+      "id": "tuyen_beo",
+      "name": "Tuyền Béo",
+      "role": "character",
+      "voice": "Thiền Tâm Đức",
+      "temperature": 0.8,
+      "denoise": true
+    }
+  ],
+  "scenes": [
+    {
+      "id": "S01",
+      "title": "Khẩu Quyết Ngàn Năm",
+      "goal": "Tạo sự tò mò và không khí kinh dị ly kỳ ngay từ giây đầu tiên",
+      "visual": "Môi trường: Gian hầm mộ cổ vòm đá rêu phong nứt nẻ, tượng đá hộ vệ không đầu giăng mắc mạng nhện. Bố cục: Toàn cảnh góc rộng từ sâu trong hành lang tối, máy quay lia chậm tiến sát một ngọn nến sáp trắng thắp trên giá đồng rỉ sét. Cử động: Bấc nến bập bùng nhẹ theo luồng gió âm, khói trắng mỏng lượn lờ sát mặt sàn đá. Ánh sáng: Bóng tối bao trùm, điểm sáng duy nhất là đốm lửa vàng cam yếu ớt rọi lên rãnh nứt của gạch cổ. SFX: sfx/risers_tension/tones/tone-step-1.wav và tiếng gió rít khe đá sfx/transitions/whooshes/whoosh-slow-soft.wav.",
+      "pause_after": 0.5,
+      "lines": [
+        {
+          "id": "S01_L01",
+          "speaker": "narrator",
+          "text": "Nhân điểm chúc, quỷ xuy đăng. Kê minh đăng diệt bất sờ kim.",
+          "delivery": "trầm mặc, bí hiểm, uy nghi",
+          "pause_after": 0.4
+        },
+        {
+          "id": "S01_L02",
+          "speaker": "narrator",
+          "text": "Đây là lời thề sắt đá của phái trộm mộ Mô Kim Hiệu Úy suốt ngàn năm truyền lại.",
+          "delivery": "rành rọt, trang nghiêm",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S01_L03",
+          "speaker": "narrator",
+          "text": "Hễ bước chân vào cổ mộ, việc đầu tiên bắt buộc phải làm, là cắm một ngọn nến ở góc đông nam.",
+          "delivery": "chậm rãi, nhấn mạnh",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S01_L04",
+          "speaker": "narrator",
+          "text": "Nếu ngọn nến tắt ngấm, phải lập tức dập đầu tạ tội, trả lại nguyên vẹn đồ tùy táng rồi tháo lui.",
+          "delivery": "nghiêm khắc, cảnh báo",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S01_L05",
+          "speaker": "narrator",
+          "text": "Bằng không... kẻ đó vĩnh viễn không còn đường trở về dương thế.",
+          "delivery": "rùng rợn, thì thầm",
+          "pause_after": 0.5
+        }
+      ]
+    },
+    {
+      "id": "S02",
+      "title": "Bước Vào Cổ Mộ Tây Vực",
+      "goal": "Tạo dựng bối cảnh thám hiểm nguy hiểm, mở đầu hành trình đào mộ",
+      "visual": "Môi trường: Cổng đá nghìn cân chạm khắc hình rắn chín đầu cổ xưa giữa bão cát sa mạc Tây Vực, bậc đá phủ bụi dẫn xuống địa cung sâu thẳm. Bố cục: Trung cảnh hai bóng người trùm áo choàng dã chiến, tay cầm xẻng công binh và đèn pin quét sáng vách đá. Cử động: Hồ Bát Nhất giơ la bàn phong thủy Bát Quái Cửu Cung, kim la bàn rung giật liên hồi; Tuyền Béo gạt bụi trên mặt, mắt sáng rực nhìn về phía trước. Ánh sáng: Luồng đèn pin trắng lạnh rọi xuyên màn bụi mờ, bóng người in dài lên vách đá. SFX: Tiếng đá cọ xát nặng nề sfx/impacts_hits/impacts/ và tiếng bước chân cát sfx/ambience/foley/foley-fabric-slide.wav.",
+      "pause_after": 0.4,
+      "lines": [
+        {
+          "id": "S02_L01",
+          "speaker": "narrator",
+          "text": "Năm ấy giữa hoang mạc Tây Vực, Hồ Bát Nhất cùng Tuyền Béo đã lần ra dấu tích cổ mộ nghìn năm.",
+          "delivery": "dẫn dắt, gợi cảm giác phiêu lưu",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S02_L02",
+          "speaker": "tuyen_beo",
+          "text": "Lão Hồ, cửa đá mở rồi! Mùi này... nồng nặc mùi vàng bạc châu báu rồi đây!",
+          "delivery": "hào hứng, hơi tham tài",
+          "pause_after": 0.25
+        },
+        {
+          "id": "S02_L03",
+          "speaker": "ho_bat_nhat",
+          "text": "Bớt nói nhảm đi Tuyền Béo. Kim la bàn xoay loạn xạ, dưới này âm khí cực nặng, cẩn thận bước chân!",
+          "delivery": "gắt gỏng nhưng thận trọng",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S02_L04",
+          "speaker": "narrator",
+          "text": "Cánh cửa đá vừa hé mở, một luồng tử khí buốt giá thấu xương từ đáy mộ lập tức thốc thẳng vào mặt hai người.",
+          "delivery": "lạnh lẽo, ớn lạnh",
+          "pause_after": 0.4
+        }
+      ]
+    },
+    {
+      "id": "S03",
+      "title": "Định Vị Góc Đông Nam",
+      "goal": "Thực hiện nghi thức Mô Kim cổ xưa, thiết lập quy luật sinh tử",
+      "visual": "Môi trường: Thạch thất trung tâm rộng lớn, giữa phòng là bệ đá hoa cương đen tuyền, bốn cột đá góc phòng chạm phù điêu trừ tà. Bố cục: Cận cảnh đôi bàn tay Hồ Bát Nhất cẩn trọng đặt cây nến sáp trắng xuống góc đông nam gian mộ. Cử động: Quẹt que diêm, đốm lửa bùng sáng soi rõ gương mặt đăm chiêu nghiêm nghị. Ánh sáng: Ánh lửa diêm chớp sáng rồi ngọn nến tỏa ánh sáng vàng cam ấm áp trong quầng sáng hẹp. SFX: Tiếng quẹt diêm sfx/ui_clicks/interface/click-snap-firm.wav và tiếng bass rumble sfx/impacts_hits/booms-and-bass/bass-rumble-short.wav.",
+      "pause_after": 0.4,
+      "lines": [
+        {
+          "id": "S03_L01",
+          "speaker": "narrator",
+          "text": "Theo quy củ tổ sư truyền dạy, Hồ Bát Nhất lập tức tiến đến góc đông nam của huyệt mộ.",
+          "delivery": "chậm rãi, từ tốn",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S03_L02",
+          "speaker": "ho_bat_nhat",
+          "text": "Đông nam là quẻ Tốn, đại diện cho Phong. Đây là cửa sinh duy nhất kết nối âm dương.",
+          "delivery": "thâm trầm, giải thích phong thủy",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S03_L03",
+          "speaker": "narrator",
+          "text": "Ngọn lửa vàng cháy lên ổn định, đứng im không lay chuyển. Cả hai mới khẽ thở phào.",
+          "delivery": "nhẹ nhõm nhưng vẫn căng thẳng",
+          "pause_after": 0.25
+        },
+        {
+          "id": "S03_L04",
+          "speaker": "tuyen_beo",
+          "text": "[cười] Nến cháy êm thế này tức là chủ mộ đồng ý cho anh em mình xin chút lộc rồi!",
+          "delivery": "khoái chí, lạc quan",
+          "pause_after": 0.25
+        },
+        {
+          "id": "S03_L05",
+          "speaker": "ho_bat_nhat",
+          "text": "Chớ có mừng vội. Cứ để mắt đến cây nến, có biến là phải bỏ chạy ngay.",
+          "delivery": "nghiêm giọng, nhắc nhở",
+          "pause_after": 0.4
+        }
+      ]
+    },
+    {
+      "id": "S04",
+      "title": "Khai Mở Thạch Quan",
+      "goal": "Cao trào khám phá kho báu và đối mặt với xác ướp cổ đại",
+      "visual": "Môi trường: Bệ đá trung tâm đặt quan tài đá hoa cương nguyên khối khóa bằng xích sắt rỉ sét và chốt đồng xanh ten. Bố cục: Trung cảnh hai người dồn lực cắm xà beng thép vào mép nắp quan tài, gân tay nổi cuồn cuộn. Cử động: Nắp đá nặng nghìn cân trượt nhích từng centimet, làn khí lạnh xám xịt từ trong quan tài cuồn cuộn tràn ra ngoài. Ánh sáng: Đèn pin rọi thẳng vào thi hài mang giáp đồng, phản chiếu ánh sáng xanh ngọc kỳ ảo từ viên Dạ Quang Châu trước ngực. SFX: Tiếng kim loại cạy đá chói tai sfx/impacts_hits/cinematic-hits/cinematic-metal-big.wav.",
+      "pause_after": 0.4,
+      "lines": [
+        {
+          "id": "S04_L01",
+          "speaker": "narrator",
+          "text": "Hai chiếc xà beng thép cắm sâu vào khe nắp quan. Tiếng đá nặng nghìn cân ma sát ken két ghê rợn.",
+          "delivery": "dồn dập, căng thẳng",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S04_L02",
+          "speaker": "narrator",
+          "text": "Nắp quan hé lộ. Bên trong là một thi hài khoác chiến giáp bằng đồng đen, khuôn mặt phủ lớp mặt nạ vàng ròng.",
+          "delivery": "kinh ngạc, trầm trồ",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S04_L03",
+          "speaker": "narrator",
+          "text": "Đặc biệt trước ngực hắn, một viên Dạ Quang Châu to bằng quả trứng ngỗng đang phát ra ánh sáng lung linh kỳ ảo.",
+          "delivery": "mê hoặc, hấp dẫn",
+          "pause_after": 0.25
+        },
+        {
+          "id": "S04_L04",
+          "speaker": "tuyen_beo",
+          "text": "Trời đất ơi! Bảo bối vô giá! Phen này anh em mình đổi đời thật rồi Lão Hồ ơi!",
+          "delivery": "phấn khích tột độ, giọng nghẹn lại",
+          "pause_after": 0.4
+        }
+      ]
+    },
+    {
+      "id": "S05",
+      "title": "Điềm Báo Nến Xanh Quỷ Dị",
+      "goal": "Bước ngoặt kinh hoàng khi quy ước bị phá vỡ, tà khí xuất hiện",
+      "visual": "Môi trường: Thạch thất hạ nhiệt độ cực nhanh, hơi thở phả ra khói, nước ngưng tụ trên vách đá đông thành lớp băng mỏng. Bố cục: Máy quay lia thật nhanh (Whip pan) từ cánh tay vươn dài của Tuyền Béo sang góc đông nam phía xa. Cử động: Ngọn nến đang đứng yên bỗng chao đảo cuồng loạn như bị bàn tay vô hình vặn xoắn; ngọn lửa vàng ngả dần sang màu XANH LỤC quái đản. Ánh sáng: Căn hầm mộ chuyển sang sắc xanh ma trơi rợn gáy, bóng đen của các tượng đá vặn vẹo ma quái. SFX: Riser kịch tính sfx/risers_tension/risers-and-fallers/riser-4s-strong.wav và tiếng bass drop sfx/impacts_hits/booms-and-bass/bass-sub-drop-long.wav.",
+      "pause_after": 0.45,
+      "lines": [
+        {
+          "id": "S05_L01",
+          "speaker": "narrator",
+          "text": "Đúng khoảnh khắc ngón tay Tuyền Béo sắp chạm vào viên Dạ Quang Châu, nhiệt độ trong gian mộ đột ngột giảm xuống âm độ.",
+          "delivery": "ngưng đọng, lạnh buốt",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S05_L02",
+          "speaker": "narrator",
+          "text": "Một luồng gió âm buốt lạnh từ hư không bất ngờ quét qua.",
+          "delivery": "rùng mình, hoảng sợ",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S05_L03",
+          "speaker": "narrator",
+          "text": "Ở góc đông nam, ngọn lửa nến vốn đang yên ắng bỗng chao đảo cuồng loạn.",
+          "delivery": "căng thẳng tăng vọt",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S05_L04",
+          "speaker": "narrator",
+          "text": "Và rồi... ngọn lửa vàng bỗng chuyển phắt sang màu XANH LỤC thây ma!",
+          "delivery": "sửng sốt, rợn tóc gáy",
+          "pause_after": 0.35
+        },
+        {
+          "id": "S05_L05",
+          "speaker": "ho_bat_nhat",
+          "text": "Dừng tay lại ngay Tuyền Béo! Nến đổi màu xanh lục rồi, có tà khí!",
+          "delivery": "hét lớn cảnh báo trong hoảng loạn",
+          "pause_after": 0.4
+        }
+      ]
+    },
+    {
+      "id": "S06",
+      "title": "Ma Thổi Đèn & Thoát Hiểm Trong Gang Tấc",
+      "goal": "Đỉnh điểm hành động và kinh dị, nến tắt, xác ướp thức tỉnh, chạy đua sinh tử",
+      "visual": "Môi trường: Ngọn nến phụt tắt, làn khói đen kịt bốc lên; trần mộ rung chuyển dữ dội, đất đá rơi xuống rào rào. Bố cục: Cận cảnh bàn tay xác ướp khô khốc đen sì bật dậy từ trong quan tài, móng tay nhọn hoắt quặp chặt lấy cổ tay Tuyền Béo. Cử động: Hồ Bát Nhất vung dao găm chém đứt khớp tay xác chết, giật viên ngọc ném trả vào lồng ngực thi hài, cúi đầu dập một cái rồi kéo Tuyền Béo bỏ chạy. Ánh sáng: Đèn pin chớp giật liên hồi, bụi đất mịt mù, bóng tối nuốt chửng căn phòng. SFX: Tiếng nến tắt sfx/transitions/whooshes/whoosh-fast-hard.wav và tiếng sập trần mộ sfx/impacts_hits/cinematic-hits/cinematic-slam-massive.wav.",
+      "pause_after": 0.5,
+      "lines": [
+        {
+          "id": "S06_L01",
+          "speaker": "narrator",
+          "text": "Chưa dứt lời, ngọn nến phát ra tiếng 'phụt' nhỏ nhoi rồi tắt ngấm. Ma đã thổi đèn!",
+          "delivery": "kinh hoàng, dồn dập",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S06_L02",
+          "speaker": "tuyen_beo",
+          "text": "Á! Có cái gì... nó túm chặt lấy tay tôi rồi Lão Hồ ơi! Cứu mạng!",
+          "delivery": "gào thét kinh hoàng, đau đớn",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S06_L03",
+          "speaker": "narrator",
+          "text": "Bàn tay xác ướp đen đúa khô khốc trong quan tài đã bật dậy, siết chặt lấy cổ tay Tuyền Béo.",
+          "delivery": "nghẹt thở, cấp bách",
+          "pause_after": 0.25
+        },
+        {
+          "id": "S06_L04",
+          "speaker": "ho_bat_nhat",
+          "text": "Buông ngọc ra! Mau trả lại cho hắn! Đừng tham mạng nữa!",
+          "delivery": "hét gầm, quyết đoán",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S06_L05",
+          "speaker": "narrator",
+          "text": "Hồ Bát Nhất chém mạnh dao giải thoát, ném trả viên ngọc vào quan tài rồi vội vã dập đầu tạ tội.",
+          "delivery": "quyết liệt, dứt khoát",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S06_L06",
+          "speaker": "narrator",
+          "text": "Đoạn, anh túm chặt lấy Tuyền Béo, lao thục mạng ra ngoài giữa tiếng trần đá sụp đổ ầm ầm.",
+          "delivery": "chạy đua sinh tử, dồn dập",
+          "pause_after": 0.5
+        }
+      ]
+    },
+    {
+      "id": "S07",
+      "title": "Khế Ước Âm Dương Bất Diệt",
+      "goal": "Payoff và bài học triết lý sâu sắc, khép lại câu chuyện lắng đọng",
+      "visual": "Môi trường: Cửa mộ phía sau sụp đổ tan tành thành đống gạch vụn và cát sa mạc; phía ngoài là cồn cát vàng trải dài dưới ánh bình minh đỏ rực. Bố cục: Toàn cảnh góc siêu rộng (Extreme wide), hai bóng người nằm kiệt sức trên đồi cát, xa xa là mặt trời đỏ ối đang nhô lên. Cử động: Gió sa mạc thổi bay cát bụi bám trên áo choàng rách; ngực hai người phập phồng nhịp thở thoát nạn. Ánh sáng: Ánh nắng ban mai ấm áp rực rỡ chiếu sáng toàn bộ khung hình, xua tan hoàn toàn cảm giác u ám âm u dưới đáy mộ. SFX: Tiếng gió sa mạc nhẹ nhàng và tiếng chuông ngân sâu lắng sfx/ui_clicks/notifications/notification-success-warm.wav.",
+      "pause_after": 0.6,
+      "lines": [
+        {
+          "id": "S07_L01",
+          "speaker": "narrator",
+          "text": "Bật ra khỏi cửa mộ cũng là lúc cả gian thạch thất sụp đổ, chôn vùi vĩnh viễn bí mật dưới lòng sa mạc.",
+          "delivery": "lắng đọng, thở phào nhẹ nhõm",
+          "pause_after": 0.35
+        },
+        {
+          "id": "S07_L02",
+          "speaker": "narrator",
+          "text": "Người sống tìm kiếm châu báu, nhưng kẻ đã khuất cần giữ lại tôn nghiêm.",
+          "delivery": "triết lý, sâu cay",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S07_L03",
+          "speaker": "narrator",
+          "text": "Nhân điểm chúc, quỷ xuy đăng — đó không phải trò mê tín, mà là lằn ranh sinh tử cuối cùng.",
+          "delivery": "trang nghiêm, dứt khoát",
+          "pause_after": 0.3
+        },
+        {
+          "id": "S07_L04",
+          "speaker": "narrator",
+          "text": "Khi ngọn nến tắt đi, thứ bị dập tắt không chỉ là ánh lửa, mà chính là mạng sống của kẻ tham lam.",
+          "delivery": "dư âm ám ảnh, khép lại câu chuyện",
+          "pause_after": 0.6
+        }
+      ]
+    }
+  ]
+}

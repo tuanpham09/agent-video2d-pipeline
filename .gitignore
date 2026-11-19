@@ -1,0 +1,94 @@
+# ==============================================================================
+# Git Ignore for Video Studio & HyperFrames Production
+# ==============================================================================
+
+# --- Rendered Video Outputs (Heavy Binaries) ---
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+output/
+**/output/
+**/renders/
+**/exports/
+
+# --- HyperFrames Internal Cache, Probes & Artifacts ---
+.hyperframes/
+**/.hyperframes/
+.cache/
+**/.cache/
+dist/
+**/dist/
+build/
+**/build/
+
+# --- Generated Audio Files (VieNeu-TTS / Synthesized Lines) ---
+# Manifest, voice map, and subtitles (.json, .srt) are tracked; generated audio files are ignored.
+projects/**/audio/lines/
+projects/**/audio/scenes/
+projects/**/audio/*.wav
+projects/**/audio/*.mp3
+projects/**/audio/voiceover.wav
+projects/**/preview*/assets/audio/*.wav
+projects/**/preview*/assets/audio/*.mp3
+
+# --- Node & Package Managers ---
+node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Python ---
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+
+# --- Scratch & Temporary Files ---
+scratch/
+**/scratch/
+scratch_lines.py
+temp/
+tmp/
+*.tmp
+*.log
+test/
+projects/**/preview/frame-*.png
+projects/**/preview*/frame-*.png
+
+# --- Operating System & Editor Files ---
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace

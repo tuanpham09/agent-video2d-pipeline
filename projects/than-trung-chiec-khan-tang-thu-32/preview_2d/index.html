@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="vi" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,600;0,700;0,800;0,900;1,700&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --font-sub: 'Be Vietnam Pro', sans-serif;
+        --font-title: 'Cinzel', serif;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html, body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0d0805;
+        font-family: var(--font-sub);
+      }
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #0f0a06;
+      }
+      .scene-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+      }
+      svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      /* Top Horror Series Badge */
+      .top-badge {
+        position: absolute;
+        top: 36px;
+        left: 60px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        z-index: 90;
+        pointer-events: none;
+      }
+      .badge-tag {
+        background: #8b0000;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 6px 14px;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      }
+      .badge-title {
+        color: #e0d0b8;
+        font-family: var(--font-title);
+        font-size: 20px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+      }
+      /* Subtitles Container */
+      .caption-track {
+        position: absolute;
+        bottom: 50px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        pointer-events: none;
+      }
+      .caption-box {
+        max-width: 1560px;
+        padding: 12px 36px;
+        color: #ffffff;
+        font-size: 40px;
+        font-weight: 700;
+        line-height: 1.45;
+        text-align: center;
+        letter-spacing: -0.01em;
+        text-shadow: 0 4px 14px rgba(0,0,0,0.95), 0 2px 4px #000000;
+        -webkit-text-stroke: 1.5px #000000;
+        paint-order: stroke fill;
+      }
+      /* Vignette & Ambient Glow */
+      .vignette {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        background: radial-gradient(circle at 50% 50%, transparent 55%, rgba(5,3,2,0.8) 100%);
+      }
+      /* Subtle Hand-Drawn Paper Texture Overlay */
+      .paper-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        opacity: 0.08;
+        mix-blend-mode: overlay;
+        background-image: repeating-linear-gradient(45deg, #000 0, #000 2px, transparent 2px, transparent 4px);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="15.0"
+      data-width="1920"
+      data-height="1080"
+      data-layout-allow-overflow
+    >
+      <!-- Audio Tracks -->
+      <audio id="audio-bgm" src="assets/audio/bgm_horror.wav" class="clip" data-start="0" data-duration="15.0" data-track-index="1"></audio>
+      <audio id="audio-sfx-cloth" src="assets/audio/cloth_rustle.wav" class="clip" data-start="8.0" data-duration="6.5" data-track-index="2"></audio>
+      
+      <!-- Voice Lines (Đức Trí @ 1.25) -->
+      <audio id="voice-l1" src="assets/audio/S01_L01.wav" class="clip" data-start="0.3" data-duration="5.85" data-track-index="3"></audio>
+      <audio id="voice-l2" src="assets/audio/S01_L02.wav" class="clip" data-start="6.3" data-duration="1.54" data-track-index="3"></audio>
+      <audio id="voice-l3" src="assets/audio/S01_L03.wav" class="clip" data-start="8.0" data-duration="3.02" data-track-index="3"></audio>
+      <audio id="voice-l4" src="assets/audio/S01_L04.wav" class="clip" data-start="11.2" data-duration="3.09" data-track-index="3"></audio>
+
+      <!-- Global Filter Defs (Line Boil & Hand-drawn Canvas Filter) -->
+      <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+        <defs>
+          <!-- claude-animation-base: Hand-drawn boiling line displacement filter -->
+          <filter id="hand-drawn-boil" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence id="boil-turb" type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" seed="1" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+        </defs>
+      </svg>
+
+      <!-- Top Header Badge -->
+      <div class="top-badge" data-layout-ignore>
+        <div class="badge-tag" data-layout-ignore>Truyện Ma Kinh Dị</div>
+        <div class="badge-title" data-layout-ignore>Thần Trùng: Chiếc Khăn Tang Thứ 32</div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- SHOT 1: THE ELDER EXPLAINING IN MOURNING HOUSE (0.0s - 6.2s) -->
+      <!-- ======================================================== -->
+      <div id="shot1" class="clip scene-container" data-start="0" data-duration="6.2" data-track-index="0" data-layout-allow-overflow>
+        <svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg" filter="url(#hand-drawn-boil)" data-layout-allow-overflow>
+          <defs>
+            <linearGradient id="s1-wall-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#3d2c1d" />
+              <stop offset="100%" stop-color="#241a11" />
+            </linearGradient>
+            <radialGradient id="lamp-light-s1" cx="68%" cy="55%" r="55%">
+              <stop offset="0%" stop-color="#ffb703" stop-opacity="0.38" />
+              <stop offset="40%" stop-color="#e85d04" stop-opacity="0.18" />
+              <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+
+          <!-- Rustic Wooden House Wall -->
+          <rect width="1920" height="1080" fill="url(#s1-wall-grad)" />
+          
+          <!-- Wooden Wall Slat Seams -->
+          <g stroke="#18110b" stroke-width="6">
+            <line x1="0" y1="200" x2="1920" y2="200" />
+            <line x1="0" y1="400" x2="1920" y2="400" />
+            <line x1="0" y1="600" x2="1920" y2="600" />
+            <line x1="0" y1="780" x2="1920" y2="780" stroke-width="12" />
+            <rect x="180" y="0" width="32" height="1080" fill="#1b120a" />
+            <rect x="1700" y="0" width="32" height="1080" fill="#1b120a" />
+          </g>
+
+          <!-- Doorway on Left leading to Misty Night Courtyard -->
+          <g id="s1-door">
+            <rect x="220" y="60" width="380" height="720" fill="#120c07" stroke="#0a0604" stroke-width="12" />
+            <!-- Dark Misty Blue-Grey Yard Outside -->
+            <rect x="240" y="80" width="340" height="680" fill="#1a2428" />
+            <!-- Banana Leaf Silhouettes outside in mist -->
+            <path d="M 240 260 Q 320 200 400 240 Q 340 300 240 290 Z" fill="#11181c" />
+            <path d="M 240 360 Q 360 300 420 380 Q 330 420 240 400 Z" fill="#11181c" />
+            <line x1="240" y1="520" x2="580" y2="520" stroke="#121a1d" stroke-width="6" />
+          </g>
+
+          <!-- Ancestral Altar Table on Right (Bàn thờ tang) -->
+          <g id="s1-altar">
+            <rect x="1200" y="520" width="460" height="260" rx="4" fill="#321e11" stroke="#0f0905" stroke-width="8" />
+            <!-- Table Legs -->
+            <rect x="1220" y="780" width="30" height="200" fill="#24150b" stroke="#0f0905" stroke-width="7" />
+            <rect x="1610" y="780" width="30" height="200" fill="#24150b" stroke="#0f0905" stroke-width="7" />
+            <!-- Incense Burner (Bát hương) -->
+            <ellipse cx="1430" cy="510" rx="36" ry="16" fill="#8c7355" stroke="#0f0905" stroke-width="6" />
+            <!-- Incense Sticks & Smoke -->
+            <line x1="1425" y1="500" x2="1420" y2="420" stroke="#8b0000" stroke-width="4" />
+            <line x1="1435" y1="500" x2="1440" y2="415" stroke="#8b0000" stroke-width="4" />
+            <path d="M 1420 420 Q 1410 380 1435 340 Q 1460 300 1445 250" stroke="#d0c8b8" stroke-width="3" fill="none" opacity="0.6" />
+            
+            <!-- White Candles (Nến trắng hai bên) -->
+            <rect x="1270" y="440" width="16" height="70" fill="#eae4d8" stroke="#0f0905" stroke-width="4" />
+            <ellipse id="s1-candle-flame-1" cx="1278" cy="430" rx="8" ry="16" fill="#ffb703" style="transform-origin: 1278px 430px;" />
+
+            <rect x="1580" y="440" width="16" height="70" fill="#eae4d8" stroke="#0f0905" stroke-width="4" />
+            <ellipse id="s1-candle-flame-2" cx="1588" cy="430" rx="8" ry="16" fill="#ffb703" style="transform-origin: 1588px 430px;" />
+          </g>
+
+          <!-- Floor -->
+          <rect x="0" y="780" width="1920" height="300" fill="#1b120a" />
+
+          <!-- Dynamic Candle Light Glow in Room -->
+          <rect id="s1-lamp-light" x="600" y="200" width="1200" height="880" fill="url(#lamp-light-s1)" pointer-events="none" />
+
+          <!-- ================= ELDER NARRATOR (Ông Cửu / Người già kể chuyện) ================= -->
+          <g id="s1-elder-group" style="transform-origin: 880px 750px;">
+            <!-- Seated Lower Body (Quần chàm tối) -->
+            <ellipse cx="880" cy="760" rx="90" ry="42" fill="#1f1812" stroke="#0f0905" stroke-width="8" />
+            <ellipse cx="830" cy="800" rx="24" ry="14" fill="#0f0905" />
+            <ellipse cx="930" cy="800" rx="24" ry="14" fill="#0f0905" />
+
+            <!-- Dark Brown Tunic (Áo nâu già) -->
+            <path d="M 800 520 Q 880 500 960 520 L 975 740 L 785 740 Z" fill="#422e1e" stroke="#0f0905" stroke-width="8" stroke-linejoin="round" />
+            
+            <!-- Left Arm (Resting on Knee) -->
+            <path d="M 805 535 Q 770 610 805 680" stroke="#422e1e" stroke-width="38" fill="none" stroke-linecap="round" />
+            <circle cx="805" cy="690" r="18" fill="#a57a52" stroke="#0f0905" stroke-width="6" />
+
+            <!-- Animated Right Arm (Solemn Hand Gesture while Speaking) -->
+            <g id="s1-elder-hand" style="transform-origin: 955px 535px;">
+              <path d="M 955 535 Q 1020 600 1005 645" stroke="#422e1e" stroke-width="38" fill="none" stroke-linecap="round" />
+              <!-- Hand pointing seriously towards the door -->
+              <circle cx="1005" cy="650" r="18" fill="#a57a52" stroke="#0f0905" stroke-width="6" />
+              <path d="M 1015 645 L 1055 635" stroke="#a57a52" stroke-width="10" stroke-linecap="round" />
+            </g>
+
+            <!-- Head & Expressive Elder Face -->
+            <g id="s1-elder-head" style="transform-origin: 880px 420px;">
+              <!-- White Hair & Beard of Wise Elder -->
+              <circle cx="880" cy="315" r="34" fill="#e2ded4" stroke="#0f0905" stroke-width="8" />
+              <path d="M 800 410 C 790 320 830 320 880 320 C 930 320 970 320 960 410 C 945 365 920 355 880 355 C 840 355 815 365 800 410 Z" fill="#e2ded4" stroke="#0f0905" stroke-width="8" />
+              <!-- Face Skin -->
+              <ellipse cx="880" cy="425" rx="78" ry="74" fill="#a57a52" stroke="#0f0905" stroke-width="8" />
+              <!-- White Beard (Chòm râu bạc dài) -->
+              <path d="M 845 470 C 850 560 910 560 915 470 Z" fill="#e2ded4" stroke="#0f0905" stroke-width="6" />
+
+              <!-- Wrinkles of Deep Age & Gravity -->
+              <path d="M 840 365 Q 880 358 920 365" stroke="#66462c" stroke-width="3.5" fill="none" stroke-linecap="round" />
+              <path d="M 845 378 Q 880 372 915 378" stroke="#66462c" stroke-width="3.5" fill="none" stroke-linecap="round" />
+
+              <!-- Severe Eyebrows (Nghiêm nghị) -->
+              <path id="s1-elder-brow-l" d="M 830 395 Q 852 386 870 398" stroke="#48382c" stroke-width="6" fill="none" stroke-linecap="round" />
+              <path id="s1-elder-brow-r" d="M 890 398 Q 908 386 930 395" stroke="#48382c" stroke-width="6" fill="none" stroke-linecap="round" />
+
+              <!-- Intense Expressive Eyes -->
+              <!-- Left Eye -->
+              <circle cx="850" cy="425" r="18" fill="#ffffff" stroke="#0f0905" stroke-width="5" />
+              <circle cx="850" cy="425" r="8.5" fill="#0f0905" />
+              <circle cx="853" cy="422" r="3" fill="#ffffff" />
+              <rect id="s1-elder-blink-l" x="830" y="405" width="40" height="40" fill="#a57a52" stroke="#0f0905" stroke-width="5" style="transform-origin: 850px 405px;" />
+
+              <!-- Right Eye -->
+              <circle cx="910" cy="425" r="18" fill="#ffffff" stroke="#0f0905" stroke-width="5" />
+              <circle cx="910" cy="425" r="8.5" fill="#0f0905" />
+              <circle cx="913" cy="422" r="3" fill="#ffffff" />
+              <rect id="s1-elder-blink-r" x="890" y="405" width="40" height="40" fill="#a57a52" stroke="#0f0905" stroke-width="5" style="transform-origin: 910px 405px;" />
+
+              <!-- Talking Mouth (Khẩu hình nói nghiêm túc) -->
+              <path id="s1-elder-mouth" d="M 866 466 Q 880 472 894 466" stroke="#0f0905" stroke-width="5" fill="none" stroke-linecap="round" />
+            </g>
+          </g>
+        </svg>
+
+        <!-- Subtitle Shot 1 -->
+        <div class="caption-track">
+          <div class="caption-box">Ở quê tôi, nhà nào có tang, việc đầu tiên không phải là mời thầy, cũng chưa phải là báo họ hàng.</div>
+        </div>
+      </div>
+
+
+      <!-- ======================================================== -->
+      <!-- SHOT 2: CLOSE-UP COUNTING THE MOURNING HEADBANDS (6.2s - 15.0s) -->
+      <!-- ======================================================== -->
+      <div id="shot2" class="clip scene-container" data-start="6.2" data-duration="8.8" data-track-index="0" data-layout-allow-overflow>
+        <svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg" filter="url(#hand-drawn-boil)" data-layout-allow-overflow>
+          <defs>
+            <radialGradient id="shot2-altar-glow" cx="50%" cy="40%" r="65%">
+              <stop offset="0%" stop-color="#ff9f1c" stop-opacity="0.32" />
+              <stop offset="50%" stop-color="#803400" stop-opacity="0.14" />
+              <stop offset="100%" stop-color="#0a0604" stop-opacity="0" />
+            </radialGradient>
+            <!-- White Cloth Gradient -->
+            <linearGradient id="cloth-white" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff" />
+              <stop offset="70%" stop-color="#eae6dd" />
+              <stop offset="100%" stop-color="#cfc9bd" />
+            </linearGradient>
+            <!-- Bamboo Tray Gradient -->
+            <linearGradient id="bamboo-tray" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#694d2d" />
+              <stop offset="50%" stop-color="#a07a4a" />
+              <stop offset="100%" stop-color="#5a4024" />
+            </linearGradient>
+          </defs>
+
+          <!-- Dark Funeral Room Background -->
+          <rect width="1920" height="1080" fill="#18110b" />
+          
+          <!-- Background Mourners in White Headbands Kneeling in Shadows -->
+          <g id="s2-background-mourners" opacity="0.45">
+            <!-- Mourner 1 Left -->
+            <ellipse cx="280" cy="560" rx="70" ry="35" fill="#0d0906" />
+            <circle cx="280" cy="420" r="45" fill="#694b32" />
+            <rect x="235" y="395" width="90" height="20" rx="3" fill="#eae4d8" />
+            
+            <!-- Mourner 2 Right -->
+            <ellipse cx="1640" cy="560" rx="70" ry="35" fill="#0d0906" />
+            <circle cx="1640" cy="420" r="45" fill="#694b32" />
+            <rect x="1595" y="395" width="90" height="20" rx="3" fill="#eae4d8" />
+          </g>
+
+          <!-- Room Candle Warm Light Glow -->
+          <rect id="s2-ambient-glow" x="200" y="100" width="1520" height="980" fill="url(#shot2-altar-glow)" pointer-events="none" />
+
+          <!-- High Altar Table Surface -->
+          <rect x="0" y="700" width="1920" height="380" fill="#24170d" stroke="#0e0704" stroke-width="10" />
+          <line x1="0" y1="710" x2="1920" y2="710" stroke="#3d2716" stroke-width="6" />
+
+          <!-- ================= CENTER: BAMBOO TRAY (MÂM KHĂN XÔ TANG) ================= -->
+          <g id="s2-tray-group" style="transform-origin: 960px 820px;">
+            <!-- Bamboo Tray (Mâm đan tre tròn) -->
+            <ellipse cx="960" cy="830" rx="320" ry="90" fill="url(#bamboo-tray)" stroke="#0e0704" stroke-width="9" />
+            <ellipse cx="960" cy="820" rx="300" ry="78" fill="#4d351d" stroke="#0e0704" stroke-width="6" />
+
+            <!-- Stack of Folded White Mourning Headbands (Các nếp khăn xô) -->
+            <!-- Cloth Layer 1 Bottom -->
+            <rect x="740" y="750" width="440" height="42" rx="10" fill="url(#cloth-white)" stroke="#0e0704" stroke-width="6" />
+            <!-- Cloth Layer 2 Mid -->
+            <rect x="760" y="720" width="400" height="40" rx="10" fill="url(#cloth-white)" stroke="#0e0704" stroke-width="6" />
+            <!-- Cloth Layer 3 Top Stack -->
+            <rect x="780" y="690" width="360" height="38" rx="9" fill="url(#cloth-white)" stroke="#0e0704" stroke-width="6" />
+
+            <!-- The Active Headband being counted & picked up -->
+            <g id="s2-counted-headband" style="transform-origin: 960px 680px;">
+              <rect x="800" y="660" width="320" height="36" rx="9" fill="#ffffff" stroke="#0e0704" stroke-width="7" />
+              <!-- Fringed ends of traditional coarse linen headband (Khăn xô xơ mép) -->
+              <line x1="800" y1="662" x2="780" y2="678" stroke="#dcd5c7" stroke-width="4" />
+              <line x1="1120" y1="662" x2="1140" y2="678" stroke="#dcd5c7" stroke-width="4" />
+            </g>
+          </g>
+
+          <!-- ================= THE MOTHER COUNTING TENSELY ================= -->
+          <!-- Centered behind the table, carefully counting the cloths -->
+          <g id="s2-mother-counting" style="transform-origin: 960px 520px;">
+            <!-- Dark Funeral Robe (Áo tang trắng/nâu đen) -->
+            <path d="M 760 480 Q 960 460 1160 480 L 1220 720 L 700 720 Z" fill="#2d2218" stroke="#0e0704" stroke-width="9" stroke-linejoin="round" />
+            
+            <!-- Left Hand holding the basket edge -->
+            <path d="M 780 490 Q 720 590 760 670" stroke="#2d2218" stroke-width="42" fill="none" stroke-linecap="round" />
+            <circle cx="760" cy="680" r="20" fill="#b88a62" stroke="#0e0704" stroke-width="6" />
+
+            <!-- Right Hand COUNTING the headbands (Chuyển động đếm khăn) -->
+            <g id="s2-counting-hand" style="transform-origin: 1140px 490px;">
+              <path d="M 1140 490 Q 1080 580 990 645" stroke="#2d2218" stroke-width="42" fill="none" stroke-linecap="round" />
+              <circle cx="985" cy="650" r="22" fill="#b88a62" stroke="#0e0704" stroke-width="6" />
+              <!-- Fingers adjusting and counting the cloth -->
+              <path d="M 975 645 L 945 658" stroke="#b88a62" stroke-width="10" stroke-linecap="round" />
+              <path d="M 985 640 L 955 648" stroke="#b88a62" stroke-width="9" stroke-linecap="round" />
+            </g>
+
+            <!-- Mother's Head with White Mourning Headband (Đội khăn tang trắng) -->
+            <g id="s2-mother-head" style="transform-origin: 960px 360px;">
+              <!-- Long Hair pinned up -->
+              <ellipse cx="960" cy="340" rx="85" ry="80" fill="#140e09" stroke="#0e0704" stroke-width="8" />
+              <!-- Face Skin -->
+              <ellipse cx="960" cy="365" rx="76" ry="72" fill="#b88a62" stroke="#0e0704" stroke-width="8" />
+              
+              <!-- WHITE MOURNING HEADBAND TIED AROUND FOREHEAD (Khăn tang thắt ngang trán) -->
+              <rect x="880" y="325" width="160" height="34" rx="4" fill="#ffffff" stroke="#0e0704" stroke-width="7" />
+              <path d="M 880 340 L 850 370" stroke="#ffffff" stroke-width="12" stroke-linecap="round" />
+              <path d="M 880 340 L 850 370" stroke="#0e0704" stroke-width="18" stroke-linecap="round" style="z-index:-1;" />
+
+              <!-- Anxious, Hyper-Focused Eyebrows (Lông mày chau lại lo âu) -->
+              <path id="s2-mother-brow-l" d="M 915 350 Q 935 340 950 354" stroke="#140e09" stroke-width="5" fill="none" stroke-linecap="round" />
+              <path id="s2-mother-brow-r" d="M 970 354 Q 985 340 1005 350" stroke="#140e09" stroke-width="5" fill="none" stroke-linecap="round" />
+
+              <!-- Intense Counting Eyes (Mắt nhìn chằm chằm xuống đếm) -->
+              <!-- Left Eye -->
+              <circle cx="932" cy="372" r="17" fill="#ffffff" stroke="#0e0704" stroke-width="5" />
+              <circle id="s2-mother-pupil-l" cx="934" cy="377" r="8" fill="#0e0704" />
+              <circle cx="936" cy="374" r="2.5" fill="#ffffff" />
+              <rect id="s2-mother-blink-l" x="912" y="352" width="40" height="40" fill="#b88a62" stroke="#0e0704" stroke-width="5" style="transform-origin: 932px 352px;" />
+
+              <!-- Right Eye -->
+              <circle cx="988" cy="372" r="17" fill="#ffffff" stroke="#0e0704" stroke-width="5" />
+              <circle id="s2-mother-pupil-r" cx="990" cy="377" r="8" fill="#0e0704" />
+              <circle cx="992" cy="374" r="2.5" fill="#ffffff" />
+              <rect id="s2-mother-blink-r" x="968" y="352" width="40" height="40" fill="#b88a62" stroke="#0e0704" stroke-width="5" style="transform-origin: 988px 352px;" />
+
+              <!-- Tense Mouth (Mím môi cẩn thận đếm từng cái) -->
+              <path id="s2-mother-mouth" d="M 948 412 Q 960 416 972 412" stroke="#0e0704" stroke-width="4.5" fill="none" stroke-linecap="round" />
+            </g>
+          </g>
+
+          <!-- SUDDEN GHOST SILHOUETTE BEHIND HER AT CLIMAX (t=13.0s) -->
+          <g id="s2-specter" opacity="0" style="transform-origin: 1360px 300px;">
+            <path d="M 1320 380 C 1300 220 1440 220 1420 380 C 1460 520 1280 520 1320 380 Z" fill="#060403" />
+            <!-- Ghostly Hollow Mourning Headband -->
+            <rect x="1335" y="275" width="80" height="18" rx="3" fill="#eae4d8" opacity="0.8" />
+            <!-- Two tiny pale white pinhole eyes -->
+            <circle cx="1355" cy="305" r="3.5" fill="#ffffff" />
+            <circle cx="1385" cy="305" r="3.5" fill="#ffffff" />
+          </g>
+        </svg>
+
+        <!-- Subtitles for Shot 2 (Synchronized Lines 2, 3, 4) -->
+        <div class="caption-track">
+          <div id="sub-shot2" class="caption-box">Việc đầu tiên là đếm khăn.</div>
+        </div>
+      </div>
+
+      <!-- Texture and Atmosphere Overlays -->
+      <div class="paper-overlay"></div>
+      <div class="vignette"></div>
+    </div>
+
+    <!-- GSAP Master Animation Timeline -->
+    <script>
+      const tl = gsap.timeline({ paused: true });
+
+      // Initialize all blinking eyelid scales to 0
+      gsap.set(["#s1-elder-blink-l", "#s1-elder-blink-r", "#s2-mother-blink-l", "#s2-mother-blink-r"], { scaleY: 0 });
+
+      // -------------------------------------------------------------
+      // SHOT 1: THE ELDER SPEAKING (0.0s - 6.2s)
+      // -------------------------------------------------------------
+      
+      // Candle flame organic flicker in Shot 1
+      for (let t = 0.0; t < 6.2; t += 0.2) {
+        const sY = 0.88 + Math.sin(t * 15) * 0.16;
+        const skew = Math.cos(t * 11) * 7;
+        tl.to(["#s1-candle-flame-1", "#s1-candle-flame-2"], {
+          scaleY: sY,
+          skewX: skew,
+          duration: 0.2,
+          ease: "sine.inOut"
+        }, t);
+        tl.to("#s1-lamp-light", {
+          opacity: 0.8 + Math.sin(t * 18) * 0.2,
+          duration: 0.2,
+          ease: "sine.inOut"
+        }, t);
+      }
+
+      // Elder solemn breathing & head tilt
+      tl.to("#s1-elder-head", {
+        y: -3,
+        rotation: 1.2,
+        duration: 1.8,
+        repeat: 3,
+        yoyo: true,
+        ease: "sine.inOut"
+      }, 0);
+
+      // Elder hand gesturing with serious conviction (starts at 1.0s, lowers at 4.5s)
+      tl.to("#s1-elder-hand", {
+        rotation: -8,
+        y: -15,
+        duration: 1.2,
+        ease: "power2.out"
+      }, 1.0);
+      tl.to("#s1-elder-hand", {
+        rotation: 2,
+        y: 4,
+        duration: 1.4,
+        ease: "sine.inOut"
+      }, 3.0);
+      tl.to("#s1-elder-hand", {
+        rotation: 0,
+        y: 0,
+        duration: 0.8,
+        ease: "power1.inOut"
+      }, 4.8);
+
+      // Elder eye blinks
+      [1.6, 4.2].forEach(time => {
+        tl.to(["#s1-elder-blink-l", "#s1-elder-blink-r"], {
+          scaleY: 1,
+          duration: 0.08,
+          ease: "power1.in"
+        }, time);
+        tl.to(["#s1-elder-blink-l", "#s1-elder-blink-r"], {
+          scaleY: 0,
+          duration: 0.08,
+          ease: "power1.out"
+        }, time + 0.08);
+      });
+
+      // Elder mouth talking flap synced to Line 1 (0.3s to 5.8s)
+      for (let t = 0.4; t < 5.6; t += 0.24) {
+        tl.to("#s1-elder-mouth", {
+          attr: { d: "M 864 466 Q 880 482 896 466" },
+          duration: 0.11,
+          ease: "sine.inOut"
+        }, t);
+        tl.to("#s1-elder-mouth", {
+          attr: { d: "M 866 466 Q 880 472 894 466" },
+          duration: 0.11,
+          ease: "sine.inOut"
+        }, t + 0.11);
+      }
+
+
+      // -------------------------------------------------------------
+      // SHOT 2: CLOSE-UP COUNTING HEADBANDS (6.2s - 15.0s)
+      // -------------------------------------------------------------
+      
+      // Subtitle switches for Shot 2
+      tl.set("#sub-shot2", { textContent: "Việc đầu tiên là đếm khăn." }, 6.2);
+      tl.set("#sub-shot2", { textContent: "Con cháu bao nhiêu người thì phát bấy nhiêu chiếc khăn xô." }, 7.9);
+      tl.set("#sub-shot2", { textContent: "Phát xong phải đếm lại, không được thừa cũng không được thiếu." }, 11.1);
+
+      // Mother breathing
+      tl.to("#s2-mother-counting", {
+        y: -3,
+        duration: 1.6,
+        repeat: 5,
+        yoyo: true,
+        ease: "sine.inOut"
+      }, 6.2);
+
+      // Mother hand counting motion: rhythmic lifting and placing down headbands
+      // Count 1 (t=7.0s)
+      tl.to("#s2-counting-hand", { y: -28, x: -15, rotation: -6, duration: 0.4, ease: "power1.out" }, 6.8);
+      tl.to("#s2-counted-headband", { y: -16, rotation: -2, duration: 0.4, ease: "power1.out" }, 6.8);
+      tl.to("#s2-counting-hand", { y: 0, x: 0, rotation: 0, duration: 0.35, ease: "power2.in" }, 7.2);
+      tl.to("#s2-counted-headband", { y: 0, rotation: 0, duration: 0.35, ease: "power2.in" }, 7.2);
+
+      // Count 2 (t=8.8s)
+      tl.to("#s2-counting-hand", { y: -34, x: -18, rotation: -8, duration: 0.45, ease: "power1.out" }, 8.8);
+      tl.to("#s2-counted-headband", { y: -20, rotation: 3, duration: 0.45, ease: "power1.out" }, 8.8);
+      tl.to("#s2-counting-hand", { y: 0, x: 0, rotation: 0, duration: 0.35, ease: "power2.in" }, 9.25);
+      tl.to("#s2-counted-headband", { y: 0, rotation: 0, duration: 0.35, ease: "power2.in" }, 9.25);
+
+      // Count 3 (t=10.4s)
+      tl.to("#s2-counting-hand", { y: -28, x: -12, rotation: -5, duration: 0.4, ease: "power1.out" }, 10.4);
+      tl.to("#s2-counted-headband", { y: -15, rotation: -1, duration: 0.4, ease: "power1.out" }, 10.4);
+      tl.to("#s2-counting-hand", { y: 0, x: 0, rotation: 0, duration: 0.35, ease: "power2.in" }, 10.8);
+      tl.to("#s2-counted-headband", { y: 0, rotation: 0, duration: 0.35, ease: "power2.in" }, 10.8);
+
+      // Count 4 - Double-checking counting again (t=12.0s)
+      tl.to("#s2-counting-hand", { y: -36, x: -20, rotation: -8, duration: 0.45, ease: "power1.out" }, 12.0);
+      tl.to("#s2-counted-headband", { y: -22, rotation: 2, duration: 0.45, ease: "power1.out" }, 12.0);
+      tl.to("#s2-counting-hand", { y: 0, x: 0, rotation: 0, duration: 0.4, ease: "power2.in" }, 12.45);
+      tl.to("#s2-counted-headband", { y: 0, rotation: 0, duration: 0.4, ease: "power2.in" }, 12.45);
+
+      // Mother eye blinks
+      [7.6, 9.8, 12.6].forEach(time => {
+        tl.to(["#s2-mother-blink-l", "#s2-mother-blink-r"], {
+          scaleY: 1,
+          duration: 0.08,
+          ease: "power1.in"
+        }, time);
+        tl.to(["#s2-mother-blink-l", "#s2-mother-blink-r"], {
+          scaleY: 0,
+          duration: 0.08,
+          ease: "power1.out"
+        }, time + 0.08);
+      });
+
+      // Ambient light flicker in Shot 2 (up to 12.5s)
+      for (let t = 6.2; t < 12.5; t += 0.25) {
+        tl.to("#s2-ambient-glow", {
+          opacity: 0.75 + Math.sin(t * 14) * 0.25,
+          duration: 0.25,
+          ease: "sine.inOut"
+        }, t);
+      }
+
+      // CLIMACTIC SUSPENSE AT END (12.8s - 15.0s):
+      // When narrator warns: "Phát xong phải đếm lại, không được thừa cũng không được thiếu."
+      // The light dims down
+      tl.to("#s2-ambient-glow", { opacity: 0.35, duration: 1.4, ease: "power2.in", overwrite: "auto" }, 12.8);
+      // Ghost silhouette appears in the right shadow behind mother
+      tl.to("#s2-specter", { opacity: 0.85, y: -15, duration: 1.6, ease: "power2.out" }, 13.0);
+      // Mother senses a chill: pupils dart sideways to right shadow
+      tl.to(["#s2-mother-pupil-l", "#s2-mother-pupil-r"], { attr: { cx: "+=6", cy: "-=3" }, duration: 0.5 }, 13.4);
+      // Eyebrows furrow deeper with dread
+      tl.to("#s2-mother-brow-l", { attr: { d: "M 915 346 Q 935 334 950 350" }, duration: 0.4 }, 13.4);
+      tl.to("#s2-mother-brow-r", { attr: { d: "M 970 350 Q 985 334 1005 346" }, duration: 0.4 }, 13.4);
+
+      // Line boil animation driver (subtle hand-drawn shimmer on twos)
+      for (let f = 0; f < 15.0; f += 0.16) {
+        const seedVal = Math.floor(f * 6) + 1;
+        tl.set("#boil-turb", { attr: { seed: seedVal } }, f);
+      }
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

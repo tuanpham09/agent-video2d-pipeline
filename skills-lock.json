@@ -1,0 +1,110 @@
+{
+  "version": 2,
+  "skills": {
+    "baoyu-youtube-transcript": {
+      "source": "JimLiu/baoyu-skills",
+      "commit": "ca703c2d7c2c4399a1dc0cf82224f8551e05a96d",
+      "sourceType": "github",
+      "skillPath": "skills/baoyu-youtube-transcript/SKILL.md",
+      "computedHash": "91f17e97ca2b82a6a34fc9fd30710121d9f93907982af75f9b8eef244af620e0"
+    },
+    "captions-overlay": {
+      "source": "heygen-com/hyperframes",
+      "commit": "4a73363322c661f04d94f139bd1621818fba164a",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/captions-overlay/SKILL.md",
+      "computedHash": "0b838c171051b9945f39318df4be240a50eed4b9ef4175304ee47bf51a827fd3"
+    },
+    "edge-tts": {
+      "source": "aahl/skills",
+      "commit": "47edd621dff44253677d2ed14c223393ca020407",
+      "sourceType": "github",
+      "skillPath": "skills/edge-tts/SKILL.md",
+      "computedHash": "ac1c7c69e83d83941f44fd615e17dac9dbb25cb7c3ed819b2abfe40d9ab1cb5e"
+    },
+    "hyperframes": {
+      "source": "heygen-com/hyperframes",
+      "commit": "4a73363322c661f04d94f139bd1621818fba164a",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes/SKILL.md",
+      "computedHash": "90ffd8a9f34109053c5d2005a5888b410829660fdc2896a550833feffc3a8580"
+    },
+    "hyperframes-cli": {
+      "source": "heygen-com/hyperframes",
+      "commit": "4a73363322c661f04d94f139bd1621818fba164a",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-cli/SKILL.md",
+      "computedHash": "08fe6ce267a6054500b7da0590c0b5119ff053703785f17ab6c794c54670e544"
+    },
+    "hyperframes-registry": {
+      "source": "heygen-com/hyperframes",
+      "commit": "4a73363322c661f04d94f139bd1621818fba164a",
+      "sourceType": "github",
+      "skillPath": "skills/hyperframes-registry/SKILL.md",
+      "computedHash": "a3c816f09a2ff43bc1502983a68c3fb4e2bb40c6b70dc065d4c11bd91cfa8740"
+    },
+    "long-form-youtube": {
+      "source": "yaxeen/storytelling-skills",
+      "commit": "24ef3c1e3d7fde66cc5f1c5953cd6c1d7afc0b4f",
+      "sourceType": "github",
+      "skillPath": "skills/long-form-youtube/SKILL.md",
+      "computedHash": "4c7860e0d89ffc58d4b7b0ff4f08aa10008305ec80408314c0326f5103134be8"
+    },
+    "media-use": {
+      "source": "heygen-com/hyperframes",
+      "commit": "4a73363322c661f04d94f139bd1621818fba164a",
+      "sourceType": "github",
+      "skillPath": "skills/media-use/SKILL.md",
+      "computedHash": "ef91ddb68dba0751dcf590ba5a2929c20e52817ddd9b402e9b5019d8edee5e0c"
+    },
+    "retention-audit": {
+      "source": "yaxeen/storytelling-skills",
+      "commit": "24ef3c1e3d7fde66cc5f1c5953cd6c1d7afc0b4f",
+      "sourceType": "github",
+      "skillPath": "skills/retention-audit/SKILL.md",
+      "computedHash": "b92037ee81f0bf1b04794c153a4d8f81c530b42ad335c58d7b740e63e0862f30"
+    },
+    "reverse-any-video": {
+      "source": "heygen-com/hyperframes",
+      "commit": "4a73363322c661f04d94f139bd1621818fba164a",
+      "sourceType": "github",
+      "skillPath": "skills/reverse-any-video/SKILL.md",
+      "computedHash": "ff697348c4f2b0590f156b939fcf7e550c7a17bc40bf210d07e71ccbd42db753"
+    },
+    "short-editing": {
+      "source": "Melvynx/video-agent-skills",
+      "commit": "f4542923f7f796a1fa0e544cbfc1109d5eec87d8",
+      "sourceType": "github",
+      "skillPath": "skills/short-editing/SKILL.md",
+      "computedHash": "9223b6b01d44ea5531b60d6643de67445a9dec60105327d09af1747c30ac4e1c"
+    },
+    "storytelling-hooks": {
+      "source": "yaxeen/storytelling-skills",
+      "commit": "24ef3c1e3d7fde66cc5f1c5953cd6c1d7afc0b4f",
+      "sourceType": "github",
+      "skillPath": "skills/storytelling-hooks/SKILL.md",
+      "computedHash": "c4756d24f3f50b826c34af8aa04da05f5cd993c07511f4cee7e29d5d1b672951"
+    },
+    "style-sampling": {
+      "source": "heygen-com/hyperframes",
+      "commit": "4a73363322c661f04d94f139bd1621818fba164a",
+      "sourceType": "github",
+      "skillPath": "skills/style-sampling/SKILL.md",
+      "computedHash": "86da7c4f9b678b950c43c9b1ca323ac11e761be91d8ad14feb3cb9043926d20d"
+    },
+    "titles-and-thumbnails": {
+      "source": "yaxeen/storytelling-skills",
+      "commit": "24ef3c1e3d7fde66cc5f1c5953cd6c1d7afc0b4f",
+      "sourceType": "github",
+      "skillPath": "skills/titles-and-thumbnails/SKILL.md",
+      "computedHash": "fbfd45163187acbd4564578d54f4b8081236de7de5bcb4d33461f76e0a727e82"
+    },
+    "vieneu-tts": {
+      "source": "phuongdev89/my-agent-skills",
+      "commit": "4992f82ca366b4b83c9b551fc9ae03926340ca2b",
+      "sourceType": "github",
+      "skillPath": "skills/vieneu-tts/SKILL.md",
+      "computedHash": "b1d3c87eb32657c8bd708da6a298d53aaa51b8b764c60527e98e531fa9c296db"
+    }
+  }
+}

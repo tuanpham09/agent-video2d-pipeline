@@ -1,0 +1,1303 @@
+import json
+
+# Read manifest to get exact line IDs and times
+with open("projects/than-trung-chiec-khan-tang-thu-32/audio/manifest.json", encoding="utf-8") as f:
+    m = json.load(f)
+
+lines = []
+for s in m["scenes"][:2]:
+    for l in s["lines"]:
+        lines.append(l)
+        if l["id"] == "S02_L07":
+            break
+    if lines and lines[-1]["id"] == "S02_L07":
+        break
+
+audio_tags = [
+    '<audio id="track-bgm" class="track" src="assets/audio/bgm_72s.wav" data-start="0.0" data-duration="72.5"></audio>',
+    '<audio id="track-sfx" class="track" src="assets/audio/sfx_72s.wav" data-start="0.0" data-duration="72.5"></audio>'
+]
+
+for l in lines:
+    tag = f'<audio id="audio-{l["id"]}" class="line" src="assets/audio/{l["id"]}.wav" data-start="{l["start"]:.2f}" data-duration="{l["duration"]:.2f}"></audio>'
+    audio_tags.append(tag)
+
+audio_html = "\n    ".join(audio_tags)
+
+HTML_TEMPLATE = f"""<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thần Trùng - Chiếc Khăn Tang Thứ 32 (14 Shots - 72.5s)</title>
+  <meta name="viewport" content="width=1920, height=1080, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+  <style>
+    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+    body {{
+      width: 1920px;
+      height: 1080px;
+      background-color: #0f0a06;
+      font-family: 'Be Vietnam Pro', sans-serif;
+      overflow: hidden;
+      color: #f5f0e8;
+    }}
+
+    #viewport {{
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      background: #0d0805;
+      overflow: hidden;
+    }}
+
+    /* SVG Filters Layer */
+    .filter-defs {{
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }}
+
+    /* Header Badge & Title */
+    .header-bar {{
+      position: absolute;
+      top: 36px;
+      left: 54px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      pointer-events: none;
+    }}
+    .badge {{
+      background: #b91c1c;
+      color: #fff;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      padding: 6px 14px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }}
+    .header-title {{
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      letter-spacing: 2px;
+      color: #d1b89d;
+      text-transform: uppercase;
+      font-weight: 700;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    }}
+
+    /* Subtitle Overlay Bar */
+    .caption-container {{
+      position: absolute;
+      bottom: 42px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      z-index: 200;
+      pointer-events: none;
+      padding: 0 100px;
+    }}
+    .caption-box {{
+      display: inline-block;
+      max-width: 1500px;
+      background: rgba(10, 6, 4, 0.78);
+      border: 1px solid rgba(185, 140, 95, 0.25);
+      border-radius: 10px;
+      padding: 12px 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      backdrop-filter: blur(4px);
+    }}
+    .caption-text {{
+      font-size: 26px;
+      line-height: 1.4;
+      font-weight: 600;
+      color: #fffaf0;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+    }}
+
+    /* Shots styling */
+    .shot {{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1920px;
+      height: 1080px;
+      opacity: 0;
+      pointer-events: none;
+    }}
+    .shot-svg {{
+      width: 1920px;
+      height: 1080px;
+      display: block;
+    }}
+
+    /* Film grain / vignette overlay */
+    .vignette-overlay {{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1920px;
+      height: 1080px;
+      background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.7) 100%);
+      pointer-events: none;
+      z-index: 90;
+    }}
+  </style>
+</head>
+<body>
+
+  <!-- SVG Filter definitions for hand-drawn line-boil & glows -->
+  <svg class="filter-defs">
+    <defs>
+      <filter id="line-boil" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence id="turb-filter" type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="1" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      
+      <filter id="glow-light" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="8" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+
+      <filter id="candle-flame-glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="15" result="blur" />
+        <feMerge>
+          <feMergeNode in="blur" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+
+      <!-- Gradients -->
+      <radialGradient id="candle-glow-rad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ffb347" stop-opacity="0.85" />
+        <stop offset="40%" stop-color="#ff6b08" stop-opacity="0.45" />
+        <stop offset="100%" stop-color="#1a0c02" stop-opacity="0" />
+      </radialGradient>
+
+      <radialGradient id="altar-ambient-glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ff9933" stop-opacity="0.5" />
+        <stop offset="60%" stop-color="#cc5500" stop-opacity="0.2" />
+        <stop offset="100%" stop-color="#0d0805" stop-opacity="0" />
+      </radialGradient>
+
+      <linearGradient id="bronze-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#d4af37" />
+        <stop offset="50%" stop-color="#aa7c11" />
+        <stop offset="100%" stop-color="#5a4209" />
+      </linearGradient>
+
+      <linearGradient id="wood-dark" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#422a18" />
+        <stop offset="100%" stop-color="#24140a" />
+      </linearGradient>
+
+      <linearGradient id="wall-wood" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#2c1d12" />
+        <stop offset="50%" stop-color="#362417" />
+        <stop offset="100%" stop-color="#22150c" />
+      </linearGradient>
+
+      <linearGradient id="sky-evening" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#e3a054" />
+        <stop offset="50%" stop-color="#c56d35" />
+        <stop offset="100%" stop-color="#733219" />
+      </linearGradient>
+
+      <linearGradient id="bamboo-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#b08d57" />
+        <stop offset="50%" stop-color="#c8a876" />
+        <stop offset="100%" stop-color="#9a7742" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <div id="viewport" data-composition-id="main" data-width="1920" data-height="1080" data-duration="72.5">
+    
+    <!-- Top Header Badge -->
+    <div class="header-bar" id="header-bar" data-layout-ignore="true">
+      <span class="badge">Truyện Ma Kinh Dị</span>
+      <span class="header-title">Thần Trùng: Chiếc Khăn Tang Thứ 32</span>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SHOT 1: Wide Establishing - Ngôi nhà tranh Bắc Bộ trong đêm sương lạnh (0.0s - 3.8s) -->
+    <!-- ============================================================== -->
+    <div class="shot" id="shot1">
+      <svg class="shot-svg" viewBox="0 0 1920 1080">
+        <!-- Bầu trời đêm & Mây trôi -->
+        <rect width="1920" height="1080" fill="#090a0f" />
+        <circle id="shot1-moon" cx="1520" cy="220" r="70" fill="#eae8d8" filter="url(#glow-light)" opacity="0.85" />
+        <path d="M 1400 240 Q 1520 200 1680 250 Q 1580 300 1400 240 Z" fill="#1c202a" opacity="0.6" />
+        
+        <!-- Bụi chuối và rặng cây xa -->
+        <g id="shot1-trees">
+          <ellipse cx="250" cy="720" rx="200" ry="320" fill="#0f1412" />
+          <ellipse cx="480" cy="750" rx="160" ry="280" fill="#131a17" />
+          <path d="M 150 780 Q 280 520 420 680 Q 260 620 150 780 Z" fill="#18241e" />
+          <path d="M 380 720 Q 550 480 620 660 Q 480 580 380 720 Z" fill="#1e2c25" />
+        </g>
+
+        <!-- Mặt đất & Ngôi nhà tranh Bắc Bộ -->
+        <path d="M 0 820 Q 960 780 1920 840 L 1920 1080 L 0 1080 Z" fill="#140f0a" />
+
+        <!-- Căn nhà tranh vách đất -->
+        <g id="shot1-house" filter="url(#line-boil)">
+          <!-- Vách đất nứa -->
+          <polygon points="720,540 1480,540 1420,860 660,860" fill="#2d2116" stroke="#1b120a" stroke-width="6" />
+          <!-- Mái rạ tranh dốc -->
+          <polygon points="620,550 1100,320 1580,550 1480,580 1100,360 720,580" fill="#3b2b1a" stroke="#1d130a" stroke-width="8" stroke-linejoin="round" />
+          <!-- Khung cửa sổ sáng đèn dầu vàng -->
+          <rect x="920" y="600" width="160" height="180" rx="8" fill="#181008" stroke="#3d2c1e" stroke-width="8" />
+          <!-- Ánh sáng đèn dầu rọi qua khe liếp -->
+          <rect id="shot1-window-light" x="935" y="615" width="130" height="150" rx="4" fill="#ff9922" opacity="0.85" filter="url(#glow-light)" />
+          <!-- Chấn song tre gỗ -->
+          <line x1="978" y1="615" x2="978" y2="765" stroke="#3d2c1e" stroke-width="6" />
+          <line x1="1022" y1="615" x2="1022" y2="765" stroke="#3d2c1e" stroke-width="6" />
+        </g>
+
+        <!-- Sương đêm bảng lảng -->
+        <ellipse cx="960" cy="850" rx="900" ry="90" fill="#1a2024" opacity="0.35" filter="url(#glow-light)" />
+      </svg>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SHOT 2: Medium Shot - Người dẫn chuyện Đỗ Văn Lâm bên bàn thờ (3.8s - 6.13s) -->
+    <!-- ============================================================== -->
+    <div class="shot" id="shot2">
+      <svg class="shot-svg" viewBox="0 0 1920 1080">
+        <!-- Vách tường gỗ mộc xưa -->
+        <rect width="1920" height="1080" fill="#1a110a" />
+        <g stroke="#120a05" stroke-width="4" opacity="0.5">
+          <line x1="0" y1="200" x2="1920" y2="200" />
+          <line x1="0" y1="400" x2="1920" y2="400" />
+          <line x1="0" y1="600" x2="1920" y2="600" />
+          <line x1="0" y1="800" x2="1920" y2="800" />
+        </g>
+
+        <!-- Khung cửa sổ đêm bên trái -->
+        <rect x="180" y="160" width="320" height="650" fill="#090b10" stroke="#3a2517" stroke-width="14" rx="4" />
+        <ellipse cx="280" cy="350" rx="90" ry="140" fill="#131b17" opacity="0.7" />
+        <ellipse cx="380" cy="420" rx="80" ry="120" fill="#131b17" opacity="0.6" />
+
+        <!-- Bàn thờ phía sau bên phải -->
+        <g id="shot2-altar">
+          <rect x="1200" y="520" width="560" height="420" rx="8" fill="url(#wood-dark)" stroke="#1a0e06" stroke-width="8" />
+          <rect x="1170" y="500" width="620" height="30" rx="6" fill="#52351e" stroke="#1a0e06" stroke-width="6" />
+          
+          <!-- Ánh sáng ấm từ bàn thờ tỏa ra -->
+          <circle cx="1480" cy="480" r="280" fill="url(#altar-ambient-glow)" />
+
+          <!-- Bát hương giữa bàn thờ -->
+          <rect x="1440" y="470" width="80" height="45" rx="6" fill="url(#bronze-grad)" stroke="#2d1c04" stroke-width="4" />
+          <!-- Que nhang -->
+          <line x1="1480" y1="470" x2="1480" y2="390" stroke="#7a1a08" stroke-width="3" />
+          <line x1="1470" y1="470" x2="1465" y2="395" stroke="#7a1a08" stroke-width="3" />
+          <line x1="1490" y1="470" x2="1495" y2="395" stroke="#7a1a08" stroke-width="3" />
+          <!-- Đốm lửa nhang -->
+          <circle cx="1480" cy="390" r="3" fill="#ff4400" filter="url(#glow-light)" />
+          <circle cx="1465" cy="395" r="3" fill="#ff4400" filter="url(#glow-light)" />
+          <circle cx="1495" cy="395" r="3" fill="#ff4400" filter="url(#glow-light)" />
+
+          <!-- Cặp nến 2 bên -->
+          <rect x="1260" y="420" width="16" height="90" fill="#f4efe6" stroke="#8a7c68" stroke-width="2" rx="2" />
+          <path d="M 1268 400 Q 1260 415 1268 420 Q 1276 415 1268 400 Z" fill="#ffaa22" filter="url(#candle-flame-glow)" />
+
+          <rect x="1680" y="420" width="16" height="90" fill="#f4efe6" stroke="#8a7c68" stroke-width="2" rx="2" />
+          <path d="M 1688 400 Q 1680 415 1688 420 Q 1696 415 1688 400 Z" fill="#ffaa22" filter="url(#candle-flame-glow)" />
+        </g>
+
+        <!-- Nhân vật Đỗ Văn Lâm (Người dẫn chuyện) - Tỷ lệ cân đối chuẩn Chibi Folk Art -->
+        <g id="shot2-narrator" filter="url(#line-boil)">
+          <!-- Chân & Giày -->
+          <g class="legs">
+            <rect x="805" y="740" width="26" height="90" rx="10" fill="#2d2218" stroke="#120c06" stroke-width="5" />
+            <rect x="855" y="740" width="26" height="90" rx="10" fill="#2d2218" stroke="#120c06" stroke-width="5" />
+            <ellipse cx="818" cy="830" rx="22" ry="12" fill="#120d09" />
+            <ellipse cx="868" cy="830" rx="22" ry="12" fill="#120d09" />
+          </g>
+
+          <!-- Thân áo nâu sồng gọn gàng (Chiều rộng 100px - KHÔNG TO CỒNG KỀNH) -->
+          <rect x="790" y="520" width="105" height="230" rx="24" fill="#543c29" stroke="#1f140b" stroke-width="6" />
+
+          <!-- Cánh tay áo gắn liền từ vai -->
+          <!-- Tay trái buông tự nhiên có ống tay áo -->
+          <g class="arm-left">
+            <path d="M 795 535 Q 770 610 775 680" stroke="#483322" stroke-width="32" stroke-linecap="round" fill="none" />
+            <circle cx="775" cy="690" r="15" fill="#cf9063" stroke="#1f140b" stroke-width="4" />
+          </g>
+
+          <!-- Tay phải chắp ngang ngực kính cẩn (Nối liền vai -> khuỷu tay -> bàn tay) -->
+          <g class="arm-right">
+            <path d="M 890 535 Q 915 600 870 640" stroke="#483322" stroke-width="32" stroke-linecap="round" fill="none" />
+            <circle cx="860" cy="640" r="16" fill="#cf9063" stroke="#1f140b" stroke-width="4" />
+          </g>
+
+          <!-- Cổ thon kết nối đầu và thân -->
+          <rect x="830" y="480" width="26" height="45" rx="6" fill="#cf9063" stroke="#1f140b" stroke-width="5" />
+
+          <!-- Đầu nhân vật -->
+          <g id="shot2-head">
+            <!-- Tóc & Râu cụ già kể chuyện / người dẫn -->
+            <ellipse cx="842" cy="425" rx="60" ry="65" fill="#cf9063" stroke="#1f140b" stroke-width="6" />
+            <!-- Khăn xếp / Tóc trắng bạc -->
+            <path d="M 780 410 Q 842 340 904 410 Q 842 380 780 410 Z" fill="#eae4db" stroke="#1f140b" stroke-width="5" />
+            <ellipse cx="842" cy="370" rx="36" ry="22" fill="#eae4db" stroke="#1f140b" stroke-width="5" />
+
+            <!-- Đôi mắt to tròn phong cách hoạt hình dân gian -->
+            <ellipse cx="820" cy="425" rx="15" ry="17" fill="#ffffff" stroke="#1f140b" stroke-width="4" />
+            <circle id="shot2-eye-l" cx="823" cy="426" r="7" fill="#1b120c" />
+            
+            <ellipse cx="864" cy="425" rx="15" ry="17" fill="#ffffff" stroke="#1f140b" stroke-width="4" />
+            <circle id="shot2-eye-r" cx="867" cy="426" r="7" fill="#1b120c" />
+
+            <!-- Lông mày & Nếp nhăn hiền từ -->
+            <path d="M 808 402 Q 822 396 834 404" stroke="#1f140b" stroke-width="4" stroke-linecap="round" fill="none" />
+            <path d="M 852 404 Q 864 396 878 402" stroke="#1f140b" stroke-width="4" stroke-linecap="round" fill="none" />
+
+            <!-- Miệng mấp máy nói chuyện -->
+            <path id="shot2-mouth" d="M 832 458 Q 842 466 852 458" stroke="#1f140b" stroke-width="4" stroke-linecap="round" fill="none" />
+
+            <!-- Chòm râu trắng bạc dài của người kể chuyện -->
+            <path d="M 832 468 Q 842 530 842 530 Q 852 530 852 468 Z" fill="#eae4db" stroke="#1f140b" stroke-width="4" />
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SHOT 3: Macro Close-Up Bàn Thờ Cân Đối - Khói Nhang Tinh Tế (6.13s - 7.94s) -->
+    <!-- ============================================================== -->
+    <div class="shot" id="shot3">
+      <svg class="shot-svg" viewBox="0 0 1920 1080">
+        <!-- Nền u tối quanh bàn thờ -->
+        <rect width="1920" height="1080" fill="#100a06" />
+
+        <!-- Vách gỗ bàn thờ chính giữa đối xứng tuyệt đối -->
+        <rect x="460" y="480" width="1000" height="600" rx="12" fill="url(#wood-dark)" stroke="#1a0b03" stroke-width="12" />
+        <rect x="420" y="450" width="1080" height="45" rx="8" fill="#583921" stroke="#1a0b03" stroke-width="8" />
+
+        <!-- Quầng sáng ấm áp tỏa đều từ nến và nhang (ĐỐI XỨNG HOÀN HẢO) -->
+        <circle cx="960" cy="420" r="420" fill="url(#altar-ambient-glow)" opacity="0.85" />
+
+        <!-- Cây nến bên trái (x=660) -->
+        <g id="shot3-candle-l">
+          <!-- Chân nến đồng -->
+          <polygon points="630,450 690,450 675,410 645,410" fill="url(#bronze-grad)" stroke="#1d1204" stroke-width="4" />
+          <!-- Thân nến trắng sáp -->
+          <rect x="652" y="270" width="16" height="140" rx="3" fill="#f8f4ec" stroke="#7d6d56" stroke-width="3" />
+          <!-- Tim nến -->
+          <line x1="660" y1="270" x2="660" y2="255" stroke="#221105" stroke-width="3" />
+          <!-- Ngọn lửa nến lung linh -->
+          <path id="shot3-flame-l" d="M 660 220 Q 648 245 660 255 Q 672 245 660 220 Z" fill="#ffaa22" filter="url(#candle-flame-glow)" />
+          <circle cx="660" cy="245" r="5" fill="#ffffff" opacity="0.9" />
+        </g>
+
+        <!-- Cây nến bên phải (x=1260) - Đối xứng tuyệt đối -->
+        <g id="shot3-candle-r">
+          <!-- Chân nến đồng -->
+          <polygon points="1230,450 1290,450 1275,410 1245,410" fill="url(#bronze-grad)" stroke="#1d1204" stroke-width="4" />
+          <!-- Thân nến trắng sáp -->
+          <rect x="1252" y="270" width="16" height="140" rx="3" fill="#f8f4ec" stroke="#7d6d56" stroke-width="3" />
+          <!-- Tim nến -->
+          <line x1="1260" y1="270" x2="1260" y2="255" stroke="#221105" stroke-width="3" />
+          <!-- Ngọn lửa nến lung linh -->
+          <path id="shot3-flame-r" d="M 1260 220 Q 1248 245 1260 255 Q 1272 245 1260 220 Z" fill="#ffaa22" filter="url(#candle-flame-glow)" />
+          <circle cx="1260" cy="245" r="5" fill="#ffffff" opacity="0.9" />
+        </g>
+
+        <!-- BÁT HƯƠNG ĐỒNG TRUNG TÂM (x=960) -->
+        <g id="shot3-incense-burner">
+          <!-- Bát hương tam khí hoa văn cổ -->
+          <ellipse cx="960" cy="430" rx="110" ry="25" fill="#3d2706" />
+          <path d="M 860 410 Q 960 490 1060 410 L 1030 460 Q 960 510 890 460 Z" fill="url(#bronze-grad)" stroke="#1a0f02" stroke-width="6" />
+          <ellipse cx="960" cy="410" rx="100" ry="22" fill="#664614" stroke="#1a0f02" stroke-width="5" />
+          <ellipse cx="960" cy="410" rx="90" ry="16" fill="#443015" /> <!-- Tro tàn bát hương -->
+
+          <!-- 3 NÉN NHANG CẮM NGAY NGẮN TỪ BÁT HƯƠNG (KHÔNG HỀ LỆCH) -->
+          <!-- Nén giữa -->
+          <line x1="960" y1="410" x2="960" y2="210" stroke="#8a1f0a" stroke-width="4" stroke-linecap="round" />
+          <circle cx="960" cy="210" r="5" fill="#ff3b00" filter="url(#glow-light)" />
+          
+          <!-- Nén trái -->
+          <line x1="945" y1="412" x2="935" y2="225" stroke="#8a1f0a" stroke-width="4" stroke-linecap="round" />
+          <circle cx="935" cy="225" r="5" fill="#ff3b00" filter="url(#glow-light)" />
+
+          <!-- Nén phải -->
+          <line x1="975" y1="412" x2="985" y2="225" stroke="#8a1f0a" stroke-width="4" stroke-linecap="round" />
+          <circle cx="985" cy="225" r="5" fill="#ff3b00" filter="url(#glow-light)" />
+
+          <!-- LÀN KHÓI TRẦM UỐN LƯỢN MỀM MẠI BỐC LÊN TỪ QUE NHANG -->
+          <g id="shot3-smoke" opacity="0.65">
+            <path class="smoke-line" d="M 960 210 Q 945 150 970 100 Q 945 50 965 10" stroke="#eaeaea" stroke-width="3.5" fill="none" stroke-linecap="round" filter="url(#glow-light)" />
+            <path class="smoke-line" d="M 935 225 Q 910 160 930 110 Q 915 60 925 15" stroke="#d5d5d5" stroke-width="3" fill="none" stroke-linecap="round" filter="url(#glow-light)" />
+            <path class="smoke-line" d="M 985 225 Q 1010 160 990 110 Q 1005 60 995 15" stroke="#d5d5d5" stroke-width="3" fill="none" stroke-linecap="round" filter="url(#glow-light)" />
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SHOT 4: Medium Shot - Mẹ ngồi đếm khăn tang bên mâm tre (7.94s - 11.24s) -->
+    <!-- ============================================================== -->
+    <div class="shot" id="shot4">
+      <svg class="shot-svg" viewBox="0 0 1920 1080">
+        <rect width="1920" height="1080" fill="#140d07" />
+        
+        <!-- Chiếu cói trải sàn -->
+        <polygon points="320,680 1600,680 1800,1050 120,1050" fill="#3a2e1d" stroke="#1d150a" stroke-width="6" />
+
+        <!-- Đống lửa nhỏ bên cạnh hắt ánh sáng vàng ấm -->
+        <g id="shot4-fire">
+          <circle cx="480" cy="780" r="160" fill="url(#altar-ambient-glow)" opacity="0.75" />
+          <ellipse cx="480" cy="800" rx="45" ry="16" fill="#1c1209" />
+          <path id="shot4-fire-flame" d="M 480 720 Q 460 760 480 790 Q 500 760 480 720 Z" fill="#ff7711" filter="url(#glow-light)" />
+        </g>
+
+        <!-- MÂM TRE ĐỰNG KHĂN TANG TRẮNG GẤP NẾP -->
+        <g id="shot4-tray">
+          <ellipse cx="1180" cy="780" rx="220" ry="85" fill="#755633" stroke="#221508" stroke-width="8" />
+          <ellipse cx="1180" cy="775" rx="205" ry="75" fill="#a47d4e" />
+          <!-- Các dải khăn xô trắng gấp phẳng trên mâm -->
+          <rect x="1050" y="735" width="260" height="25" rx="6" fill="#f8f6f0" stroke="#4a3e30" stroke-width="3" />
+          <rect x="1060" y="720" width="240" height="22" rx="6" fill="#eeeae0" stroke="#4a3e30" stroke-width="3" />
+          <rect x="1075" y="705" width="210" height="20" rx="6" fill="#e2ded4" stroke="#4a3e30" stroke-width="3" />
+        </g>
+
+        <!-- NGƯỜI MẸ NGỒI ĐOAN TRANG - TỶ LỆ CHUẨN CÓ CỔ, VAI, CÁNH TAY ÁO LIỀN KHÔNG BAY -->
+        <g id="shot4-mother" filter="url(#line-boil)">
+          <!-- Chân xếp bằng trên chiếu -->
+          <ellipse cx="880" cy="810" rx="140" ry="45" fill="#2d1e14" stroke="#120b06" stroke-width="6" />
+
+          <!-- Thân áo nâu sồng (Chiều rộng 100px - GỌN GÀNG THANH LỊCH) -->
+          <rect x="830" y="540" width="100" height="240" rx="24" fill="#4d3725" stroke="#191008" stroke-width="6" />
+
+          <!-- Cánh tay áo trái buông tự nhiên nối liền từ vai đến tay -->
+          <path d="M 835 550 Q 800 640 815 720" stroke="#422f1f" stroke-width="30" stroke-linecap="round" fill="none" />
+          <circle cx="818" cy="730" r="15" fill="#cf9063" stroke="#191008" stroke-width="4" />
+
+          <!-- Cánh tay áo phải giơ ra nhấc khăn trên mâm (NỐI LIỀN VAI -> KHUỶU TAY -> BÀN TAY) -->
+          <g id="shot4-mother-arm">
+            <!-- Ống tay áo nối vai xuống khuỷu tay rồi ra bàn tay -->
+            <path d="M 925 550 Q 980 620 1050 670" stroke="#422f1f" stroke-width="30" stroke-linecap="round" fill="none" />
+            <!-- Bàn tay gắn chặt cổ tay áo -->
+            <circle cx="1060" cy="675" r="16" fill="#cf9063" stroke="#191008" stroke-width="4" />
+            <!-- Khăn tang trắng cầm trên tay -->
+            <path d="M 1060 675 Q 1090 660 1140 680" stroke="#fcfbfa" stroke-width="14" stroke-linecap="round" fill="none" />
+          </g>
+
+          <!-- Cổ thon -->
+          <rect x="868" y="495" width="24" height="48" rx="6" fill="#cf9063" stroke="#191008" stroke-width="5" />
+
+          <!-- Đầu mẹ & Khăn tang quấn trán -->
+          <g id="shot4-mother-head">
+            <ellipse cx="880" cy="440" rx="55" ry="60" fill="#cf9063" stroke="#191008" stroke-width="6" />
+            <!-- Mái tóc đen búi sau -->
+            <path d="M 830 425 Q 880 370 930 425 Q 880 400 830 425 Z" fill="#181310" stroke="#191008" stroke-width="5" />
+            <circle cx="940" cy="445" r="22" fill="#181310" />
+
+            <!-- Khăn tang xô trắng buộc quanh đầu -->
+            <rect x="825" y="415" width="110" height="22" rx="4" fill="#f4efe6" stroke="#191008" stroke-width="4" />
+            <!-- Dải khăn buông phía sau -->
+            <path d="M 830 435 Q 815 480 820 530" stroke="#f4efe6" stroke-width="12" stroke-linecap="round" fill="none" />
+
+            <!-- Đôi mắt lo âu nhìn xuống mâm khăn -->
+            <ellipse cx="862" cy="445" rx="14" ry="16" fill="#ffffff" stroke="#191008" stroke-width="4" />
+            <circle cx="866" cy="448" r="6" fill="#1b120c" />
+            
+            <ellipse cx="902" cy="445" rx="14" ry="16" fill="#ffffff" stroke="#191008" stroke-width="4" />
+            <circle cx="906" cy="448" r="6" fill="#1b120c" />
+
+            <!-- Miệng mím lại nghiêm nghị -->
+            <path d="M 872 478 Q 882 482 892 478" stroke="#191008" stroke-width="4" stroke-linecap="round" fill="none" />
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SHOT 5: Top-Down / High-Angle Close-up - Bàn tay đếm khăn tang trên mâm (11.24s - 14.61s) -->
+    <!-- ============================================================== -->
+    <div class="shot" id="shot5">
+      <svg class="shot-svg" viewBox="0 0 1920 1080">
+        <!-- Chiếu cói hoa văn đan góc nhìn từ trên xuống -->
+        <rect width="1920" height="1080" fill="#2d2215" />
+        <g stroke="#20170c" stroke-width="2" opacity="0.4">
+          <line x1="0" y1="180" x2="1920" y2="180" />
+          <line x1="0" y1="360" x2="1920" y2="360" />
+          <line x1="0" y1="540" x2="1920" y2="540" />
+          <line x1="0" y1="720" x2="1920" y2="720" />
+          <line x1="0" y1="900" x2="1920" y2="900" />
+        </g>
+
+        <!-- Mâm đồng tròn đường kính lớn chính giữa màn hình -->
+        <circle cx="960" cy="540" r="420" fill="url(#bronze-grad)" stroke="#1a0f02" stroke-width="16" />
+        <circle cx="960" cy="540" r="390" fill="#8c6820" stroke="#362304" stroke-width="6" />
+
+        <!-- Chồng khăn đã đếm bên trái -->
+        <g id="shot5-pile-left">
+          <rect x="640" y="440" width="240" height="180" rx="10" fill="#e8e4db" stroke="#3a3020" stroke-width="4" />
+          <line x1="640" y1="480" x2="880" y2="480" stroke="#a09786" stroke-width="3" />
+          <line x1="640" y1="520" x2="880" y2="520" stroke="#a09786" stroke-width="3" />
+          <line x1="640" y1="560" x2="880" y2="560" stroke="#a09786" stroke-width="3" />
+          <line x1="640" y1="600" x2="880" y2="600" stroke="#a09786" stroke-width="3" />
+        </g>
+
+        <!-- Chồng khăn chưa đếm bên phải -->
+        <g id="shot5-pile-right">
+          <rect x="1040" y="440" width="240" height="180" rx="10" fill="#fcfbf7" stroke="#3a3020" stroke-width="4" />
+          <line x1="1040" y1="480" x2="1280" y2="480" stroke="#b0a796" stroke-width="3" />
+          <line x1="1040" y1="520" x2="1280" y2="520" stroke="#b0a796" stroke-width="3" />
+          <line x1="1040" y1="560" x2="1280" y2="560" stroke="#b0a796" stroke-width="3" />
+        </g>
+
+        <!-- HAI CÁNH TAY MẸ NỐI LIỀN TỪ CẠNH DƯỚI LÊN MÂM (CÓ ỐNG TAY ÁO NÂU ĐÀNG HOÀNG) -->
+        <g id="shot5-hands" filter="url(#line-boil)">
+          <!-- Cánh tay áo trái -->
+          <path d="M 720 1080 L 760 760" stroke="#483320" stroke-width="70" stroke-linecap="round" />
+          <!-- Cổ tay áo & Bàn tay trái giữ góc khăn -->
+          <ellipse cx="765" cy="740" rx="36" ry="28" fill="#cf9063" stroke="#1f1409" stroke-width="5" />
+          <circle cx="780" cy="735" r="10" fill="#b97c50" />
+
+          <!-- Cánh tay áo phải di chuyển gạt dải khăn trắng -->
+          <g id="shot5-moving-hand">
+            <path d="M 1200 1080 L 1080 720" stroke="#483320" stroke-width="70" stroke-linecap="round" />
+            <ellipse cx="1065" cy="700" rx="36" ry="28" fill="#cf9063" stroke="#1f1409" stroke-width="5" />
+            <!-- Dải khăn tang trắng đang được cầm nhấc sang -->
+            <path d="M 940 510 Q 1020 500 1100 520 L 1090 560 Q 1010 540 930 550 Z" fill="#ffffff" stroke="#3a3020" stroke-width="4" />
+          </g>
+        </g>
+
+        <!-- Ánh sáng đèn dầu rọi ấm áp từ góc trên -->
+        <circle cx="960" cy="540" r="450" fill="url(#candle-glow-rad)" opacity="0.45" />
+      </svg>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SHOT 6: Close-up Khuôn Mặt Mẹ Căng Thẳng (14.61s - 18.26s) -->
+    <!-- ============================================================== -->
+    <div class="shot" id="shot6">
+      <svg class="shot-svg" viewBox="0 0 1920 1080">
+        <rect width="1920" height="1080" fill="#0d0805" />
+
+        <!-- Bóng tối u uất với ánh lửa bập bùng hắt từ dưới lên -->
+        <circle id="shot6-light" cx="960" cy="620" r="500" fill="url(#altar-ambient-glow)" opacity="0.65" />
+
+        <!-- Khuôn mặt người mẹ cận cảnh -->
+        <g id="shot6-face" filter="url(#line-boil)">
+          <!-- Cổ & Thân áo -->
+          <rect x="915" y="680" width="90" height="160" rx="16" fill="#cf9063" stroke="#190f07" stroke-width="8" />
+          <path d="M 780 820 Q 960 760 1140 820 L 1180 1080 L 740 1080 Z" fill="#4d3725" stroke="#190f07" stroke-width="10" />
+
+          <!-- Khuôn mặt to chiếm trung tâm -->
+          <ellipse cx="960" cy="480" rx="210" ry="230" fill="#cf9063" stroke="#190f07" stroke-width="12" />
+
+          <!-- Khăn tang trắng buộc quanh trán -->
+          <rect x="740" y="360" width="440" height="80" rx="10" fill="#f4efe6" stroke="#190f07" stroke-width="8" />
+          <path d="M 740 420 Q 700 560 720 720" stroke="#f4efe6" stroke-width="36" stroke-linecap="round" fill="none" />
+
+          <!-- Đôi mắt lo sợ nhìn qua liếc lại -->
+          <ellipse cx="880" cy="490" rx="42" ry="46" fill="#ffffff" stroke="#190f07" stroke-width="8" />
+          <circle id="shot6-pupil-l" cx="890" cy="495" r="18" fill="#140c06" />
+
+          <ellipse cx="1040" cy="490" rx="42" ry="46" fill="#ffffff" stroke="#190f07" stroke-width="8" />
+          <circle id="shot6-pupil-r" cx="1050" cy="495" r="18" fill="#140c06" />
+
+          <!-- Lông mày nhíu lại lo âu -->
+          <path d="M 830 430 Q 880 410 920 440" stroke="#190f07" stroke-width="8" stroke-linecap="round" fill="none" />
+          <path d="M 1000 440 Q 1040 410 1090 430" stroke="#190f07" stroke-width="8" stroke-linecap="round" fill="none" />
+
+          <!-- Giọt mồ hôi lo lắng trên trán -->
+          <ellipse cx="820" cy="460" rx="6" ry="12" fill="#7ac5cd" opacity="0.8" />
+
+          <!-- Miệng mấp máy đếm thầm -->
+          <path id="shot6-mouth" d="M 930 600 Q 960 620 990 600" stroke="#190f07" stroke-width="8" stroke-linecap="round" fill="none" />
+        </g>
+      </svg>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SHOT 7: Over-the-Shoulder - Bóng ma ngoài hiên sương (18.26s - 22.33s) -->
+    <!-- ============================================================== -->
+    <div class="shot" id="shot7">
+      <svg class="shot-svg" viewBox="0 0 1920 1080">
+        <rect width="1920" height="1080" fill="#080709" />
+
+        <!-- Cửa mở nhìn ra màn đêm sương mù -->
+        <rect x="760" y="80" width="700" height="880" fill="#0c1017" stroke="#251810" stroke-width="16" />
+        <ellipse cx="1110" cy="400" rx="300" ry="200" fill="#152028" opacity="0.6" filter="url(#glow-light)" />
+
+        <!-- BÓNG ĐEN THỰC THỂ MA QUÁI NGOÀI HIÊN (THOẮT ẨN THOẮT HIỆN) -->
+        <g id="shot7-ghost" opacity="0.75" filter="url(#line-boil)">
+          <!-- Thân bóng đen cao lêu nghêu -->
+          <path d="M 1080 320 Q 1050 480 1040 760 Q 1110 770 1180 760 Q 1170 480 1140 320 Z" fill="#030406" />
+          <!-- Đầu quấn dải khăn xô trắng rách tơi tả -->
+          <ellipse cx="1110" cy="270" rx="42" ry="50" fill="#030406" />
+          <rect x="1065" y="240" width="90" height="20" rx="3" fill="#e0ded6" opacity="0.9" />
+          <path d="M 1070 255 Q 1050 320 1040 400" stroke="#e0ded6" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.8" />
+          <!-- Đôi mắt đỏ le lói trong bóng tối -->
+          <circle cx="1095" cy="275" r="5" fill="#ff1100" filter="url(#glow-light)" />
+          <circle cx="1125" cy="275" r="5" fill="#ff1100" filter="url(#glow-light)" />
+        </g>
+
+        <!-- Lưng và vai người mẹ ở tiền cảnh bên trái (Over-the-shoulder) -->
+        <g id="shot7-mother-back">
+          <!-- Lưng áo nâu sồng rộng -->
+          <path d="M 120 620 Q 420 540 620 680 L 720 1080 L 0 1080 Z" fill="#2d1c11" stroke="#120a05" stroke-width="10" />
+          <!-- Đầu mẹ nhìn từ sau gáy với dải khăn tang trắng -->
+          <ellipse cx="440" cy="500" rx="110" ry="120" fill="#18110b" stroke="#120a05" stroke-width="8" />
+          <rect x="330" y="460" width="220" height="45" rx="6" fill="#ded7cb" stroke="#120a05" stroke-width="6" />
+          <path d="M 340 490 Q 320 600 330 750" stroke="#ded7cb" stroke-width="24" stroke-linecap="round" fill="none" />
+        </g>
+      </svg>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SHOT 8: Dramatic Low-Angle Stinger - "Họ gọi kẻ ấy là Thần Trùng" (22.33s - 24.28s) -->
+    <!-- ============================================================== -->
+    <div class="shot" id="shot8">
+      <svg class="shot-svg" viewBox="0 0 1920 1080">
+        <rect width="1920" height="1080" fill="#050303" />
+
+        <!-- Ánh sáng đỏ rực kinh dị từ dưới chiếu lên -->
+        <radialGradient id="horror-red" cx="50%" cy="80%" r="60%">
+          <stop offset="0%" stop-color="#990000" stop-opacity="0.9" />
+          <stop offset="60%" stop-color="#330000" stop-opacity="0.5" />
+          <stop offset="100%" stop-color="#050303" stop-opacity="0" />
+        </radialGradient>
+        <rect width="1920" height="1080" fill="url(#horror-red)" />
+
+        <!-- Thực thể Thần Trùng góc ngước cận cảnh kinh dị -->
+        <g id="shot8-thantrung" filter="url(#line-boil)">
+          <!-- Thân đen khổng lồ áp đảo màn hình -->
+          <path d="M 400 1080 L 760 520 Q 960 480 1160 520 L 1520 1080 Z" fill="#07070a" stroke="#000000" stroke-width="14" />
+
+          <!-- Đầu bóng đen to lớn -->
+          <ellipse cx="960" cy="380" rx="170" ry="190" fill="#0a0a0e" stroke="#000000" stroke-width="12" />
+
+          <!-- Dải khăn tang trắng rách đầm đìa buộc trên đầu -->
+          <path d="M 780 320 Q 960 300 1140 320 L 1130 390 Q 960 370 790 390 Z" fill="#e8e4db" stroke="#000" stroke-width="8" />
+          <path d="M 790 380 Q 720 540 760 760" stroke="#e8e4db" stroke-width="26" stroke-linecap="round" fill="none" />
+          <path d="M 1130 380 Q 1200 540 1170 780" stroke="#e8e4db" stroke-width="22" stroke-linecap="round" fill="none" />
+
+          <!-- Đôi mắt trắng dã trợn ngược không có con ngươi -->
+          <ellipse cx="880" cy="390" rx="42" ry="48" fill="#ffffff" stroke="#000000" stroke-width="8" filter="url(#glow-light)" />
+          <circle cx="880" cy="390" r="10" fill="#ff0000" opacity="0.8" />
+
+          <ellipse cx="1040" cy="390" rx="42" ry="48" fill="#ffffff" stroke="#000000" stroke-width="8" filter="url(#glow-light)" />
+          <circle cx="1040" cy="390" r="10" fill="#ff0000" opacity="0.8" />
+
+          <!-- Miệng ngoác ra nụ cười rùng rợn -->
+          <path d="M 870 500 Q 960 580 1050 500" stroke="#000000" stroke-width="12" stroke-linecap="round" fill="none" />
+        </g>
+      </svg>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SHOT 9: Wide Shot - Đám tang 31 chiếc khăn tang trắng (24.28s - 28.93s) -->
+    <!-- ============================================================== -->
+    <div class="shot" id="shot9">
+      <svg class="shot-svg" viewBox="0 0 1920 1080">
+        <rect width="1920" height="1080" fill="#120c08" />
+
+        <!-- Rạp tang trắng & Bàn thờ cúng phía xa -->
+        <rect x="760" y="240" width="400" height="280" fill="#2d1c10" stroke="#150b05" stroke-width="8" />
+        <circle cx="960" cy="220" r="220" fill="url(#altar-ambient-glow)" opacity="0.75" />
+        <rect x="910" y="200" width="100" height="120" rx="4" fill="#ffffff" stroke="#150b05" stroke-width="6" /> <!-- Di ảnh -->
+        <circle cx="960" cy="250" r="28" fill="#2b1a0e" />
+
+        <!-- HÀNG NGƯỜI ĐỘI KHĂN TANG TRẮNG QUỲ TRANG NGHIÊM (31 chiếc khăn) -->
+        <g id="shot9-mourners" filter="url(#line-boil)">
+          <!-- Hàng 3 (Xa nhất) -->
+          <g opacity="0.6">
+            <ellipse cx="640" cy="560" rx="28" ry="32" fill="#2c1f17" />
+            <rect x="620" y="540" width="40" height="12" fill="#fff" />
+            <ellipse cx="740" cy="560" rx="28" ry="32" fill="#2c1f17" />
+            <rect x="720" y="540" width="40" height="12" fill="#fff" />
+            <ellipse cx="840" cy="560" rx="28" ry="32" fill="#2c1f17" />
+            <rect x="820" y="540" width="40" height="12" fill="#fff" />
+            <ellipse cx="1080" cy="560" rx="28" ry="32" fill="#2c1f17" />
+            <rect x="1060" y="540" width="40" height="12" fill="#fff" />
+            <ellipse cx="1180" cy="560" rx="28" ry="32" fill="#2c1f17" />
+            <rect x="1160" y="540" width="40" height="12" fill="#fff" />
+            <ellipse cx="1280" cy="560" rx="28" ry="32" fill="#2c1f17" />
+            <rect x="1260" y="540" width="40" height="12" fill="#fff" />
+          </g>
+
+          <!-- Hàng 2 (Giữa) -->
+          <g opacity="0.8">
+            <ellipse cx="560" cy="680" rx="36" ry="42" fill="#38271c" stroke="#120a05" stroke-width="4" />
+            <rect x="535" y="655" width="50" height="16" rx="2" fill="#fff" />
+            <ellipse cx="700" cy="680" rx="36" ry="42" fill="#38271c" stroke="#120a05" stroke-width="4" />
+            <rect x="675" y="655" width="50" height="16" rx="2" fill="#fff" />
+            <ellipse cx="840" cy="680" rx="36" ry="42" fill="#38271c" stroke="#120a05" stroke-width="4" />
+            <rect x="815" y="655" width="50" height="16" rx="2" fill="#fff" />
+            <ellipse cx="1080" cy="680" rx="36" ry="42" fill="#38271c" stroke="#120a05" stroke-width="4" />
+            <rect x="1055" y="655" width="50" height="16" rx="2" fill="#fff" />
+            <ellipse cx="1220" cy="680" rx="36" ry="42" fill="#38271c" stroke="#120a05" stroke-width="4" />
+            <rect x="1195" y="655" width="50" height="16" rx="2" fill="#fff" />
+            <ellipse cx="1360" cy="680" rx="36" ry="42" fill="#38271c" stroke="#120a05" stroke-width="4" />
+            <rect x="1335" y="655" width="50" height="16" rx="2" fill="#fff" />
+          </g>
+
+          <!-- Hàng 1 (Gần tiền cảnh) -->
+          <g>
+            <ellipse cx="440" cy="840" rx="50" ry="58" fill="#4d3524" stroke="#120a05" stroke-width="6" />
+            <rect x="405" y="805" width="70" height="22" rx="3" fill="#f8f6f0" stroke="#120a05" stroke-width="3" />
+            
+            <ellipse cx="640" cy="840" rx="50" ry="58" fill="#4d3524" stroke="#120a05" stroke-width="6" />
+            <rect x="605" y="805" width="70" height="22" rx="3" fill="#f8f6f0" stroke="#120a05" stroke-width="3" />
+
+            <ellipse cx="1280" cy="840" rx="50" ry="58" fill="#4d3524" stroke="#120a05" stroke-width="6" />
+            <rect x="1245" y="805" width="70" height="22" rx="3" fill="#f8f6f0" stroke="#120a05" stroke-width="3" />
+
+            <ellipse cx="1480" cy="840" rx="50" ry="58" fill="#4d3524" stroke="#120a05" stroke-width="6" />
+            <rect x="1445" y="805" width="70" height="22" rx="3" fill="#f8f6f0" stroke="#120a05" stroke-width="3" />
+          </g>
+        </g>
+
+        <!-- Con số đếm khăn hiển thị thanh lịch -->
+        <text x="960" y="960" text-anchor="middle" font-family="'Cinzel', serif" font-size="42" font-weight="700" fill="#d1b89d" letter-spacing="4">31 CHIẾC KHĂN TANG</text>
+      </svg>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SHOT 10: Split Climax - Chiếc đầu thứ 32 xuất hiện & Mẹ kinh hoàng (28.93s - 34.65s) -->
+    <!-- ============================================================== -->
+    <div class="shot" id="shot10">
+      <svg class="shot-svg" viewBox="0 0 1920 1080">
+        <rect width="1920" height="1080" fill="#080404" />
+
+        <!-- Vách ngăn đôi kịch tính -->
+        <line x1="960" y1="0" x2="960" y2="1080" stroke="#441111" stroke-width="8" />
+
+        <!-- NỬA TRÁI: Khuôn mặt mẹ kinh hoàng cực độ -->
+        <g id="shot10-mother-shock" filter="url(#line-boil)">
+          <ellipse cx="480" cy="540" rx="200" ry="220" fill="#cf9063" stroke="#180b06" stroke-width="12" />
+          <rect x="270" y="420" width="420" height="75" rx="8" fill="#fff" stroke="#180b06" stroke-width="8" />
+          <!-- Đôi mắt trợn tròn hoảng hốt -->
+          <ellipse cx="400" cy="540" rx="46" ry="50" fill="#fff" stroke="#180b06" stroke-width="8" />
+          <circle cx="400" cy="540" r="12" fill="#000" />
+          <ellipse cx="560" cy="540" rx="46" ry="50" fill="#fff" stroke="#180b06" stroke-width="8" />
+          <circle cx="560" cy="540" r="12" fill="#000" />
+          <!-- Miệng há hốc kinh hãi -->
+          <ellipse cx="480" cy="670" rx="36" ry="48" fill="#180808" stroke="#180b06" stroke-width="8" />
+        </g>
+
+        <!-- NỬA PHẢI: Chiếc đầu thứ 32 trồi lên từ bóng tối sâu thẳm -->
+        <g id="shot10-head-32" filter="url(#line-boil)">
+          <!-- Bóng đen người thứ 32 -->
+          <ellipse cx="1440" cy="520" rx="190" ry="220" fill="#0c0d12" stroke="#ff0000" stroke-width="6" />
+          <!-- Khăn tang rách quấn trên đầu -->
+          <rect x="1270" y="400" width="340" height="65" rx="6" fill="#dedbd2" stroke="#000" stroke-width="6" />
+          <path d="M 1270 440 Q 1230 580 1250 780" stroke="#dedbd2" stroke-width="26" stroke-linecap="round" fill="none" />
+          <!-- Đôi mắt trắng trợn ngược nhìn chằm chằm -->
+          <ellipse cx="1360" cy="530" rx="38" ry="44" fill="#ffffff" stroke="#000" stroke-width="6" />
+          <circle cx="1360" cy="530" r="8" fill="#ff0000" />
+          <ellipse cx="1520" cy="530" rx="38" ry="44" fill="#ffffff" stroke="#000" stroke-width="6" />
+          <circle cx="1520" cy="530" r="8" fill="#ff0000" />
+        </g>
+
+        <!-- Con số 32 đỏ rực phát sáng ở trung tâm -->
+        <text id="shot10-number-32" x="960" y="580" text-anchor="middle" font-family="'Cinzel', serif" font-size="140" font-weight="800" fill="#ff2200" filter="url(#glow-light)">32</text>
+      </svg>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SHOT 11: Medium Shot - Đỗ Văn Lâm chia sẻ chân thành (34.65s - 42.02s) -->
+    <!-- ============================================================== -->
+    <div class="shot" id="shot11">
+      <svg class="shot-svg" viewBox="0 0 1920 1080">
+        <rect width="1920" height="1080" fill="#1b120c" />
+
+        <!-- Bối cảnh nhà gỗ xưa ấm áp trở lại -->
+        <rect x="200" y="100" width="1520" height="880" fill="#2d1e13" stroke="#180e07" stroke-width="12" rx="8" />
+        <circle cx="960" cy="400" r="500" fill="url(#altar-ambient-glow)" opacity="0.45" />
+
+        <!-- Nhân vật Đỗ Văn Lâm (Người dẫn chuyện) - Cử chỉ tay chân tự nhiên, kết nối hoàn hảo -->
+        <g id="shot11-lam" filter="url(#line-boil)">
+          <!-- Chân & Giày -->
+          <rect x="920" y="740" width="28" height="120" rx="10" fill="#241a12" stroke="#100b07" stroke-width="6" />
+          <rect x="975" y="740" width="28" height="120" rx="10" fill="#241a12" stroke="#100b07" stroke-width="6" />
+          <ellipse cx="934" cy="855" rx="24" ry="14" fill="#100b07" />
+          <ellipse cx="989" cy="855" rx="24" ry="14" fill="#100b07" />
+
+          <!-- Thân áo sơ mi nâu sồng gọn gàng -->
+          <rect x="905" y="490" width="115" height="260" rx="24" fill="#5c422c" stroke="#180e07" stroke-width="6" />
+
+          <!-- Cánh tay áo trái buông tự nhiên nối liền vai -->
+          <path d="M 910 510 Q 860 600 870 700" stroke="#4a3422" stroke-width="34" stroke-linecap="round" fill="none" />
+          <circle cx="870" cy="710" r="18" fill="#cf9063" stroke="#180e07" stroke-width="4" />
+
+          <!-- Cánh tay áo phải giơ lên làm cử chỉ tâm sự (NỐI LIỀN VAI -> CỔ TAY) -->
+          <g id="shot11-gesture-arm">
+            <path d="M 1015 510 Q 1070 590 1040 660" stroke="#4a3422" stroke-width="34" stroke-linecap="round" fill="none" />
+            <circle cx="1035" cy="670" r="18" fill="#cf9063" stroke="#180e07" stroke-width="4" />
+          </g>
+
+          <!-- Cổ -->
+          <rect x="950" y="445" width="26" height="50" rx="6" fill="#cf9063" stroke="#180e07" stroke-width="5" />
+
+          <!-- Đầu Đỗ Văn Lâm -->
+          <g id="shot11-head">
+            <ellipse cx="962" cy="380" rx="68" ry="74" fill="#cf9063" stroke="#180e07" stroke-width="6" />
+            <!-- Mái tóc rẽ ngôi gọn gàng thời 2004 -->
+            <path d="M 894 370 Q 962 290 1030 370 Q 962 330 894 370 Z" fill="#1b140f" stroke="#180e07" stroke-width="5" />
+
+            <!-- Đôi mắt nhìn thẳng vào khán giả -->
+            <ellipse cx="936" cy="380" rx="16" ry="18" fill="#ffffff" stroke="#180e07" stroke-width="4" />
+            <circle cx="938" cy="382" r="7" fill="#1a110a" />
+
+            <ellipse cx="988" cy="380" rx="16" ry="18" fill="#ffffff" stroke="#180e07" stroke-width="4" />
+            <circle cx="990" cy="382" r="7" fill="#1a110a" />
+
+            <!-- Lông mày tự nhiên -->
+            <path d="M 924 356 Q 938 350 952 358" stroke="#180e07" stroke-width="4" stroke-linecap="round" fill="none" />
+            <path d="M 974 358 Q 988 350 1002 356" stroke="#180e07" stroke-width="4" stroke-linecap="round" fill="none" />
+
+            <!-- Miệng mấp máy kể chuyện chân thành -->
+            <path id="shot11-mouth" d="M 948 420 Q 962 430 976 420" stroke="#180e07" stroke-width="4" stroke-linecap="round" fill="none" />
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SHOT 12: Title & Scenic Transition (42.02s - 46.82s) -->
+    <!-- ============================================================== -->
+    <div class="shot" id="shot12">
+      <svg class="shot-svg" viewBox="0 0 1920 1080">
+        <!-- Bầu trời chiều hoàng hôn sông Luộc -->
+        <rect width="1920" height="1080" fill="url(#sky-evening)" />
+        
+        <!-- Dòng sông êm đềm lấp lánh sóng nước -->
+        <path d="M 0 680 Q 960 620 1920 720 L 1920 1080 L 0 1080 Z" fill="#99582a" />
+        <path d="M 0 740 Q 960 690 1920 780 L 1920 1080 L 0 1080 Z" fill="#6f3815" />
+
+        <!-- Rặng tre xanh ngắt ven đê -->
+        <g id="shot12-bamboo-silhouette">
+          <ellipse cx="320" cy="620" rx="220" ry="180" fill="#3d2a17" />
+          <ellipse cx="640" cy="650" rx="180" ry="140" fill="#2d1c0c" />
+          <ellipse cx="1600" cy="640" rx="260" ry="200" fill="#3d2a17" />
+        </g>
+
+        <!-- Con đò ngang lặng lẽ xuôi dòng -->
+        <g id="shot12-boat">
+          <ellipse cx="960" cy="780" rx="120" ry="25" fill="#2c1a0e" stroke="#130a04" stroke-width="5" />
+          <line x1="940" y1="780" x2="880" y2="720" stroke="#130a04" stroke-width="4" />
+        </g>
+
+        <!-- Bảng chữ HỒI 2 thanh lịch -->
+        <g id="shot12-title" opacity="0">
+          <rect x="560" y="380" width="800" height="160" rx="12" fill="rgba(20, 12, 7, 0.85)" stroke="#d1b89d" stroke-width="2" />
+          <text x="960" y="445" text-anchor="middle" font-family="'Cinzel', serif" font-size="28" font-weight="700" fill="#b91c1c" letter-spacing="4">HỒI THỨ HAI</text>
+          <text x="960" y="495" text-anchor="middle" font-family="'Be Vietnam Pro', sans-serif" font-size="34" font-weight="700" fill="#fcfaf2" letter-spacing="2">KỶ NIỆM CỐI TRẦU</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SHOT 13: Kỹ sư Đỗ Văn Lâm & Quê Hương Sông Luộc (46.82s - 56.81s) -->
+    <!-- ============================================================== -->
+    <div class="shot" id="shot13">
+      <svg class="shot-svg" viewBox="0 0 1920 1080">
+        <!-- Nền đôi: Bên trái bàn vẽ kỹ sư Sài Gòn, bên phải con đê sông Luộc -->
+        <rect width="960" height="1080" fill="#1c2226" />
+        <rect x="960" y="0" width="960" height="1080" fill="url(#sky-evening)" />
+
+        <!-- Đường phân chia mờ ảo -->
+        <line x1="960" y1="0" x2="960" y2="1080" stroke="#3d4952" stroke-width="4" />
+
+        <!-- Bên trái: Bàn làm việc kỹ sư cầu đường -->
+        <g id="shot13-engineer">
+          <!-- Bản vẽ công trình cầu đường -->
+          <rect x="180" y="480" width="480" height="340" rx="8" fill="#eaeef2" stroke="#253037" stroke-width="6" />
+          <line x1="220" y1="620" x2="620" y2="620" stroke="#1d649c" stroke-width="6" />
+          <path d="M 240 620 Q 420 520 600 620" stroke="#1d649c" stroke-width="5" fill="none" />
+          <!-- Thước kẻ T và bút chì kỹ thuật -->
+          <line x1="160" y1="520" x2="160" y2="780" stroke="#b08d57" stroke-width="14" stroke-linecap="round" />
+
+          <!-- Nhân vật Đỗ Văn Lâm trong trang phục kỹ sư sơ mi trắng thanh lịch -->
+          <g id="shot13-lam-char" filter="url(#line-boil)">
+            <!-- Thân áo sơ mi trắng có cổ áo -->
+            <rect x="680" y="440" width="105" height="240" rx="20" fill="#f4f6f8" stroke="#1e2830" stroke-width="6" />
+            <polygon points="720,440 732,480 745,440" fill="#1e2830" />
+            <!-- Tay áo sơ mi -->
+            <path d="M 685 455 Q 640 540 620 620" stroke="#e0e5ea" stroke-width="32" stroke-linecap="round" fill="none" />
+            <circle cx="615" cy="630" r="16" fill="#cf9063" stroke="#1e2830" stroke-width="4" />
+
+            <!-- Cổ & Đầu Lâm -->
+            <rect x="720" y="395" width="24" height="48" rx="6" fill="#cf9063" stroke="#1e2830" stroke-width="5" />
+            <ellipse cx="732" cy="340" rx="58" ry="64" fill="#cf9063" stroke="#1e2830" stroke-width="6" />
+            <!-- Mái tóc đen rẽ ngôi -->
+            <path d="M 674 330 Q 732 260 790 330 Q 732 295 674 330 Z" fill="#141a20" stroke="#1e2830" stroke-width="5" />
+            <!-- Mắt & Miệng -->
+            <ellipse cx="710" cy="340" rx="14" ry="16" fill="#fff" stroke="#1e2830" stroke-width="4" />
+            <circle cx="712" cy="342" r="6" fill="#141a20" />
+            <ellipse cx="754" cy="340" rx="14" ry="16" fill="#fff" stroke="#1e2830" stroke-width="4" />
+            <circle cx="756" cy="342" r="6" fill="#141a20" />
+            <path id="shot13-mouth" d="M 722 375 Q 732 385 742 375" stroke="#1e2830" stroke-width="4" stroke-linecap="round" fill="none" />
+          </g>
+        </g>
+
+        <!-- Bên phải: Con sông Luộc êm đềm & Rặng tre tuổi thơ -->
+        <g id="shot13-river">
+          <path d="M 960 720 Q 1440 680 1920 740 L 1920 1080 L 960 1080 Z" fill="#884d22" />
+          <!-- Cầu tre lắc lẻo ven sông -->
+          <line x1="1100" y1="740" x2="1480" y2="730" stroke="#b08d57" stroke-width="12" stroke-linecap="round" />
+          <line x1="1200" y1="735" x2="1190" y2="820" stroke="#7a5b32" stroke-width="8" />
+          <line x1="1380" y1="732" x2="1370" y2="820" stroke="#7a5b32" stroke-width="8" />
+          <!-- Rặng tre xanh mát -->
+          <ellipse cx="1680" cy="620" rx="200" ry="180" fill="#2d4218" opacity="0.9" />
+          <ellipse cx="1480" cy="650" rx="140" ry="130" fill="#3a5620" opacity="0.85" />
+        </g>
+      </svg>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- SHOT 14: TÁI HIỆN CHÍNH XÁC 100% ẢNH MẪU YOUTUBE (56.81s - 72.50s) -->
+    <!-- Bà ngồi ở bậc cửa giã trầu cối đồng & bé Lâm ngủ trên chõng tre -->
+    <!-- ============================================================== -->
+    <div class="shot" id="shot14">
+      <svg class="shot-svg" viewBox="0 0 1920 1080">
+        <!-- Vách tường nhà đất màu nâu ấm áp đúng tone ảnh mẫu -->
+        <rect width="1920" height="1080" fill="#54402d" />
+        <!-- Sàn nhà tối màu -->
+        <rect x="0" y="780" width="1920" height="300" fill="#342518" />
+
+        <!-- ================= KHUNG CỬA GỖ MỞ RỘNG BÊN PHẢI ================= -->
+        <!-- Khung cửa gỗ nâu đậm -->
+        <rect x="1170" y="20" width="460" height="740" fill="#1b120a" stroke="#2a1b0e" stroke-width="22" rx="4" />
+        <!-- Bầu trời chiều nhìn qua cửa (tông màu vàng xanh ngà đúng ảnh mẫu) -->
+        <rect x="1190" y="40" width="420" height="700" fill="#b8be9a" />
+        <!-- Vệt đất ngoài sân -->
+        <rect x="1190" y="520" width="420" height="220" fill="#88926c" />
+
+        <!-- ================= BẬC CỬA GỖ (NƠI BÀ NGỒI) ================= -->
+        <rect x="1130" y="700" width="540" height="65" rx="4" fill="#3e2a1b" stroke="#1d1208" stroke-width="8" />
+
+        <!-- ================= BÊN TRÁI: CHIẾC CHÕNG TRE MỘC MẠC ================= -->
+        <g id="shot14-daybed">
+          <!-- 4 chân cọc chõng tre cắm vững chãi -->
+          <rect x="60" y="570" width="28" height="210" rx="6" fill="#695135" stroke="#1d140a" stroke-width="6" />
+          <rect x="80" y="570" width="24" height="210" rx="6" fill="#846643" stroke="#1d140a" stroke-width="5" />
+          <rect x="710" y="570" width="28" height="210" rx="6" fill="#695135" stroke="#1d140a" stroke-width="6" />
+          <rect x="730" y="570" width="24" height="210" rx="6" fill="#846643" stroke="#1d140a" stroke-width="5" />
+          
+          <!-- Mặt dát tre của chõng (các nan tre ghép nằm ngang đúng chuẩn) -->
+          <rect x="40" y="510" width="720" height="60" rx="6" fill="url(#bamboo-grad)" stroke="#1d140a" stroke-width="8" />
+          <!-- Các đường khảm nan tre -->
+          <g stroke="#1d140a" stroke-width="4">
+            <line x1="120" y1="510" x2="120" y2="570" />
+            <line x1="200" y1="510" x2="200" y2="570" />
+            <line x1="280" y1="510" x2="280" y2="570" />
+            <line x1="360" y1="510" x2="360" y2="570" />
+            <line x1="440" y1="510" x2="440" y2="570" />
+            <line x1="520" y1="510" x2="520" y2="570" />
+            <line x1="600" y1="510" x2="600" y2="570" />
+            <line x1="680" y1="510" x2="680" y2="570" />
+          </g>
+
+          <!-- CẬU BÉ LÂM NẰM NGỦ NGOAN TRÊN CHÕNG (ĐÚNG Y HỆT ẢNH MẪU) -->
+          <g id="shot14-sleeping-boy" filter="url(#line-boil)">
+            <!-- Hai chân & giày nằm duỗi thẳng sang phải -->
+            <rect x="580" y="460" width="60" height="18" rx="6" fill="#2d2218" stroke="#120c06" stroke-width="4" />
+            <rect x="580" y="482" width="60" height="18" rx="6" fill="#2d2218" stroke="#120c06" stroke-width="4" />
+            <ellipse cx="645" cy="469" rx="10" ry="12" fill="#120c06" />
+            <ellipse cx="645" cy="491" rx="10" ry="12" fill="#120c06" />
+
+            <!-- Thân áo xám xanh nhạt của bé (ngực thở phập phồng nhẹ) -->
+            <rect id="shot14-boy-torso" x="465" y="425" width="125" height="105" rx="18" fill="#8f9977" stroke="#1a1c14" stroke-width="6" />
+
+            <!-- Cánh tay áo buông xuôi theo thân -->
+            <rect x="470" y="505" width="100" height="24" rx="10" fill="#7d8766" stroke="#1a1c14" stroke-width="5" />
+            <circle cx="575" cy="517" r="12" fill="#cf9063" stroke="#1a1c14" stroke-width="4" />
+
+            <!-- Đầu bé gối sang trái (mái tóc đen ngang vai của bé trai nông thôn xưa) -->
+            <ellipse cx="400" cy="480" rx="55" ry="58" fill="#cf9063" stroke="#1a1c14" stroke-width="6" />
+            <!-- Mái tóc đen che tai -->
+            <path d="M 345 440 Q 400 415 455 440 L 455 520 Q 400 545 345 520 Z" fill="#1b1714" stroke="#1a1c14" stroke-width="6" />
+            <ellipse cx="410" cy="480" rx="42" ry="46" fill="#cf9063" />
+
+            <!-- Đôi mắt nhắm ngủ êm đềm -->
+            <path d="M 385 475 Q 395 488 405 475" stroke="#1a1c14" stroke-width="4" stroke-linecap="round" fill="none" />
+            <path d="M 418 475 Q 428 488 438 475" stroke="#1a1c14" stroke-width="4" stroke-linecap="round" fill="none" />
+
+            <!-- Miệng mỉm cười thanh thản trong giấc ngủ -->
+            <path d="M 405 502 Q 412 508 420 502" stroke="#1a1c14" stroke-width="4" stroke-linecap="round" fill="none" />
+          </g>
+        </g>
+
+        <!-- ================= BÊN PHẢI: BÀ CỤ NGỒI BẬC CỬA GIÃ TRẦU ================= -->
+        <!-- ĐÚNG TỪNG NÉT VẼ, TỶ LỆ VÀ CỬ ĐỘNG CỦA ẢNH MẪU YOUTUBE -->
+        <g id="shot14-grandma" filter="url(#line-boil)">
+          <!-- Hai chân bà ngồi buông xuống bậc cửa gỗ -->
+          <g class="grandma-legs">
+            <rect x="1235" y="620" width="22" height="95" rx="8" fill="#2d2218" stroke="#120c06" stroke-width="5" />
+            <rect x="1275" y="620" width="22" height="95" rx="8" fill="#2d2218" stroke="#120c06" stroke-width="5" />
+            <ellipse cx="1246" cy="718" rx="18" ry="10" fill="#120c06" />
+            <ellipse cx="1286" cy="718" rx="18" ry="10" fill="#120c06" />
+          </g>
+
+          <!-- Thân áo nâu sồng gọn gàng của bà (rộng 95px - ĐÚNG Y HỆT ẢNH MẪU) -->
+          <rect x="1215" y="455" width="95" height="175" rx="22" fill="#584333" stroke="#1c140d" stroke-width="6" />
+
+          <!-- Cánh tay áo trái buông xuôi sát thân, bàn tay tì nhẹ vào đùi -->
+          <g class="grandma-arm-left">
+            <path d="M 1220 470 Q 1205 540 1220 595" stroke="#483424" stroke-width="26" stroke-linecap="round" fill="none" />
+            <circle cx="1222" cy="605" r="14" fill="#cf9063" stroke="#1c140d" stroke-width="4" />
+          </g>
+
+          <!-- CỔ THON KẾT NỐI ĐẦU VÀ THÂN -->
+          <rect x="1252" y="418" width="22" height="42" rx="5" fill="#cf9063" stroke="#1c140d" stroke-width="5" />
+
+          <!-- ĐẦU BÀ CỤ (TÓC BẠC PHƠ, MẮT TO TRÒN HIỀN TỪ) -->
+          <g id="shot14-grandma-head">
+            <ellipse cx="1263" cy="365" rx="54" ry="58" fill="#cf9063" stroke="#1c140d" stroke-width="6" />
+            <!-- Mái tóc trắng bạc búi tròn của bà cụ Bắc Bộ xưa -->
+            <path d="M 1206 355 Q 1263 290 1320 355 Q 1263 325 1206 355 Z" fill="#eeeae2" stroke="#1c140d" stroke-width="5" />
+            <ellipse cx="1263" cy="305" rx="34" ry="20" fill="#eeeae2" stroke="#1c140d" stroke-width="5" />
+
+            <!-- Đôi mắt to tròn mở to hiền hậu đúng chất ảnh mẫu -->
+            <ellipse cx="1245" cy="362" rx="15" ry="17" fill="#ffffff" stroke="#1c140d" stroke-width="4" />
+            <circle id="shot14-grandma-eye-l" cx="1246" cy="363" r="6" fill="#1b120c" />
+
+            <ellipse cx="1282" cy="362" rx="15" ry="17" fill="#ffffff" stroke="#1c140d" stroke-width="4" />
+            <circle id="shot14-grandma-eye-r" cx="1283" cy="363" r="6" fill="#1b120c" />
+
+            <!-- Nụ cười móm mém phúc hậu của bà -->
+            <path id="shot14-grandma-mouth" d="M 1253 394 Q 1263 404 1273 394" stroke="#1c140d" stroke-width="4" stroke-linecap="round" fill="none" />
+          </g>
+
+          <!-- CHIẾC CỐI ĐỒNG BÉ BẰNG NẮM TAY ĐẶT NGAY BẬC CỬA -->
+          <g id="shot14-mortar">
+            <!-- Cối đồng vàng bóng dáng loe -->
+            <polygon points="1340,635 1420,635 1410,705 1350,705" fill="url(#bronze-grad)" stroke="#1a0f02" stroke-width="6" stroke-linejoin="round" />
+            <ellipse cx="1380" cy="635" rx="40" ry="12" fill="#aa7c11" stroke="#1a0f02" stroke-width="5" />
+            <ellipse cx="1380" cy="635" rx="32" ry="8" fill="#4d1b14" /> <!-- Ruột cối có trầu đỏ -->
+          </g>
+
+          <!-- CÁNH TAY BÀ CẦM CHÀY ĐỒNG GIÃ TRẦU LÊN XUỐNG LIÊN TỤC -->
+          <!-- Toàn bộ cánh tay, bàn tay và chày được gộp thành 1 nhóm xoay quanh khớp vai -->
+          <g id="shot14-pestle-arm" style="transform-origin: 1295px 475px;">
+            <!-- Ống tay áo nâu từ vai xuống khuỷu tay và cổ tay -->
+            <path d="M 1295 475 Q 1335 520 1315 570" stroke="#483424" stroke-width="26" stroke-linecap="round" fill="none" />
+            <!-- Bàn tay nắm chặt lấy chày đồng -->
+            <circle cx="1315" cy="575" r="15" fill="#cf9063" stroke="#1c140d" stroke-width="4" />
+
+            <!-- Chiếc chày đồng dài cắm thẳng vào lòng cối -->
+            <polygon points="1310,545 1320,545 1378,655 1368,655" fill="url(#bronze-grad)" stroke="#1a0f02" stroke-width="5" />
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Vignette cinematic overlay -->
+    <div class="vignette-overlay" id="vignette-overlay" data-layout-ignore="true"></div>
+
+    <!-- Bottom Caption Box -->
+    <div class="caption-container" id="caption-container" data-layout-ignore="true">
+      <div class="caption-box" id="caption-box">
+        <p class="caption-text" id="caption-el">Truyện Ma Kinh Dị: Thần Trùng - Chiếc Khăn Tang Thứ 32</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- AUDIO ELEMENTS (4 TẦNG HÒA ÂM HOÀN HẢO) -->
+  <div id="audio-tracks" style="display: none;">
+    {audio_html}
+  </div>
+
+  <!-- SCRIPT ANIMATION TIMELINE -->
+  <script>
+    // Subtitle cues
+    const captions = [
+      {{ start: 0.00, end: 5.85, text: "Ở quê tôi, nhà nào có tang, việc đầu tiên không phải là mời thầy, cũng chưa phải là báo họ hàng." }},
+      {{ start: 6.13, end: 7.66, text: "Việc đầu tiên là đếm khăn." }},
+      {{ start: 7.94, end: 10.96, text: "Con cháu bao nhiêu người thì phát bấy nhiêu chiếc khăn xô." }},
+      {{ start: 11.24, end: 14.33, text: "Phát xong phải đếm lại, không được thừa cũng không được thiếu." }},
+      {{ start: 14.61, end: 18.01, text: "Người già bảo nếu đếm đầu người đội khăn mà ra nhiều hơn số..." }},
+      {{ start: 18.26, end: 22.03, text: "...khăn đã phát thì trong đám tang ấy có một kẻ không phải người nhà." }},
+      {{ start: 22.33, end: 24.00, text: "Họ gọi kẻ ấy là Thần Trùng." }},
+      {{ start: 24.28, end: 28.65, text: "Tháng bảy âm lịch năm ngoái, bà nội tôi mất, nhà tôi phát ba mươi mốt chiếc khăn." }},
+      {{ start: 28.93, end: 32.20, text: "Sáng hôm sau, mẹ tôi đếm được ba mươi hai cái đầu." }},
+      {{ start: 32.48, end: 34.40, text: "Chuyện ấy tôi đã kể với nhiều người..." }},
+      {{ start: 34.65, end: 38.11, text: "...ai nghe xong cũng hỏi một câu, thế rốt cuộc người thừa ra là ai?" }},
+      {{ start: 38.41, end: 41.74, text: "Hôm nay tôi kể hết, kể cả phần chưa kể với ai bao giờ." }},
+      {{ start: 42.02, end: 46.32, text: "Bạn nghe cho hết nhé, vì câu trả lời chính tôi cũng phải đến tận cuối mới biết." }},
+      {{ start: 46.82, end: 50.96, text: "Tôi tên Đỗ Văn Lâm, ba mươi mốt tuổi, làm kỹ sư cầu đường ở Sài Gòn." }},
+      {{ start: 51.24, end: 54.82, text: "Quê tôi ở một làng ven sông Luộc, tên làng cho tôi xin giấu." }},
+      {{ start: 55.10, end: 56.53, text: "Tôi là cháu đích tôn." }},
+      {{ start: 56.81, end: 60.07, text: "Bố mẹ tôi có hai anh em, tôi và em gái tôi là Ngân." }},
+      {{ start: 60.35, end: 63.86, text: "Chú út tôi có một đứa con gái, bé Na, năm nay năm tuổi." }},
+      {{ start: 64.14, end: 66.74, text: "Hồi nhỏ tôi ở với bà nội đến năm mười hai tuổi." }},
+      {{ start: 67.02, end: 71.83, text: "Chiều nào bà cũng ngồi ở bậc cửa, giã trầu trong cái cối đồng bé bằng nắm tay." }}
+    ];
+
+    const captionEl = document.getElementById('caption-el');
+    const turbFilter = document.getElementById('turb-filter');
+
+    // Master Timeline
+    const tl = gsap.timeline({{ paused: false }});
+    window.__timelines = window.__timelines || {{}};
+    window.__timelines["main"] = tl;
+
+    // 1. Line-boil effect on twos (~12fps seed stepping)
+    let boilCount = 0;
+    gsap.to({{}}, {{
+      duration: 72.5,
+      repeat: 0,
+      onUpdate: () => {{
+        boilCount++;
+        if (boilCount % 3 === 0 && turbFilter) {{
+          turbFilter.setAttribute('seed', ((boilCount / 3) % 20) + 1);
+        }}
+      }}
+    }});
+
+    // 2. Synchronize Subtitles
+    captions.forEach(c => {{
+      tl.call(() => {{
+        captionEl.textContent = c.text;
+      }}, null, c.start);
+      tl.call(() => {{
+        if (captionEl.textContent === c.text) {{
+          captionEl.textContent = "";
+        }}
+      }}, null, c.end);
+    }});
+
+    // 3. 14 SHOT CUTS & ANIMATIONS (TOTAL: 72.5s)
+    
+    // Shot 1: 0.0s -> 3.8s
+    tl.set("#shot1", {{ opacity: 1 }}, 0);
+    tl.fromTo("#shot1-house", {{ scale: 1.0, transformOrigin: "960px 600px" }}, {{ scale: 1.08, duration: 3.8, ease: "none" }}, 0);
+    tl.to("#shot1-window-light", {{ opacity: 0.5, duration: 0.3, repeat: 10, yoyo: true, ease: "sine.inOut" }}, 0);
+    tl.set("#shot1", {{ opacity: 0 }}, 3.8);
+
+    // Shot 2: 3.8s -> 6.13s
+    tl.set("#shot2", {{ opacity: 1 }}, 3.8);
+    // Narrator head breath & blinking
+    tl.fromTo("#shot2-mouth", {{ scaleY: 0.8 }}, {{ scaleY: 2.2, duration: 0.25, repeat: 8, yoyo: true, transformOrigin: "842px 458px" }}, 3.8);
+    tl.to("#shot2-eye-l", {{ scaleY: 0.1, duration: 0.12, repeat: 3, yoyo: true, transformOrigin: "823px 426px" }}, 4.2);
+    tl.to("#shot2-eye-r", {{ scaleY: 0.1, duration: 0.12, repeat: 3, yoyo: true, transformOrigin: "867px 426px" }}, 4.2);
+    tl.set("#shot2", {{ opacity: 0 }}, 6.13);
+
+    // Shot 3: 6.13s -> 7.94s (Altar Macro & Incense)
+    tl.set("#shot3", {{ opacity: 1 }}, 6.13);
+    // Candle flames pulsing
+    tl.to("#shot3-flame-l", {{ scale: 1.15, transformOrigin: "660px 245px", duration: 0.2, repeat: 8, yoyo: true }}, 6.13);
+    tl.to("#shot3-flame-r", {{ scale: 1.12, transformOrigin: "1260px 245px", duration: 0.22, repeat: 8, yoyo: true }}, 6.13);
+    // Delicate smoke drift
+    tl.fromTo("#shot3-smoke", {{ y: 0, opacity: 0.4 }}, {{ y: -30, opacity: 0.85, duration: 1.81, ease: "none" }}, 6.13);
+    tl.set("#shot3", {{ opacity: 0 }}, 7.94);
+
+    // Shot 4: 7.94s -> 11.24s (Mother counting cloths)
+    tl.set("#shot4", {{ opacity: 1 }}, 7.94);
+    tl.to("#shot4-mother-arm", {{ x: -30, y: -20, duration: 1.6, repeat: 1, yoyo: true, ease: "power1.inOut" }}, 8.0);
+    tl.to("#shot4-fire-flame", {{ scaleY: 1.25, duration: 0.18, repeat: 16, yoyo: true, transformOrigin: "480px 790px" }}, 7.94);
+    tl.set("#shot4", {{ opacity: 0 }}, 11.24);
+
+    // Shot 5: 11.24s -> 14.61s (Top-down hand counting)
+    tl.set("#shot5", {{ opacity: 1 }}, 11.24);
+    tl.to("#shot5-moving-hand", {{ x: -140, y: -40, duration: 1.6, repeat: 1, yoyo: true, ease: "power2.inOut" }}, 11.3);
+    tl.set("#shot5", {{ opacity: 0 }}, 14.61);
+
+    // Shot 6: 14.61s -> 18.26s (Close-up face nervous)
+    tl.set("#shot6", {{ opacity: 1 }}, 14.61);
+    tl.to("#shot6-pupil-l", {{ x: -12, duration: 0.8, repeat: 4, yoyo: true, ease: "sine.inOut" }}, 14.7);
+    tl.to("#shot6-pupil-r", {{ x: -12, duration: 0.8, repeat: 4, yoyo: true, ease: "sine.inOut" }}, 14.7);
+    tl.to("#shot6-mouth", {{ scaleY: 2.0, duration: 0.3, repeat: 10, yoyo: true, transformOrigin: "960px 600px" }}, 14.61);
+    tl.set("#shot6", {{ opacity: 0 }}, 18.26);
+
+    // Shot 7: 18.26s -> 22.33s (Over-the-shoulder Ghost reveal)
+    tl.set("#shot7", {{ opacity: 1 }}, 18.26);
+    tl.fromTo("#shot7-ghost", {{ x: 50, opacity: 0 }}, {{ x: 0, opacity: 0.8, duration: 2.5, ease: "power1.out" }}, 18.5);
+    tl.to("#shot7-ghost", {{ y: -15, duration: 1.2, repeat: 2, yoyo: true, ease: "sine.inOut" }}, 19.5);
+    tl.set("#shot7", {{ opacity: 0 }}, 22.33);
+
+    // Shot 8: 22.33s -> 24.28s (Low-Angle Stinger "Thần Trùng")
+    tl.set("#shot8", {{ opacity: 1 }}, 22.33);
+    // Camera shake keyframes
+    const shakeTl = gsap.timeline();
+    for (let k = 0; k < 15; k++) {{
+      const sx = (k % 2 === 0 ? 1 : -1) * (14 - k * 0.8);
+      const sy = (k % 3 === 0 ? 1 : -1) * (10 - k * 0.6);
+      shakeTl.to("#shot8", {{ x: sx, y: sy, duration: 0.06, ease: "none" }});
+    }}
+    shakeTl.to("#shot8", {{ x: 0, y: 0, duration: 0.05 }});
+    tl.add(shakeTl, 22.33);
+    tl.set("#shot8", {{ opacity: 0 }}, 24.28);
+
+    // Shot 9: 24.28s -> 28.93s (Wide Funeral 31 headbands)
+    tl.set("#shot9", {{ opacity: 1 }}, 24.28);
+    tl.fromTo("#shot9-mourners", {{ y: 0 }}, {{ y: -8, duration: 2.3, repeat: 1, yoyo: true, ease: "sine.inOut" }}, 24.28);
+    tl.set("#shot9", {{ opacity: 0 }}, 28.93);
+
+    // Shot 10: 28.93s -> 34.65s (Split Shock & 32nd Head)
+    tl.set("#shot10", {{ opacity: 1 }}, 28.93);
+    tl.fromTo("#shot10-head-32", {{ y: 60, opacity: 0 }}, {{ y: 0, opacity: 1, duration: 0.8, ease: "back.out(1.5)" }}, 28.93);
+    tl.fromTo("#shot10-number-32", {{ scale: 0.5, opacity: 0 }}, {{ scale: 1.2, opacity: 1, duration: 0.6, ease: "power2.out" }}, 29.2);
+    tl.to("#shot10-number-32", {{ scale: 1.0, duration: 0.4 }}, 29.8);
+    // Subtle breathing pulse & creeping motion during 30s-34.65s so screen stays alive
+    tl.to("#shot10-head-32", {{ y: -12, duration: 1.2, repeat: 3, yoyo: true, ease: "sine.inOut" }}, 30.0);
+    tl.to("#shot10-number-32", {{ opacity: 0.75, duration: 0.35, repeat: 10, yoyo: true, ease: "sine.inOut" }}, 30.2);
+    tl.set("#shot10", {{ opacity: 0 }}, 34.65);
+
+    // Shot 11: 34.65s -> 42.02s (Narrator speaks)
+    tl.set("#shot11", {{ opacity: 1 }}, 34.65);
+    tl.to("#shot11-gesture-arm", {{ rotation: 8, transformOrigin: "1015px 510px", duration: 1.5, repeat: 3, yoyo: true, ease: "sine.inOut" }}, 34.65);
+    tl.to("#shot11-mouth", {{ scaleY: 2.2, duration: 0.28, repeat: 24, yoyo: true, transformOrigin: "962px 420px" }}, 34.65);
+    tl.set("#shot11", {{ opacity: 0 }}, 42.02);
+
+    // Shot 12: 42.02s -> 46.82s (Title & River)
+    tl.set("#shot12", {{ opacity: 1 }}, 42.02);
+    tl.to("#shot12-title", {{ opacity: 1, duration: 1.2, ease: "power1.inOut" }}, 42.5);
+    tl.fromTo("#shot12-boat", {{ x: 0 }}, {{ x: 120, duration: 4.8, ease: "none" }}, 42.02);
+    tl.set("#shot12", {{ opacity: 0 }}, 46.82);
+
+    // Shot 13: 46.82s -> 56.81s (Engineer Lam & River Luoc)
+    tl.set("#shot13", {{ opacity: 1 }}, 46.82);
+    tl.to("#shot13-mouth", {{ scaleY: 2.0, duration: 0.26, repeat: 35, yoyo: true, transformOrigin: "732px 375px" }}, 46.82);
+    tl.set("#shot13", {{ opacity: 0 }}, 56.81);
+
+    // Shot 14: 56.81s -> 72.50s (TÁI HIỆN CHÍNH XÁC ẢNH MẪU YOUTUBE)
+    tl.set("#shot14", {{ opacity: 1 }}, 56.81);
+    
+    // Cậu bé Lâm nằm ngủ: ngực thở phập phồng nhẹ nhàng
+    tl.to("#shot14-boy-torso", {{ scaleY: 1.05, transformOrigin: "525px 475px", duration: 1.8, repeat: 8, yoyo: true, ease: "sine.inOut" }}, 56.81);
+
+    // Bà cụ chớp mắt hiền từ
+    tl.to("#shot14-grandma-eye-l", {{ scaleY: 0.1, duration: 0.15, repeat: 8, yoyo: true, repeatDelay: 1.4, transformOrigin: "1246px 363px" }}, 57.0);
+    tl.to("#shot14-grandma-eye-r", {{ scaleY: 0.1, duration: 0.15, repeat: 8, yoyo: true, repeatDelay: 1.4, transformOrigin: "1283px 363px" }}, 57.0);
+
+    // CÁNH TAY BÀ GIÃ TRẦU ĐỀU ĐẶN VÀO CỐI ĐỒNG (KHỚP TIẾNG SFX CỘC... CỘC...)
+    // Xoay nhẹ cánh tay và hạ chày xuống lòng cối mỗi 0.70 giây
+    tl.to("#shot14-pestle-arm", {{
+      rotation: -14,
+      duration: 0.22,
+      repeat: 21,
+      yoyo: true,
+      ease: "power2.in",
+      repeatDelay: 0.48
+    }}, 57.0);
+
+  </script>
+</body>
+</html>
+"""
+
+with open("projects/than-trung-chiec-khan-tang-thu-32/preview_1min/index.html", "w", encoding="utf-8") as f:
+    f.write(HTML_TEMPLATE)
+
+print("Updated index.html written successfully!")
