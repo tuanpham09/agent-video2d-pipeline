@@ -34,16 +34,18 @@ Thay thế chuỗi "transcript → script → TTS → HyperFrames" bằng chuỗ
 | --- | --- | --- | --- |
 | "làm video `<URL>`" | **A — làm mới từ chủ đề** | chủ đề, phong tục/kiến thức chung, thông tin thật (sự kiện, số liệu có nguồn) | cốt truyện cụ thể, nhân vật, tên, thứ tự tiết lộ, twist, câu chữ |
 | "clone video `<URL>`" | **B — clone công thức** | cấu trúc hook→payoff, nhịp shot, tỉ lệ cỡ cảnh, bảng màu, kiểu chữ, kiểu mix SFX | cốt truyện, nhân vật, lời, khung hình |
+| "làm video: `<ý tưởng sơ qua>`" (không có URL) | **C — từ ý tưởng** | toàn bộ do bạn và agent tạo ra | không dùng nhân vật/thế giới của tác phẩm có bản quyền |
 
-Cả hai chế độ đều bắt đầu bằng **Giai đoạn A (QA)** rồi **Giai đoạn B (Viết lại)**. Chế độ B dùng `/style-sampling` và số đo từ `/reverse-any-video` (chỉ để **đo** nhịp/cỡ cảnh/màu, ghi vào `source/style_sheet.md`), tuyệt đối không dựng lại khung hình hay nhân vật của nguồn.
+Chế độ A và B đều bắt đầu bằng **Giai đoạn A (QA)** rồi **Giai đoạn B (Viết lại)**. Chế độ C bắt đầu bằng **Giai đoạn I (Ý tưởng)** ở mục 3b, rồi vào thẳng Giai đoạn C (demo). Chế độ B dùng `/style-sampling` và số đo từ `/reverse-any-video` (chỉ để **đo** nhịp/cỡ cảnh/màu, ghi vào `source/style_sheet.md`), tuyệt đối không dựng lại khung hình hay nhân vật của nguồn.
 
 Đoạn thay cho phần "Bắt đầu ở đâu" trong `AGENTS.md`:
 
 ```markdown
 ## Bắt đầu ở đâu
 Gọi `/video-pipeline` và đọc `references/workflow-v2.md`.
-- "làm video <URL>"  → Chế độ A. "clone video <URL>" → Chế độ B.
-- Luôn chạy Giai đoạn A (QA nguồn) → B (viết lại, chống reup) → C (demo 30–40 s) → 👤 duyệt → D (full).
+- "làm video <URL>"  → Chế độ A. "clone video <URL>" → Chế độ B. "làm video: <ý tưởng>" (không URL) → Chế độ C.
+- A/B: Giai đoạn A (QA nguồn) → B (viết lại, chống reup). C: Giai đoạn I (ý tưởng → xác nhận → thể loại/nhân vật/bối cảnh → đề cương → kịch bản).
+- Sau đó cả ba: C (demo 30–40 s) → 👤 duyệt → D (full).
 - Không sang giai đoạn sau khi gate chưa pass. Cập nhật `PROJECT.md` sau mỗi gate.
 - Không xuất bản bản dựng lại khung hình/nhân vật của nguồn (`reverse-any-video` chỉ để đo).
 ```
@@ -52,11 +54,60 @@ Gọi `/video-pipeline` và đọc `references/workflow-v2.md`.
 
 ```
 A QA nguồn ─► B Viết lại ─► 👤 duyệt script ─► C DEMO 30–40 s ─► 👤 duyệt demo ─► D FULL ─► E Đóng gói
-              (originality)                    C1 bible  C2 shotlist  C3 voice
-                                               C4 sfx    C5 dựng     C6 QC
+(chế độ A/B)  (originality)                    C1 bible  C2 shotlist  C3 voice
+I Ý tưởng ─► 👤 ─► 👤 ─► 👤 ─► kịch bản ──────► C4 sfx    C5 dựng     C6 QC
+(chế độ C)  I1    I2    I3    I5
 ```
 
-## 4. Giai đoạn A — QA nguồn (`source/qa.md`)
+## 3b. Chế độ C — Từ ý tưởng (Giai đoạn I)
+
+Bạn nhập ý tưởng sơ qua → agent xác nhận → chốt thể loại/nhân vật/bối cảnh → đề cương → kịch bản 10–30 phút (giọng đọc `--speed 1.3`) → vào Giai đoạn C (demo). Mỗi bước 👤 phải được bạn xác nhận trước khi sang bước sau; agent không tự suy diễn tiếp.
+
+**Độ dài kịch bản.** Ước tính từ project Thần Trùng (`Đức Trí`, 1.3×): ≈ 216 từ/phút, câu trung bình 2,8 s. Chỉ để lập kế hoạch; bản cuối chốt theo `manifest.json`.
+
+| Thời lượng | Số từ | Số câu thoại | Chương (đề xuất) |
+| --- | --- | --- | --- |
+| 10 phút | ≈ 2.200 | ≈ 210 | 3–5 |
+| 20 phút | ≈ 4.300 | ≈ 420 | 5–8 |
+| 30 phút | ≈ 6.500 | ≈ 630 | 7–10 |
+
+### I1. Xác nhận ý hiểu (`script/idea.md`) 👤
+- [ ] Ghi lại ý tưởng gốc của bạn nguyên văn.
+- [ ] Viết lại ý hiểu trong 5–7 dòng: chuyện gì xảy ra, ai là trung tâm, vì sao người xem quan tâm, cảm xúc muốn tạo.
+- [ ] Ghi **promise** một câu ("Sau video này, người xem sẽ ______") và người xem mục tiêu.
+- [ ] Liệt kê các chỗ agent **chưa chắc** (tối đa 3 câu hỏi) thay vì tự đoán.
+- [ ] Bạn xác nhận / sửa. Chưa xác nhận → không sang I2.
+
+### I2. Thể loại, nhân vật, bối cảnh (`script/concept.md` + `script/bible.json` bản nháp) 👤
+- [ ] Thể loại + tông (kinh dị dân gian, hài, drama…), kênh đích, format (16:9 / 9:16).
+- [ ] Nhân vật: tên, tuổi, nghề, quan hệ, tính cách, ngoại hình/trang phục, **giọng VieNeu** (khác nhau cho các vai cùng cảnh; theo `/script-rewrite` → `casting-genres.md`).
+- [ ] Bối cảnh: địa điểm chính (tối đa 3–4 cho bản đầu), thời điểm, đạo cụ trung tâm và các trạng thái của chúng.
+- [ ] Bảng cảm xúc (`emotion_vocab`) và phong cách hình (nét vẽ, bảng màu, ánh sáng chủ đạo).
+- [ ] Tốc độ đọc: `--speed 1.3` (ghi vào `concept.md`).
+- [ ] Bạn xác nhận / sửa. Bản bible này là gốc cho C1 của demo, không làm lại từ đầu.
+
+### I3. Đề cương (`script/outline.md`) 👤
+- [ ] Chọn thời lượng mục tiêu 10–30 phút (bảng trên) và số chương.
+- [ ] Mỗi chương: mục tiêu, beat chính, điểm ngoặt/tiết lộ, vòng lặp tò mò mở – đóng, nhân vật xuất hiện, địa điểm.
+- [ ] Hook ≤ 30 s khớp promise; re-hook ở 40–60%; với video > 15 phút thêm pattern interrupt cứ ~8–10 phút (đề xuất; khung chuẩn ở `/long-form-youtube`).
+- [ ] Nhịp cảm xúc tổng thể (đường căng thẳng) và chỗ đặt các cao trào.
+- [ ] Bạn duyệt đề cương **trước** khi viết toàn bộ lời.
+
+### I4. Kiểm tra ý tưởng gốc (thay cho QA nguồn)
+- [ ] Không dùng tên nhân vật, thế giới, khẩu quyết, cốt truyện của tác phẩm đang có bản quyền (tiểu thuyết, phim, game, kênh khác). Nếu ý tưởng bạn đưa vốn dựa trên một tác phẩm → quay về Giai đoạn A để phân loại và xin phép hoặc đổi sang nhân vật/cốt truyện gốc.
+- [ ] Tập tục/truyền thuyết dân gian được dùng làm motif; cách kể và nhân vật là của riêng dự án.
+- [ ] Sự thật dùng trong truyện (nếu có) có nguồn trong `brief.md`.
+- [ ] Ghi kết luận vào `script/concept.md`.
+
+### I5. Viết kịch bản đầy đủ (`script.md` + `script.json`)
+Skill: `/script-rewrite` (§3 viết lời, §4 cast), `/long-form-youtube`, `/storytelling-hooks`.
+- [ ] Viết theo `outline.md`; câu ≤ 25 từ, 1 line = 1 speaker, đúng 3 tag cảm xúc cho phép.
+- [ ] Nhân vật và giọng đúng với `bible.json`; id line theo `S01_L01`.
+- [ ] Đo thời lượng không cần model: `build_voiceover.py --script ... --dry-run` rồi so với mục tiêu; lệch > 10% → cắt/thêm chương, không kéo giãn khoảng nghỉ.
+- [ ] Tự soát theo `/script-rewrite` §6.
+- [ ] 👤 Bạn duyệt `script.md` + `packaging.md`, sau đó mới vào Giai đoạn C (demo 30–40 s).
+
+## 4. Giai đoạn A — QA nguồn (`source/qa.md`) — chế độ A và B
 
 Đầu vào: URL. Đầu ra: `source/{meta.json,transcript.md}` + `source/qa.md` với quyết định **PROCEED / CẦN XIN PHÉP / DỪNG**.
 

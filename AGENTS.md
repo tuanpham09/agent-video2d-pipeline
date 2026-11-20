@@ -6,6 +6,13 @@ Workspace này sản xuất video YouTube / TikTok từ nguồn có sẵn: trans
 
 Gọi skill **`/video-pipeline`** cho mọi yêu cầu làm video. Skill đó giữ thứ tự phase, checkpoint và QC. Không dựng video bằng cách tự viết ffmpeg/PIL thay cho HyperFrames trừ khi người dùng yêu cầu.
 
+Quy trình chi tiết, checklist từng giai đoạn và các gate: `.agents/skills/video-pipeline/references/workflow-v2.md`.
+
+- "làm video <URL>" → Chế độ A. "clone video <URL>" → Chế độ B. "làm video: <ý tưởng>" (không URL) → Chế độ C.
+- A/B: QA nguồn → viết lại chống reup (`originality_check.py`). C: xác nhận ý hiểu → thể loại/nhân vật/bối cảnh → đề cương → kịch bản 10–30 phút (`--speed 1.3`).
+- Cả ba: demo 30–40 s (`check_shots.py`, `check_sync.py`) → người dùng duyệt → mới làm full. Không sang giai đoạn sau khi gate chưa pass; cập nhật `PROJECT.md` sau mỗi gate.
+- `reverse-any-video` chỉ để đo nhịp/cỡ cảnh/màu; không xuất bản bản dựng lại khung hình hay nhân vật của nguồn.
+
 Chuỗi skill:
 
 1. `/baoyu-youtube-transcript` — lấy transcript, metadata, cover.
