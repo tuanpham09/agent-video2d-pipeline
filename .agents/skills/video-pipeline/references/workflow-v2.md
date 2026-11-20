@@ -176,6 +176,9 @@ Script này **chỉ đo lời**. "Đổi tên + đổi từ nhưng giữ nguyên
 ```
 - [ ] Mỗi nhân vật: 1 file rig SVG, nhóm có tên (đầu, mắt, mí, đồng tử, mày, 4 hình miệng, thân, vai/tay có pivot). **Màu lấy từ bible, không gõ lại hex trong generator.**
 - [ ] Tấm **pose sheet** mỗi nhân vật (đứng/ngồi × 5 cảm xúc chính) render ra ảnh để duyệt trước khi dựng shot.
+  - Sinh tự động: `python .agents/skills/video-pipeline/scripts/build_rig.py --bible projects/<slug>/script/bible.json --out projects/<slug>/assets/rig` → `<id>.svg` + `sheets/<id>.png` + `sheets/lineup.png`. Script tự kiểm tràn khung (mọi tổ hợp tư thế × cảm xúc) và khớp id/giọng với `script.json`.
+  - Quy ước rig: `l`/`r` theo giải phẫu nhân vật; cảm xúc/tư thế/miệng điều khiển bằng data-attribute trên `<g class="rig">` (CSS biến; danh sách trong docstring build_rig.py), không đổi DOM; viewBox `0 0 520 600`.
+  - ⚠️ Khớp vai/khuỷu dùng pivot theo toạ độ viewBox (`Rig.pivots()`), **khác** luật `0% 0%` trong AGENTS.md vì cánh tay 2 đoạn cần xoay quanh đúng vai. Chi tiết mặt vẫn `50% 50%`. Chưa kiểm trong HyperFrames/GSAP: kiểm ở demo C1 trước khi khoá.
 - [ ] Mỗi địa điểm: 3 lớp (xa/giữa/gần) + các trạng thái ánh sáng; đạo cụ có file riêng + các trạng thái (bàn thờ, khăn, cối, gương…).
 - [ ] Giọng: nhân vật xuất hiện chung một cảnh phải khác giọng; vai phụ chỉ dùng chung giọng khi không bao giờ cùng cảnh.
 - [ ] `emotion_vocab` thay cho "31 sắc thái" (xóa các tham chiếu `claude-animation-base` hoặc thêm skill đó vào repo).

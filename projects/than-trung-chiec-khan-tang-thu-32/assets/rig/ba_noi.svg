@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 600" role="img" aria-label="Bà nội (ba_noi)"><title>Bà nội (ba_noi)</title><style>.rig-ba_noi .arm,.rig-ba_noi .fore{transform-box:view-box}
+.rig-ba_noi .arm-l{transform-origin:298px 318px}
+.rig-ba_noi .arm-r{transform-origin:222px 318px}
+.rig-ba_noi .fore-l{transform-origin:298px 388px}
+.rig-ba_noi .fore-r{transform-origin:222px 388px}
+.rig-ba_noi .eye,.rig-ba_noi .sclera,.rig-ba_noi .pupil,.rig-ba_noi .brow,.rig-ba_noi .m-closed{transform-box:fill-box;transform-origin:50% 50%}
+.rig-ba_noi .lid{transform-box:fill-box;transform-origin:50% 0%;transform:scaleY(var(--lid,0))}
+.rig-ba_noi .eye{transform:scale(var(--es,1))}
+.rig-ba_noi .pupil{transform:translate(var(--gx,0px),var(--gy,0px)) scale(var(--ps,1))}
+.rig-ba_noi .brow-r{transform:translateY(calc(var(--byr,0) * 1px)) rotate(calc(var(--br,0) * -1deg))}
+.rig-ba_noi .brow-l{transform:translateY(calc(var(--byl,0) * 1px)) rotate(calc(var(--br,0) * 1deg))}
+.rig-ba_noi .shade{opacity:var(--shade,0)}
+.rig-ba_noi .tears{opacity:var(--tear,0)}
+.rig-ba_noi .m-closed{transform:scaleY(var(--mc,.9))}
+.rig-ba_noi .mouth>*{display:none}
+.rig-ba_noi[data-blink='1']{--lid:1}
+.rig-ba_noi[data-khan='off'] .acc-khan{display:none}
+.rig-ba_noi .lap{display:none}
+.rig-ba_noi[data-stance='sit'] .lap{display:inline}
+.rig-ba_noi[data-stance='sit'] .legs{display:none}
+.rig-ba_noi[data-stance='sit'] .body{transform:translateY(56px)}
+.rig-ba_noi[data-emotion='calm']{--byl:0;--byr:0;--br:0;--lid:0.0;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:0.9;--gx:0px}
+.rig-ba_noi[data-emotion='calm'][data-mouth='auto'] .m-closed{display:inline}
+.rig-ba_noi[data-emotion='focused']{--byl:2;--byr:2;--br:-7;--lid:0.18;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:0.15;--gx:0px}
+.rig-ba_noi[data-emotion='focused'][data-mouth='auto'] .m-closed{display:inline}
+.rig-ba_noi[data-emotion='worried']{--byl:-3;--byr:-3;--br:14;--lid:0.08;--ps:0.95;--es:1.0;--shade:0.0;--tear:0;--mc:-0.9;--gx:0px}
+.rig-ba_noi[data-emotion='worried'][data-mouth='auto'] .m-closed{display:inline}
+.rig-ba_noi[data-emotion='afraid']{--byl:-9;--byr:-9;--br:10;--lid:0.0;--ps:0.7;--es:1.12;--shade:0.0;--tear:0;--mc:0.0;--gx:0px}
+.rig-ba_noi[data-emotion='afraid'][data-mouth='auto'] .m-half{display:inline}
+.rig-ba_noi[data-emotion='shocked']{--byl:-11;--byr:-11;--br:0;--lid:0.0;--ps:0.5;--es:1.15;--shade:0.0;--tear:0;--mc:0.0;--gx:0px}
+.rig-ba_noi[data-emotion='shocked'][data-mouth='auto'] .m-round{display:inline}
+.rig-ba_noi[data-emotion='dread']{--byl:-2;--byr:-2;--br:8;--lid:0.32;--ps:0.7;--es:1.0;--shade:0.28;--tear:0;--mc:-1.1;--gx:0px}
+.rig-ba_noi[data-emotion='dread'][data-mouth='auto'] .m-closed{display:inline}
+.rig-ba_noi[data-emotion='sad']{--byl:-2;--byr:-2;--br:16;--lid:0.28;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:-1.0;--gx:0px}
+.rig-ba_noi[data-emotion='sad'][data-mouth='auto'] .m-closed{display:inline}
+.rig-ba_noi[data-emotion='grief']{--byl:-3;--byr:-3;--br:20;--lid:0.42;--ps:1.0;--es:1.0;--shade:0.0;--tear:1;--mc:0.0;--gx:0px}
+.rig-ba_noi[data-emotion='grief'][data-mouth='auto'] .m-half{display:inline}
+.rig-ba_noi[data-emotion='angry']{--byl:3;--byr:3;--br:-18;--lid:0.2;--ps:0.9;--es:1.0;--shade:0.0;--tear:0;--mc:-1.3;--gx:0px}
+.rig-ba_noi[data-emotion='angry'][data-mouth='auto'] .m-closed{display:inline}
+.rig-ba_noi[data-emotion='suspicious']{--byl:-9;--byr:3;--br:-4;--lid:0.34;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:-0.3;--gx:6px}
+.rig-ba_noi[data-emotion='suspicious'][data-mouth='auto'] .m-closed{display:inline}
+.rig-ba_noi[data-emotion='relieved']{--byl:-4;--byr:-4;--br:8;--lid:0.3;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:1.7;--gx:0px}
+.rig-ba_noi[data-emotion='relieved'][data-mouth='auto'] .m-closed{display:inline}
+.rig-ba_noi[data-mouth='closed'] .m-closed{display:inline}
+.rig-ba_noi[data-mouth='half'] .m-half{display:inline}
+.rig-ba_noi[data-mouth='open'] .m-open{display:inline}
+.rig-ba_noi[data-mouth='round'] .m-round{display:inline}
+.rig-ba_noi[data-gaze='left']{--gx:-5px;--gy:0px}
+.rig-ba_noi[data-gaze='right']{--gx:5px;--gy:0px}
+.rig-ba_noi[data-gaze='up']{--gx:0px;--gy:-4px}
+.rig-ba_noi[data-gaze='down']{--gx:0px;--gy:4px}
+.rig-ba_noi[data-pose='idle'] .arm-l{transform:rotate(-4deg)}
+.rig-ba_noi[data-pose='idle'] .fore-l{transform:rotate(0deg)}
+.rig-ba_noi[data-pose='idle'] .arm-r{transform:rotate(4deg)}
+.rig-ba_noi[data-pose='idle'] .fore-r{transform:rotate(0deg)}
+.rig-ba_noi[data-pose='clasp'] .arm-l{transform:rotate(-8deg)}
+.rig-ba_noi[data-pose='clasp'] .fore-l{transform:rotate(92deg)}
+.rig-ba_noi[data-pose='clasp'] .arm-r{transform:rotate(8deg)}
+.rig-ba_noi[data-pose='clasp'] .fore-r{transform:rotate(-92deg)}
+.rig-ba_noi[data-pose='point-l'] .arm-l{transform:rotate(-72deg)}
+.rig-ba_noi[data-pose='point-l'] .fore-l{transform:rotate(-8deg)}
+.rig-ba_noi[data-pose='point-l'] .arm-r{transform:rotate(4deg)}
+.rig-ba_noi[data-pose='point-l'] .fore-r{transform:rotate(0deg)}
+.rig-ba_noi[data-pose='reach-l'] .arm-l{transform:rotate(-95deg)}
+.rig-ba_noi[data-pose='reach-l'] .fore-l{transform:rotate(-4deg)}
+.rig-ba_noi[data-pose='reach-l'] .arm-r{transform:rotate(4deg)}
+.rig-ba_noi[data-pose='reach-l'] .fore-r{transform:rotate(0deg)}
+.rig-ba_noi[data-pose='raise-both'] .arm-l{transform:rotate(-50deg)}
+.rig-ba_noi[data-pose='raise-both'] .fore-l{transform:rotate(-130deg)}
+.rig-ba_noi[data-pose='raise-both'] .arm-r{transform:rotate(50deg)}
+.rig-ba_noi[data-pose='raise-both'] .fore-r{transform:rotate(130deg)}</style><g class="rig rig-ba_noi" data-emotion="calm" data-mouth="auto" data-pose="idle" data-stance="stand" data-gaze="center" data-blink="0" data-khan="on"><ellipse class="floor-shadow" cx="260" cy="578" rx="82.8" ry="9" fill="#000" opacity="0.28"/><g class="scale" transform="translate(260 580) scale(0.86) translate(-260 -580)"><g class="body"><g class="legs"><rect x="224" y="470" width="24" height="98" rx="10" fill="#483424" stroke="#1f140b" stroke-width="5"/><ellipse cx="236" cy="572" rx="23" ry="11" fill="#120d09" stroke="#1f140b" stroke-width="3"/><rect x="272" y="470" width="24" height="98" rx="10" fill="#483424" stroke="#1f140b" stroke-width="5"/><ellipse cx="284" cy="572" rx="23" ry="11" fill="#120d09" stroke="#1f140b" stroke-width="3"/></g><ellipse class="lap" cx="260" cy="500" rx="87.4" ry="30" fill="#483424" stroke="#1f140b" stroke-width="6"/><rect class="neck" x="248" y="266" width="24" height="44" rx="6" fill="#c48a5d" stroke="#1f140b" stroke-width="5"/><rect class="torso" x="214" y="300" width="92" height="195" rx="26" fill="#584333" stroke="#1f140b" stroke-width="6"/><path class="collar" d="M 240 302 L 260 338 L 280 302 Z" fill="#c48a5d" stroke="#1f140b" stroke-width="4" stroke-linejoin="round"/><g class="arm arm-r"><line x1="222" y1="318" x2="222" y2="388" stroke="#1f140b" stroke-width="36" stroke-linecap="round"/><line x1="222" y1="318" x2="222" y2="388" stroke="#483424" stroke-width="26" stroke-linecap="round"/><g class="fore fore-r"><line x1="222" y1="388" x2="222" y2="450" stroke="#1f140b" stroke-width="34" stroke-linecap="round"/><line x1="222" y1="388" x2="222" y2="450" stroke="#483424" stroke-width="24" stroke-linecap="round"/><circle class="hand" cx="222" cy="462" r="15" fill="#c48a5d" stroke="#1f140b" stroke-width="4"/></g></g><g class="arm arm-l"><line x1="298" y1="318" x2="298" y2="388" stroke="#1f140b" stroke-width="36" stroke-linecap="round"/><line x1="298" y1="318" x2="298" y2="388" stroke="#483424" stroke-width="26" stroke-linecap="round"/><g class="fore fore-l"><line x1="298" y1="388" x2="298" y2="450" stroke="#1f140b" stroke-width="34" stroke-linecap="round"/><line x1="298" y1="388" x2="298" y2="450" stroke="#483424" stroke-width="24" stroke-linecap="round"/><circle class="hand" cx="298" cy="462" r="15" fill="#c48a5d" stroke="#1f140b" stroke-width="4"/></g></g><g class="head" transform="translate(0 12.6)"><ellipse cx="260" cy="205" rx="62" ry="66" fill="#eae4db" stroke="#1f140b" stroke-width="5"/><circle class="bun" cx="260" cy="132" r="24" fill="#eae4db" stroke="#1f140b" stroke-width="5"/><circle cx="202" cy="226" r="10" fill="#c48a5d" stroke="#1f140b" stroke-width="4"/><circle cx="318" cy="226" r="10" fill="#c48a5d" stroke="#1f140b" stroke-width="4"/><ellipse class="face" cx="260" cy="215" rx="58" ry="62" fill="#c48a5d" stroke="#1f140b" stroke-width="6"/><path class="hair-front" d="M 200 206 Q 196 148 260 146 Q 324 148 320 206 Q 302 176 260 174 Q 218 176 200 206 Z" fill="#eae4db" stroke="#1f140b" stroke-width="5" stroke-linejoin="round"/><path d="M 230 190 Q 260 184 290 190" stroke="#1f140b" stroke-width="2.6" stroke-linecap="round" fill="none" opacity="0.5"/><path d="M 208 232 l 8 3 M 208 241 l 8 -2 M 312 232 l -8 3 M 312 241 l -8 -2" stroke="#1f140b" stroke-width="2.6" stroke-linecap="round" fill="none" opacity="0.5"/><path d="M 234 178 Q 260 172 286 178 M 228 248 Q 234 262 242 268 M 292 248 Q 286 262 278 268" stroke="#1f140b" stroke-width="2.6" stroke-linecap="round" fill="none" opacity="0.5"/><path d="M 255 236 Q 260 242 266 236" stroke="#1f140b" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eye-r"><ellipse class="sclera" cx="236" cy="222" rx="13" ry="15" fill="#fffdf7" stroke="#1f140b" stroke-width="4"/><circle class="pupil" cx="236" cy="224" r="6.5" fill="#1b120c"/><ellipse class="lid" cx="236" cy="222" rx="14.5" ry="16.5" fill="#c48a5d"/></g><g class="eye eye-l"><ellipse class="sclera" cx="284" cy="222" rx="13" ry="15" fill="#fffdf7" stroke="#1f140b" stroke-width="4"/><circle class="pupil" cx="284" cy="224" r="6.5" fill="#1b120c"/><ellipse class="lid" cx="284" cy="222" rx="14.5" ry="16.5" fill="#c48a5d"/></g><path class="brow brow-r" d="M 222 200 Q 236 192 250 200" stroke="#8d857a" stroke-width="5.5" stroke-linecap="round" fill="none"/><path class="brow brow-l" d="M 270 200 Q 284 192 298 200" stroke="#8d857a" stroke-width="5.5" stroke-linecap="round" fill="none"/><path class="tears" d="M 230 238 q -3 14 0 22 M 290 238 q 3 14 0 22" stroke="#cfe6ee" stroke-width="5" stroke-linecap="round" fill="none"/><g class="mouth" transform="translate(260 262) scale(1.0)"><path class="m-closed" d="M -16 -2 Q 0 8 16 -2" stroke="#1f140b" stroke-width="4.5" stroke-linecap="round" fill="none"/><ellipse class="m-half" cx="0" cy="1" rx="11" ry="5.5" fill="#4a1a14" stroke="#1f140b" stroke-width="4"/><ellipse class="m-open" cx="0" cy="3" rx="12" ry="12" fill="#4a1a14" stroke="#1f140b" stroke-width="4"/><ellipse class="m-round" cx="0" cy="2" rx="7" ry="8" fill="#4a1a14" stroke="#1f140b" stroke-width="4"/></g><ellipse class="shade" cx="260" cy="215" rx="58" ry="62" fill="#000"/></g></g></g></g></svg>

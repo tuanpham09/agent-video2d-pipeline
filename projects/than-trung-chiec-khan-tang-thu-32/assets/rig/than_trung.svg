@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 600" role="img" aria-label="Thần Trùng (than_trung)"><title>Thần Trùng (than_trung)</title><style>.rig-than_trung .arm,.rig-than_trung .fore{transform-box:view-box}
+.rig-than_trung .arm-l{transform-origin:317px 318px}
+.rig-than_trung .arm-r{transform-origin:203px 318px}
+.rig-than_trung .fore-l{transform-origin:317px 388px}
+.rig-than_trung .fore-r{transform-origin:203px 388px}
+.rig-than_trung .eye,.rig-than_trung .sclera,.rig-than_trung .pupil,.rig-than_trung .brow,.rig-than_trung .m-closed{transform-box:fill-box;transform-origin:50% 50%}
+.rig-than_trung .lid{transform-box:fill-box;transform-origin:50% 0%;transform:scaleY(var(--lid,0))}
+.rig-than_trung .eye{transform:scale(var(--es,1))}
+.rig-than_trung .pupil{transform:translate(var(--gx,0px),var(--gy,0px)) scale(var(--ps,1))}
+.rig-than_trung .brow-r{transform:translateY(calc(var(--byr,0) * 1px)) rotate(calc(var(--br,0) * -1deg))}
+.rig-than_trung .brow-l{transform:translateY(calc(var(--byl,0) * 1px)) rotate(calc(var(--br,0) * 1deg))}
+.rig-than_trung .shade{opacity:var(--shade,0)}
+.rig-than_trung .tears{opacity:var(--tear,0)}
+.rig-than_trung .m-closed{transform:scaleY(var(--mc,.9))}
+.rig-than_trung .mouth>*{display:none}
+.rig-than_trung[data-blink='1']{--lid:1}
+.rig-than_trung[data-khan='off'] .acc-khan{display:none}
+.rig-than_trung .lap{display:none}
+.rig-than_trung[data-stance='sit'] .lap{display:inline}
+.rig-than_trung[data-stance='sit'] .legs{display:none}
+.rig-than_trung[data-stance='sit'] .body{transform:translateY(56px)}
+.rig-than_trung[data-emotion='calm']{--byl:0;--byr:0;--br:0;--lid:0.0;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:0.9;--gx:0px}
+.rig-than_trung[data-emotion='calm'][data-mouth='auto'] .m-closed{display:inline}
+.rig-than_trung[data-emotion='focused']{--byl:2;--byr:2;--br:-7;--lid:0.18;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:0.15;--gx:0px}
+.rig-than_trung[data-emotion='focused'][data-mouth='auto'] .m-closed{display:inline}
+.rig-than_trung[data-emotion='worried']{--byl:-3;--byr:-3;--br:14;--lid:0.08;--ps:0.95;--es:1.0;--shade:0.0;--tear:0;--mc:-0.9;--gx:0px}
+.rig-than_trung[data-emotion='worried'][data-mouth='auto'] .m-closed{display:inline}
+.rig-than_trung[data-emotion='afraid']{--byl:-9;--byr:-9;--br:10;--lid:0.0;--ps:0.7;--es:1.12;--shade:0.0;--tear:0;--mc:0.0;--gx:0px}
+.rig-than_trung[data-emotion='afraid'][data-mouth='auto'] .m-half{display:inline}
+.rig-than_trung[data-emotion='shocked']{--byl:-11;--byr:-11;--br:0;--lid:0.0;--ps:0.5;--es:1.15;--shade:0.0;--tear:0;--mc:0.0;--gx:0px}
+.rig-than_trung[data-emotion='shocked'][data-mouth='auto'] .m-round{display:inline}
+.rig-than_trung[data-emotion='dread']{--byl:-2;--byr:-2;--br:8;--lid:0.32;--ps:0.7;--es:1.0;--shade:0.28;--tear:0;--mc:-1.1;--gx:0px}
+.rig-than_trung[data-emotion='dread'][data-mouth='auto'] .m-closed{display:inline}
+.rig-than_trung[data-emotion='sad']{--byl:-2;--byr:-2;--br:16;--lid:0.28;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:-1.0;--gx:0px}
+.rig-than_trung[data-emotion='sad'][data-mouth='auto'] .m-closed{display:inline}
+.rig-than_trung[data-emotion='grief']{--byl:-3;--byr:-3;--br:20;--lid:0.42;--ps:1.0;--es:1.0;--shade:0.0;--tear:1;--mc:0.0;--gx:0px}
+.rig-than_trung[data-emotion='grief'][data-mouth='auto'] .m-half{display:inline}
+.rig-than_trung[data-emotion='angry']{--byl:3;--byr:3;--br:-18;--lid:0.2;--ps:0.9;--es:1.0;--shade:0.0;--tear:0;--mc:-1.3;--gx:0px}
+.rig-than_trung[data-emotion='angry'][data-mouth='auto'] .m-closed{display:inline}
+.rig-than_trung[data-emotion='suspicious']{--byl:-9;--byr:3;--br:-4;--lid:0.34;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:-0.3;--gx:6px}
+.rig-than_trung[data-emotion='suspicious'][data-mouth='auto'] .m-closed{display:inline}
+.rig-than_trung[data-emotion='relieved']{--byl:-4;--byr:-4;--br:8;--lid:0.3;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:1.7;--gx:0px}
+.rig-than_trung[data-emotion='relieved'][data-mouth='auto'] .m-closed{display:inline}
+.rig-than_trung[data-mouth='closed'] .m-closed{display:inline}
+.rig-than_trung[data-mouth='half'] .m-half{display:inline}
+.rig-than_trung[data-mouth='open'] .m-open{display:inline}
+.rig-than_trung[data-mouth='round'] .m-round{display:inline}
+.rig-than_trung[data-gaze='left']{--gx:-5px;--gy:0px}
+.rig-than_trung[data-gaze='right']{--gx:5px;--gy:0px}
+.rig-than_trung[data-gaze='up']{--gx:0px;--gy:-4px}
+.rig-than_trung[data-gaze='down']{--gx:0px;--gy:4px}
+.rig-than_trung[data-pose='idle'] .arm-l{transform:rotate(-4deg)}
+.rig-than_trung[data-pose='idle'] .fore-l{transform:rotate(0deg)}
+.rig-than_trung[data-pose='idle'] .arm-r{transform:rotate(4deg)}
+.rig-than_trung[data-pose='idle'] .fore-r{transform:rotate(0deg)}
+.rig-than_trung[data-pose='clasp'] .arm-l{transform:rotate(-8deg)}
+.rig-than_trung[data-pose='clasp'] .fore-l{transform:rotate(92deg)}
+.rig-than_trung[data-pose='clasp'] .arm-r{transform:rotate(8deg)}
+.rig-than_trung[data-pose='clasp'] .fore-r{transform:rotate(-92deg)}
+.rig-than_trung[data-pose='point-l'] .arm-l{transform:rotate(-72deg)}
+.rig-than_trung[data-pose='point-l'] .fore-l{transform:rotate(-8deg)}
+.rig-than_trung[data-pose='point-l'] .arm-r{transform:rotate(4deg)}
+.rig-than_trung[data-pose='point-l'] .fore-r{transform:rotate(0deg)}
+.rig-than_trung[data-pose='reach-l'] .arm-l{transform:rotate(-95deg)}
+.rig-than_trung[data-pose='reach-l'] .fore-l{transform:rotate(-4deg)}
+.rig-than_trung[data-pose='reach-l'] .arm-r{transform:rotate(4deg)}
+.rig-than_trung[data-pose='reach-l'] .fore-r{transform:rotate(0deg)}
+.rig-than_trung[data-pose='raise-both'] .arm-l{transform:rotate(-50deg)}
+.rig-than_trung[data-pose='raise-both'] .fore-l{transform:rotate(-130deg)}
+.rig-than_trung[data-pose='raise-both'] .arm-r{transform:rotate(50deg)}
+.rig-than_trung[data-pose='raise-both'] .fore-r{transform:rotate(130deg)}</style><g class="rig rig-than_trung" data-emotion="calm" data-mouth="auto" data-pose="idle" data-stance="stand" data-gaze="center" data-blink="0" data-khan="on"><ellipse class="floor-shadow" cx="260" cy="578" rx="117" ry="9" fill="#000" opacity="0.28"/><g class="scale" transform="translate(260 580) scale(1.12) translate(-260 -580)"><g class="body"><g class="legs"><rect x="224" y="470" width="24" height="98" rx="10" fill="#07070a" stroke="#000000" stroke-width="5"/><ellipse cx="236" cy="572" rx="23" ry="11" fill="#000000" stroke="#000000" stroke-width="3"/><rect x="272" y="470" width="24" height="98" rx="10" fill="#07070a" stroke="#000000" stroke-width="5"/><ellipse cx="284" cy="572" rx="23" ry="11" fill="#000000" stroke="#000000" stroke-width="3"/></g><ellipse class="lap" cx="260" cy="500" rx="123.5" ry="30" fill="#07070a" stroke="#000000" stroke-width="6"/><rect class="neck" x="248" y="266" width="24" height="44" rx="6" fill="#07070a" stroke="#000000" stroke-width="5"/><rect class="torso" x="195" y="300" width="130" height="195" rx="26" fill="#07070a" stroke="#000000" stroke-width="6"/><path class="collar" d="M 240 302 L 260 338 L 280 302 Z" fill="#07070a" stroke="#000000" stroke-width="4" stroke-linejoin="round"/><path d="M 218.4 330 q -10 60 6 120" stroke="#000000" stroke-width="20" stroke-linecap="round" fill="none"/><path d="M 218.4 330 q -10 60 6 120" stroke="#f4f1ea" stroke-width="12" stroke-linecap="round" fill="none"/><path d="M 304.2 330 q -10 48 6 96" stroke="#000000" stroke-width="20" stroke-linecap="round" fill="none"/><path d="M 304.2 330 q -10 48 6 96" stroke="#f4f1ea" stroke-width="12" stroke-linecap="round" fill="none"/><g class="arm arm-r"><line x1="203" y1="318" x2="203" y2="388" stroke="#000000" stroke-width="36" stroke-linecap="round"/><line x1="203" y1="318" x2="203" y2="388" stroke="#07070a" stroke-width="26" stroke-linecap="round"/><g class="fore fore-r"><line x1="203" y1="388" x2="203" y2="450" stroke="#000000" stroke-width="34" stroke-linecap="round"/><line x1="203" y1="388" x2="203" y2="450" stroke="#07070a" stroke-width="24" stroke-linecap="round"/><circle class="hand" cx="203" cy="462" r="15" fill="#07070a" stroke="#000000" stroke-width="4"/></g></g><g class="arm arm-l"><line x1="317" y1="318" x2="317" y2="388" stroke="#000000" stroke-width="36" stroke-linecap="round"/><line x1="317" y1="318" x2="317" y2="388" stroke="#07070a" stroke-width="26" stroke-linecap="round"/><g class="fore fore-l"><line x1="317" y1="388" x2="317" y2="450" stroke="#000000" stroke-width="34" stroke-linecap="round"/><line x1="317" y1="388" x2="317" y2="450" stroke="#07070a" stroke-width="24" stroke-linecap="round"/><circle class="hand" cx="317" cy="462" r="15" fill="#07070a" stroke="#000000" stroke-width="4"/></g></g><g class="head" transform="translate(0 0)"><circle cx="202" cy="226" r="10" fill="#07070a" stroke="#000000" stroke-width="4"/><circle cx="318" cy="226" r="10" fill="#07070a" stroke="#000000" stroke-width="4"/><ellipse class="face" cx="260" cy="215" rx="58" ry="62" fill="#07070a" stroke="#000000" stroke-width="6"/><path d="M 255 236 Q 260 242 266 236" stroke="#000000" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eye-r"><ellipse class="sclera" cx="236" cy="222" rx="20" ry="22" fill="#ffffff" stroke="#000000" stroke-width="4"/><circle class="pupil" cx="236" cy="224" r="6" fill="#d01010"/><ellipse class="lid" cx="236" cy="222" rx="21.5" ry="23.5" fill="#07070a"/></g><g class="eye eye-l"><ellipse class="sclera" cx="284" cy="222" rx="20" ry="22" fill="#ffffff" stroke="#000000" stroke-width="4"/><circle class="pupil" cx="284" cy="224" r="6" fill="#d01010"/><ellipse class="lid" cx="284" cy="222" rx="21.5" ry="23.5" fill="#07070a"/></g><path class="tears" d="M 230 238 q -3 14 0 22 M 290 238 q 3 14 0 22" stroke="#cfe6ee" stroke-width="5" stroke-linecap="round" fill="none"/><g class="mouth" transform="translate(260 262) scale(1.9)"><path class="m-closed" d="M -16 -2 Q 0 8 16 -2" stroke="#e8e4db" stroke-width="4.5" stroke-linecap="round" fill="none"/><ellipse class="m-half" cx="0" cy="1" rx="11" ry="5.5" fill="#000000" stroke="#e8e4db" stroke-width="4"/><ellipse class="m-open" cx="0" cy="3" rx="12" ry="12" fill="#000000" stroke="#e8e4db" stroke-width="4"/><ellipse class="m-round" cx="0" cy="2" rx="7" ry="8" fill="#000000" stroke="#e8e4db" stroke-width="4"/></g><ellipse class="shade" cx="260" cy="215" rx="58" ry="62" fill="#000"/><g class="acc-khan"><path d="M 316 176 Q 348 216 334 276" stroke="#000000" stroke-width="20" stroke-linecap="round" fill="none"/><path d="M 316 176 Q 348 216 334 276" stroke="#f4f1ea" stroke-width="12" stroke-linecap="round" fill="none"/><path d="M 200 167 Q 260 148 320 167 L 320 183 Q 260 164 200 183 Z" fill="#f4f1ea" stroke="#000000" stroke-width="4" stroke-linejoin="round"/></g></g></g></g></g></svg>

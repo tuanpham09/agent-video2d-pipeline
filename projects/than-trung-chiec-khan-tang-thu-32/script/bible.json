@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "project": "than-trung-chiec-khan-tang-thu-32",
+    "status": "nháp — 5 nhân vật chính đã có rig; chưa có locations/props",
+    "provenance": "Nhân vật lấy từ brief.md (nguồn h2vVFeUv7a4). Theo workflow-v2, nếu viết lại kịch bản (chế độ A/B) thì tên/quan hệ sẽ đổi; rig dùng lại được, chỉ cần đổi id/name/voice/design.",
+    "side_convention": "l/r theo giải phẫu nhân vật: l = bên trái nhân vật = bên phải người xem"
+  },
+  "emotion_vocab": ["calm", "focused", "worried", "afraid", "shocked", "dread", "sad", "grief", "angry", "suspicious", "relieved"],
+  "style": {
+    "line": "nét viền dày 4-6px màu ink; line-boil bằng filter ở lớp cảnh, không đặt trong rig",
+    "palette": {
+      "skin": "#cf9063",
+      "skin_old": "#c48a5d",
+      "ink": "#1f140b",
+      "hair_black": "#1b120c",
+      "hair_white": "#eae4db",
+      "brow_white": "#8d857a",
+      "robe_mourning": "#e6e0d3",
+      "robe_mourning_dark": "#cfc8b8",
+      "robe_brown": "#584333",
+      "robe_brown_dark": "#483424",
+      "robe_indigo": "#2b2f45",
+      "robe_indigo_dark": "#20233a",
+      "khan_white": "#f4f1ea",
+      "shadow_body": "#07070a",
+      "shadow_ink": "#000000",
+      "shadow_eye": "#ffffff",
+      "shadow_pupil": "#d01010",
+      "shadow_line": "#e8e4db"
+    }
+  },
+  "pivots_note": "Khớp vai/khuỷu: transform-box view-box, toạ độ theo viewBox 0 0 520 600 của file rig (xem Rig.pivots() trong build_rig.py). Chi tiết mặt: 50% 50%.",
+  "characters": [
+    {
+      "id": "host",
+      "name": "Đỗ Văn Lâm (Người kể)",
+      "voice": "Đức Trí",
+      "design": "31 tuổi, kỹ sư cầu đường ở Sài Gòn (nguồn). Tóc đen ngắn; sẹo nhỏ trên lông mày trái (nguồn: sẹo trên lông mày, bên trái là chọn thiết kế); đồ tang áo xô trắng ngà (đề xuất thiết kế); khăn tang có thể tháo (prop khan_xo).",
+      "rig": {
+        "file": "assets/rig/host.svg",
+        "scale": 1.0, "body_w": 100, "hunch": 0,
+        "robe": "robe_mourning", "sleeve": "robe_mourning_dark", "pants": "robe_mourning_dark",
+        "hair": "short", "hair_color": "hair_black",
+        "headband": true, "khan_default": "on",
+        "scar": "l", "wrinkles": 0
+      },
+      "mouth_shapes": ["closed", "half", "open", "round"],
+      "idle": {"breath_s": 3.6, "blink_s": [2.5, 5.5], "seed": 31},
+      "also_voices": ["lam_that (Lâm thật trong hũ) cùng giọng Đức Trí: khác cảnh, không bao giờ cùng khung"]
+    },
+    {
+      "id": "ong_cuu",
+      "name": "Ông Cửu (Thầy nhốt trùng)",
+      "voice": "Thiền Tâm Đức",
+      "design": "84 tuổi, mắt trái đục (nguồn). Khăn xếp đen, râu dê bạc, áo the thâm (đề xuất thiết kế). Prop đi kèm: hũ sành bịt vải đỏ.",
+      "rig": {
+        "file": "assets/rig/ong_cuu.svg",
+        "scale": 0.93, "body_w": 96, "hunch": 0.5,
+        "skin": "skin_old", "robe": "robe_indigo", "sleeve": "robe_indigo_dark", "pants": "robe_indigo_dark", "sash": "robe_brown",
+        "hair": "none", "hat": "khan-xep", "hair_color": "hair_white", "brow_color": "brow_white",
+        "beard": true, "cloudy_eye": "l", "wrinkles": 2
+      },
+      "mouth_shapes": ["closed", "half", "open", "round"],
+      "idle": {"breath_s": 3.0, "blink_s": [3.0, 6.5], "seed": 84}
+    },
+    {
+      "id": "me",
+      "name": "Người Mẹ",
+      "voice": "Kim Thanh",
+      "design": "Trung niên (tuổi cụ thể chưa có trong nguồn). Tóc đen búi, đồ tang áo xô, khăn tang (đề xuất thiết kế). Chung giọng Kim Thanh với Bà nội: hai người không được cùng nói trong một cảnh.",
+      "rig": {
+        "file": "assets/rig/me.svg",
+        "scale": 0.95, "body_w": 96, "hunch": 0.1,
+        "skin": "skin", "robe": "robe_mourning", "sleeve": "robe_mourning_dark", "pants": "robe_mourning_dark",
+        "hair": "bun", "hair_color": "hair_black",
+        "headband": true, "khan_default": "on", "wrinkles": 1
+      },
+      "mouth_shapes": ["closed", "half", "open", "round"],
+      "idle": {"breath_s": 3.4, "blink_s": [2.5, 5.0], "seed": 52}
+    },
+    {
+      "id": "ba_noi",
+      "name": "Bà nội",
+      "voice": "Kim Thanh",
+      "design": "89 tuổi (nguồn: bà cụ 89 tuổi giã trầu), lưng còng, tóc bạc búi, áo nâu sồng (theo preview đã có). Prop đi kèm: cối giã trầu. Đã mất lúc 3:40 chiều: xuất hiện qua cuộc gọi video / hồi tưởng / hình bóng.",
+      "rig": {
+        "file": "assets/rig/ba_noi.svg",
+        "scale": 0.86, "body_w": 92, "hunch": 0.9,
+        "skin": "skin_old", "robe": "robe_brown", "sleeve": "robe_brown_dark", "pants": "robe_brown_dark",
+        "hair": "bun", "hair_color": "hair_white", "brow_color": "brow_white",
+        "wrinkles": 2
+      },
+      "mouth_shapes": ["closed", "half", "open", "round"],
+      "idle": {"breath_s": 2.8, "blink_s": [3.0, 6.0], "seed": 89}
+    },
+    {
+      "id": "than_trung",
+      "name": "Thần Trùng",
+      "voice": "Thiện Minh",
+      "design": "Bóng đen không có mặt thật, khăn tang trắng rách buộc đầu, mắt trắng đồng tử đỏ, miệng ngoác rộng (theo bản preview shot 8). Nguồn: Trùng 'không có mặt, soi vào đâu học mặt người đó'.",
+      "rig": {
+        "file": "assets/rig/than_trung.svg",
+        "scale": 1.12, "body_w": 130, "hunch": 0,
+        "shadow": true, "robe": "shadow_body", "sleeve": "shadow_body", "pants": "shadow_body",
+        "hair": "none", "headband": true, "khan_default": "on"
+      },
+      "mouth_shapes": ["closed", "half", "open", "round"],
+      "idle": {"breath_s": 4.5, "blink_s": [4.0, 9.0], "seed": 666}
+    },
+
+    {"id": "bo", "name": "Bố", "voice": "Hải Đăng", "rig": null, "status": "vai phụ (1 line): chưa dựng rig, dùng lại khung người trưởng thành khi cần"},
+    {"id": "chu_hai", "name": "Chú Hai", "voice": "Hải Đăng", "rig": null, "status": "vai phụ (2 line): xuất hiện qua cuộc gọi video ở Đức; chung giọng với Bố, không chung cảnh"},
+    {"id": "chu_ut", "name": "Chú Út", "voice": "Xuân Vĩnh", "rig": null, "status": "vai phụ (1 line); mất sau 3 ngày"},
+    {"id": "ngan", "name": "Em gái Ngân", "voice": "Trúc Ly", "rig": null, "status": "vai phụ (2 line)"},
+    {"id": "be_na", "name": "Bé Na", "voice": "Trúc Ly", "rig": null, "status": "vai phụ (1 line): cần khung dáng trẻ em"},
+    {"id": "vy", "name": "Vy", "voice": "Trúc Ly", "rig": null, "status": "vai phụ (2 line, người yêu của Lâm): chung giọng với Ngân và Bé Na, không chung cảnh"},
+    {"id": "lam_that", "name": "Lâm thật (trong hũ)", "voice": "Đức Trí", "rig": null, "status": "chỉ có tiếng (2 line, trong hũ): không cần rig; ghi chú: thân phận Lâm thật được lật ở cú twist"}
+  ],
+  "locations": [],
+  "props": []
+}
