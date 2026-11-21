@@ -12,8 +12,9 @@ Rule: **dùng sẵn trước, thiếu mới tạo** (AGENTS.md điều 9). Bối
 - Mã nguồn: `scripts/bg_lib/{core.py (primitive+CSS), batch*.py (bối cảnh), sheet.py}`; đăng ký bằng `@register(id, tên, kind, tags, focus=...)`.
 
 ## Danh sách mục tiêu & trạng thái
-Xong (đợt 1): nghia_dia, toan_canh_lang, gian_tho_dem, bo_song, gieng_lang, bui_tre_chuoi
-Còn lại (làm theo thứ tự, commit sau mỗi đợt): truong_bo_hoang, nha_hoang, canh_dong_lua, rap_dam_tang, nui, chua, nha_ve_sinh, mieu_dinh, song, cay_da, san_nha, nha_bep, phong_ngu, phong_khach, nha_co_nha_tho_ho, nha_cap_bon
+Xong (đợt 1, `batch1.py`): nghia_dia, toan_canh_lang, gian_tho_dem, bo_song, gieng_lang, bui_tre_chuoi
+Xong (đợt 2, `batch2.py`): truong_bo_hoang, nha_hoang, canh_dong_lua, rap_dam_tang, nui, chua
+Còn lại (đợt 3+ → `batch3.py`…, nhớ `from . import batchN` trong `bg_lib/__init__.py`; commit sau mỗi đợt): nha_ve_sinh, mieu_dinh, song, cay_da, san_nha, nha_bep, phong_ngu, phong_khach, nha_co_nha_tho_ho, nha_cap_bon
 (`toan_canh_lang` dùng cho cả "Toàn cảnh làng/ngôi làng".)
 
 ## Việc còn lại khác

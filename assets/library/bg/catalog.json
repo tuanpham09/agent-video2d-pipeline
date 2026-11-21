@@ -164,6 +164,168 @@
         960,
         780
       ]
+    },
+    {
+      "id": "truong_bo_hoang",
+      "name": "Trường học bỏ hoang",
+      "file": "truong_bo_hoang.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "trường",
+        "hoang",
+        "ma"
+      ],
+      "focus": [
+        960,
+        720
+      ]
+    },
+    {
+      "id": "nha_hoang",
+      "name": "Nhà hoang",
+      "file": "nha_hoang.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "nhà",
+        "hoang",
+        "ma"
+      ],
+      "focus": [
+        960,
+        700
+      ]
+    },
+    {
+      "id": "canh_dong_lua",
+      "name": "Cánh đồng lúa",
+      "file": "canh_dong_lua.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "đồng",
+        "lúa",
+        "nông thôn"
+      ],
+      "focus": [
+        960,
+        760
+      ]
+    },
+    {
+      "id": "rap_dam_tang",
+      "name": "Rạp đám tang",
+      "file": "rap_dam_tang.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "tang",
+        "rạp",
+        "ma"
+      ],
+      "focus": [
+        960,
+        640
+      ]
+    },
+    {
+      "id": "nui",
+      "name": "Núi",
+      "file": "nui.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "núi",
+        "rừng",
+        "toàn cảnh"
+      ],
+      "focus": [
+        960,
+        700
+      ]
+    },
+    {
+      "id": "chua",
+      "name": "Chùa",
+      "file": "chua.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "chùa",
+        "tâm linh",
+        "ban đêm"
+      ],
+      "focus": [
+        960,
+        560
+      ]
     }
   ]
 }
