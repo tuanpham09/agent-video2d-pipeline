@@ -22,8 +22,9 @@ Công cụ: `.agents/skills/video-pipeline/scripts/library.py` (`list`, `show`, 
 | Archetype | `adult_m`, `adult_f`, `elder_m`, `elder_f`, `teen`, `child`, `spirit_shadow` |
 | Outfit | `mourning`, `ao_the_indigo`, `nau_song`, `plain_light` |
 | Đạo cụ | `candle`, `oil_lamp`, `incense_burner`, `ancestral_altar`, `clay_jar`, `betel_mortar`, `bamboo_bed`, `bamboo_tray`, `mourning_cloth`, `smartphone` |
-| Bối cảnh | `house_altar_room`, `village_yard_night`, `veranda_night` |
-| Palette | `base`, `folk-horror-vn` |
+| Bối cảnh (vẽ tay) | `house_altar_room`, `village_yard_night`, `veranda_night` |
+| Bối cảnh (sinh bằng code, 22) | `nghia_dia`, `toan_canh_lang`, `gian_tho_dem`, `bo_song`, `gieng_lang`, `bui_tre_chuoi`, `truong_bo_hoang`, `nha_hoang`, `canh_dong_lua`, `rap_dam_tang`, `nui`, `chua`, `nha_ve_sinh`, `mieu_dinh`, `song`, `cay_da`, `san_nha`, `nha_bep`, `phong_ngu`, `phong_khach`, `nha_co_nha_tho_ho`, `nha_cap_bon` |
+| Palette | `base`, `folk-horror-vn`, `scenery-vn` (91 token `bg_<hex>` của 22 cảnh sinh bằng code) |
 
 `teen` và `child` (đầu to qua `head_scale`) đã dựng thử và nhìn ổn trong lineup, nhưng chưa có pose sheet nào được người dùng duyệt; xem lại khi dùng lần đầu. 5 nhân vật chính của project mẫu có pose sheet ở `projects/than-trung-chiec-khan-tang-thu-32/assets/rig/sheets/`.
 
@@ -52,3 +53,12 @@ python .agents/skills/video-pipeline/scripts/check_rules.py --project projects/<
 - **Thêm** (asset mới, dùng lại được): làm đúng chuẩn dưới đây → `library.py promote ...` → `library.py sheet` → xem ảnh → commit `library/`.
 - **Sửa** asset đang có: sửa file trong `library/`, chỉ được *thêm* state/part/slot/anchor (không đổi tên/xoá); `reindex` (tự tăng version) → `check` → `sheet`. Project cũ vẫn dùng bản đã khoá cho đến khi `use` lại.
 - **Chuẩn file** (`library.py check` kiểm): một SVG tự chứa; `data-lib-id` + `data-lib-kind` ở thẻ `<svg>`; không hex/rgb/tên màu; không `<text>`, `<script>`, ảnh/URL ngoài; `id` nội bộ có tiền tố riêng; state trong CSS = state trong index; mỗi `part` có class tương ứng; bối cảnh có `layer-far/mid/near`; mọi anchor nằm trong khung.
+
+## Bối cảnh sinh bằng code (22 cảnh)
+
+Nguồn: `.agents/skills/video-pipeline/scripts/bg_lib/` → `build_bg.py` ra `assets/library/bg/*.svg` → **`import_bg.py`** chuyển vào `library/locations/` đúng chuẩn R2.5–R2.7 (màu → token `bg_<hex>` trong `palettes/scenery-vn.json`, id nội bộ có tiền tố, CSS chặn phạm vi theo `data-lib-id`, ánh sáng đổi tên `candle_warm→warm`, `dusk→dawn`; giữ thêm `day`, `night`).
+- Sửa cảnh: sửa `bg_lib/` → `build_bg.py` → `import_bg.py` → `library.py check` → `sheet` → xem ảnh → commit. **Không sửa tay** file trong `library/locations/` của nhóm này (lần import sau sẽ ghi đè; mục index có `"origin": "build_bg"`).
+- Thêm tuỳ chọn `data-mood="creepy"` (sương, vignette, nhiễu hạt) trên thẻ `<svg>`.
+- ⚠️ `stand` (L/C/R), `floor_y`, `crop_9x16.center` của nhóm này **suy ra từ `focus`** trong catalog (`"anchors_auto": true`, `s = 1.0`), chưa ai kiểm tỉ lệ nhân vật/vị trí chân. Trước khi dựa vào một cảnh: ghép thử nhân vật vào cảnh, chỉnh `stand`/`slots` trong `index.json` (chỉ thêm/chỉnh số, không đổi tên).
+- Token đặt tên theo giá trị màu (chưa gom theo ngữ nghĩa); muốn đổi tông cả kho thì sửa giá trị trong `scenery-vn.json`.
+- Ba cảnh vẽ tay và nhóm 22 cảnh có trùng chức năng (gian thờ, sân/hiên nhà); chưa hợp nhất — project mẫu đang dùng bản vẽ tay.

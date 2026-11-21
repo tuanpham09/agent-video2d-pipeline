@@ -543,6 +543,1441 @@
       ],
       "version": 1,
       "sha256": "3bcae407b968ff88263759ff9ce4996adcefc9691b0c4531f04c7ee0cd6251a7"
+    },
+    {
+      "id": "nghia_dia",
+      "kind": "location",
+      "file": "locations/nghia_dia.svg",
+      "description": "Nghĩa địa (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 760,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 760,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 760,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 760,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "exterior",
+        "ma",
+        "mồ mả",
+        "đêm"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "7615b8c9498e7b362cfc633c486f1e279c72741dd79b394ec7e7faacdfc89547"
+    },
+    {
+      "id": "toan_canh_lang",
+      "kind": "location",
+      "file": "locations/toan_canh_lang.svg",
+      "description": "Toàn cảnh làng (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 700,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 700,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 700,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 700,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "exterior",
+        "làng",
+        "thiết lập",
+        "toàn cảnh"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "8e62bfde3cf4849eaf2a4c3adba41ec09d2b51315984acacae7467e6a978864c"
+    },
+    {
+      "id": "gian_tho_dem",
+      "kind": "location",
+      "file": "locations/gian_tho_dem.svg",
+      "description": "Gian thờ đêm (kho bối cảnh sinh bằng code; interior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 560,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 560,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 560,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 560,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "interior",
+        "ma",
+        "nhà",
+        "nến",
+        "thờ"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "bf84755f0af53ddc26424ff42d91afcdd32d2151dfaa0a936e6fdd388e6955de"
+    },
+    {
+      "id": "bo_song",
+      "kind": "location",
+      "file": "locations/bo_song.svg",
+      "description": "Bờ sông (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 760,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 760,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 760,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 760,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "bến",
+        "exterior",
+        "nước",
+        "sông"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "408941bac4e42dbe63c914d63d3479186d1cb35a2aa1679753ad33b5d5622cf1"
+    },
+    {
+      "id": "gieng_lang",
+      "kind": "location",
+      "file": "locations/gieng_lang.svg",
+      "description": "Giếng làng (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 760,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 760,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 760,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 760,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "exterior",
+        "giếng",
+        "làng",
+        "nước"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "74a68e8b481f6b5ceb8f349ab728206432c56274982f646a0a56c86367a3fcc1"
+    },
+    {
+      "id": "bui_tre_chuoi",
+      "kind": "location",
+      "file": "locations/bui_tre_chuoi.svg",
+      "description": "Bụi tre bụi chuối (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 780,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 780,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 780,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 780,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "chuối",
+        "cây cối",
+        "exterior",
+        "ma",
+        "tre"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "76c5dbfbbaca18684918df960974eccd6793739381c618105fb410ae912097ac"
+    },
+    {
+      "id": "truong_bo_hoang",
+      "kind": "location",
+      "file": "locations/truong_bo_hoang.svg",
+      "description": "Trường học bỏ hoang (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 720,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 720,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 720,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 720,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "exterior",
+        "hoang",
+        "ma",
+        "trường"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "b3ca12f9bc4fecbd7bed42490504943da9e6735bc92f0d98c3731d36282a1fd8"
+    },
+    {
+      "id": "nha_hoang",
+      "kind": "location",
+      "file": "locations/nha_hoang.svg",
+      "description": "Nhà hoang (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 700,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 700,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 700,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 700,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "exterior",
+        "hoang",
+        "ma",
+        "nhà"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "7dbddb922896a11f6274ea515b41e5fa7f30cdc25dd7310ced700265b16a345c"
+    },
+    {
+      "id": "canh_dong_lua",
+      "kind": "location",
+      "file": "locations/canh_dong_lua.svg",
+      "description": "Cánh đồng lúa (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 760,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 760,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 760,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 760,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "exterior",
+        "lúa",
+        "nông thôn",
+        "đồng"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "e992bd30400c6f2ac022829eed8a3aec2071f7bc6934f073b2580b4fefc8e578"
+    },
+    {
+      "id": "rap_dam_tang",
+      "kind": "location",
+      "file": "locations/rap_dam_tang.svg",
+      "description": "Rạp đám tang (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 640,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 640,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 640,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 640,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "exterior",
+        "ma",
+        "rạp",
+        "tang"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "db7bb40af801be80e57d6c1a65e9f67381d48c2ed01304f9df80457abd25f2b3"
+    },
+    {
+      "id": "nui",
+      "kind": "location",
+      "file": "locations/nui.svg",
+      "description": "Núi (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 700,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 700,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 700,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 700,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "exterior",
+        "núi",
+        "rừng",
+        "toàn cảnh"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "0733919bbf9af623e28d8bc340e3db610f2d28c88d1217822cf1178ae879ee51"
+    },
+    {
+      "id": "chua",
+      "kind": "location",
+      "file": "locations/chua.svg",
+      "description": "Chùa (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 560,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 560,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 560,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 560,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "ban đêm",
+        "bg-gen",
+        "chùa",
+        "exterior",
+        "tâm linh"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "9db6f69723b83d8150798fd72c9a61d73104e6ede19fa9ca0dddca37592f1797"
+    },
+    {
+      "id": "nha_ve_sinh",
+      "kind": "location",
+      "file": "locations/nha_ve_sinh.svg",
+      "description": "Nhà vệ sinh (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 700,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 700,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 700,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 700,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "exterior",
+        "ma",
+        "sân sau",
+        "wc"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "51b71f4af5278615b1e479580f0125e093ccff4d71db4c5e27ec1d9b597536d0"
+    },
+    {
+      "id": "mieu_dinh",
+      "kind": "location",
+      "file": "locations/mieu_dinh.svg",
+      "description": "Miếu / Đình làng (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 600,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 600,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 600,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 600,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "exterior",
+        "miếu",
+        "tâm linh",
+        "đình"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "26f4355b28b39b9de8e6dca1120ba22a96019dfbb7a17b7eebbac3d609a09123"
+    },
+    {
+      "id": "song",
+      "kind": "location",
+      "file": "locations/song.svg",
+      "description": "Sông (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 720,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 720,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 720,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 720,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "exterior",
+        "mặt nước",
+        "sông",
+        "thuyền",
+        "toàn cảnh"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "79d27b34078503193bb6d35d7efe711c4003ccb74e93beb54956b1a5e6b81c5c"
+    },
+    {
+      "id": "cay_da",
+      "kind": "location",
+      "file": "locations/cay_da.svg",
+      "description": "Cây đa (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 760,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 760,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 760,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 760,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "cây đa",
+        "exterior",
+        "ma",
+        "tâm linh",
+        "đầu làng"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "c6425772e56fd27dbcb6ff0238fb4c29656dba45c95e3839c870d2dc2467abf7"
+    },
+    {
+      "id": "san_nha",
+      "kind": "location",
+      "file": "locations/san_nha.svg",
+      "description": "Sân nhà (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 760,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 760,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 760,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 760,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "exterior",
+        "gia đình",
+        "nhà",
+        "sân"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "c72847fcdc13f2e08e4a92a5f2b2ff3aa53ea896e97ef5fdf5dfff12bc65372b"
+    },
+    {
+      "id": "nha_bep",
+      "kind": "location",
+      "file": "locations/nha_bep.svg",
+      "description": "Nhà bếp (kho bối cảnh sinh bằng code; interior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 640,
+      "stand": {
+        "L": {
+          "x": 520,
+          "y": 640,
+          "s": 1.0
+        },
+        "C": {
+          "x": 900,
+          "y": 640,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1280,
+          "y": 640,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 900
+      },
+      "tags": [
+        "bg-gen",
+        "bếp",
+        "củi",
+        "interior",
+        "nhà"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "a40beab0a42caeb74b1a0be6ef9396d6107a9f8fd46aa680543e07df46faeca8"
+    },
+    {
+      "id": "phong_ngu",
+      "kind": "location",
+      "file": "locations/phong_ngu.svg",
+      "description": "Phòng ngủ (kho bối cảnh sinh bằng code; interior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 620,
+      "stand": {
+        "L": {
+          "x": 380,
+          "y": 620,
+          "s": 1.0
+        },
+        "C": {
+          "x": 760,
+          "y": 620,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1140,
+          "y": 620,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 760
+      },
+      "tags": [
+        "bg-gen",
+        "interior",
+        "nhà",
+        "phòng ngủ",
+        "đêm"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "76a89ecd5b72a0b99bc274511133dfb17bcdce10242dbec93c3a27330cd149e0"
+    },
+    {
+      "id": "phong_khach",
+      "kind": "location",
+      "file": "locations/phong_khach.svg",
+      "description": "Phòng khách (kho bối cảnh sinh bằng code; interior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 640,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 640,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 640,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 640,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "gia đình",
+        "interior",
+        "nhà",
+        "phòng khách"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "01d4dc5fa122b83064de349d6b581542742d2bfaaa4ef407decf8fffd951ff9e"
+    },
+    {
+      "id": "nha_co_nha_tho_ho",
+      "kind": "location",
+      "file": "locations/nha_co_nha_tho_ho.svg",
+      "description": "Nhà cổ / nhà thờ họ (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 560,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 560,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 560,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 560,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "exterior",
+        "ma",
+        "nhà cổ",
+        "tâm linh",
+        "từ đường"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "c0099b0aac4a5df9d1be53281d2633e923d3c63f208ef02c17b71cc0d47c1fa0"
+    },
+    {
+      "id": "nha_cap_bon",
+      "kind": "location",
+      "file": "locations/nha_cap_bon.svg",
+      "description": "Nhà cấp bốn (kho bối cảnh sinh bằng code; exterior)",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "dark",
+        "dawn",
+        "day",
+        "night",
+        "red_flash",
+        "warm"
+      ],
+      "default_light": "day",
+      "floor_y": 700,
+      "stand": {
+        "L": {
+          "x": 580,
+          "y": 700,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 700,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1340,
+          "y": 700,
+          "s": 1.0
+        }
+      },
+      "slots": {},
+      "crop_9x16": {
+        "center": 960
+      },
+      "tags": [
+        "bg-gen",
+        "exterior",
+        "gia đình",
+        "nhà cấp bốn",
+        "nông thôn"
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "palettes": [
+        "base",
+        "scenery-vn"
+      ],
+      "origin": "build_bg",
+      "anchors_auto": true,
+      "version": 2,
+      "sha256": "bd82455889e722b909b6d2164405faaab04779ca6f433394f0320d6572edaf0b"
     }
   ]
 }

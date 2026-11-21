@@ -385,7 +385,9 @@ def render_png(html: Path, png: Path, width: int) -> None:
 
 def cmd_sheet(args) -> int:
     idx = load_index()
-    tokens = load_palette(LIB, ["base"])
+    # token của MỌI palette mà asset tham chiếu (thiếu → fill không hợp lệ → ảnh đen)
+    refs = ["base"] + sorted({p for e in idx["items"] for p in e.get("palettes", ["base"])} - {"base"})
+    tokens = load_palette(LIB, refs)
     root_vars = ":root{" + ";".join(f"--pal-{k}:{v}" for k, v in tokens.items()) + "}"
     out = LIB / "sheets"
     out.mkdir(exist_ok=True)
@@ -405,15 +407,17 @@ def cmd_sheet(args) -> int:
     (out / "props.html").unlink()
 
     locs = [e for e in idx["items"] if e["kind"] == "location"]
-    figs = []
-    for e in locs:
+    rows = []
+    for e in locs:  # mỗi bối cảnh một hàng, đủ mọi trạng thái ánh sáng
         txt = (LIB / e["file"]).read_text(encoding="utf-8")
+        figs = []
         for st in e["light_states"]:
             svg = txt.replace(f'data-light="{e["default_light"]}"', f'data-light="{st}"', 1)
-            svg = svg.replace("<svg ", '<svg class="cell" width="480" height="270" ', 1)
+            svg = svg.replace("<svg ", '<svg class="cell" width="300" height="169" ', 1)
             figs.append(f"<figure>{svg}<figcaption>{e['id']} · {st}</figcaption></figure>")
-    (out / "locations.html").write_text(f"<!doctype html><meta charset=utf-8><style>{root_vars}{SHEET_CSS}</style><h1>Bối cảnh — mọi trạng thái ánh sáng</h1><div class='grid'>{''.join(figs)}</div>", encoding="utf-8")
-    render_png(out / "locations.html", out / "locations.png", 1560)
+        rows.append(f"<div class='grid'>{''.join(figs)}</div>")
+    (out / "locations.html").write_text(f"<!doctype html><meta charset=utf-8><style>{root_vars}{SHEET_CSS}.grid{{margin-bottom:14px}}</style><h1>Bối cảnh — mọi trạng thái ánh sáng (mỗi hàng một bối cảnh)</h1>{''.join(rows)}", encoding="utf-8")
+    render_png(out / "locations.html", out / "locations.png", 2180)
     (out / "locations.html").unlink()
     print("đã render library/sheets/props.png, locations.png")
     return 0

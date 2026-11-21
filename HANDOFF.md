@@ -1,35 +1,45 @@
-# HANDOFF — thư viện bối cảnh dùng chung (cập nhật mỗi commit)
+# HANDOFF — trạng thái làm việc (cập nhật mỗi commit)
 
-Nhánh: `claude/workflow-v2` (PR #1). Agent tiếp theo: đọc file này + `AGENTS.md` (rule bắt buộc) trước.
+Phiên sau (hoặc agent khác): đọc file này + `RULES.md` + `AGENTS.md` là làm tiếp được, không cần lịch sử chat. File duy nhất — đã gộp `references/handoff.md` cũ và HANDOFF bối cảnh của phiên song song.
+Nhánh: `claude/workflow-v2` (PR #1). Người dùng nói tiếng Việt; trả lời bằng tiếng Việt.
 
-## Mục tiêu
-Bộ bối cảnh 2D đa dạng, tái sử dụng cho mọi video: `assets/library/bg/<id>.svg` + `catalog.json`.
-Rule: **dùng sẵn trước, thiếu mới tạo** (AGENTS.md điều 9). Bối cảnh mới → thêm hàm vào `bg_lib/`, chạy lại `build_bg.py`, clone từ cảnh gần nhất.
+## Yêu cầu gốc của người dùng
+Đánh giá và cải tiến workflow làm video 2D của repo: nhân vật đồng bộ, SFX hợp, mỗi câu thoại ngắn có shot diễn, bối cảnh/đạo cụ đồng bộ, diễn xuất tự nhiên.
+Cách làm việc: "làm video <URL>" / "clone video <URL>" → QA → viết lại chống reup → demo 30–40 s → duyệt → full; mỗi giai đoạn có checklist. Có thêm Chế độ C (từ ý tưởng → kịch bản 10–30 phút, speed 1.3).
+Yêu cầu mới nhất: **rig, đạo cụ, bối cảnh phải dùng lại được cho project sau; bắt agent tuân theo luật chung ở cấp cao nhất** → `RULES.md` + `library/`.
+Người dùng muốn: làm đến đâu commit đến đó, kèm handoff (file này).
 
-## Cách dùng
-- Build: `python .agents/skills/video-pipeline/scripts/build_bg.py [--only id1,id2] [--no-sheet]` → SVG + `catalog.json` + `assets/library/bg/sheets/contact.png` (cần playwright+chromium; xem contact.png để duyệt).
-- SVG: viewBox 1920×1080, 3 lớp `.layer.far|mid|near` (parallax). Ánh sáng: `data-light` trên `<svg>` = `day|dusk|night|dark|red_flash` (ngoài trời) hoặc `day|candle_warm|dark|red_flash` (trong nhà). Cắt dọc 9:16: viewBox `656 0 608 1080`; tiêu điểm trong dải giữa.
-- Mã nguồn: `scripts/bg_lib/{core.py (primitive+CSS), batch*.py (bối cảnh), sheet.py}`; đăng ký bằng `@register(id, tên, kind, tags, focus=...)`.
+## Đã xong (đã commit & push)
+- Workflow v2 (`references/workflow-v2.md`): 3 chế độ A/B/C, giai đoạn A–E, checklist, cổng 👤.
+- Gate: `originality_check.py`, `check_shots.py`, `check_sync.py`, `check_rules.py`, `library.py check`; `scaffold_project.py --mode a|b|c`.
+- `RULES.md` (R0–R9) + `CLAUDE.md` (import RULES+AGENTS) + `AGENTS.md` (mục 0: luật + 9 quy tắc vận hành bắt buộc, gộp từ hai phiên).
+- `library/`: palette (`base`, `folk-horror-vn`, `scenery-vn`), `rigs/archetypes.json` (7 archetype, 4 outfit), 10 đạo cụ, **25 bối cảnh** (3 vẽ tay + 22 sinh bằng code nhập qua `import_bg.py`), `index.json`, `sheets/*.png`. Công cụ `library.py` (list/show/use/lock-check/check/reindex/sheet/promote).
+- `build_rig.py`: archetype + outfit + `extends` (clone nhân vật), kiểm giải tích tràn khung và khớp `--script`, pose sheet, xuất `<id>.rig.json`. Đã kiểm: 5 rig của project mẫu tái tạo giống hệt bản đã commit; `extends` + `--script` chạy.
+- Bối cảnh sinh bằng code: `scripts/bg_lib/` + `build_bg.py` (nguồn) → `import_bg.py` → `library/locations/`. Đã xem `library/sheets/locations.png`: 22 cảnh × 6 trạng thái ánh sáng (`day|dawn|night|dark|red_flash|warm`) render đúng màu.
+- Project mẫu `projects/than-trung-chiec-khan-tang-thu-32`: 5 rig nhân vật chính, bible (3 bối cảnh + 10 đạo cụ gán `lib`), `assets/LIBRARY.lock.json`. `check_rules.py` (demo, final) = OK, 5 cảnh báo generator preview cũ.
 
-## Nâng cấp truyện ma (đang làm theo 4 bước, commit mỗi bước)
-- [x] B1+B2: `data-mood="creepy"` (sương dày, vignette đậm, nhiễu hạt, tint u ám) + ánh sáng có chiều sâu (xa nhạt/gần tối) + vùng sáng quanh nến/đèn (`.pool`, `.pool2`) — trong `core.py`.
-- [ ] B3: lớp chi tiết rợn `.creep` cho từng cảnh — `bg_lib/creep.py` (`CREEP[id]() -> {far,mid,near}`), chỉ hiện khi `data-mood="creepy"`.
-- [ ] B4: sửa cảnh yếu: nha_hoang (đổ nát thật), truong_bo_hoang, bui_tre_chuoi (lá chuối thiếu thân → sửa `banana()` trong core), nha_ve_sinh, canh_dong_lua.
-- [ ] B5 (chưa làm): xem 9:16 crop + dùng thử trong HyperFrames với 1 video thật.
+## Đã kiểm thật / chưa kiểm
+- Đã kiểm: `library.py check` 0 lỗi (35 asset) + thử phá (hex, token lạ, thiếu part/layer, state lệch); `promote`; ghép thử một cảnh trong Chromium (bối cảnh + bàn thờ + nến/bát hương + 2 rig lồng `<svg>`); sheet bối cảnh sau khi sửa lỗi "ảnh đen" (sheet từng chỉ nạp palette `base` → token `bg_*` không có giá trị; đã sửa: nạp mọi palette asset dùng).
+- **Chưa kiểm:** animation thật trong HyperFrames/GSAP; render video; TTS; `teen`/`child` chưa duyệt pose sheet; **anchor (`stand`/`floor_y`/`crop_9x16`) của 22 cảnh sinh bằng code là suy ra tự động từ `focus`, chưa ghép thử nhân vật**; crop dọc 9:16 chưa xem từng cảnh.
+- Thiết kế nhân vật/đạo cụ ngoài nguồn là **đề xuất** của agent, chưa người dùng duyệt. **`RULES.md` do agent soạn — cần người dùng duyệt/sửa** (agent không tự sửa nữa: R0.3).
 
-## Danh sách bối cảnh — XONG 22/22 (`catalog.json` là nguồn đúng)
-- đợt 1 `batch1.py`: nghia_dia, toan_canh_lang, gian_tho_dem, bo_song, gieng_lang, bui_tre_chuoi
-- đợt 2 `batch2.py`: truong_bo_hoang, nha_hoang, canh_dong_lua, rap_dam_tang, nui, chua
-- đợt 3 `batch3.py`: nha_ve_sinh, mieu_dinh, song, cay_da, san_nha, nha_bep (helper `room_shell()` cho cảnh trong nhà)
-- đợt 4 `batch4.py`: phong_ngu, phong_khach, nha_co_nha_tho_ho, nha_cap_bon
-- `toan_canh_lang` dùng cho cả "Toàn cảnh làng/ngôi làng". Đã xem `sheets/contact.png` (cảnh) và `sheets/light-test.png` (ánh sáng: candle_warm, red_flash, night, dark, dusk đều chạy).
+## Bối cảnh — quy trình & việc dở của phiên song song
+- Sửa/thêm cảnh: `.agents/skills/video-pipeline/scripts/bg_lib/{core.py,batch1-4.py,creep.py,sheet.py}` (`@register(id, tên, kind, tags, focus=...)`) → `python .agents/skills/video-pipeline/scripts/build_bg.py [--only id]` → `python .agents/skills/video-pipeline/scripts/import_bg.py` → `library.py check` → `library.py sheet` → xem ảnh → commit. Không sửa tay `library/locations/<id>.svg` của nhóm này.
+- Đợt cảnh: 1 `batch1.py` (nghia_dia, toan_canh_lang, gian_tho_dem, bo_song, gieng_lang, bui_tre_chuoi); 2 `batch2.py` (truong_bo_hoang, nha_hoang, canh_dong_lua, rap_dam_tang, nui, chua); 3 `batch3.py` (nha_ve_sinh, mieu_dinh, song, cay_da, san_nha, nha_bep); 4 `batch4.py` (phong_ngu, phong_khach, nha_co_nha_tho_ho, nha_cap_bon).
+- Nâng cấp truyện ma: [x] B1+B2 (`data-mood="creepy"`, ánh sáng chiều sâu, vùng sáng nến/đèn); [ ] B3 lớp `.creep` riêng từng cảnh (`bg_lib/creep.py`, `CREEP[id]() -> {far,mid,near}`); [ ] B4 sửa cảnh yếu (nha_hoang, truong_bo_hoang, bui_tre_chuoi — `banana()` thiếu thân, nha_ve_sinh, canh_dong_lua); [ ] B5 xem 9:16 + thử trong HyperFrames. **Sau mỗi bước phải chạy lại `import_bg.py` để `library/` cập nhật.** Phiên song song có thể còn đang làm B3–B4 trên nhánh này: `git fetch` + merge trước khi sửa `bg_lib/`.
+- Bối cảnh nên thêm khi cần: cầu / đường làng đêm, hành lang bệnh viện / trạm xá, chợ quê, hầm / hang, rừng sâu, ao / đầm sen, cổng làng, nhà tập thể, gác mái, quán nước đầu làng.
+- Trùng chức năng: `house_altar_room`≈`gian_tho_dem`, `village_yard_night`≈`san_nha`, `veranda_night`≈`nha_cap_bon`. Chưa hợp nhất (project mẫu dùng bản vẽ tay).
 
-## Gợi ý bối cảnh nên thêm khi có video cần (clone từ cảnh gần nhất)
-cầu / đường làng ban đêm, hành lang bệnh viện / trạm xá, chợ quê, hầm / hang, rừng sâu, ao / đầm sen, cổng làng, nhà tập thể, tầng gác mái, quán nước đầu làng.
+## Việc tiếp theo (theo thứ tự)
+1. Ghép thử nhân vật vào vài cảnh sinh bằng code, chỉnh `stand`/`slots` trong `index.json` (bỏ `anchors_auto` khi đã duyệt).
+2. `build_video.py`: generator đọc `manifest.json` + `bible.json` + `shotlist.json` → HTML HyperFrames. Dùng quy ước nhúng trong `workflow-v2.md` C1 và `library/README.md` (rig/prop = `<svg>` lồng; anchor `stand`/`slots`; token màu qua `library.py project_palette`). Không gõ hex (R2.5). Thử 1 cảnh ngắn của project mẫu + `hyperframes lint/check` + GSAP đổi `data-*`/xoay tay.
+3. Mở rộng library: nhân vật phụ (bố, chú, em gái, bé Na, Vy), đạo cụ (gương đồng, quan tài, nhang đèn, quạt, áo tang…), outfit; mỗi cái qua `promote` + `sheet` + commit.
+4. SFX: bổ sung kho còn thiếu + recipe (workflow-v2 C4); sửa `sfx/README.md` (link `file:///d:/...`).
+5. Chạy thử Chế độ C với một ý tưởng người dùng đưa.
+6. Dọn legacy: generator `preview_*` có hàng trăm hex (chỉ cảnh báo); project `ma-thoi-den-thanh-co-tinh-tuyet` chưa có bible (R1.4, cần quyết định); PR #1 chưa có CI chạy gate, 19 review thread chưa resolve.
 
-## Việc còn lại khác
-- PR #1: đã sửa 19 review thread (chưa resolve thread nào trên GitHub); chưa có CI chạy gate.
-- Chưa kiểm bối cảnh trong HyperFrames thật; chưa nhúng bối cảnh vào `bible.json` `locations` (cần map id thư viện → `light_states` từ catalog).
-- Ánh sáng mới test mẫu 6 cảnh (light-test.png), chưa test từng cảnh × từng trạng thái.
-- Chưa có script đo tràn/validate cho bối cảnh (chỉ kiểm XML hợp lệ); focus point trong catalog là ước lượng.
-- Bối cảnh ngoài trời `kind=exterior` có trăng + `lamp` glow; nến/đèn dùng `focus` — cần chỉnh `focus`/`lamp` theo từng shot nếu lệch.
+## Lưu ý kỹ thuật
+- `RULES.md`: agent không tự sửa (R0.3). Nếu cần đổi, đề xuất cho người dùng.
+- Stop hook của môi trường hay báo "unpushed commit / no remote branch" sai: kiểm bằng `git ls-remote origin claude/workflow-v2` so với `git rev-parse HEAD` rồi mới tin.
+- Môi trường: Playwright + Chromium có sẵn (`build_rig.py`, `library.py sheet`). Render thật dùng `npx hyperframes` (chưa chạy trong phiên này).
+- Trailer commit: `Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>` và `Claude-Session: https://claude.ai/code/session_01GcMrUmq793eUS1ikpo24kJ`.
