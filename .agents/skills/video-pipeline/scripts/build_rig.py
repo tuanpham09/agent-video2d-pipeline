@@ -32,6 +32,8 @@ Kiểm trước khi ghi file (trừ --no-check): tay ở mọi pose × (đứng|
 trong viewBox không (tính giải tích, có scale), và (nếu có --script) id + giọng khớp.
 Đây KHÔNG phải kiểm render: vẫn phải xem pose sheet.
 
+Nhân vật mới nên clone từ nhân vật cũ: {"id": "chu_tu", "extends": "chu_hai", "rig_params": {chỉ phần khác}}.
+
 Khai báo rig trong bible: "rig": {tham số}  hoặc  "rig": "assets/rig/<id>.svg" + "rig_params": {tham số}.
 """
 from __future__ import annotations
@@ -86,6 +88,39 @@ DEFAULT_PALETTE = {
     "scar": "#e6b99a", "cloud": "#c9d6d8", "shadow_body": "#07070a", "shadow_ink": "#000000",
     "shadow_eye": "#ffffff", "shadow_pupil": "#d01010", "shadow_line": "#e8e4db",
 }
+
+
+def rig_params_of(char: dict) -> dict:
+    spec = char.get("rig")
+    if isinstance(spec, dict):
+        return dict(spec)
+    return dict(char.get("rig_params") or {})
+
+
+def resolve_extends(chars: list[dict]) -> list[dict]:
+    """Nhân vật có "extends": "<id khác trong bible>" = bản sao của nhân vật đó, chỉ ghi đè tham số khác đi.
+    Tham số rig = rig của gốc + ghi đè của chính nó (rig / rig_params); file SVG riêng theo id mới."""
+    by_id = {c["id"]: c for c in chars}
+
+    def params(c: dict, seen: tuple = ()) -> dict:
+        if c["id"] in seen:
+            raise ValueError(f"extends vòng tròn: {' → '.join(seen + (c['id'],))}")
+        base = c.get("extends")
+        if not base:
+            return rig_params_of(c)
+        if base not in by_id:
+            raise ValueError(f"{c['id']}: extends '{base}' không có trong bible")
+        merged = params(by_id[base], seen + (c["id"],))
+        merged.pop("file", None)
+        merged.update(rig_params_of(c))
+        return merged
+
+    out = []
+    for c in chars:
+        if c.get("extends"):
+            c = {**c, "rig": params(c)}
+        out.append(c)
+    return out
 
 
 def esc(s: str) -> str:
@@ -518,7 +553,12 @@ def main() -> int:
         return 1
 
     only = set(args.only.split(",")) if args.only else None
-    rigs = [Rig(c, palette) for c in bible.get("characters", []) if c.get("rig") and (not only or c["id"] in only)]
+    try:
+        chars = resolve_extends(bible.get("characters", []))
+    except ValueError as e:
+        print(f"LỖI: {e}", file=sys.stderr)
+        return 1
+    rigs = [Rig(c, palette) for c in chars if c.get("rig") and (not only or c["id"] in only)]
     if not rigs:
         print("Không có nhân vật nào có khối 'rig' trong bible.", file=sys.stderr)
         return 1

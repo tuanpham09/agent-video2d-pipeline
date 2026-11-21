@@ -15,6 +15,12 @@ Workspace này sản xuất video YouTube / TikTok từ nguồn có sẵn: trans
 7. **Thiếu thông tin hoặc gate không đi qua được → dừng và hỏi người dùng**, nêu rõ đang kẹt ở bước nào. Không bịa số liệu/quote/tên, không dùng nội dung có bản quyền khi chưa có `source/permission.md`.
 8. **Sửa quy trình thì sửa trong `workflow-v2.md` / skill tự viết** (`video-pipeline`, `script-rewrite`, `voice-sync`) và ghi trong PR; không âm thầm làm khác.
 
+9. **Tái sử dụng trước, tạo mới sau — nhân vật và đạo cụ:**
+   - Trước khi tạo, tìm trong `projects/*/script/bible.json`, `projects/*/assets/{rig,props,bg}/` và `sfx/`. Nhân vật/đạo cụ/bối cảnh đã có và đúng vai thì **dùng lại nguyên id, rig, giọng**; nhân vật đã khóa ở demo không đổi.
+   - Thiếu nhân vật → **clone nhân vật gần nhất rồi chỉnh phần khác** (khai `"extends": "<id gốc>"` + `rig_params` chỉ chứa phần đổi; nếu gốc ở project khác thì copy mục đó vào bible mới trước). Không vẽ rig từ đầu khi chưa thử clone. Chạy `build_rig.py` để sinh pose sheet và đưa người dùng duyệt.
+   - Thiếu đạo cụ → dùng đạo cụ sẵn có (đổi `states`/màu) nếu gần đúng; chỉ khi không có mới tạo mới, **khai vào `bible.json` (`props` + `states`)** và lưu file vào `assets/props/`. Không đặt đạo cụ "tại chỗ" trong HTML của một shot.
+   - Mỗi nhân vật/đạo cụ tạo mới phải ghi lý do (không có sẵn cái nào dùng được) vào `PROJECT.md`.
+
 Vi phạm một mục ở trên = kết quả không hợp lệ, phải làm lại từ giai đoạn bị bỏ qua.
 
 ## Bắt đầu ở đâu

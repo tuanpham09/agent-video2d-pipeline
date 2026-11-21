@@ -159,6 +159,8 @@ Script này **chỉ đo lời**. "Đổi tên + đổi từ nhưng giữ nguyên
 
 ### C1. Bible & rig (`script/bible.json`, `assets/rig|props|bg/`)
 
+**Tái sử dụng trước (bắt buộc):** quét `projects/*/script/bible.json` và `projects/*/assets/` tìm nhân vật/đạo cụ/bối cảnh dùng được. Có sẵn → dùng lại nguyên id/rig/giọng. Thiếu nhân vật → clone nhân vật gần nhất bằng `"extends": "<id gốc>"` và `rig_params` chỉ ghi phần khác (gốc ở project khác: copy mục đó sang bible mới trước). Thiếu đạo cụ → đổi `states`/màu của đạo cụ gần nhất; chỉ tạo mới khi không có, và khai vào `bible.props` + `assets/props/`. Ghi lý do tạo mới vào `PROJECT.md`.
+
 ```json
 {
   "emotion_vocab": ["calm","focused","worried","afraid","shocked","dread","sad","grief","angry","suspicious","relieved"],
