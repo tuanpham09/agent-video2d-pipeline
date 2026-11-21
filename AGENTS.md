@@ -2,6 +2,21 @@
 
 Workspace này sản xuất video YouTube / TikTok từ nguồn có sẵn: transcript → kịch bản tiếng Việt → giọng đọc VieNeu-TTS → HyperFrames → MP4.
 
+## ⛔ RULE BẮT BUỘC cho mọi agent khi làm video
+
+Áp dụng cho **mọi agent** (Claude, Codex, Cursor, agent con…) và mọi yêu cầu liên quan đến video trong repo này. Không có ngoại lệ ngầm; chỉ người dùng mới được miễn một bước, và phải nói rõ.
+
+1. **Bắt đầu bằng `/video-pipeline`** và đọc `.agents/skills/video-pipeline/references/workflow-v2.md` trước khi làm bất cứ việc gì. Không tự nghĩ ra quy trình riêng.
+2. **Đi đúng thứ tự giai đoạn**: A/B (QA nguồn → viết lại) hoặc C (ý tưởng → bible → đề cương → kịch bản) → **demo 30–40 s** → 👤 người dùng duyệt → mới làm full. Không nhảy cóc, không làm full khi demo chưa được duyệt.
+3. **Gate phải pass bằng lệnh máy, không tự tuyên bố**: `originality_check.py` (A/B), `check_shots.py`, `check_sync.py`, `hyperframes lint/check`. Gate fail → sửa nguồn (script/bible/shotlist/rig) rồi chạy lại; không sửa tay file sinh tự động, không hạ ngưỡng, không bỏ qua cảnh báo lỗi.
+4. **Cập nhật `projects/<slug>/PROJECT.md` sau mỗi gate** (ngày, lệnh, kết quả). Chưa ghi = chưa xong.
+5. **Một video = `projects/<slug>/`**; scaffold bằng `scaffold_project.py`. Không ghi file lạc ra root, không tạo generator/pipeline song song cho từng video.
+6. **Chốt kịch bản trước TTS, chốt preview trước render final.** Giọng cho bản đầy đủ chỉ chạy sau khi demo được duyệt.
+7. **Thiếu thông tin hoặc gate không đi qua được → dừng và hỏi người dùng**, nêu rõ đang kẹt ở bước nào. Không bịa số liệu/quote/tên, không dùng nội dung có bản quyền khi chưa có `source/permission.md`.
+8. **Sửa quy trình thì sửa trong `workflow-v2.md` / skill tự viết** (`video-pipeline`, `script-rewrite`, `voice-sync`) và ghi trong PR; không âm thầm làm khác.
+
+Vi phạm một mục ở trên = kết quả không hợp lệ, phải làm lại từ giai đoạn bị bỏ qua.
+
 ## Bắt đầu ở đâu
 
 Gọi skill **`/video-pipeline`** cho mọi yêu cầu làm video. Skill đó giữ thứ tự phase, checkpoint và QC. Không dựng video bằng cách tự viết ffmpeg/PIL thay cho HyperFrames trừ khi người dùng yêu cầu.
