@@ -15,3 +15,4 @@ def register(bid: str, name: str, kind: str, tags: list[str], focus=(960, 700), 
 from . import batch1  # noqa: E402,F401
 from . import batch2  # noqa: E402,F401
 from . import batch3  # noqa: E402,F401
+from . import batch4  # noqa: E402,F401

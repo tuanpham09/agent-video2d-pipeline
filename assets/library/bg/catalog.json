@@ -489,6 +489,113 @@
         900,
         640
       ]
+    },
+    {
+      "id": "phong_ngu",
+      "name": "Phòng ngủ",
+      "file": "phong_ngu.svg",
+      "kind": "interior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "candle_warm",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "phòng ngủ",
+        "nhà",
+        "đêm"
+      ],
+      "focus": [
+        760,
+        620
+      ]
+    },
+    {
+      "id": "phong_khach",
+      "name": "Phòng khách",
+      "file": "phong_khach.svg",
+      "kind": "interior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "candle_warm",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "phòng khách",
+        "nhà",
+        "gia đình"
+      ],
+      "focus": [
+        960,
+        640
+      ]
+    },
+    {
+      "id": "nha_co_nha_tho_ho",
+      "name": "Nhà cổ / nhà thờ họ",
+      "file": "nha_co_nha_tho_ho.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "nhà cổ",
+        "từ đường",
+        "tâm linh",
+        "ma"
+      ],
+      "focus": [
+        960,
+        560
+      ]
+    },
+    {
+      "id": "nha_cap_bon",
+      "name": "Nhà cấp bốn",
+      "file": "nha_cap_bon.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "nhà cấp bốn",
+        "nông thôn",
+        "gia đình"
+      ],
+      "focus": [
+        960,
+        700
+      ]
     }
   ]
 }

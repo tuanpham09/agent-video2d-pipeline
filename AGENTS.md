@@ -19,6 +19,7 @@ Workspace này sản xuất video YouTube / TikTok từ nguồn có sẵn: trans
    - Trước khi tạo, tìm trong `projects/*/script/bible.json`, `projects/*/assets/{rig,props,bg}/` và `sfx/`. Nhân vật/đạo cụ/bối cảnh đã có và đúng vai thì **dùng lại nguyên id, rig, giọng**; nhân vật đã khóa ở demo không đổi.
    - Thiếu nhân vật → **clone nhân vật gần nhất rồi chỉnh phần khác** (khai `"extends": "<id gốc>"` + `rig_params` chỉ chứa phần đổi; nếu gốc ở project khác thì copy mục đó vào bible mới trước). Không vẽ rig từ đầu khi chưa thử clone. Chạy `build_rig.py` để sinh pose sheet và đưa người dùng duyệt.
    - Thiếu đạo cụ → dùng đạo cụ sẵn có (đổi `states`/màu) nếu gần đúng; chỉ khi không có mới tạo mới, **khai vào `bible.json` (`props` + `states`)** và lưu file vào `assets/props/`. Không đặt đạo cụ "tại chỗ" trong HTML của một shot.
+   - **Bối cảnh: dùng `assets/library/bg/catalog.json` trước** (22 cảnh: nghĩa địa, làng, gian thờ, bờ sông, giếng, tre chuối, trường/nhà hoang, đồng lúa, rạp tang, núi, chùa, WC, miếu/đình, sông, cây đa, sân, bếp, phòng ngủ/khách, nhà cổ/thờ họ, cấp bốn). Thiếu mới thêm hàm vào `scripts/bg_lib/` (clone cảnh gần nhất), chạy `build_bg.py`, commit; không vẽ bối cảnh riêng trong HTML của video. Chi tiết: `HANDOFF.md`.
    - Mỗi nhân vật/đạo cụ tạo mới phải ghi lý do (không có sẵn cái nào dùng được) vào `PROJECT.md`.
 
 Vi phạm một mục ở trên = kết quả không hợp lệ, phải làm lại từ giai đoạn bị bỏ qua.
