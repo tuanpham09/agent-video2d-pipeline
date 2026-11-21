@@ -326,6 +326,169 @@
         960,
         560
       ]
+    },
+    {
+      "id": "nha_ve_sinh",
+      "name": "Nhà vệ sinh",
+      "file": "nha_ve_sinh.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "wc",
+        "sân sau",
+        "ma"
+      ],
+      "focus": [
+        960,
+        700
+      ]
+    },
+    {
+      "id": "mieu_dinh",
+      "name": "Miếu / Đình làng",
+      "file": "mieu_dinh.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "miếu",
+        "đình",
+        "tâm linh"
+      ],
+      "focus": [
+        960,
+        600
+      ]
+    },
+    {
+      "id": "song",
+      "name": "Sông",
+      "file": "song.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "sông",
+        "mặt nước",
+        "toàn cảnh",
+        "thuyền"
+      ],
+      "focus": [
+        960,
+        720
+      ]
+    },
+    {
+      "id": "cay_da",
+      "name": "Cây đa",
+      "file": "cay_da.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "cây đa",
+        "đầu làng",
+        "ma",
+        "tâm linh"
+      ],
+      "focus": [
+        960,
+        760
+      ]
+    },
+    {
+      "id": "san_nha",
+      "name": "Sân nhà",
+      "file": "san_nha.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "sân",
+        "nhà",
+        "gia đình"
+      ],
+      "focus": [
+        960,
+        760
+      ]
+    },
+    {
+      "id": "nha_bep",
+      "name": "Nhà bếp",
+      "file": "nha_bep.svg",
+      "kind": "interior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "candle_warm",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "bếp",
+        "nhà",
+        "củi"
+      ],
+      "focus": [
+        900,
+        640
+      ]
     }
   ]
 }

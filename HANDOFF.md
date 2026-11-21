@@ -14,7 +14,8 @@ Rule: **dùng sẵn trước, thiếu mới tạo** (AGENTS.md điều 9). Bối
 ## Danh sách mục tiêu & trạng thái
 Xong (đợt 1, `batch1.py`): nghia_dia, toan_canh_lang, gian_tho_dem, bo_song, gieng_lang, bui_tre_chuoi
 Xong (đợt 2, `batch2.py`): truong_bo_hoang, nha_hoang, canh_dong_lua, rap_dam_tang, nui, chua
-Còn lại (đợt 3+ → `batch3.py`…, nhớ `from . import batchN` trong `bg_lib/__init__.py`; commit sau mỗi đợt): nha_ve_sinh, mieu_dinh, song, cay_da, san_nha, nha_bep, phong_ngu, phong_khach, nha_co_nha_tho_ho, nha_cap_bon
+Xong (đợt 3, `batch3.py`): nha_ve_sinh, mieu_dinh, song, cay_da, san_nha, nha_bep (có helper `room_shell()` cho cảnh trong nhà)
+Còn lại (đợt 3+ → `batch3.py`…, nhớ `from . import batchN` trong `bg_lib/__init__.py`; commit sau mỗi đợt): phong_ngu, phong_khach, nha_co_nha_tho_ho, nha_cap_bon
 (`toan_canh_lang` dùng cho cả "Toàn cảnh làng/ngôi làng".)
 
 ## Việc còn lại khác
