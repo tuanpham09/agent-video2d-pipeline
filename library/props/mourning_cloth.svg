@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" data-lib-id="mourning_cloth" data-lib-kind="prop" role="img" aria-label="Khăn tang xô trắng">
+<title>mourning_cloth — khăn tang xô trắng</title>
+<style>
+.prop-mourning_cloth .st{display:none}
+.prop-mourning_cloth[data-state='folded'] .st-folded,.prop-mourning_cloth[data-state='spread'] .st-spread,.prop-mourning_cloth[data-state='torn'] .st-torn{display:inline}
+</style>
+<g class="prop prop-mourning_cloth" data-state="folded">
+  <g class="st st-folded">
+    <rect x="40" y="70" width="120" height="70" rx="4" fill="var(--pal-khan_white)" stroke="var(--pal-ink)" stroke-width="5"/>
+    <rect x="40" y="70" width="120" height="14" rx="3" fill="var(--pal-cloth_grey)" stroke="var(--pal-ink)" stroke-width="3"/>
+    <path d="M40 104 L160 104 M100 84 L100 140" stroke="var(--pal-cloth_grey)" stroke-width="3"/>
+  </g>
+  <g class="st st-spread">
+    <path d="M16 140 L56 30 L150 26 L186 140 Z" fill="var(--pal-khan_white)" stroke="var(--pal-ink)" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M70 40 Q84 90 62 134 M118 36 Q108 88 132 134 M40 90 L170 88" stroke="var(--pal-cloth_grey)" stroke-width="3" fill="none"/>
+  </g>
+  <g class="st st-torn">
+    <path d="M16 140 L40 96 L30 60 L66 40 L84 14 L116 36 L150 20 L160 60 L190 84 L172 140 Z" fill="var(--pal-khan_white)" stroke="var(--pal-ink)" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M60 140 L72 100 L56 70 M120 140 L130 104 L146 78" stroke="var(--pal-cloth_grey)" stroke-width="3" fill="none"/>
+    <path d="M100 56 l8 10 l-8 8 l10 8" stroke="var(--pal-cloth_red_dark)" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
+  </g>
+</g>
+</svg>

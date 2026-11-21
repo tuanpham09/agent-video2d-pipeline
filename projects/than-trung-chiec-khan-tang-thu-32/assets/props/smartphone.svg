@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 300" data-lib-id="smartphone" data-lib-kind="prop" role="img" aria-label="Điện thoại thông minh"><style data-palette="1">svg[data-lib-id="smartphone"]{--pal-ash:#8d8a85;--pal-ash_dark:#5d5a56;--pal-bamboo:#b59a5a;--pal-bamboo_dark:#8a7240;--pal-bamboo_shadow:#5e4d28;--pal-brass:#b08a3a;--pal-brass_dark:#7c5e22;--pal-brow_white:#8d857a;--pal-clay:#6f4a32;--pal-clay_dark:#4d3222;--pal-clay_light:#8b6144;--pal-cloth_grey:#c9c2b2;--pal-cloth_red:#a8201a;--pal-cloth_red_dark:#761410;--pal-cloth_white:#ece6d8;--pal-cloud:#c9d6d8;--pal-earth:#5a4630;--pal-earth_dark:#3b2e20;--pal-ember:#e0451f;--pal-end_red:#d0332b;--pal-eye_white:#fffdf7;--pal-flame:#ffb347;--pal-flame_core:#fff3c4;--pal-flame_edge:#e8741f;--pal-floor:#4a3626;--pal-floor_dark:#31241a;--pal-hair_black:#1b120c;--pal-hair_white:#eae4db;--pal-ink:#1f140b;--pal-khan_white:#f4f1ea;--pal-leaf:#2d4a35;--pal-leaf_dark:#1b3224;--pal-light_cold:#5c7fa8;--pal-light_dawn:#ffd9a0;--pal-light_red:#c01818;--pal-light_warm:#ffb060;--pal-mist:#9fb0b0;--pal-moon:#e8e6d2;--pal-mouth_dark:#4a1a14;--pal-ok_green:#3fae5a;--pal-paper:#d9c48a;--pal-phone_body:#25272b;--pal-phone_screen_off:#0d1013;--pal-pupil:#1b120c;--pal-robe_brown:#584333;--pal-robe_brown_dark:#483424;--pal-robe_indigo:#2b2f45;--pal-robe_indigo_dark:#20233a;--pal-robe_mourning:#e6e0d3;--pal-robe_mourning_dark:#cfc8b8;--pal-scar:#e6b99a;--pal-screen_call:#1f3a4d;--pal-screen_glow:#6fd0ff;--pal-shadow:#000000;--pal-shadow_body:#07070a;--pal-shadow_eye:#ffffff;--pal-shadow_ink:#000000;--pal-shadow_line:#e8e4db;--pal-shadow_pupil:#d01010;--pal-shoe:#120d09;--pal-skin:#cf9063;--pal-skin_old:#c48a5d;--pal-sky_dawn:#8aa0a6;--pal-sky_dawn_low:#e3c49a;--pal-sky_night:#121b22;--pal-sky_night_low:#1d2b31;--pal-smoke:#cfcac0;--pal-tear:#cfe6ee;--pal-thatch:#7a6538;--pal-tile:#5a4636;--pal-vignette:#000000;--pal-wall_wood:#3a281b;--pal-wall_wood_dark:#241a13;--pal-wax:#efe6d2;--pal-wax_shadow:#c9bda3;--pal-window_night:#1a2428;--pal-wood:#6b4d31;--pal-wood_black:#1b120c;--pal-wood_dark:#3e2a1a;--pal-wood_light:#8a6a47}</style>
+<title>smartphone — điện thoại (cuộc gọi video: không chữ để khỏi phụ thuộc font)</title>
+<defs><radialGradient id="phn-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="var(--pal-screen_glow)" stop-opacity=".55"/><stop offset="1" stop-color="var(--pal-screen_glow)" stop-opacity="0"/></radialGradient></defs>
+<style>
+.prop-smartphone .st{display:none}
+.prop-smartphone[data-state='off'] .st-off,.prop-smartphone[data-state='ringing'] .st-ringing,
+.prop-smartphone[data-state='call'] .st-call,.prop-smartphone[data-state='ended'] .st-ended,
+.prop-smartphone[data-state='ringing'] .st-lit,.prop-smartphone[data-state='call'] .st-lit{display:inline}
+</style>
+<g class="prop prop-smartphone" data-state="off">
+  <circle class="glow st st-lit" cx="80" cy="150" r="130" fill="url(#phn-glow)" opacity=".6"/>
+  <rect x="14" y="8" width="132" height="284" rx="22" fill="var(--pal-phone_body)" stroke="var(--pal-ink)" stroke-width="6"/>
+  <rect x="24" y="22" width="112" height="256" rx="12" fill="var(--pal-phone_screen_off)"/>
+  <rect x="62" y="12" width="36" height="6" rx="3" fill="var(--pal-ink)"/>
+  <g class="st st-off"><path d="M30 34 L60 28" stroke="var(--pal-ash_dark)" stroke-width="3" opacity=".4" stroke-linecap="round"/></g>
+  <g class="st st-ringing">
+    <rect x="24" y="22" width="112" height="256" rx="12" fill="var(--pal-screen_call)"/>
+    <circle cx="80" cy="100" r="30" fill="var(--pal-ash)"/><circle cx="80" cy="92" r="11" fill="var(--pal-ash_dark)"/><path d="M58 122 Q80 100 102 122 Q92 130 80 130 Q68 130 58 122 Z" fill="var(--pal-ash_dark)"/>
+    <circle cx="52" cy="240" r="17" fill="var(--pal-end_red)"/><circle cx="108" cy="240" r="17" fill="var(--pal-ok_green)"/>
+    <circle cx="80" cy="100" r="40" fill="none" stroke="var(--pal-screen_glow)" stroke-width="3" opacity=".6"/>
+  </g>
+  <g class="st st-call">
+    <rect x="24" y="22" width="112" height="256" rx="12" fill="var(--pal-screen_call)"/>
+    <rect x="24" y="22" width="112" height="196" fill="var(--pal-wall_wood_dark)"/>
+    <circle cx="80" cy="104" r="34" fill="var(--pal-ash)"/><path d="M34 218 Q38 158 80 146 Q122 158 126 218 Z" fill="var(--pal-ash_dark)"/>
+    <rect x="98" y="30" width="32" height="44" rx="4" fill="var(--pal-wall_wood)" stroke="var(--pal-screen_glow)" stroke-width="2"/>
+    <circle cx="114" cy="48" r="8" fill="var(--pal-ash)"/>
+    <circle cx="80" cy="248" r="17" fill="var(--pal-end_red)"/>
+  </g>
+  <g class="st st-ended"><rect x="24" y="22" width="112" height="256" rx="12" fill="var(--pal-phone_screen_off)"/><circle cx="80" cy="150" r="20" fill="none" stroke="var(--pal-end_red)" stroke-width="4" opacity=".7"/><path d="M68 138 L92 162 M92 138 L68 162" stroke="var(--pal-end_red)" stroke-width="4" stroke-linecap="round" opacity=".7"/></g>
+</g>
+</svg>

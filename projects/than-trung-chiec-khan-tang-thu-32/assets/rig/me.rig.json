@@ -1,0 +1,73 @@
+{
+  "id": "me",
+  "svg": "me.svg",
+  "viewBox": [
+    0,
+    0,
+    520,
+    600
+  ],
+  "floor": {
+    "x": 260,
+    "y": 580
+  },
+  "scale": 0.95,
+  "embed": "nested-svg-only",
+  "pivots": {
+    "arm-l": "300px 318px",
+    "arm-r": "220px 318px",
+    "fore-l": "300px 388px",
+    "fore-r": "220px 388px",
+    "note": "transform-box: view-box; toạ độ theo viewBox 0 0 520 600 của file rig (trước scale)"
+  },
+  "archetype": "adult_f",
+  "outfit": "mourning",
+  "states": {
+    "emotion": [
+      "calm",
+      "focused",
+      "worried",
+      "afraid",
+      "shocked",
+      "dread",
+      "sad",
+      "grief",
+      "angry",
+      "suspicious",
+      "relieved"
+    ],
+    "mouth": [
+      "auto",
+      "closed",
+      "half",
+      "open",
+      "round"
+    ],
+    "pose": [
+      "idle",
+      "clasp",
+      "point-l",
+      "reach-l",
+      "raise-both"
+    ],
+    "stance": [
+      "stand",
+      "sit"
+    ],
+    "gaze": [
+      "center",
+      "left",
+      "right",
+      "up",
+      "down"
+    ],
+    "blink": [
+      0,
+      1
+    ],
+    "khan": [
+      "on",
+      "off"
+    ]
+  }
+}

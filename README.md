@@ -6,13 +6,18 @@ Workspace này đã được cài sẵn bộ skill cho quy trình:
 Transcript YouTube  →  Viết lại kịch bản  →  VieNeu-TTS (nhiều nhân vật)  →  HyperFrames (HTML → video)  →  MP4 + phụ đề + đóng gói
 ```
 
+## Luật chung & thư viện dùng chung
+
+- **[`RULES.md`](RULES.md)** — luật cấp cao nhất của repo (mỗi luật có ID `R0`–`R9`). Mọi agent/skill phải tuân theo; `AGENTS.md` và `CLAUDE.md` đều trỏ về đây. Kiểm bằng `check_rules.py`.
+- **[`library/`](library/README.md)** — rig (archetype + outfit), đạo cụ, bối cảnh, palette dùng lại cho mọi project. Quy trình: tra (`library.py list`) → dùng lại (`library.py use`) → làm mới thì đạt chuẩn rồi `promote`.
+
 ## Đã cài gì
 
 ### Skill tự viết cho dự án (`.agents/skills/`)
 
 | Skill | Việc |
 | --- | --- |
-| **video-pipeline** | Điều phối 7 phase, cấu trúc thư mục, QC, đóng gói; kèm `scaffold_project.py` và `check_sync.py` |
+| **video-pipeline** | Điều phối các phase, cấu trúc thư mục, QC, đóng gói; kèm `scaffold_project.py`, `build_rig.py`, `library.py`, `check_rules.py`, `check_shots.py`, `check_sync.py`, `originality_check.py` |
 | **script-rewrite** | Chuẩn viết kịch bản tiếng Việt giữ chân người xem, schema `script.json`, luật viết cho TTS, ví dụ đầy đủ |
 | **voice-sync** | `build_voiceover.py`: đọc cả kịch bản bằng nhiều giọng (mặc định 1.25×), cache theo câu, xuất `manifest.json` + `captions.srt` + audio từng scene |
 

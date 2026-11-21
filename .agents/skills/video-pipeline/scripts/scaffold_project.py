@@ -17,12 +17,23 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from datetime import date
 from pathlib import Path
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
+
+REPO = Path(__file__).resolve().parents[4]
+
+
+def rules_version() -> int:
+    """Phiên bản luật hiện tại trong RULES.md (để ghi tem vào PROJECT.md)."""
+    f = REPO / "RULES.md"
+    m = re.search(r"Phiên bản luật:\s*\*{0,2}\s*(\d+)", f.read_text(encoding="utf-8")) if f.exists() else None
+    return int(m.group(1)) if m else 1
+
 
 FORMATS = {
     "9:16": (1080, 1920),
@@ -69,17 +80,20 @@ PROJECT_MD = """# {title}
 - Format: {fmt} ({w}×{h} @ {fps}fps) · tốc độ đọc `--speed {speed}`
 - Tạo ngày: {today}
 
+**Luật áp dụng: RULES.md v{rules_v}** — đọc `RULES.md` (gốc repo) trước mọi việc; luật cao hơn skill/workflow/file này.
+
 Quy trình: `.agents/skills/video-pipeline/references/workflow-v2.md`. Cập nhật file này sau mỗi gate.
 
 {phase_front}
 ## Giai đoạn C — Demo 30–40 s
 - [ ] Chọn lát cắt, tạo `script/script.demo.json` (giữ nguyên id line)
-- [ ] C1 bible + rig + pose sheet (`script/bible.json`, `assets/rig|props|bg/`)
+- [ ] C0 tra thư viện: `library.py list` → gán `lib` cho từng nhân vật (archetype/outfit), bối cảnh, đạo cụ trong bible (R2.1); `library.py use` để chốt phiên bản
+- [ ] C1 bible + rig + pose sheet (`script/bible.json`, `assets/rig|props|bg/`); asset chưa có trong library → làm đúng chuẩn library (R2.5–R2.7)
 - [ ] C2 `script/shotlist.json` — mỗi line ≥ 1 beat diễn
 - [ ] C3 giọng (`audio/manifest.json`) — đã nghe
 - [ ] C4 SFX theo cue
 - [ ] C5 dựng HyperFrames (`video/`)
-- [ ] C6 QC: `originality_check.py` · `check_shots.py --scenes ...` · `check_sync.py` · `hyperframes check --json`
+- [ ] C6 QC: `check_rules.py` · `originality_check.py` · `check_shots.py --scenes ...` · `check_sync.py` · `hyperframes check --json`
 - [ ] 👤 Duyệt demo: nhân vật · diễn xuất · SFX & mix · bối cảnh/đạo cụ · nhịp shot · giọng
 
 ## Đã khóa ở demo
@@ -96,6 +110,12 @@ Quy trình: `.agents/skills/video-pipeline/references/workflow-v2.md`. Cập nh�
 ## Giai đoạn E — Đóng gói
 - [ ] `output/publish.md` theo `references/packaging.md`
 - [ ] `originality_check.py` chạy lại trên script cuối
+- [ ] **Đưa asset mới vào library** (R2.4): `library.py promote ...` hoặc khai `"scope": "project-only"` + `reason` trong bible; `check_rules.py --phase final` sạch
+
+## Ngoại lệ so với RULES.md
+(chỉ khi người dùng cho phép rõ ràng: luật nào, vì sao, người dùng nói gì)
+
+- (chưa có)
 
 ## Ghi chú / bài học
 
@@ -104,7 +124,7 @@ Quy trình: `.agents/skills/video-pipeline/references/workflow-v2.md`. Cập nh�
 
 BIBLE_STUB = {
     "emotion_vocab": EMOTION_VOCAB,
-    "style": {"line": "", "palette": {}},
+    "style": {"line": "", "palette_ref": ["base"], "palette": {}},
     "characters": [],
     "locations": [],
     "props": [],
@@ -321,6 +341,7 @@ def main() -> int:
         PROJECT_MD.format(
             title=args.title, slug=slug, mode_name=mode_name, fmt=args.format,
             w=w, h=h, fps=args.fps, speed=speed, today=date.today(), phase_front=phase_front,
+            rules_v=rules_version(),
         ),
         args.force,
     )
@@ -372,6 +393,7 @@ def main() -> int:
             "speed": speed,
             "files_created": created,
             "next": [
+                "Đọc RULES.md (gốc repo). Trước khi tạo nhân vật/đạo cụ/bối cảnh: `python .agents/skills/video-pipeline/scripts/library.py list` (R2.1).",
                 first,
                 "Chưa chạy TTS/HyperFrames trước khi script được duyệt (xem references/workflow-v2.md).",
                 f'khi script đã duyệt: python .agents/skills/voice-sync/scripts/build_voiceover.py --script "{script_path}" --out "{project / "audio"}" --speed {speed}',

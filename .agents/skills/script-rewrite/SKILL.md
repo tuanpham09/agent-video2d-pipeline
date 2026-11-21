@@ -90,7 +90,7 @@ Dùng `/long-form-youtube` cho khung chuẩn. Rút gọn áp dụng ở đây:
 3. **Cử động & Biểu cảm (Action & Motion Rig):**
    * Động tác tay chân cụ thể: Tay cầm chày giã cối nhịp nhàng, tay lật đếm từng nếp khăn, tay vung ra chỉ hướng cửa, ngực phập phồng theo nhịp thở.
    * Hướng mắt & cử động mắt: Mắt nhìn chăm chú vào mâm khăn, mắt liếc sợ hãi sang góc tối, mắt chớp tự nhiên.
-   * Cảm xúc biến đổi (theo thang 31 sắc thái `claude-animation-base`): Từ bình thản, tập trung, nghiêm nghị sang bàng hoàng, lạnh gáy.
+   * Cảm xúc biến đổi (chọn trong `emotion_vocab` của `bible.json`: calm, focused, worried, afraid, shocked, dread, sad, grief, angry, suspicious, relieved): Từ bình thản, tập trung, nghiêm nghị sang bàng hoàng, lạnh gáy.
    * Khẩu hình miệng: Miệng mở đóng đồng bộ với âm tiết của câu thoại.
 4. **Nguồn sáng & Ánh sáng động (Dynamic Lighting & Mood):**
    * Nguồn sáng từ đâu: Ánh nến vàng cam lập lòe, ngọn đèn dầu hoa kỳ hay ngọn lửa bập bùng?

@@ -1,0 +1,548 @@
+{
+  "schema": 1,
+  "description": "Registry của library/. Sửa bằng library.py (reindex/promote); không sửa sha256/version tay.",
+  "items": [
+    {
+      "id": "candle",
+      "kind": "prop",
+      "file": "props/candle.svg",
+      "description": "Nến trên chân đèn đồng",
+      "size": [
+        120,
+        280
+      ],
+      "anchor": "bottom-center",
+      "states": [
+        "lit",
+        "low",
+        "out"
+      ],
+      "default_state": "lit",
+      "tags": [
+        "lighting",
+        "altar",
+        "horror",
+        "vn-rural"
+      ],
+      "scene_s": 0.45,
+      "palettes": [
+        "base"
+      ],
+      "parts": {
+        "flame": "60px 92px (view-box)",
+        "glow": "fill-box 50% 50%",
+        "smoke": "fill-box 50% 100%"
+      },
+      "version": 1,
+      "sha256": "23cd6544f7957156bac38e01007cfe4ae5be91605669ab907b9e6abcafd1ace1"
+    },
+    {
+      "id": "oil_lamp",
+      "kind": "prop",
+      "file": "props/oil_lamp.svg",
+      "description": "Đèn dầu bóng thuỷ tinh",
+      "size": [
+        160,
+        280
+      ],
+      "anchor": "bottom-center",
+      "states": [
+        "lit",
+        "low",
+        "out"
+      ],
+      "default_state": "lit",
+      "tags": [
+        "lighting",
+        "vn-rural",
+        "horror"
+      ],
+      "scene_s": 0.45,
+      "palettes": [
+        "base"
+      ],
+      "parts": {
+        "flame": "80px 176px (view-box)",
+        "glow": "fill-box 50% 50%",
+        "smoke": "fill-box 50% 100%"
+      },
+      "version": 1,
+      "sha256": "bfe2bc00a50e9cdb258be76c222fb646414c4bdbcde7d6aeb4f68260393367b1"
+    },
+    {
+      "id": "incense_burner",
+      "kind": "prop",
+      "file": "props/incense_burner.svg",
+      "description": "Bát hương cắm nhang (khói)",
+      "size": [
+        240,
+        310
+      ],
+      "anchor": "bottom-center",
+      "states": [
+        "burning",
+        "spent"
+      ],
+      "default_state": "burning",
+      "tags": [
+        "altar",
+        "ritual",
+        "vn-rural"
+      ],
+      "scene_s": 0.35,
+      "palettes": [
+        "base"
+      ],
+      "parts": {
+        "smoke": "fill-box 50% 100%"
+      },
+      "version": 1,
+      "sha256": "94bf2711597dddf735491ed1fd350dceef32588b89976a98f49457531f438566"
+    },
+    {
+      "id": "ancestral_altar",
+      "kind": "prop",
+      "file": "props/ancestral_altar.svg",
+      "description": "Tủ thờ + di ảnh; có 3 slot cho nến/bát hương",
+      "size": [
+        560,
+        620
+      ],
+      "anchor": "bottom-center",
+      "states": [
+        "normal",
+        "covered",
+        "blank"
+      ],
+      "default_state": "normal",
+      "tags": [
+        "altar",
+        "furniture",
+        "ritual",
+        "vn-rural",
+        "horror"
+      ],
+      "scene_s": 0.8,
+      "palettes": [
+        "base"
+      ],
+      "parts": {
+        "cover": "280px 120px (view-box)"
+      },
+      "slots": {
+        "candle-l": {
+          "x": 140,
+          "y": 396
+        },
+        "candle-r": {
+          "x": 420,
+          "y": 396
+        },
+        "incense": {
+          "x": 280,
+          "y": 396
+        }
+      },
+      "version": 1,
+      "sha256": "ee6f9421f621bba5fe2ec74af4ae530101d20975579e3d2cc901265d171a7231"
+    },
+    {
+      "id": "clay_jar",
+      "kind": "prop",
+      "file": "props/clay_jar.svg",
+      "description": "Hũ sành bịt vải đỏ",
+      "size": [
+        220,
+        280
+      ],
+      "anchor": "bottom-center",
+      "states": [
+        "sealed",
+        "open",
+        "cracked"
+      ],
+      "default_state": "sealed",
+      "tags": [
+        "container",
+        "horror",
+        "vn-rural",
+        "ritual"
+      ],
+      "scene_s": 0.6,
+      "palettes": [
+        "base"
+      ],
+      "parts": {
+        "cloth": "110px 96px (view-box)"
+      },
+      "version": 1,
+      "sha256": "e8ec616e16d2a811b17a49ffd3df75ef9fb03f983190c787ac72d41c9c089274"
+    },
+    {
+      "id": "betel_mortar",
+      "kind": "prop",
+      "file": "props/betel_mortar.svg",
+      "description": "Cối đồng giã trầu + chày",
+      "size": [
+        300,
+        340
+      ],
+      "anchor": "bottom-center",
+      "states": [
+        "rest",
+        "raised",
+        "strike"
+      ],
+      "default_state": "rest",
+      "tags": [
+        "tool",
+        "vn-rural",
+        "sfx-sync"
+      ],
+      "scene_s": 0.45,
+      "palettes": [
+        "base"
+      ],
+      "parts": {
+        "pestle": "150px 250px (view-box) — xoay quanh đáy chày; đồng bộ SFX cối đồng"
+      },
+      "version": 1,
+      "sha256": "920f73cd9455fe492df6cbf34371ac92f65b38bd2252c5077ac5cefea268c4b1"
+    },
+    {
+      "id": "bamboo_bed",
+      "kind": "prop",
+      "file": "props/bamboo_bed.svg",
+      "description": "Chõng tre",
+      "size": [
+        560,
+        230
+      ],
+      "anchor": "bottom-center",
+      "states": [
+        "bare",
+        "mat",
+        "blanket"
+      ],
+      "default_state": "bare",
+      "tags": [
+        "furniture",
+        "vn-rural",
+        "bedroom"
+      ],
+      "scene_s": 1.0,
+      "palettes": [
+        "base"
+      ],
+      "version": 1,
+      "sha256": "e6938f4414249b64c0713e10211078c27d8432609b6d40202132521c4eb7bdcb"
+    },
+    {
+      "id": "bamboo_tray",
+      "kind": "prop",
+      "file": "props/bamboo_tray.svg",
+      "description": "Mâm tre đan (đựng khăn/trầu cau)",
+      "size": [
+        340,
+        150
+      ],
+      "anchor": "bottom-center",
+      "states": [
+        "empty",
+        "cloths",
+        "scattered"
+      ],
+      "default_state": "empty",
+      "tags": [
+        "container",
+        "ritual",
+        "vn-rural"
+      ],
+      "scene_s": 0.6,
+      "palettes": [
+        "base"
+      ],
+      "version": 1,
+      "sha256": "2cb4fdc3b23baa042378111858713081e3e88427b8c859859cccc5ef8cf22c0f"
+    },
+    {
+      "id": "mourning_cloth",
+      "kind": "prop",
+      "file": "props/mourning_cloth.svg",
+      "description": "Khăn tang xô trắng",
+      "size": [
+        200,
+        150
+      ],
+      "anchor": "bottom-center",
+      "states": [
+        "folded",
+        "spread",
+        "torn"
+      ],
+      "default_state": "folded",
+      "tags": [
+        "ritual",
+        "funeral",
+        "vn-rural",
+        "horror"
+      ],
+      "scene_s": 0.5,
+      "palettes": [
+        "base"
+      ],
+      "version": 1,
+      "sha256": "5ed9728bfadac00f995b5c5cec6333de9ed116996a8a077627d794c36ad7eb73"
+    },
+    {
+      "id": "smartphone",
+      "kind": "prop",
+      "file": "props/smartphone.svg",
+      "description": "Điện thoại thông minh (cuộc gọi video, không chữ)",
+      "size": [
+        160,
+        300
+      ],
+      "anchor": "bottom-center",
+      "states": [
+        "off",
+        "ringing",
+        "call",
+        "ended"
+      ],
+      "default_state": "off",
+      "tags": [
+        "modern",
+        "communication"
+      ],
+      "scene_s": 0.45,
+      "palettes": [
+        "base"
+      ],
+      "parts": {
+        "glow": "fill-box 50% 50%"
+      },
+      "version": 1,
+      "sha256": "a29aaeca7604b2fbfad023ed753f8733e95d1cb01723bdb07406d93806c9de69"
+    },
+    {
+      "id": "house_altar_room",
+      "kind": "location",
+      "file": "locations/house_altar_room.svg",
+      "description": "Gian thờ nhà quê: vách gỗ, cửa sổ nhìn vườn chuối, nền gạch, cột + xà",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "default_light": "warm",
+      "floor_y": 900,
+      "stand": {
+        "L": {
+          "x": 960,
+          "y": 930,
+          "s": 1.0
+        },
+        "C": {
+          "x": 1180,
+          "y": 930,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1460,
+          "y": 930,
+          "s": 1.0
+        }
+      },
+      "slots": {
+        "altar": {
+          "x": 700,
+          "y": 860,
+          "s": 1.0
+        },
+        "window": {
+          "x": 1355,
+          "y": 580,
+          "s": 1.0
+        },
+        "door-left": {
+          "x": 195,
+          "y": 800,
+          "s": 1.0
+        }
+      },
+      "crop_9x16": {
+        "altar": 700,
+        "window": 1355,
+        "center": 1000
+      },
+      "tags": [
+        "interior",
+        "altar",
+        "horror",
+        "vn-rural"
+      ],
+      "palettes": [
+        "base"
+      ],
+      "version": 1,
+      "sha256": "200d4eb7055dca06c8c0ecbc83b393571baf57f80d90f17ece954dd3ae7181c6"
+    },
+    {
+      "id": "village_yard_night",
+      "kind": "location",
+      "file": "locations/village_yard_night.svg",
+      "description": "Sân đất đêm: vườn chuối, nhà mái lá, trăng mờ sương, hàng rào tre",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "default_light": "warm",
+      "floor_y": 900,
+      "stand": {
+        "L": {
+          "x": 560,
+          "y": 940,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 950,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1300,
+          "y": 950,
+          "s": 1.0
+        }
+      },
+      "slots": {
+        "house-door": {
+          "x": 1565,
+          "y": 820,
+          "s": 1.0
+        },
+        "campfire": {
+          "x": 760,
+          "y": 900,
+          "s": 1.0
+        },
+        "fence": {
+          "x": 1075,
+          "y": 830,
+          "s": 1.0
+        }
+      },
+      "crop_9x16": {
+        "door": 1565,
+        "banana": 480,
+        "center": 960
+      },
+      "tags": [
+        "exterior",
+        "night",
+        "horror",
+        "vn-rural"
+      ],
+      "palettes": [
+        "base"
+      ],
+      "version": 1,
+      "sha256": "301064b6bee46759a0341618712c7a1cc39f9fb6bd63ea668a88dfbbd7ac249e"
+    },
+    {
+      "id": "veranda_night",
+      "kind": "location",
+      "file": "locations/veranda_night.svg",
+      "description": "Hiên nhà ban đêm: sàn ván, cửa nhà phía sau, nhìn ra sân tối",
+      "size": [
+        1920,
+        1080
+      ],
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "default_light": "warm",
+      "floor_y": 900,
+      "stand": {
+        "L": {
+          "x": 560,
+          "y": 950,
+          "s": 1.0
+        },
+        "C": {
+          "x": 960,
+          "y": 950,
+          "s": 1.0
+        },
+        "R": {
+          "x": 1380,
+          "y": 950,
+          "s": 1.0
+        }
+      },
+      "slots": {
+        "bed": {
+          "x": 620,
+          "y": 930,
+          "s": 1.0
+        },
+        "lamp-hook": {
+          "x": 1000,
+          "y": 400,
+          "s": 1.0
+        },
+        "door": {
+          "x": 990,
+          "y": 840,
+          "s": 1.0
+        }
+      },
+      "crop_9x16": {
+        "door": 990,
+        "bed": 620,
+        "center": 960
+      },
+      "tags": [
+        "exterior",
+        "interior",
+        "night",
+        "vn-rural"
+      ],
+      "palettes": [
+        "base"
+      ],
+      "version": 1,
+      "sha256": "3bcae407b968ff88263759ff9ce4996adcefc9691b0c4531f04c7ee0cd6251a7"
+    }
+  ]
+}

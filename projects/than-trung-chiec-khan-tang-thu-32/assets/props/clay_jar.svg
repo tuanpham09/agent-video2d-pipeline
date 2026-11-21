@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 280" data-lib-id="clay_jar" data-lib-kind="prop" role="img" aria-label="Hũ sành bịt vải đỏ"><style data-palette="1">svg[data-lib-id="clay_jar"]{--pal-ash:#8d8a85;--pal-ash_dark:#5d5a56;--pal-bamboo:#b59a5a;--pal-bamboo_dark:#8a7240;--pal-bamboo_shadow:#5e4d28;--pal-brass:#b08a3a;--pal-brass_dark:#7c5e22;--pal-brow_white:#8d857a;--pal-clay:#6f4a32;--pal-clay_dark:#4d3222;--pal-clay_light:#8b6144;--pal-cloth_grey:#c9c2b2;--pal-cloth_red:#a8201a;--pal-cloth_red_dark:#761410;--pal-cloth_white:#ece6d8;--pal-cloud:#c9d6d8;--pal-earth:#5a4630;--pal-earth_dark:#3b2e20;--pal-ember:#e0451f;--pal-end_red:#d0332b;--pal-eye_white:#fffdf7;--pal-flame:#ffb347;--pal-flame_core:#fff3c4;--pal-flame_edge:#e8741f;--pal-floor:#4a3626;--pal-floor_dark:#31241a;--pal-hair_black:#1b120c;--pal-hair_white:#eae4db;--pal-ink:#1f140b;--pal-khan_white:#f4f1ea;--pal-leaf:#2d4a35;--pal-leaf_dark:#1b3224;--pal-light_cold:#5c7fa8;--pal-light_dawn:#ffd9a0;--pal-light_red:#c01818;--pal-light_warm:#ffb060;--pal-mist:#9fb0b0;--pal-moon:#e8e6d2;--pal-mouth_dark:#4a1a14;--pal-ok_green:#3fae5a;--pal-paper:#d9c48a;--pal-phone_body:#25272b;--pal-phone_screen_off:#0d1013;--pal-pupil:#1b120c;--pal-robe_brown:#584333;--pal-robe_brown_dark:#483424;--pal-robe_indigo:#2b2f45;--pal-robe_indigo_dark:#20233a;--pal-robe_mourning:#e6e0d3;--pal-robe_mourning_dark:#cfc8b8;--pal-scar:#e6b99a;--pal-screen_call:#1f3a4d;--pal-screen_glow:#6fd0ff;--pal-shadow:#000000;--pal-shadow_body:#07070a;--pal-shadow_eye:#ffffff;--pal-shadow_ink:#000000;--pal-shadow_line:#e8e4db;--pal-shadow_pupil:#d01010;--pal-shoe:#120d09;--pal-skin:#cf9063;--pal-skin_old:#c48a5d;--pal-sky_dawn:#8aa0a6;--pal-sky_dawn_low:#e3c49a;--pal-sky_night:#121b22;--pal-sky_night_low:#1d2b31;--pal-smoke:#cfcac0;--pal-tear:#cfe6ee;--pal-thatch:#7a6538;--pal-tile:#5a4636;--pal-vignette:#000000;--pal-wall_wood:#3a281b;--pal-wall_wood_dark:#241a13;--pal-wax:#efe6d2;--pal-wax_shadow:#c9bda3;--pal-window_night:#1a2428;--pal-wood:#6b4d31;--pal-wood_black:#1b120c;--pal-wood_dark:#3e2a1a;--pal-wood_light:#8a6a47}</style>
+<title>clay_jar — hũ sành bịt vải đỏ</title>
+<style>
+.prop-clay_jar .st{display:none}
+.prop-clay_jar[data-state='sealed'] .st-sealed,.prop-clay_jar[data-state='cracked'] .st-sealed,.prop-clay_jar[data-state='cracked'] .st-cracked,
+.prop-clay_jar[data-state='open'] .st-open{display:inline}
+.prop-clay_jar .cloth{transform-box:view-box;transform-origin:110px 96px}
+</style>
+<g class="prop prop-clay_jar" data-state="sealed">
+  <path d="M56 100 C 14 150 12 232 58 268 L162 268 C 208 232 206 150 164 100 Z" fill="var(--pal-clay)" stroke="var(--pal-ink)" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M34 164 Q110 186 186 164" stroke="var(--pal-clay_dark)" stroke-width="5" fill="none"/>
+  <path d="M30 206 Q110 228 190 206" stroke="var(--pal-clay_dark)" stroke-width="5" fill="none"/>
+  <path d="M44 140 Q30 190 52 238" stroke="var(--pal-clay_light)" stroke-width="7" stroke-linecap="round" fill="none" opacity=".7"/>
+  <ellipse cx="110" cy="272" rx="58" ry="8" fill="var(--pal-clay_dark)" stroke="var(--pal-ink)" stroke-width="4"/>
+  <ellipse cx="110" cy="98" rx="58" ry="16" fill="var(--pal-clay_dark)" stroke="var(--pal-ink)" stroke-width="6"/>
+  <g class="st st-open">
+    <ellipse cx="110" cy="100" rx="44" ry="10" fill="var(--pal-shadow)"/>
+    <ellipse cx="110" cy="100" rx="30" ry="6" fill="var(--pal-ember)" opacity=".4"/>
+    <path class="cloth" d="M60 98 Q22 116 30 184 Q52 164 70 112 Z" fill="var(--pal-cloth_red)" stroke="var(--pal-ink)" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M42 130 Q40 156 40 170" stroke="var(--pal-cloth_red_dark)" stroke-width="4" fill="none"/>
+  </g>
+  <g class="st st-sealed cloth">
+    <path d="M46 96 Q110 38 174 96 Q174 112 110 116 Q46 112 46 96 Z" fill="var(--pal-cloth_red)" stroke="var(--pal-ink)" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M70 90 Q110 62 150 90" stroke="var(--pal-cloth_red_dark)" stroke-width="4" fill="none"/>
+    <path d="M52 104 Q110 118 168 104" stroke="var(--pal-paper)" stroke-width="5" stroke-linecap="round" fill="none"/>
+    <path d="M100 112 q-8 14 -2 22 M116 112 q8 14 2 22" stroke="var(--pal-paper)" stroke-width="4" stroke-linecap="round" fill="none"/>
+  </g>
+  <g class="st st-cracked" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M142 118 L132 150 L148 170 L130 206 L140 244" stroke="var(--pal-ink)" stroke-width="5"/>
+    <path d="M132 150 L110 160 M130 206 L108 214" stroke="var(--pal-ink)" stroke-width="3.5"/>
+    <path d="M143 120 L134 150" stroke="var(--pal-ember)" stroke-width="2" opacity=".7"/>
+  </g>
+</g>
+</svg>

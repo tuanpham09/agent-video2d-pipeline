@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 """Sinh rig SVG nhân vật + pose sheet từ script/bible.json.
 
-Mỗi nhân vật trong bible có khối "rig" (tham số), màu lấy từ style.palette.
+Mỗi nhân vật trong bible có khối "rig" (tham số). Gộp theo thứ tự:
+library/rigs/archetypes.json (archetype → outfit) → khoá ghi đè trong bible.
+Màu là TOKEN (không hex): lấy từ library/palettes/<style.palette_ref...>.json
+rồi style.palette của bible (chỉ để ghi đè đặc thù của project).
 Một rig = một file SVG tự chứa, nhóm có tên + CSS điều khiển bằng thuộc tính:
 
   <g class="rig rig-<id>" data-emotion="calm" data-mouth="auto" data-pose="idle"
@@ -25,7 +28,10 @@ Khớp vai/khuỷu dùng transform-origin theo toạ độ viewBox của chính 
 Dùng:
   python .agents/skills/video-pipeline/scripts/build_rig.py \
       --bible projects/<slug>/script/bible.json --out projects/<slug>/assets/rig
-  thêm --no-sheet để bỏ pose sheet (cần playwright + chromium).
+  thêm --no-sheet để bỏ pose sheet (cần playwright + chromium); --library để đổi thư mục library.
+Mỗi nhân vật xuất <id>.svg + <id>.rig.json (viewBox, pivot, danh sách trạng thái) cho generator dựng cảnh.
+LUẬT NHÚNG: rig chỉ được nhúng vào cảnh dưới dạng <svg> lồng nhau (có viewBox riêng), KHÔNG chép <g>
+trần vào svg cảnh, vì pivot dùng transform-box: view-box (RULES.md R3.4).
 """
 from __future__ import annotations
 
@@ -42,6 +48,7 @@ FLOOR = 580
 VB_W, VB_H = 520, 600  # rộng hơn để tay vươn/chỉ không bị cắt
 SHOULDER_Y = 318
 ELBOW_Y = 388
+NECK_Y = 275
 
 # brow rot: dương = đầu mày phía trong nhướn lên; mc: >0 cười, <0 mếu
 EMOTIONS = {
@@ -69,16 +76,25 @@ POSES = {
 
 GAZE = {"center": (0, 0), "left": (-5, 0), "right": (5, 0), "up": (0, -4), "down": (0, 4)}
 
-DEFAULT_PALETTE = {
-    "skin": "#cf9063", "skin_old": "#c48a5d", "ink": "#1f140b", "eye_white": "#fffdf7",
-    "pupil": "#1b120c", "mouth_dark": "#4a1a14", "shoe": "#120d09",
-    "hair_black": "#1b120c", "hair_white": "#eae4db", "brow_white": "#8d857a",
-    "robe_mourning": "#e6e0d3", "robe_mourning_dark": "#cfc8b8",
-    "robe_brown": "#584333", "robe_brown_dark": "#483424",
-    "robe_indigo": "#2b2f45", "robe_indigo_dark": "#20233a", "khan_white": "#f4f1ea",
-    "scar": "#e6b99a", "cloud": "#c9d6d8", "shadow_body": "#07070a", "shadow_ink": "#000000",
-    "shadow_eye": "#ffffff", "shadow_pupil": "#d01010", "shadow_line": "#e8e4db",
-}
+REPO = Path(__file__).resolve().parents[4]
+DEFAULT_LIBRARY = REPO / "library"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from library import load_palette  # noqa: E402  (một nguồn gộp palette)
+
+
+def resolve_rig(char: dict, catalog: dict) -> dict:
+    """archetype → outfit → khoá ghi đè của chính nhân vật."""
+    raw = dict(char["rig"])
+    merged: dict = {}
+    for key, table in (("archetype", "archetypes"), ("outfit", "outfits")):
+        name = raw.get(key)
+        if name:
+            if name not in catalog.get(table, {}):
+                raise SystemExit(f"LỖI: {char['id']}: {key} '{name}' không có trong library/rigs/archetypes.json")
+            merged.update(catalog[table][name]["params"])
+    merged.update({k: v for k, v in raw.items() if k not in ("archetype", "outfit")})
+    merged["archetype"], merged["outfit"] = raw.get("archetype"), raw.get("outfit")
+    return merged
 
 
 def esc(s: str) -> str:
@@ -88,18 +104,23 @@ def esc(s: str) -> str:
 class Rig:
     """Một nhân vật + palette đã giải quyết."""
 
-    def __init__(self, char: dict, palette: dict):
+    def __init__(self, char: dict, palette: dict, catalog: dict | None = None):
         self.char = char
         self.id = char["id"]
-        p = dict(char["rig"])
+        p = resolve_rig(char, catalog or {})
         self.p = p
-        self.pal = {**DEFAULT_PALETTE, **palette}
+        self.pal = palette
         self.shadow = bool(p.get("shadow"))
+        self.missing: set[str] = set()
 
     def c(self, key: str | None, fallback: str = "ink") -> str:
+        """Giải token màu → hex. Token lạ bị ghi nhận và làm hỏng build (không gõ hex trong bible/generator)."""
         if key is None:
             return "none"
-        return self.pal.get(key, key if key.startswith("#") else self.pal[fallback])
+        if key in self.pal:
+            return self.pal[key]
+        self.missing.add(key)
+        return self.pal[fallback]
 
     # ---- hình học -------------------------------------------------------
     @property
@@ -124,8 +145,10 @@ class Rig:
 
     def crop(self, x0=None, y0=92, x1=None, y1=322) -> str:
         """viewBox cắt đầu + vai, đã tính scale quanh chân."""
-        x0 = CX - 90 if x0 is None else x0
-        x1 = CX + 90 if x1 is None else x1
+        hs = float(self.p.get("head_scale", 1.0))
+        y0 = NECK_Y - (NECK_Y - y0) * hs
+        x0 = CX - 90 * hs if x0 is None else x0
+        x1 = CX + 90 * hs if x1 is None else x1
         s = self.scale
         tx = lambda x: CX + (x - CX) * s
         ty = lambda y: FLOOR - (FLOOR - y) * s
@@ -194,7 +217,10 @@ class Rig:
         hair = self.c(p.get("hair_color", "hair_black"))
         brow_col = self.c(p.get("brow_color", p.get("hair_color", "hair_black")))
         hy = 14 * float(p.get("hunch", 0))
+        hs = float(p.get("head_scale", 1.0))
         out = [f'<g class="head" transform="translate(0 {hy:g})">']
+        if hs != 1.0:  # đầu to/nhỏ quanh gốc cổ (trẻ em: đầu to)
+            out.append(f'<g class="head-scale" transform="translate({CX} {NECK_Y}) scale({hs:g}) translate({-CX} {-NECK_Y})">')
 
         hair_style = p.get("hair", "short")
         hat = p.get("hat")
@@ -281,6 +307,8 @@ class Rig:
                 f'<path d="M {CX - 60} 167 Q {CX} 148 {CX + 60} 167 L {CX + 60} 183 Q {CX} 164 {CX - 60} 183 Z" fill="{kh}" stroke="{ink}" stroke-width="4" stroke-linejoin="round"/>'
                 f'</g>'
             )
+        if hs != 1.0:
+            out.append("</g>")
         out.append("</g>")
         return "".join(out)
 
@@ -424,12 +452,17 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Sinh rig SVG + pose sheet từ bible.json.")
     ap.add_argument("--bible", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True, help="thư mục xuất rig, ví dụ projects/<slug>/assets/rig")
+    ap.add_argument("--library", type=Path, default=DEFAULT_LIBRARY, help="thư mục library dùng chung")
     ap.add_argument("--only", help="chỉ build các id này, cách nhau bằng dấu phẩy")
     ap.add_argument("--no-sheet", action="store_true")
     args = ap.parse_args()
 
     bible = json.loads(args.bible.read_text(encoding="utf-8-sig"))
-    palette = bible.get("style", {}).get("palette", {})
+    style = bible.get("style", {})
+    refs = style.get("palette_ref") or ["base"]
+    palette = load_palette(args.library, refs, style.get("palette", {}))
+    cat_file = args.library / "rigs" / "archetypes.json"
+    catalog = json.loads(cat_file.read_text(encoding="utf-8")) if cat_file.exists() else {}
     vocab = bible.get("emotion_vocab") or list(EMOTIONS)
     unknown = [e for e in vocab if e not in EMOTIONS]
     if unknown:
@@ -437,7 +470,7 @@ def main() -> int:
         return 1
 
     only = set(args.only.split(",")) if args.only else None
-    rigs = [Rig(c, palette) for c in bible.get("characters", []) if c.get("rig") and (not only or c["id"] in only)]
+    rigs = [Rig(c, palette, catalog) for c in bible.get("characters", []) if c.get("rig") and (not only or c["id"] in only)]
     if not rigs:
         print("Không có nhân vật nào có khối 'rig' trong bible.", file=sys.stderr)
         return 1
@@ -448,9 +481,25 @@ def main() -> int:
         sheets.mkdir(exist_ok=True)
 
     report = []
+    bad = False
     for rig in rigs:
         svg_path = args.out / Path(rig.p.get("file", f"{rig.id}.svg")).name
         svg_path.write_text(rig.svg({}), encoding="utf-8")
+        if rig.missing:
+            print(f"LỖI: {rig.id}: token màu không có trong palette {refs}: {sorted(rig.missing)}", file=sys.stderr)
+            bad = True
+        side = {
+            "id": rig.id, "svg": svg_path.name, "viewBox": [0, 0, VB_W, VB_H],
+            "floor": {"x": CX, "y": FLOOR}, "scale": rig.scale,
+            "embed": "nested-svg-only", "pivots": rig.pivots(),
+            "archetype": rig.p.get("archetype"), "outfit": rig.p.get("outfit"),
+            "states": {
+                "emotion": list(EMOTIONS), "mouth": ["auto", "closed", "half", "open", "round"],
+                "pose": list(POSES), "stance": ["stand", "sit"], "gaze": list(GAZE),
+                "blink": [0, 1], "khan": ["on", "off"],
+            },
+        }
+        svg_path.with_suffix(".rig.json").write_text(json.dumps(side, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         entry = {"id": rig.id, "svg": str(svg_path), "bytes": svg_path.stat().st_size}
         if not args.no_sheet:
             html_path = sheets / f"{rig.id}.html"
@@ -460,6 +509,8 @@ def main() -> int:
             html_path.unlink()
             entry["sheet"] = str(png)
         report.append(entry)
+    if bad:
+        return 1
 
     if not args.no_sheet:
         lp = sheets / "lineup.html"
@@ -467,7 +518,7 @@ def main() -> int:
         render_png(lp, sheets / "lineup.png", 258 * len(rigs) + 60)
         lp.unlink()
 
-    print(json.dumps({"status": "ok", "rigs": report}, ensure_ascii=False, indent=2))
+    print(json.dumps({"status": "ok", "palette": refs, "rigs": report}, ensure_ascii=False, indent=2))
     return 0
 
 

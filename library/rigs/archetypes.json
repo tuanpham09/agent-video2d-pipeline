@@ -1,0 +1,51 @@
+{
+  "description": "Khuôn người + bộ trang phục dùng lại cho mọi project. Bible: rig = {archetype, outfit, ...ghi đè}. Thứ tự gộp: archetype → outfit → khoá ghi đè trong bible. Màu là TOKEN trong library/palettes.",
+  "archetypes": {
+    "adult_m": {
+      "description": "Nam trưởng thành, tóc ngắn đen",
+      "params": {"scale": 1.0, "body_w": 100, "hunch": 0, "skin": "skin", "hair": "short", "hair_color": "hair_black", "wrinkles": 0}
+    },
+    "adult_f": {
+      "description": "Nữ trung niên, tóc đen búi",
+      "params": {"scale": 0.95, "body_w": 96, "hunch": 0.1, "skin": "skin", "hair": "bun", "hair_color": "hair_black", "wrinkles": 1}
+    },
+    "elder_m": {
+      "description": "Ông già, hơi còng, đầu trọc, mày bạc, nhiều nếp nhăn",
+      "params": {"scale": 0.93, "body_w": 96, "hunch": 0.5, "skin": "skin_old", "hair": "none", "hair_color": "hair_white", "brow_color": "brow_white", "wrinkles": 2}
+    },
+    "elder_f": {
+      "description": "Bà già, còng lưng, tóc bạc búi",
+      "params": {"scale": 0.86, "body_w": 92, "hunch": 0.9, "skin": "skin_old", "hair": "bun", "hair_color": "hair_white", "brow_color": "brow_white", "wrinkles": 2}
+    },
+    "teen": {
+      "description": "Thiếu niên: nhỏ hơn người lớn, đầu hơi to",
+      "params": {"scale": 0.82, "body_w": 84, "hunch": 0, "head_scale": 1.12, "skin": "skin", "hair": "short", "hair_color": "hair_black", "wrinkles": 0}
+    },
+    "child": {
+      "description": "Trẻ nhỏ: thân bé, đầu to (head_scale) để không giống người lớn thu nhỏ",
+      "params": {"scale": 0.62, "body_w": 74, "hunch": 0, "head_scale": 1.32, "skin": "skin", "hair": "short", "hair_color": "hair_black", "wrinkles": 0}
+    },
+    "spirit_shadow": {
+      "description": "Bóng đen không mặt thật, mắt trắng đồng tử đỏ, miệng ngoác (khăn rách buộc đầu)",
+      "params": {"scale": 1.12, "body_w": 130, "hunch": 0, "shadow": true, "hair": "none", "robe": "shadow_body", "sleeve": "shadow_body", "pants": "shadow_body", "headband": true, "khan_default": "on"}
+    }
+  },
+  "outfits": {
+    "mourning": {
+      "description": "Đồ tang áo xô trắng ngà + khăn tang trên đầu (khăn là prop có thể tháo: khan_default)",
+      "params": {"robe": "robe_mourning", "sleeve": "robe_mourning_dark", "pants": "robe_mourning_dark", "headband": true, "khan_default": "on"}
+    },
+    "ao_the_indigo": {
+      "description": "Áo the thâm, khăn xếp, thắt lưng nâu (người lớn tuổi, thầy cúng, người làng)",
+      "params": {"robe": "robe_indigo", "sleeve": "robe_indigo_dark", "pants": "robe_indigo_dark", "sash": "robe_brown", "hat": "khan-xep"}
+    },
+    "nau_song": {
+      "description": "Áo nâu sồng giản dị (người nông thôn)",
+      "params": {"robe": "robe_brown", "sleeve": "robe_brown_dark", "pants": "robe_brown_dark"}
+    },
+    "plain_light": {
+      "description": "Áo vải sáng trung tính (trẻ em, người thường, hồi tưởng)",
+      "params": {"robe": "cloth_white", "sleeve": "cloth_grey", "pants": "cloth_grey"}
+    }
+  }
+}

@@ -7,6 +7,12 @@ description: Orchestrate the full YouTube-to-video pipeline for this workspace -
 
 Một video = một project riêng trong `projects/<slug>/`. Không viết file rác ra root, không trộn asset giữa các video.
 
+## Luật cấp cao nhất
+
+**Trước mọi việc, đọc `RULES.md` ở gốc repo.** Skill này không được nới luật đó; mâu thuẫn thì `RULES.md` thắng (R0.1).
+Trọng tâm khi dựng nhân vật/đạo cụ/bối cảnh: **tra `library/` trước, dùng lại bằng `library.py use`, làm mới thì đạt chuẩn rồi `promote`** (R2.x).
+Cổng cuối mỗi giai đoạn: `check_rules.py`, `check_shots.py`, `check_sync.py` phải sạch (R8.2).
+
 ## Nguyên tắc vàng
 
 1. **Một nguồn sự thật cho thời lượng:** `audio/manifest.json`. Mọi `data-start` / `data-duration` trong HyperFrames lấy từ đó, không đoán.
@@ -101,7 +107,7 @@ Khi làm video hoạt hình hoặc kể chuyện (truyện ma, explainer, drama)
    * Bố cục rõ ràng tiền cảnh – trung cảnh – hậu cảnh: Vách nhà, sàn gỗ, bàn thờ, mâm đan, chõng tre, cửa mở ra vườn sương đêm...
    * Góc máy có chủ đích: Toàn cảnh thiết lập bối cảnh, chuyển cảnh cắt sắc bén (hard cut) vào cận cảnh hành động chính (đếm khăn, giã trầu...).
 
-2. **`claude-animation-base` — Vẽ tay hữu cơ, Line Boil & 31 Biểu cảm:**
+2. **Vẽ tay hữu cơ, Line Boil & biểu cảm theo `emotion_vocab` (rig từ `library/` + `build_rig.py`):**
    * **Hiệu ứng rung nét vẽ tay (Line Boil):** Tích hợp SVG filter `<feTurbulence type="fractalNoise">` + `<feDisplacementMap scale="2.4">` thay đổi seed theo nhịp 6–12fps (`animating on twos`), tạo cảm giác vẽ tay sống động thay vì nét vector phẳng đơ.
    * **Rig cử động nhân vật (Character Motion Rig):**
      * Thở tự nhiên: Ngực và thân sways nhẹ nhàng theo trục Y (`yoyo: true`).

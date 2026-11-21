@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" data-lib-id="veranda_night" data-lib-kind="location" role="img" aria-label="Hiên nhà quê ban đêm">
+<title>veranda_night — hiên nhà (sàn ván, cửa nhà phía sau, nhìn ra sân tối)</title>
+<defs>
+  <linearGradient id="vdn-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--pal-sky_night)"/><stop offset="1" stop-color="var(--pal-sky_night_low)"/></linearGradient>
+  <radialGradient id="vdn-vig" cx="50%" cy="50%" r="75%"><stop offset=".55" stop-color="var(--pal-vignette)" stop-opacity="0"/><stop offset="1" stop-color="var(--pal-vignette)" stop-opacity=".7"/></radialGradient>
+  <clipPath id="vdn-floor"><rect x="0" y="830" width="1920" height="250"/></clipPath>
+</defs>
+<style>
+.loc-veranda_night .lw{opacity:0}
+.loc-veranda_night[data-light='warm'] .lw-warm{opacity:.20}
+.loc-veranda_night[data-light='dark'] .lw-dark{opacity:.6}
+.loc-veranda_night[data-light='red_flash'] .lw-red{opacity:.36}
+.loc-veranda_night[data-light='dawn'] .lw-dawn{opacity:.28}
+</style>
+<g class="loc loc-veranda_night" data-light="warm">
+  <g class="layer layer-far">
+    <rect width="1920" height="1080" fill="url(#vdn-sky)"/>
+    <circle cx="1560" cy="170" r="52" fill="var(--pal-moon)" opacity=".8"/>
+    <path d="M0 640 Q160 560 320 630 Q480 560 660 636 Q860 570 1040 640 Q1240 566 1420 640 Q1640 570 1920 632 L1920 860 L0 860 Z" fill="var(--pal-leaf_dark)"/>
+    <rect y="640" width="1920" height="230" fill="var(--pal-mist)" opacity=".12"/>
+    <rect y="850" width="1920" height="230" fill="var(--pal-earth_dark)"/>
+  </g>
+  <g class="layer layer-mid">
+    <!-- tường nhà + cửa phía sau -->
+    <rect x="360" y="100" width="1560" height="740" fill="var(--pal-wall_wood)" stroke="var(--pal-ink)" stroke-width="8"/>
+    <g stroke="var(--pal-wall_wood_dark)" stroke-width="5"><line x1="480" y1="150" x2="480" y2="840"/><line x1="600" y1="150" x2="600" y2="840"/><line x1="720" y1="150" x2="720" y2="840"/><line x1="1200" y1="150" x2="1200" y2="840"/><line x1="1320" y1="150" x2="1320" y2="840"/><line x1="1440" y1="150" x2="1440" y2="840"/><line x1="1560" y1="150" x2="1560" y2="840"/><line x1="1680" y1="150" x2="1680" y2="840"/><line x1="1800" y1="150" x2="1800" y2="840"/></g>
+    <rect x="860" y="250" width="260" height="590" fill="var(--pal-wood_black)" stroke="var(--pal-ink)" stroke-width="10"/>
+    <rect x="876" y="266" width="228" height="574" fill="var(--pal-shadow)" opacity=".8"/>
+    <rect x="1500" y="330" width="170" height="170" fill="var(--pal-window_night)" stroke="var(--pal-ink)" stroke-width="8"/>
+    <!-- mái hiên + cột -->
+    <path d="M0 0 L1920 0 L1920 120 L0 190 Z" fill="var(--pal-thatch)" stroke="var(--pal-ink)" stroke-width="8"/>
+    <rect x="150" y="150" width="54" height="710" fill="var(--pal-wood_black)" stroke="var(--pal-ink)" stroke-width="6"/>
+    <rect x="1660" y="130" width="54" height="730" fill="var(--pal-wood_black)" stroke="var(--pal-ink)" stroke-width="6"/>
+    <!-- sàn ván hiên -->
+    <rect y="830" width="1920" height="250" fill="var(--pal-wood_dark)"/>
+    <g clip-path="url(#vdn-floor)" stroke="var(--pal-wood_black)" stroke-width="5">
+      <line x1="0" y1="880" x2="1920" y2="880"/><line x1="0" y1="940" x2="1920" y2="940"/><line x1="0" y1="1010" x2="1920" y2="1010"/>
+      <line x1="300" y1="830" x2="180" y2="1080"/><line x1="800" y1="830" x2="760" y2="1080"/><line x1="1300" y1="830" x2="1360" y2="1080"/><line x1="1700" y1="830" x2="1840" y2="1080"/>
+    </g>
+    <rect y="824" width="1920" height="14" fill="var(--pal-wood_black)"/>
+    <!-- móc treo đèn -->
+    <line x1="1000" y1="170" x2="1000" y2="400" stroke="var(--pal-ink)" stroke-width="5"/>
+  </g>
+  <g class="layer layer-near">
+    <path d="M0 960 L1920 960 L1920 1000 L0 1000 Z" fill="var(--pal-wood_black)" opacity=".0"/>
+    <rect y="980" width="1920" height="100" fill="var(--pal-shadow)" opacity=".3"/>
+    <rect width="1920" height="1080" fill="url(#vdn-vig)"/>
+  </g>
+  <g class="lights" pointer-events="none">
+    <rect class="lw lw-warm" width="1920" height="1080" fill="var(--pal-light_warm)"/>
+    <rect class="lw lw-dark" width="1920" height="1080" fill="var(--pal-shadow)"/>
+    <rect class="lw lw-red" width="1920" height="1080" fill="var(--pal-light_red)"/>
+    <rect class="lw lw-dawn" width="1920" height="1080" fill="var(--pal-light_dawn)"/>
+  </g>
+</g>
+</svg>

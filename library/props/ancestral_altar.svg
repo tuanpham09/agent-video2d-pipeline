@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 620" data-lib-id="ancestral_altar" data-lib-kind="prop" role="img" aria-label="Tủ thờ có di ảnh">
+<title>ancestral_altar — tủ thờ + di ảnh (đặt nến/bát hương vào các slot)</title>
+<style>
+.prop-ancestral_altar .st{display:none}
+.prop-ancestral_altar[data-state='normal'] .st-normal,.prop-ancestral_altar[data-state='covered'] .st-covered,
+.prop-ancestral_altar[data-state='blank'] .st-blank,.prop-ancestral_altar[data-state='normal'] .st-photo,.prop-ancestral_altar[data-state='covered'] .st-photo{display:inline}
+.prop-ancestral_altar .cover{transform-box:view-box;transform-origin:280px 120px}
+</style>
+<g class="prop prop-ancestral_altar" data-state="normal">
+  <!-- di ảnh -->
+  <rect x="186" y="96" width="188" height="252" rx="6" fill="var(--pal-wood_black)" stroke="var(--pal-ink)" stroke-width="6"/>
+  <rect x="200" y="110" width="160" height="224" rx="3" fill="var(--pal-paper)" stroke="var(--pal-wood)" stroke-width="3"/>
+  <g class="st st-photo">
+    <circle cx="280" cy="198" r="38" fill="var(--pal-ash)" stroke="var(--pal-ash_dark)" stroke-width="3"/>
+    <path d="M206 334 Q210 262 280 250 Q350 262 354 334 Z" fill="var(--pal-ash_dark)"/>
+  </g>
+  <g class="st st-blank"><rect x="200" y="110" width="160" height="224" fill="var(--pal-shadow)" opacity=".82"/></g>
+  <g class="st st-covered cover">
+    <path d="M176 88 L384 88 L392 356 L168 356 Z" fill="var(--pal-cloth_white)" stroke="var(--pal-ink)" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M214 92 Q220 220 206 352 M280 92 Q286 230 280 352 M346 92 Q340 220 356 352" stroke="var(--pal-cloth_grey)" stroke-width="4" fill="none"/>
+  </g>
+  <!-- tủ thờ -->
+  <rect x="14" y="396" width="532" height="28" rx="6" fill="var(--pal-wood_light)" stroke="var(--pal-ink)" stroke-width="6"/>
+  <rect x="34" y="424" width="492" height="188" fill="var(--pal-wood)" stroke="var(--pal-ink)" stroke-width="6"/>
+  <rect x="58" y="446" width="208" height="146" fill="var(--pal-wood_dark)" stroke="var(--pal-ink)" stroke-width="5"/>
+  <rect x="294" y="446" width="208" height="146" fill="var(--pal-wood_dark)" stroke="var(--pal-ink)" stroke-width="5"/>
+  <g stroke="var(--pal-wood_light)" stroke-width="3" fill="none" opacity=".75">
+    <path d="M82 470 L242 470 M82 568 L242 568 M82 470 L82 568 M242 470 L242 568 M162 470 L162 568 M82 518 L242 518"/>
+    <path d="M318 470 L478 470 M318 568 L478 568 M318 470 L318 568 M478 470 L478 568 M398 470 L398 568 M318 518 L478 518"/>
+  </g>
+  <circle cx="262" cy="520" r="6" fill="var(--pal-brass)" stroke="var(--pal-ink)" stroke-width="3"/>
+  <circle cx="298" cy="520" r="6" fill="var(--pal-brass)" stroke="var(--pal-ink)" stroke-width="3"/>
+  <rect x="34" y="608" width="48" height="12" fill="var(--pal-wood_dark)" stroke="var(--pal-ink)" stroke-width="4"/>
+  <rect x="478" y="608" width="48" height="12" fill="var(--pal-wood_dark)" stroke="var(--pal-ink)" stroke-width="4"/>
+  <!-- slot: candle-l (140,396) · candle-r (420,396) · incense (280,396) — xem index.json -->
+</g>
+</svg>
