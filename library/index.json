@@ -671,8 +671,8 @@
       ],
       "origin": "build_bg",
       "anchors_auto": true,
-      "version": 3,
-      "sha256": "7c596ce5698bba2fb66f03f1cb2c220e49d255b4d4e6104923cb230b5616fd80"
+      "version": 4,
+      "sha256": "34df2e9faacfe8b541c1241fc5d2802f54509a11efc486c12951a74c2b14031c"
     },
     {
       "id": "gian_tho_dem",
@@ -867,8 +867,8 @@
       ],
       "origin": "build_bg",
       "anchors_auto": true,
-      "version": 3,
-      "sha256": "c22667ac6703cc0fce36b9447e5a4f473d6ecc5e4bc45fa6f030fcfcdf4fa2ff"
+      "version": 4,
+      "sha256": "4eca9a7583871f5dfef73d19c2b6a220cddbcff24a02f0da8d51a755188866b3"
     },
     {
       "id": "bui_tre_chuoi",
@@ -933,8 +933,8 @@
       ],
       "origin": "build_bg",
       "anchors_auto": true,
-      "version": 3,
-      "sha256": "8bfa6f0962bc642020ca075c3b0feb750b2b730b05c3e71455f6e25fc8731084"
+      "version": 4,
+      "sha256": "a906e7e713fa115a0c99e0f0263edf38d5c731268db27405131e58bb8a1c975d"
     },
     {
       "id": "truong_bo_hoang",
@@ -998,8 +998,8 @@
       ],
       "origin": "build_bg",
       "anchors_auto": true,
-      "version": 3,
-      "sha256": "be16de0bee28f35bf4388e27fa3b9250838520803f219997b3f61015ba24b71f"
+      "version": 4,
+      "sha256": "6bf836371a206115d8a617736c936bb269b943348c369354a9018c221ff77be0"
     },
     {
       "id": "nha_hoang",
@@ -1063,8 +1063,8 @@
       ],
       "origin": "build_bg",
       "anchors_auto": true,
-      "version": 3,
-      "sha256": "141e4887023b83198952c9b53c5e1d313c4f2f29d074e13f9c62e6b14f1024fc"
+      "version": 4,
+      "sha256": "23073e1c647c32bd3b494e6b59f009621d9ef899388ef0117c116dcf9607068f"
     },
     {
       "id": "canh_dong_lua",
@@ -1128,8 +1128,8 @@
       ],
       "origin": "build_bg",
       "anchors_auto": true,
-      "version": 3,
-      "sha256": "9d7df36aec477aabc24ca433ee9e241f84367bb07865d1481dbd17ec57c8f404"
+      "version": 4,
+      "sha256": "820fea4fc72cab739144b8b09d307c6895ac432217b9545af8b5fc6f29cab17d"
     },
     {
       "id": "rap_dam_tang",
@@ -1388,8 +1388,8 @@
       ],
       "origin": "build_bg",
       "anchors_auto": true,
-      "version": 3,
-      "sha256": "e68da501ade0ea24c065622d43155148797f9d2157c997526ff2af75868ceb8e"
+      "version": 4,
+      "sha256": "2e22a49f19a6eb46b447a8c20b7707d881e41383704a8061c1b5544ebe56c025"
     },
     {
       "id": "mieu_dinh",
@@ -1585,8 +1585,8 @@
       ],
       "origin": "build_bg",
       "anchors_auto": true,
-      "version": 3,
-      "sha256": "9989c0f15fc994d2704372be27f90cf55ddc5b9e387d7a7f34ade259f77fa971"
+      "version": 4,
+      "sha256": "193a31554f7186c531307f8057c79761f014c8ab2af40643d67abbb0252f1c81"
     },
     {
       "id": "san_nha",
@@ -1650,8 +1650,8 @@
       ],
       "origin": "build_bg",
       "anchors_auto": true,
-      "version": 3,
-      "sha256": "ca6c7eb32131e2f4a0b09a6c202b7e459464d3b460854fe6d238aa457f1826a3"
+      "version": 4,
+      "sha256": "8c89650aac64b879636c11994c7087b32e1ab5989ffc64b46adeacf843e7526b"
     },
     {
       "id": "nha_bep",
@@ -1976,8 +1976,8 @@
       ],
       "origin": "build_bg",
       "anchors_auto": true,
-      "version": 3,
-      "sha256": "d3bcd859634b1aaaf4ccfa420ac4a4f7f9fcdb6b598cf31c5056f7614e95be0f"
+      "version": 4,
+      "sha256": "e876318d8e0dc4ad1fbbd79ade32ab143ad2afde22a0215f4cd3b267ca5fb988"
     }
   ]
 }

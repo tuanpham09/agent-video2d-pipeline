@@ -118,10 +118,15 @@ def bamboo_clump(x, base, h, n=7):
 
 
 def banana(x, base, h):
-    parts = [path(f"M {x:g} {base:g} L {x:g} {base - h:g}", sw=16, stroke=P["leaf_d"])]
-    for a in (-70, -35, 0, 35, 70):
-        ex, ey = x + a * 2.2, base - h + abs(a) * .5 + 20
-        parts.append(poly([(x, base - h), (ex - 18, ey - 36), (ex + 30, ey), (ex - 10, ey + 50)], P["leaf_l"], 4))
+    """Chuối: thân thon + bẹ, lá có cuống gắn vào ngọn."""
+    top = base - h
+    parts = [poly([(x - 14, base), (x - 9, top + 10), (x + 9, top + 10), (x + 14, base)], P["leaf_d"], 4)]
+    for k in range(1, 5):
+        parts.append(line(x - 11, base - h * k / 5, x + 11, base - h * k / 5, 2.5, INK))
+    for a, ex_, ey_ in ((-1, 150, 26), (-1, 95, -44), (0, 0, -78), (1, 95, -44), (1, 150, 26)):
+        ex, ey = x + a * ex_, top + ey_ + 10
+        parts.append(path(f"M {x:g} {top + 8:g} Q {(x + ex) / 2:g} {top - 30 + ey_ * .3:g} {ex:g} {ey:g}", "none", 5, P["leaf_d"]))
+        parts.append(poly([(x + (ex - x) * .35, top - 10 + (ey - top) * .3), (ex - a * 14, ey - 34), (ex + a * 34, ey + 4), (ex, ey + 40), (x + (ex - x) * .45, ey + 6)], P["leaf_l"], 4))
     return g(*parts)
 
 

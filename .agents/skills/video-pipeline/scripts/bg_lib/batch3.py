@@ -20,10 +20,15 @@ def room_shell(wall=None, floor_y=820, beams=True):
 def nha_ve_sinh():
     far = sky() + hills(560, P["leaf_d"], 70, 5) + banana(300, 700, 280) + banana(1650, 700, 300)
     mid = ground(640, P["grass2"]) + ground(740, P["ground"])
-    mid += rect(780, 440, 360, 300, P["wood_l"], 6) + "".join(line(x, 440, x, 740, 3, P["wood_d"]) for x in range(830, 1140, 50))
-    mid += poly([(750, 450), (960, 360), (1170, 450)], P["roof_d"], 6) + rect(870, 540, 140, 200, P["wood_d"], 5) + circ(990, 650, 8, P["gold"], 3)  # cửa
+    # ván mục: lệch, khe hở, mái xiêu, cửa hé tối đen
+    mid += poly([(780, 740), (784, 450), (1140, 440), (1136, 740)], P["wood_l"], 6)
+    mid += "".join(line(x, 445, x + (x % 3 - 1) * 4, 740, 3, P["wood_d"]) for x in range(828, 1140, 52))
+    mid += "".join(rect(x, 500 + (x % 4) * 60, 6, 70, "#0b0907", 0, stroke="none") for x in (845, 980, 1090))  # khe hở ván
+    mid += poly([(740, 462), (930, 380), (1180, 420), (1170, 452)], P["roof_d"], 6) + poly([(900, 392), (960, 380), (940, 420)], "#0b0907", 0, "#0b0907")
+    mid += poly([(868, 540), (1010, 548), (1008, 740), (866, 740)], "#050403", 5)  # cửa hé: bên trong đen
+    mid += poly([(868, 540), (930, 552), (930, 740), (868, 740)], P["wood_d"], 5) + circ(920, 650, 7, P["gold"], 3)  # cánh cửa lệch
     mid += rect(1180, 620, 80, 120, P["stone_d"], 5) + ell(1220, 620, 40, 12, P["water_d"], 4)  # lu nước
-    mid += line(1260, 480, 1260, 740, 6, P["wood_d"]) + circ(1260, 480, 18, "#e8e1c8", 3)  # bóng đèn
+    mid += line(1260, 480, 1260, 620, 4, P["wood_d"])
     near = ground(880, P["ground2"]) + grass_tufts(870, 1070, 60, P["leaf_d"]) + bamboo_clump(140, 1090, 640, 6) + banana(1780, 1075, 300)
     near += ell(560, 980, 60, 20, P["wood_d"], 4) + rect(510, 920, 100, 60, P["wood"], 5)  # xô nước
     return dict(far=far, mid=mid, near=near)

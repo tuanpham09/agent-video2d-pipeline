@@ -24,13 +24,16 @@ def _windows(x0, y0, cols, rows, w, h, gap, broken=()):
 def truong_bo_hoang():
     far = sky() + hills(560, P["mount_far"], 60, 9)
     mid = ground(660, P["grass2"])
-    mid += rect(360, 380, 1200, 280, P["wall_d"], 6) + poly([(330, 380), (480, 300), (1440, 300), (1590, 380)], P["roof_d"], 6)
-    mid += _windows(420, 430, 6, 1, 130, 120, 60, broken={(0, 1), (0, 4)}) + _windows(420, 580, 6, 1, 130, 60, 60)
-    mid += rect(900, 520, 120, 140, P["wood_d"], 5) + rect(840, 330, 240, 40, P["wall"], 4)  # cửa chính + biển
-    mid += path("M 560 380 q 20 80 -10 160 M 1300 380 q -30 70 10 140", sw=5, stroke=P["leaf_d"])  # rêu loang
-    mid += line(1740, 660, 1740, 380, 8, P["wood_d"]) + poly([(1740, 390), (1840, 410), (1740, 440)], P["red"], 3)  # cột cờ
+    mid += rect(360, 380, 1200, 280, P["wall_d"], 6) + poly([(330, 380), (480, 300), (900, 296), (1000, 340), (1440, 300), (1590, 380)], P["roof_d"], 6)
+    mid += poly([(900, 300), (1000, 340), (1060, 300)], "#0b0907", 0, "#0b0907")  # mái thủng
+    mid += _windows(420, 430, 6, 1, 130, 120, 60, broken={(0, 1), (0, 4), (0, 2)}) + _windows(420, 580, 6, 1, 130, 60, 60, broken={(0, 3)})
+    mid += rect(900, 520, 120, 140, P["wood_d"], 5) + poly([(840, 336), (1080, 340), (1070, 372), (850, 366)], P["wall"], 4)  # bảng tên nghiêng
+    mid += path("M 560 380 q 20 80 -10 160 M 1300 380 q -30 70 10 140 M 720 380 q 10 90 -20 190", sw=6, stroke=P["black"], extra='opacity=".45"')  # ố nước
+    mid += path("M 420 660 q 10 -110 40 -140 M 1500 660 q -20 -100 -50 -150", sw=14, stroke=P["leaf_d"])  # dây leo
+    mid += line(1740, 660, 1740, 380, 8, P["wood_d"]) + path("M 1740 400 q 30 20 14 50 q 14 22 -8 40", "none", 8, P["red"])  # cờ rách
     near = ground(820, P["ground"]) + grass_tufts(810, 1070, 70, P["leaf_d"])
     near += fence(80, 700, 900, 120) + fence(1220, 1840, 900, 120) + tree(180, 1000, 360, leaf=P["leaf_d"])
+    near += poly([(760, 960), (1000, 940), (1040, 975), (790, 995)], P["wood"], 5) + line(800, 960, 960, 950, 3, P["wall"])  # bảng gỗ rơi
     return dict(far=far, mid=mid, near=near)
 
 
@@ -38,12 +41,20 @@ def truong_bo_hoang():
 def nha_hoang():
     far = sky() + hills(580, P["leaf_d"], 70, 3) + tree(260, 680, 420, leaf=P["leaf_d"]) + tree(1680, 680, 400, leaf=P["leaf_d"])
     mid = ground(660, P["grass2"])
-    mid += house(960, 760, 640, 300, roof_h=190, wall=P["wall_d"], roof=P["roof_d"], door=False, window=False)
-    mid += rect(860, 540, 200, 220, "#0c0907", 5) + line(860, 540, 1060, 760, 3, P["wood_l"]) + line(1060, 540, 900, 760, 3, P["wood_l"])  # cửa ván mục
-    mid += rect(680, 560, 110, 120, "#0c0907", 5) + line(680, 620, 790, 620, 3, P["wood_l"]) + rect(1130, 560, 110, 120, "#0c0907", 5)
-    mid += path("M 760 330 l 80 60 M 1100 350 l 70 40", sw=5, stroke=P["black"], extra='opacity=".6"')  # mái thủng
-    near = ground(840, P["ground"]) + grass_tufts(830, 1070, 80, P["leaf_d"])
-    near += bamboo_clump(200, 1080, 600, 6) + banana(1740, 1070, 300) + fence(560, 1360, 960, 90)
+    # tường nứt, ngả; mái võng, sập một bên, lộ rui mè
+    mid += poly([(640, 770), (650, 480), (1290, 470), (1300, 770)], P["wall_d"], 6)
+    mid += poly([(600, 500), (800, 330), (1000, 300), (1180, 350), (1330, 520), (1230, 500), (1100, 430), (900, 450), (700, 520)], P["roof_d"], 6)
+    mid += "".join(line(x, 310 + abs(x - 1000) * .35, x - 40, 470 + abs(x - 1000) * .12, 4, P["wood_d"]) for x in range(760, 1240, 60))  # rui lộ ra
+    mid += poly([(980, 330), (1090, 340), (1060, 420), (950, 400)], "#0b0907", 4)  # lỗ thủng mái
+    mid += poly([(1150, 520), (1330, 520), (1360, 640), (1300, 700), (1250, 600)], "#0b0907", 0, "#0b0907")  # tường sập góc phải
+    mid += poly([(860, 560), (1060, 560), (1060, 770), (860, 770)], "#0b0907", 5)  # cửa trống
+    mid += line(860, 560, 1010, 770, 4, P["wood_l"]) + poly([(1060, 560), (1100, 600), (1080, 770), (1060, 770)], P["wood"], 4)  # cánh cửa gãy bản lề
+    mid += rect(690, 580, 120, 130, "#0b0907", 5) + line(690, 640, 810, 600, 3, P["wood_l"]) + line(690, 700, 790, 660, 3, P["wood_l"])
+    mid += path("M 700 480 l 30 120 l -20 80 M 1230 500 l -40 100 l 20 90 M 940 470 l 20 70", sw=5, stroke=P["black"], extra='opacity=".7"')  # vết nứt
+    mid += path("M 650 770 q 20 -120 70 -150 M 1290 770 q -30 -100 -60 -140", sw=14, stroke=P["leaf_d"])  # dây leo
+    near = ground(840, P["ground"]) + grass_tufts(830, 1070, 90, P["leaf_d"])
+    near += bamboo_clump(200, 1080, 600, 6) + banana(1740, 1070, 300)
+    near += poly([(560, 960), (900, 930), (940, 960), (580, 990)], P["wood_d"], 5) + poly([(1000, 940), (1300, 960), (1290, 990), (1010, 975)], P["wood_d"], 5)  # hàng rào đổ
     return dict(far=far, mid=mid, near=near)
 
 
@@ -58,8 +69,11 @@ def canh_dong_lua():
         for x in range(0, W, 38 + i * 4):
             rows += path(f"M {x} {y + 30 + i * 3} q 4 -{22 + i * 2} 10 -{34 + i * 4}", sw=2.5 + i * .12, stroke=P["leaf_d"])
     mid = rows
+    mid += poly([(1450, 620), (1500, 600), (1580, 600), (1630, 620), (1600, 640), (1480, 640)], P["wood_l"], 4) + "".join(line(x, 640, x, 700, 6, P["wood_d"]) for x in (1490, 1540, 1590))  # chòi canh
+    mid += poly([(1440, 620), (1540, 570), (1640, 620)], P["roof_d"], 4)
     mid += path("M 960 1080 L 940 640", "none", 120, P["ground"]) + path("M 960 1080 L 940 640", "none", 100, "#8a7653", extra='opacity=".7"')  # bờ ruộng
-    near = poly([(1500, 900), (1620, 780), (1700, 900)], P["wood_l"], 5) + line(1560, 900, 1560, 1000, 6) + ell(1600, 790, 110, 30, P["bamboo"], 5)  # nón lá
+    mid += "".join(g(line(x, y, x, y - 60, 4, P["wood_d"]), poly([(x, y - 60), (x + 26, y - 52), (x, y - 44)], P["red"], 2)) for x, y in ((420, 720), (1180, 700), (1280, 760)))  # cọc cờ
+    near = poly([(1500, 900), (1620, 780), (1700, 900)], P["wood_l"], 5) + line(1560, 900, 1560, 1000, 6) + ell(1600, 790, 110, 30, P["bamboo"], 5)
     near += grass_tufts(950, 1075, 40, P["leaf_d"]) + banana(140, 1070, 280)
     return dict(far=far, mid=mid, near=near)
 
