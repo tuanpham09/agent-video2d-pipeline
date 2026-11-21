@@ -567,22 +567,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 760,
+      "floor_y": 930,
       "stand": {
         "L": {
           "x": 580,
-          "y": 760,
-          "s": 1.0
+          "y": 930,
+          "s": 0.8
         },
         "C": {
           "x": 960,
-          "y": 760,
-          "s": 1.0
+          "y": 930,
+          "s": 0.8
         },
         "R": {
           "x": 1340,
-          "y": 760,
-          "s": 1.0
+          "y": 930,
+          "s": 0.8
         }
       },
       "slots": {},
@@ -605,7 +605,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 3,
       "sha256": "0c1a4f37b5ec7958fe45361f3057ae0d9675a8a7fcc8ad14ec39a7bf963117f0"
     },
@@ -632,22 +632,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 700,
+      "floor_y": 960,
       "stand": {
         "L": {
           "x": 580,
-          "y": 700,
-          "s": 1.0
+          "y": 960,
+          "s": 0.55
         },
         "C": {
           "x": 960,
-          "y": 700,
-          "s": 1.0
+          "y": 960,
+          "s": 0.55
         },
         "R": {
           "x": 1340,
-          "y": 700,
-          "s": 1.0
+          "y": 960,
+          "s": 0.55
         }
       },
       "slots": {},
@@ -670,7 +670,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 4,
       "sha256": "34df2e9faacfe8b541c1241fc5d2802f54509a11efc486c12951a74c2b14031c"
     },
@@ -697,22 +697,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 560,
+      "floor_y": 980,
       "stand": {
         "L": {
           "x": 580,
-          "y": 560,
-          "s": 1.0
+          "y": 980,
+          "s": 0.85
         },
         "C": {
           "x": 960,
-          "y": 560,
-          "s": 1.0
+          "y": 980,
+          "s": 0.85
         },
         "R": {
           "x": 1340,
-          "y": 560,
-          "s": 1.0
+          "y": 980,
+          "s": 0.85
         }
       },
       "slots": {},
@@ -736,7 +736,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 3,
       "sha256": "9c42b38723ec4dc7eb4db9f244e33257c6d792071c31f454e3fc350afd83ae3e"
     },
@@ -763,22 +763,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 760,
+      "floor_y": 920,
       "stand": {
         "L": {
           "x": 580,
-          "y": 760,
-          "s": 1.0
+          "y": 920,
+          "s": 0.75
         },
         "C": {
           "x": 960,
-          "y": 760,
-          "s": 1.0
+          "y": 920,
+          "s": 0.75
         },
         "R": {
           "x": 1340,
-          "y": 760,
-          "s": 1.0
+          "y": 920,
+          "s": 0.75
         }
       },
       "slots": {},
@@ -801,7 +801,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 3,
       "sha256": "31a7efb31bcfd93fb29383d7d195382fafc714de9dd43eac6eeb95bf623f04d1"
     },
@@ -828,22 +828,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 760,
+      "floor_y": 940,
       "stand": {
         "L": {
           "x": 580,
-          "y": 760,
-          "s": 1.0
+          "y": 940,
+          "s": 0.8
         },
         "C": {
           "x": 960,
-          "y": 760,
-          "s": 1.0
+          "y": 940,
+          "s": 0.8
         },
         "R": {
           "x": 1340,
-          "y": 760,
-          "s": 1.0
+          "y": 940,
+          "s": 0.8
         }
       },
       "slots": {},
@@ -866,7 +866,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 4,
       "sha256": "4eca9a7583871f5dfef73d19c2b6a220cddbcff24a02f0da8d51a755188866b3"
     },
@@ -893,22 +893,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 780,
+      "floor_y": 960,
       "stand": {
         "L": {
           "x": 580,
-          "y": 780,
-          "s": 1.0
+          "y": 960,
+          "s": 0.85
         },
         "C": {
           "x": 960,
-          "y": 780,
-          "s": 1.0
+          "y": 960,
+          "s": 0.85
         },
         "R": {
           "x": 1340,
-          "y": 780,
-          "s": 1.0
+          "y": 960,
+          "s": 0.85
         }
       },
       "slots": {},
@@ -932,7 +932,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 4,
       "sha256": "a906e7e713fa115a0c99e0f0263edf38d5c731268db27405131e58bb8a1c975d"
     },
@@ -959,22 +959,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 720,
+      "floor_y": 940,
       "stand": {
         "L": {
           "x": 580,
-          "y": 720,
-          "s": 1.0
+          "y": 940,
+          "s": 0.8
         },
         "C": {
           "x": 960,
-          "y": 720,
-          "s": 1.0
+          "y": 940,
+          "s": 0.8
         },
         "R": {
           "x": 1340,
-          "y": 720,
-          "s": 1.0
+          "y": 940,
+          "s": 0.8
         }
       },
       "slots": {},
@@ -997,7 +997,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 4,
       "sha256": "6bf836371a206115d8a617736c936bb269b943348c369354a9018c221ff77be0"
     },
@@ -1024,22 +1024,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 700,
+      "floor_y": 940,
       "stand": {
         "L": {
           "x": 580,
-          "y": 700,
-          "s": 1.0
+          "y": 940,
+          "s": 0.8
         },
         "C": {
           "x": 960,
-          "y": 700,
-          "s": 1.0
+          "y": 940,
+          "s": 0.8
         },
         "R": {
           "x": 1340,
-          "y": 700,
-          "s": 1.0
+          "y": 940,
+          "s": 0.8
         }
       },
       "slots": {},
@@ -1062,7 +1062,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 4,
       "sha256": "23073e1c647c32bd3b494e6b59f009621d9ef899388ef0117c116dcf9607068f"
     },
@@ -1089,22 +1089,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 760,
+      "floor_y": 980,
       "stand": {
         "L": {
           "x": 580,
-          "y": 760,
-          "s": 1.0
+          "y": 980,
+          "s": 0.6
         },
         "C": {
           "x": 960,
-          "y": 760,
-          "s": 1.0
+          "y": 980,
+          "s": 0.6
         },
         "R": {
           "x": 1340,
-          "y": 760,
-          "s": 1.0
+          "y": 980,
+          "s": 0.6
         }
       },
       "slots": {},
@@ -1127,7 +1127,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 4,
       "sha256": "820fea4fc72cab739144b8b09d307c6895ac432217b9545af8b5fc6f29cab17d"
     },
@@ -1154,22 +1154,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 640,
+      "floor_y": 970,
       "stand": {
         "L": {
           "x": 580,
-          "y": 640,
-          "s": 1.0
+          "y": 970,
+          "s": 0.8
         },
         "C": {
           "x": 960,
-          "y": 640,
-          "s": 1.0
+          "y": 970,
+          "s": 0.8
         },
         "R": {
           "x": 1340,
-          "y": 640,
-          "s": 1.0
+          "y": 970,
+          "s": 0.8
         }
       },
       "slots": {},
@@ -1192,7 +1192,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 3,
       "sha256": "345da547aa2317541f70216a9207b1690770ae188c5ee67fe76ec28857c8cb60"
     },
@@ -1219,22 +1219,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 700,
+      "floor_y": 980,
       "stand": {
         "L": {
           "x": 580,
-          "y": 700,
-          "s": 1.0
+          "y": 980,
+          "s": 0.55
         },
         "C": {
           "x": 960,
-          "y": 700,
-          "s": 1.0
+          "y": 980,
+          "s": 0.55
         },
         "R": {
           "x": 1340,
-          "y": 700,
-          "s": 1.0
+          "y": 980,
+          "s": 0.55
         }
       },
       "slots": {},
@@ -1257,7 +1257,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 3,
       "sha256": "b33ad9673bb5c0e97ad53695caeaa6473cb5a9551f717c25ad118c9ebacf1c60"
     },
@@ -1284,22 +1284,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 560,
+      "floor_y": 980,
       "stand": {
         "L": {
           "x": 580,
-          "y": 560,
-          "s": 1.0
+          "y": 980,
+          "s": 0.75
         },
         "C": {
           "x": 960,
-          "y": 560,
-          "s": 1.0
+          "y": 980,
+          "s": 0.75
         },
         "R": {
           "x": 1340,
-          "y": 560,
-          "s": 1.0
+          "y": 980,
+          "s": 0.75
         }
       },
       "slots": {},
@@ -1322,7 +1322,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 3,
       "sha256": "47105d3954c51a0b4dc93fef8202789d897a6012ac6789e26977ce17a58b7e7c"
     },
@@ -1349,22 +1349,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 700,
+      "floor_y": 940,
       "stand": {
         "L": {
           "x": 580,
-          "y": 700,
-          "s": 1.0
+          "y": 940,
+          "s": 0.8
         },
         "C": {
           "x": 960,
-          "y": 700,
-          "s": 1.0
+          "y": 940,
+          "s": 0.8
         },
         "R": {
           "x": 1340,
-          "y": 700,
-          "s": 1.0
+          "y": 940,
+          "s": 0.8
         }
       },
       "slots": {},
@@ -1387,7 +1387,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 4,
       "sha256": "2e22a49f19a6eb46b447a8c20b7707d881e41383704a8061c1b5544ebe56c025"
     },
@@ -1414,22 +1414,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 600,
+      "floor_y": 1010,
       "stand": {
         "L": {
           "x": 580,
-          "y": 600,
-          "s": 1.0
+          "y": 1010,
+          "s": 0.75
         },
         "C": {
           "x": 960,
-          "y": 600,
-          "s": 1.0
+          "y": 1010,
+          "s": 0.75
         },
         "R": {
           "x": 1340,
-          "y": 600,
-          "s": 1.0
+          "y": 1010,
+          "s": 0.75
         }
       },
       "slots": {},
@@ -1452,7 +1452,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 3,
       "sha256": "8ae276ba4f5060fc374f336e374e52507c5efc70834c68761efb144a40bbb28d"
     },
@@ -1479,22 +1479,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 720,
+      "floor_y": 1010,
       "stand": {
         "L": {
           "x": 580,
-          "y": 720,
-          "s": 1.0
+          "y": 1010,
+          "s": 0.6
         },
         "C": {
           "x": 960,
-          "y": 720,
-          "s": 1.0
+          "y": 1010,
+          "s": 0.6
         },
         "R": {
           "x": 1340,
-          "y": 720,
-          "s": 1.0
+          "y": 1010,
+          "s": 0.6
         }
       },
       "slots": {},
@@ -1518,7 +1518,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 3,
       "sha256": "227b8665155641b88c95b1fb923e623fad42d23dd1f2bb23b2167d1f41f70a09"
     },
@@ -1545,22 +1545,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 760,
+      "floor_y": 960,
       "stand": {
         "L": {
           "x": 580,
-          "y": 760,
-          "s": 1.0
+          "y": 960,
+          "s": 0.8
         },
         "C": {
           "x": 960,
-          "y": 760,
-          "s": 1.0
+          "y": 960,
+          "s": 0.8
         },
         "R": {
           "x": 1340,
-          "y": 760,
-          "s": 1.0
+          "y": 960,
+          "s": 0.8
         }
       },
       "slots": {},
@@ -1584,7 +1584,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 4,
       "sha256": "193a31554f7186c531307f8057c79761f014c8ab2af40643d67abbb0252f1c81"
     },
@@ -1611,22 +1611,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 760,
+      "floor_y": 970,
       "stand": {
         "L": {
           "x": 580,
-          "y": 760,
-          "s": 1.0
+          "y": 970,
+          "s": 0.8
         },
         "C": {
           "x": 960,
-          "y": 760,
-          "s": 1.0
+          "y": 970,
+          "s": 0.8
         },
         "R": {
           "x": 1340,
-          "y": 760,
-          "s": 1.0
+          "y": 970,
+          "s": 0.8
         }
       },
       "slots": {},
@@ -1649,7 +1649,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 4,
       "sha256": "8c89650aac64b879636c11994c7087b32e1ab5989ffc64b46adeacf843e7526b"
     },
@@ -1676,22 +1676,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 640,
+      "floor_y": 990,
       "stand": {
         "L": {
           "x": 520,
-          "y": 640,
-          "s": 1.0
+          "y": 990,
+          "s": 0.85
         },
         "C": {
           "x": 900,
-          "y": 640,
-          "s": 1.0
+          "y": 990,
+          "s": 0.85
         },
         "R": {
           "x": 1280,
-          "y": 640,
-          "s": 1.0
+          "y": 990,
+          "s": 0.85
         }
       },
       "slots": {},
@@ -1714,7 +1714,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 3,
       "sha256": "1e9ca91c074b74de4e6140aa7935b7bea81f02281eb28639557e691b6e1ba04a"
     },
@@ -1741,22 +1741,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 620,
+      "floor_y": 990,
       "stand": {
         "L": {
           "x": 380,
-          "y": 620,
-          "s": 1.0
+          "y": 990,
+          "s": 0.85
         },
         "C": {
           "x": 760,
-          "y": 620,
-          "s": 1.0
+          "y": 990,
+          "s": 0.85
         },
         "R": {
           "x": 1140,
-          "y": 620,
-          "s": 1.0
+          "y": 990,
+          "s": 0.85
         }
       },
       "slots": {},
@@ -1779,7 +1779,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 3,
       "sha256": "0aedbbda269cde9f411749ee1a5426af3db92a35c1c5ca67a8c76eb6672e42d5"
     },
@@ -1806,22 +1806,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 640,
+      "floor_y": 1000,
       "stand": {
         "L": {
           "x": 580,
-          "y": 640,
-          "s": 1.0
+          "y": 1000,
+          "s": 0.85
         },
         "C": {
           "x": 960,
-          "y": 640,
-          "s": 1.0
+          "y": 1000,
+          "s": 0.85
         },
         "R": {
           "x": 1340,
-          "y": 640,
-          "s": 1.0
+          "y": 1000,
+          "s": 0.85
         }
       },
       "slots": {},
@@ -1844,7 +1844,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 3,
       "sha256": "1e9e02b278e98871e5a87079f9bdcb2c6c7aa269f6b22f2ecd9eda78444e71e2"
     },
@@ -1871,22 +1871,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 560,
+      "floor_y": 1010,
       "stand": {
         "L": {
           "x": 580,
-          "y": 560,
-          "s": 1.0
+          "y": 1010,
+          "s": 0.75
         },
         "C": {
           "x": 960,
-          "y": 560,
-          "s": 1.0
+          "y": 1010,
+          "s": 0.75
         },
         "R": {
           "x": 1340,
-          "y": 560,
-          "s": 1.0
+          "y": 1010,
+          "s": 0.75
         }
       },
       "slots": {},
@@ -1910,7 +1910,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 3,
       "sha256": "d7c3611b336e4bd30d570238bf96f578bb69a6425b961b950d62544dbf7daa21"
     },
@@ -1937,22 +1937,22 @@
         "warm"
       ],
       "default_light": "day",
-      "floor_y": 700,
+      "floor_y": 990,
       "stand": {
         "L": {
           "x": 580,
-          "y": 700,
-          "s": 1.0
+          "y": 990,
+          "s": 0.8
         },
         "C": {
           "x": 960,
-          "y": 700,
-          "s": 1.0
+          "y": 990,
+          "s": 0.8
         },
         "R": {
           "x": 1340,
-          "y": 700,
-          "s": 1.0
+          "y": 990,
+          "s": 0.8
         }
       },
       "slots": {},
@@ -1975,7 +1975,7 @@
         "scenery-vn"
       ],
       "origin": "build_bg",
-      "anchors_auto": true,
+      "anchors_reviewed": true,
       "version": 4,
       "sha256": "e876318d8e0dc4ad1fbbd79ade32ab143ad2afde22a0215f4cd3b267ca5fb988"
     }

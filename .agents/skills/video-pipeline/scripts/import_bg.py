@@ -10,8 +10,8 @@ Biến đổi (chạy lại được, kết quả xác định):
   • CSS:  chặn phạm vi bằng svg[data-lib-id="<id>"], .layer.far|mid|near → .layer.layer-far|mid|near.
   • ánh sáng: candle_warm → warm, dusk → dawn; giữ day, night → đủ warm|dark|red_flash|dawn (R4.2).
           Nếu một cảnh thiếu candle_warm/dusk thì gán bí danh theo luật còn lại (hiện chưa cảnh nào cần).
-  • index.json: thêm mục kind=location, anchor `stand` L/C/R + `crop_9x16` SUY RA từ `focus` của catalog
-          (anchors_auto=true) — CHƯA được người duyệt; xem library/sheets/locations.png rồi chỉnh tay trong index.
+  • index.json: thêm mục kind=location, anchor `stand` L/C/R + `crop_9x16` lấy từ `bg_lib/anchors.py`
+          từ bg_lib/anchors.py (đã ghép nhân vật host ở khung 9:16 để chỉnh; anchors_reviewed=true).
 
 Dùng:  python .agents/skills/video-pipeline/scripts/import_bg.py [--src assets/library/bg] [--only id,id]
 Sau đó: library.py check && library.py sheet, xem ảnh, rồi commit.
@@ -26,6 +26,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import library as L  # noqa: E402
+from bg_lib.anchors import ANCHORS  # noqa: E402
 
 HEX3_8 = re.compile(r"(?<!url\()(?<!href=\")#([0-9a-fA-F]{3,8})\b")
 RULE = re.compile(r"([^{}]+)\{([^{}]*)\}")
@@ -127,9 +128,9 @@ def main() -> int:
 
         # trạng thái lấy từ CSS thực tế (catalog có thể thiếu: nội cảnh vẫn có luật night của khuôn chung)
         lights = sorted(set(re.findall(r"\[data-light='(\w+)'\]", text)) | set(REQUIRED))
-        fx, fy = sc["focus"]
-        cx = max(304, min(1616, fx))
-        stand = {k: {"x": max(120, min(1800, fx + dx)), "y": fy, "s": 1.0} for k, dx in (("L", -380), ("C", 0), ("R", 380))}
+        fy, s_, cx, dx_ = ANCHORS[sc["id"]]
+        cx = max(304, min(1616, cx))
+        stand = {k: {"x": max(120, min(1800, cx + dx)), "y": fy, "s": s_} for k, dx in (("L", -dx_), ("C", 0), ("R", dx_))}
         entry = {
             "id": sc["id"], "kind": "location", "file": f"locations/{sc['id']}.svg",
             "description": f"{sc['name']} (kho bối cảnh sinh bằng code; {sc['kind']})",
@@ -137,7 +138,7 @@ def main() -> int:
             "light_states": lights, "default_light": LIGHT_RENAME.get(re.search(r'data-light="(\w+)"', text).group(1), "day"),
             "floor_y": fy, "stand": stand, "slots": {}, "crop_9x16": {"center": cx},
             "tags": sorted(set(sc["tags"]) | {sc["kind"], "bg-gen"}), "moods": sc.get("moods", ["normal"]),
-            "palettes": ["base", PAL_ID], "origin": "build_bg", "anchors_auto": True,
+            "palettes": ["base", PAL_ID], "origin": "build_bg", "anchors_reviewed": True,
         }
         old = by_id.get(sc["id"])
         digest = L.sha(dst)
