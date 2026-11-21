@@ -4,6 +4,27 @@ Workspace này sản xuất video YouTube / TikTok từ nguồn có sẵn hoặc
 
 ## 0. ĐỌC TRƯỚC KHI LÀM BẤT CỨ VIỆC GÌ
 
+**[`RULES.md`](RULES.md) là luật chung của repo, cao nhất.** Mọi agent (Claude, Codex, Cursor, agent con…), skill, subagent đều phải đọc và tuân theo. Skill, workflow, `PROJECT.md`, file hướng dẫn lồng trong project, memory mà mâu thuẫn với `RULES.md` thì `RULES.md` thắng. Chỉ chỉ thị rõ ràng của người dùng trong phiên hiện tại mới được đè luật, và phải ghi vào mục *Ngoại lệ* của `PROJECT.md` (R0.2). Agent không tự sửa `RULES.md` (R0.3).
+
+### ⛔ Quy tắc vận hành bắt buộc (tóm tắt; chi tiết và ID ở `RULES.md`)
+
+1. **Bắt đầu bằng `/video-pipeline`** và đọc `.agents/skills/video-pipeline/references/workflow-v2.md`. Không tự nghĩ ra quy trình riêng (R8.1).
+2. **Đúng thứ tự giai đoạn**: A/B (QA nguồn → viết lại) hoặc C (ý tưởng → bible → đề cương → kịch bản) → **demo 30–40 s** → 👤 người dùng duyệt → mới làm full (R8.1).
+3. **Gate phải pass bằng lệnh máy, không tự tuyên bố** (R8.2): `originality_check.py` (A/B), `check_rules.py`, `check_shots.py`, `check_sync.py`, `hyperframes lint/check`. Gate fail → sửa nguồn (script/bible/shotlist/rig) rồi chạy lại; không sửa tay file sinh tự động (R1.3), không hạ ngưỡng, không bỏ qua cảnh báo lỗi.
+4. **Cập nhật `projects/<slug>/PROJECT.md` sau mỗi gate** (ngày, lệnh, kết quả). Chưa ghi = chưa xong.
+5. **Một video = `projects/<slug>/`**; scaffold bằng `scaffold_project.py`. Không ghi file lạc ra root, không tạo generator/pipeline song song cho từng video (R1.1, R1.6).
+6. **Chốt kịch bản trước TTS, chốt preview trước render final** (R1.5).
+7. **Thiếu thông tin hoặc gate không qua được → dừng và hỏi**, nêu rõ kẹt ở bước nào (R0.4). Không bịa số liệu/quote/tên, không dùng nội dung có bản quyền khi chưa có `source/permission.md` (R7.1).
+8. **Sửa quy trình thì sửa trong `workflow-v2.md` / skill tự viết** (`video-pipeline`, `script-rewrite`, `voice-sync`) và ghi trong PR; không âm thầm làm khác.
+9. **Tái sử dụng trước, tạo mới sau (R2):**
+   - **Tra `library/` trước** (`library.py list`); dùng lại bằng `library.py use`. Nhân vật đã khoá ở demo không đổi id/rig/giọng.
+   - **Nhân vật thiếu → clone gần nhất**: chọn `archetype` + `outfit` trong `library/rigs/archetypes.json` (R2.8), hoặc `"extends": "<id gốc>"` + `rig_params` chỉ chứa phần đổi (nếu gốc ở project khác, copy mục đó vào bible mới trước). Không vẽ rig từ đầu khi chưa thử clone. Chạy `build_rig.py` rồi đưa pose sheet cho người dùng duyệt (R3.7).
+   - **Đạo cụ thiếu →** dùng đạo cụ sẵn có (đổi `states`) nếu gần đúng; chỉ khi không có mới tạo mới, khai vào `bible.json` (`props` + `states`), làm đúng chuẩn library (R2.5–R2.6) và `promote` trước giai đoạn E (R2.4). Không đặt đạo cụ "tại chỗ" trong HTML của một shot.
+   - **Bối cảnh:** tra `library/locations/` trước. Kho 22 cảnh sinh bằng code ở `assets/library/bg/catalog.json` (xem `HANDOFF.md`) là kho **cũ/song song**, đang được hợp nhất vào `library/`; muốn dùng cảnh trong đó thì đưa vào `library/` đúng chuẩn R2.5–R2.7 (màu là token, `data-light`) rồi mới dùng. Không vẽ bối cảnh riêng trong HTML của video.
+   - Mỗi nhân vật/đạo cụ/bối cảnh tạo mới phải ghi lý do ("không có sẵn cái nào dùng được") vào `PROJECT.md`.
+
+Vi phạm một mục ở trên = kết quả không hợp lệ, phải làm lại từ giai đoạn bị bỏ qua.
+
 **[`RULES.md`](RULES.md) là luật chung của repo, cao nhất.** Mọi agent, skill, subagent đều phải đọc và tuân theo. Skill, workflow, `PROJECT.md`, file hướng dẫn lồng trong project, memory mà mâu thuẫn với `RULES.md` thì `RULES.md` thắng. Chỉ chỉ thị rõ ràng của người dùng trong phiên hiện tại mới được đè luật, và phải ghi vào mục *Ngoại lệ* của `PROJECT.md` (R0.2). Agent không tự sửa `RULES.md` (R0.3).
 
 Ba điều hay bị quên nhất:

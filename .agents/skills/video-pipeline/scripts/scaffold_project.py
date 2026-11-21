@@ -383,7 +383,10 @@ def main() -> int:
     if args.mode == "c":
         first = "Làm Giai đoạn I1: viết script/idea.md (nhắc lại ý hiểu) và chờ người dùng xác nhận."
     else:
-        first = "Làm Giai đoạn A: lấy transcript vào source/ rồi điền source/qa.md; chờ người dùng xác nhận."
+        first = (
+            "Làm Giai đoạn A: lấy transcript, copy transcript.md + transcript-sentences.json + meta.json vào source/ "
+            "(originality_check.py đọc source/transcript-sentences.json), rồi điền source/qa.md; chờ người dùng xác nhận."
+        )
 
     print(json.dumps(
         {
@@ -396,7 +399,10 @@ def main() -> int:
                 "Đọc RULES.md (gốc repo). Trước khi tạo nhân vật/đạo cụ/bối cảnh: `python .agents/skills/video-pipeline/scripts/library.py list` (R2.1).",
                 first,
                 "Chưa chạy TTS/HyperFrames trước khi script được duyệt (xem references/workflow-v2.md).",
-                f'khi script đã duyệt: python .agents/skills/voice-sync/scripts/build_voiceover.py --script "{script_path}" --out "{project / "audio"}" --speed {speed}',
+                "khi script đã duyệt: tạo script/script.demo.json (lát cắt 30–40 s, giữ nguyên id) và chỉ làm giọng cho bản demo: "
+                f'python .agents/skills/voice-sync/scripts/build_voiceover.py --script "{project / "script" / "script.demo.json"}" '
+                f'--out "{project / "audio"}" --speed {speed}',
+                "giọng cho script ĐẦY ĐỦ (script/script.json) chỉ chạy ở Giai đoạn D, sau khi người dùng duyệt demo.",
                 f'npx hyperframes init "{project / "video"}" --skip-skills --non-interactive --resolution '
                 + {"9:16": "portrait", "16:9": "landscape", "1:1": "square"}[args.format],
             ],

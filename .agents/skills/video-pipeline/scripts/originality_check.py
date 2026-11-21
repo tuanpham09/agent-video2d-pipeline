@@ -78,23 +78,36 @@ def main() -> int:
     ap.add_argument("--source", type=Path, action="append", required=True)
     ap.add_argument("--n", type=int, default=4, help="độ dài cụm từ so khớp (mặc định 4)")
     ap.add_argument("--line-threshold", type=float, default=0.5, help="line coi là sao chép nếu overlap >= ngưỡng")
-    ap.add_argument("--max-copied-pct", type=float, default=10.0, help="% line sao chép tối đa để qua gate")
+    ap.add_argument("--max-copied-pct", type=float, default=10.0, help="%% line sao chép tối đa để qua gate")
     ap.add_argument("--max-mean-overlap", type=float, default=0.20)
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args()
 
     script = json.loads(args.script.read_text(encoding="utf-8-sig"))
-    lines = [(ln["id"], ln["text"]) for sc in script["scenes"] for ln in sc["lines"]]
+    lines = [(ln["id"], ln["text"]) for sc in script.get("scenes", []) for ln in sc.get("lines", [])]
+    if not lines:
+        print("✗ script.json chưa có line nào — không có gì để kiểm originality", file=sys.stderr)
+        return 1
 
     source_sentences: list[str] = []
     for path in args.source:
-        source_sentences += load_source(path)
+        loaded = load_source(path)
+        if not loaded:
+            print(f"✗ nguồn rỗng hoặc không đọc được câu nào: {path}", file=sys.stderr)
+            return 1
+        source_sentences += loaded
     src_grams: set = set()
     src_norm_sentences: set[str] = set()
     for sent in source_sentences:
         words = norm(sent)
         src_grams |= ngrams(words, args.n)
         src_norm_sentences.add(" ".join(words))
+    if not src_norm_sentences - {""}:
+        print("✗ nguồn không có từ nào sau khi chuẩn hoá — gate không thể so sánh", file=sys.stderr)
+        return 1
+    # để bắt line ngắn bị cắt ra từ câu nguồn dài: tìm cụm liền mạch theo ranh giới từ
+    src_blob = " " + " | ".join(src_norm_sentences) + " "
+    min_frag = min(3, args.n)
 
     overlaps: list[float] = []
     copied: list[tuple[float, str, str]] = []
@@ -104,8 +117,10 @@ def main() -> int:
         grams = ngrams(words, args.n)
         if " ".join(words) in src_norm_sentences:
             exact += 1
-        if not grams:  # line ngắn hơn n từ: chỉ tính trùng nếu khớp nguyên câu
-            overlaps.append(1.0 if " ".join(words) in src_norm_sentences else 0.0)
+        if not grams:  # line ngắn hơn n từ: tính trùng nếu là cụm liền mạch của một câu nguồn
+            frag = " " + " ".join(words) + " "
+            hit = len(words) >= min_frag and frag in src_blob
+            overlaps.append(1.0 if hit else 0.0)
         else:
             overlaps.append(len(grams & src_grams) / len(grams))
         if overlaps[-1] >= args.line_threshold:

@@ -29,9 +29,19 @@ Dùng:
   python .agents/skills/video-pipeline/scripts/build_rig.py \
       --bible projects/<slug>/script/bible.json --out projects/<slug>/assets/rig
   thêm --no-sheet để bỏ pose sheet (cần playwright + chromium); --library để đổi thư mục library.
+  thêm --script projects/<slug>/script/script.json để khớp id/giọng với kịch bản.
 Mỗi nhân vật xuất <id>.svg + <id>.rig.json (viewBox, pivot, danh sách trạng thái) cho generator dựng cảnh.
 LUẬT NHÚNG: rig chỉ được nhúng vào cảnh dưới dạng <svg> lồng nhau (có viewBox riêng), KHÔNG chép <g>
 trần vào svg cảnh, vì pivot dùng transform-box: view-box (RULES.md R3.4).
+
+Kiểm trước khi ghi file (trừ --no-check): tay ở mọi pose × (đứng|ngồi) và đầu/thân có nằm
+trong viewBox không (tính giải tích, có scale), và (nếu có --script) id + giọng khớp.
+Đây KHÔNG phải kiểm render: vẫn phải xem pose sheet.
+
+Nhân vật mới nên clone từ nhân vật cũ: {"id": "chu_tu", "extends": "chu_hai", "rig_params": {chỉ phần khác}}.
+Hoặc chọn khuôn: "rig": {"archetype": "adult_m", "outfit": "mourning", ...ghi đè}  (library/rigs/archetypes.json).
+
+Khai báo rig trong bible: "rig": {tham số}  hoặc  "rig": "assets/rig/<id>.svg" + "rig_params": {tham số}.
 """
 from __future__ import annotations
 
@@ -84,7 +94,14 @@ from library import load_palette  # noqa: E402  (một nguồn gộp palette)
 
 def resolve_rig(char: dict, catalog: dict) -> dict:
     """archetype → outfit → khoá ghi đè của chính nhân vật."""
-    raw = dict(char["rig"])
+    spec = char["rig"]
+    if isinstance(spec, dict):
+        raw = dict(spec)
+    elif isinstance(spec, str):  # "rig": "đường/dẫn.svg" + rig_params
+        raw = dict(char.get("rig_params") or {})
+        raw.setdefault("file", spec)
+    else:
+        raise SystemExit(f"LỖI: {char['id']}: 'rig' phải là object tham số hoặc đường dẫn .svg, nhận {type(spec).__name__}")
     merged: dict = {}
     for key, table in (("archetype", "archetypes"), ("outfit", "outfits")):
         name = raw.get(key)
@@ -95,6 +112,39 @@ def resolve_rig(char: dict, catalog: dict) -> dict:
     merged.update({k: v for k, v in raw.items() if k not in ("archetype", "outfit")})
     merged["archetype"], merged["outfit"] = raw.get("archetype"), raw.get("outfit")
     return merged
+
+
+def rig_params_of(char: dict) -> dict:
+    spec = char.get("rig")
+    if isinstance(spec, dict):
+        return dict(spec)
+    return dict(char.get("rig_params") or {})
+
+
+def resolve_extends(chars: list[dict]) -> list[dict]:
+    """Nhân vật có "extends": "<id khác trong bible>" = bản sao của nhân vật đó, chỉ ghi đè tham số khác đi.
+    Tham số rig = rig của gốc + ghi đè của chính nó (rig / rig_params); file SVG riêng theo id mới."""
+    by_id = {c["id"]: c for c in chars}
+
+    def params(c: dict, seen: tuple = ()) -> dict:
+        if c["id"] in seen:
+            raise ValueError(f"extends vòng tròn: {' → '.join(seen + (c['id'],))}")
+        base = c.get("extends")
+        if not base:
+            return rig_params_of(c)
+        if base not in by_id:
+            raise ValueError(f"{c['id']}: extends '{base}' không có trong bible")
+        merged = params(by_id[base], seen + (c["id"],))
+        merged.pop("file", None)
+        merged.update(rig_params_of(c))
+        return merged
+
+    out = []
+    for c in chars:
+        if c.get("extends"):
+            c = {**c, "rig": params(c)}
+        out.append(c)
+    return out
 
 
 def esc(s: str) -> str:
@@ -332,7 +382,6 @@ class Rig:
             f"{r} .tears{{opacity:var(--tear,0)}}",
             f"{r} .m-closed{{transform:scaleY(var(--mc,.9))}}",
             f"{r} .mouth>*{{display:none}}",
-            f"{r}[data-blink='1']{{--lid:1}}",
             f"{r}[data-khan='off'] .acc-khan{{display:none}}",
             f"{r} .lap{{display:none}}",
             f"{r}[data-stance='sit'] .lap{{display:inline}}",
@@ -348,6 +397,8 @@ class Rig:
             lines.append(f"{sel}[data-mouth='auto'] .m-{e['mouth']}{{display:inline}}")
         for m in ("closed", "half", "open", "round"):
             lines.append(f"{r}[data-mouth='{m}'] .m-{m}{{display:inline}}")
+        # blink phải thắng --lid của mọi cảm xúc: selector đặc hiệu hơn (2 thuộc tính) và đặt sau
+        lines.append(f"{r}[data-blink='1'][data-emotion]{{--lid:1}}")
         for g, (gx, gy) in GAZE.items():
             if g != "center":
                 lines.append(f"{r}[data-gaze='{g}']{{--gx:{gx}px;--gy:{gy}px}}")
@@ -387,6 +438,70 @@ class Rig:
             f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb}" role="img" aria-label="{title}">'
             f'<title>{title}</title><style>{self.css()}</style>{self.inner(state or {})}</svg>'
         )
+
+
+# ---- kiểm tràn khung & khớp script ----------------------------------------
+
+def _rot(v: tuple[float, float], deg: float) -> tuple[float, float]:
+    """Xoay như CSS rotate() trong hệ toạ độ SVG (y xuống)."""
+    import math
+    a = math.radians(deg)
+    return (v[0] * math.cos(a) - v[1] * math.sin(a), v[0] * math.sin(a) + v[1] * math.cos(a))
+
+
+def bounds_errors(rig: Rig) -> list[str]:
+    """Kiểm giải tích (không render): tay ở mọi tư thế × stance, đầu/mũ/khăn, thân; có tính scale + sit.
+    Không thay cho việc xem pose sheet — chỉ bắt lỗi tràn khung hiển nhiên."""
+    errs: list[str] = []
+    elbow = (0.0, ELBOW_Y - SHOULDER_Y)
+    hand = (0.0, 462.0 - ELBOW_Y)
+    hand_r = 15 + 2  # bán kính + nửa nét
+    s = rig.scale
+
+    def to_view(x: float, y: float) -> tuple[float, float]:
+        return CX + (x - CX) * s, FLOOR - (FLOOR - y) * s
+
+    def check(label: str, x0: float, y0: float, x1: float, y1: float) -> None:
+        ax0, ay0 = to_view(x0, y0)
+        ax1, ay1 = to_view(x1, y1)
+        if ax0 < 0 or ay0 < 0 or ax1 > VB_W or ay1 > VB_H:
+            errs.append(f"{rig.id}: {label} tràn viewBox {VB_W}x{VB_H} (x {ax0:.0f}..{ax1:.0f}, y {ay0:.0f}..{ay1:.0f})")
+
+    for stance, dy in (("stand", 0.0), ("sit", 56.0)):
+        for name, ((ul, fl), (ur, fr)) in POSES.items():
+            for side, (u, f) in (("l", (ul, fl)), ("r", (ur, fr))):
+                sx, sy = rig.shoulder(side)
+                e = _rot(elbow, u)
+                h = _rot((elbow[0] + _rot(hand, f)[0], elbow[1] + _rot(hand, f)[1]), u)
+                for pt, rad in ((e, 18), (h, hand_r)):
+                    x, y = sx + pt[0], sy + pt[1] + dy
+                    check(f"tay {side} pose={name} stance={stance}", x - rad, y - rad, x + rad, y + rad)
+
+    bw, p = rig.body_w, rig.p
+    hunch = 14 * float(p.get("hunch", 0))
+    top = 105.0 if (p.get("hat") or p.get("hair", "short") == "bun") else 144.0
+    half = max(bw / 2 + 4, 70.0, 62.5 if p.get("hair") == "bun" else 0)
+    right = CX + (100.0 if p.get("headband") else half)
+    check("đầu/thân", CX - half, top, right, 590.0)
+    if hunch and top + hunch < 0:
+        errs.append(f"{rig.id}: hunch quá lớn")
+    return errs
+
+
+def script_errors(rigs: list[Rig], script_path: Path) -> list[str]:
+    """Nhân vật có rig phải có trong script.json và cùng giọng (nếu cả hai khai)."""
+    sc = json.loads(script_path.read_text(encoding="utf-8-sig"))
+    by_id = {c["id"]: c for c in sc.get("characters", [])}
+    errs: list[str] = []
+    for r in rigs:
+        sc_char = by_id.get(r.id)
+        if sc_char is None:
+            errs.append(f"{r.id}: có rig trong bible nhưng không có trong {script_path.name}")
+            continue
+        bv, sv = r.char.get("voice"), sc_char.get("voice")
+        if bv and sv and bv != sv:
+            errs.append(f"{r.id}: giọng bible '{bv}' ≠ script '{sv}'")
+    return errs
 
 
 # ---- pose sheet -----------------------------------------------------------
@@ -455,6 +570,8 @@ def main() -> int:
     ap.add_argument("--library", type=Path, default=DEFAULT_LIBRARY, help="thư mục library dùng chung")
     ap.add_argument("--only", help="chỉ build các id này, cách nhau bằng dấu phẩy")
     ap.add_argument("--no-sheet", action="store_true")
+    ap.add_argument("--script", type=Path, help="script.json để khớp id/giọng nhân vật (khuyến nghị)")
+    ap.add_argument("--no-check", action="store_true", help="bỏ kiểm tràn khung và khớp script")
     args = ap.parse_args()
 
     bible = json.loads(args.bible.read_text(encoding="utf-8-sig"))
@@ -470,10 +587,27 @@ def main() -> int:
         return 1
 
     only = set(args.only.split(",")) if args.only else None
-    rigs = [Rig(c, palette, catalog) for c in bible.get("characters", []) if c.get("rig") and (not only or c["id"] in only)]
+    try:
+        chars = resolve_extends(bible.get("characters", []))
+    except ValueError as e:
+        print(f"LỖI: {e}", file=sys.stderr)
+        return 1
+    rigs = [Rig(c, palette, catalog) for c in chars if c.get("rig") and (not only or c["id"] in only)]
     if not rigs:
         print("Không có nhân vật nào có khối 'rig' trong bible.", file=sys.stderr)
         return 1
+
+    checks: list[str] = []
+    if not args.no_check:
+        for rig in rigs:
+            checks += bounds_errors(rig)
+        if args.script:
+            checks += script_errors(rigs, args.script)
+        if checks:
+            for e in checks:
+                print(f"✗ {e}", file=sys.stderr)
+            print(f"LỖI: {len(checks)} vấn đề — chưa ghi file. Sửa bible/script hoặc dùng --no-check.", file=sys.stderr)
+            return 1
 
     args.out.mkdir(parents=True, exist_ok=True)
     sheets = args.out / "sheets"
@@ -518,7 +652,7 @@ def main() -> int:
         render_png(lp, sheets / "lineup.png", 258 * len(rigs) + 60)
         lp.unlink()
 
-    print(json.dumps({"status": "ok", "palette": refs, "rigs": report}, ensure_ascii=False, indent=2))
+    print(json.dumps({"status": "ok", "palette": refs, "checked": not args.no_check, "script_matched": bool(args.script and not args.no_check), "rigs": report}, ensure_ascii=False, indent=2))
     return 0
 
 

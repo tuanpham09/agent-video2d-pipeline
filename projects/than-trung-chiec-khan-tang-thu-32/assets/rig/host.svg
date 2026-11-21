@@ -13,7 +13,6 @@
 .rig-host .tears{opacity:var(--tear,0)}
 .rig-host .m-closed{transform:scaleY(var(--mc,.9))}
 .rig-host .mouth>*{display:none}
-.rig-host[data-blink='1']{--lid:1}
 .rig-host[data-khan='off'] .acc-khan{display:none}
 .rig-host .lap{display:none}
 .rig-host[data-stance='sit'] .lap{display:inline}
@@ -45,6 +44,7 @@
 .rig-host[data-mouth='half'] .m-half{display:inline}
 .rig-host[data-mouth='open'] .m-open{display:inline}
 .rig-host[data-mouth='round'] .m-round{display:inline}
+.rig-host[data-blink='1'][data-emotion]{--lid:1}
 .rig-host[data-gaze='left']{--gx:-5px;--gy:0px}
 .rig-host[data-gaze='right']{--gx:5px;--gy:0px}
 .rig-host[data-gaze='up']{--gx:0px;--gy:-4px}

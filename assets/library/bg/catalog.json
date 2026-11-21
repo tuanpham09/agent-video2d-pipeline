@@ -1,0 +1,711 @@
+{
+  "viewBox": "0 0 1920 1080",
+  "portrait_crop": "656 0 608 1080",
+  "backgrounds": [
+    {
+      "id": "nghia_dia",
+      "name": "Nghĩa địa",
+      "file": "nghia_dia.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "ma",
+        "đêm",
+        "mồ mả"
+      ],
+      "focus": [
+        960,
+        760
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "toan_canh_lang",
+      "name": "Toàn cảnh làng",
+      "file": "toan_canh_lang.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "làng",
+        "toàn cảnh",
+        "thiết lập"
+      ],
+      "focus": [
+        960,
+        700
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "gian_tho_dem",
+      "name": "Gian thờ đêm",
+      "file": "gian_tho_dem.svg",
+      "kind": "interior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "candle_warm",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "thờ",
+        "nhà",
+        "ma",
+        "nến"
+      ],
+      "focus": [
+        960,
+        560
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "bo_song",
+      "name": "Bờ sông",
+      "file": "bo_song.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "sông",
+        "bến",
+        "nước"
+      ],
+      "focus": [
+        960,
+        760
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "gieng_lang",
+      "name": "Giếng làng",
+      "file": "gieng_lang.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "giếng",
+        "làng",
+        "nước"
+      ],
+      "focus": [
+        960,
+        760
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "bui_tre_chuoi",
+      "name": "Bụi tre bụi chuối",
+      "file": "bui_tre_chuoi.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "tre",
+        "chuối",
+        "ma",
+        "cây cối"
+      ],
+      "focus": [
+        960,
+        780
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "truong_bo_hoang",
+      "name": "Trường học bỏ hoang",
+      "file": "truong_bo_hoang.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "trường",
+        "hoang",
+        "ma"
+      ],
+      "focus": [
+        960,
+        720
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "nha_hoang",
+      "name": "Nhà hoang",
+      "file": "nha_hoang.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "nhà",
+        "hoang",
+        "ma"
+      ],
+      "focus": [
+        960,
+        700
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "canh_dong_lua",
+      "name": "Cánh đồng lúa",
+      "file": "canh_dong_lua.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "đồng",
+        "lúa",
+        "nông thôn"
+      ],
+      "focus": [
+        960,
+        760
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "rap_dam_tang",
+      "name": "Rạp đám tang",
+      "file": "rap_dam_tang.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "tang",
+        "rạp",
+        "ma"
+      ],
+      "focus": [
+        960,
+        640
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "nui",
+      "name": "Núi",
+      "file": "nui.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "núi",
+        "rừng",
+        "toàn cảnh"
+      ],
+      "focus": [
+        960,
+        700
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "chua",
+      "name": "Chùa",
+      "file": "chua.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "chùa",
+        "tâm linh",
+        "ban đêm"
+      ],
+      "focus": [
+        960,
+        560
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "nha_ve_sinh",
+      "name": "Nhà vệ sinh",
+      "file": "nha_ve_sinh.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "wc",
+        "sân sau",
+        "ma"
+      ],
+      "focus": [
+        960,
+        700
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "mieu_dinh",
+      "name": "Miếu / Đình làng",
+      "file": "mieu_dinh.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "miếu",
+        "đình",
+        "tâm linh"
+      ],
+      "focus": [
+        960,
+        600
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "song",
+      "name": "Sông",
+      "file": "song.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "sông",
+        "mặt nước",
+        "toàn cảnh",
+        "thuyền"
+      ],
+      "focus": [
+        960,
+        720
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "cay_da",
+      "name": "Cây đa",
+      "file": "cay_da.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "cây đa",
+        "đầu làng",
+        "ma",
+        "tâm linh"
+      ],
+      "focus": [
+        960,
+        760
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "san_nha",
+      "name": "Sân nhà",
+      "file": "san_nha.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "sân",
+        "nhà",
+        "gia đình"
+      ],
+      "focus": [
+        960,
+        760
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "nha_bep",
+      "name": "Nhà bếp",
+      "file": "nha_bep.svg",
+      "kind": "interior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "candle_warm",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "bếp",
+        "nhà",
+        "củi"
+      ],
+      "focus": [
+        900,
+        640
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "phong_ngu",
+      "name": "Phòng ngủ",
+      "file": "phong_ngu.svg",
+      "kind": "interior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "candle_warm",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "phòng ngủ",
+        "nhà",
+        "đêm"
+      ],
+      "focus": [
+        760,
+        620
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "phong_khach",
+      "name": "Phòng khách",
+      "file": "phong_khach.svg",
+      "kind": "interior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "candle_warm",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "phòng khách",
+        "nhà",
+        "gia đình"
+      ],
+      "focus": [
+        960,
+        640
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "nha_co_nha_tho_ho",
+      "name": "Nhà cổ / nhà thờ họ",
+      "file": "nha_co_nha_tho_ho.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "nhà cổ",
+        "từ đường",
+        "tâm linh",
+        "ma"
+      ],
+      "focus": [
+        960,
+        560
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    },
+    {
+      "id": "nha_cap_bon",
+      "name": "Nhà cấp bốn",
+      "file": "nha_cap_bon.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "nhà cấp bốn",
+        "nông thôn",
+        "gia đình"
+      ],
+      "focus": [
+        960,
+        700
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
+    }
+  ]
+}

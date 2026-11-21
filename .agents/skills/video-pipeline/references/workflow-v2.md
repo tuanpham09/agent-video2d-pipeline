@@ -103,15 +103,15 @@ Bạn nhập ý tưởng sơ qua → agent xác nhận → chốt thể loại/n
 Skill: `/script-rewrite` (§3 viết lời, §4 cast), `/long-form-youtube`, `/storytelling-hooks`.
 - [ ] Viết theo `outline.md`; câu ≤ 25 từ, 1 line = 1 speaker, đúng 3 tag cảm xúc cho phép.
 - [ ] Nhân vật và giọng đúng với `bible.json`; id line theo `S01_L01`.
-- [ ] Đo thời lượng không cần model: `build_voiceover.py --script ... --dry-run` rồi so với mục tiêu; lệch > 10% → cắt/thêm chương, không kéo giãn khoảng nghỉ.
+- [ ] Đo thời lượng không cần model: `build_voiceover.py --script projects/<slug>/script/script.json --out projects/<slug>/audio --dry-run` rồi so với mục tiêu; lệch > 10% → cắt/thêm chương, không kéo giãn khoảng nghỉ.
 - [ ] Tự soát theo `/script-rewrite` §6.
 - [ ] 👤 Bạn duyệt `script.md` + `packaging.md`, sau đó mới vào Giai đoạn C (demo 30–40 s).
 
 ## 4. Giai đoạn A — QA nguồn (`source/qa.md`) — chế độ A và B
 
-Đầu vào: URL. Đầu ra: `source/{meta.json,transcript.md}` + `source/qa.md` với quyết định **PROCEED / CẦN XIN PHÉP / DỪNG**.
+Đầu vào: URL. Đầu ra: `source/{meta.json,transcript.md,transcript-sentences.json}` + `source/qa.md` với quyết định **PROCEED / CẦN XIN PHÉP / DỪNG**.
 
-- [ ] Lấy transcript + metadata (kênh, ngày, độ dài, mô tả).
+- [ ] Lấy transcript + metadata (kênh, ngày, độ dài, mô tả). Skill transcript ghi vào cây `youtube-transcript/<kênh>/<video>/`; **copy `transcript.md`, `transcript-sentences.json`, `meta.json` sang `projects/<slug>/source/`** (hoặc dùng `--output-dir`). `originality_check.py` đọc `source/transcript-sentences.json`.
 - [ ] Ghi **loại nội dung**: truyện hư cấu / kiến thức / tin tức / review / hướng dẫn.
 - [ ] Ghi **tình trạng quyền**: tự do (CC, public domain) / có giấy phép / chưa rõ. Chưa rõ + truyện hư cấu → chỉ làm Chế độ A theo mục B.2, hoặc xin phép tác giả bằng văn bản (lưu vào `source/permission.md`).
 - [ ] Tách **ý tưởng chung** (phong tục dân gian, motif, thể loại, sự thật có thể kiểm chứng) khỏi **biểu đạt riêng của tác giả** (cốt truyện cụ thể, tên và quan hệ nhân vật, thứ tự tiết lộ, twist, kết, chi tiết đặc trưng, câu chữ). Lập 2 danh sách.
@@ -168,6 +168,8 @@ Thứ tự bắt buộc:
 5. **Thiếu gì mới tạo (R2.4).** Làm đúng chuẩn library ngay từ đầu (token màu, `data-state`/`data-light`, gốc giữa-đáy, 3 lớp, không `<text>`), thử trong project, rồi `library.py promote` ở giai đoạn E (hoặc khai `project-only` + lý do).
 6. **Cổng:** `check_rules.py --project projects/<slug>` sạch; 👤 duyệt pose sheet + sheet đạo cụ/bối cảnh được dùng.
 
+**Tái sử dụng trước (bắt buộc):** quét `projects/*/script/bible.json` và `projects/*/assets/` tìm nhân vật/đạo cụ/bối cảnh dùng được. Có sẵn → dùng lại nguyên id/rig/giọng. Thiếu nhân vật → clone nhân vật gần nhất bằng `"extends": "<id gốc>"` và `rig_params` chỉ ghi phần khác (gốc ở project khác: copy mục đó sang bible mới trước). Thiếu đạo cụ → đổi `states`/màu của đạo cụ gần nhất; chỉ tạo mới khi không có, và khai vào `bible.props` + `assets/props/`. Ghi lý do tạo mới vào `PROJECT.md`.
+
 ```json
 {
   "emotion_vocab": ["calm","focused","worried","afraid","shocked","dread","sad","grief","angry","suspicious","relieved"],
@@ -192,6 +194,9 @@ Quy ước (đã kiểm bằng cách ghép thử một cảnh: bối cảnh + b�
 - **Đạo cụ:** gốc toạ độ = giữa-đáy; đặt tại `(X, Y)` với `scale = scene_s` trong index; trạng thái bằng `data-state`; prop có `slots` (vd bàn thờ: `candle-l`, `candle-r`, `incense`) thì đặt prop con vào đúng toạ độ slot (theo tỉ lệ của prop cha).
 - **Bối cảnh:** 1920×1080; chọn vị trí đứng từ `stand` (L/C/R) và `slots` trong index (R4.2); ánh sáng bằng `data-light`; 9:16 cắt cửa sổ 608×1080 quanh `crop_9x16` (R4.4).
 - **Chưa kiểm trong HyperFrames/GSAP:** ghép thử mới dùng CSS/Chromium. Kiểm animation thật (GSAP đổi `data-*`/biến CSS, xoay tay) ở demo C5 trước khi khoá.
+- **Sinh rig + kiểm giải tích:** `python .agents/skills/video-pipeline/scripts/build_rig.py --bible projects/<slug>/script/bible.json --out projects/<slug>/assets/rig [--script projects/<slug>/script/script.json]` → `<id>.svg` + `<id>.rig.json` + `sheets/<id>.png` + `sheets/lineup.png`. Trước khi ghi file, script kiểm **giải tích** (không render): tay ở mọi pose × đứng/ngồi và đầu/thân có nằm trong viewBox không (có tính `scale`/`head_scale`); với `--script` thì id + giọng khớp `script.json`. Lỗi → thoát 1, không ghi gì (`--no-check` để bỏ). Không thay cho việc xem pose sheet.
+- **Nhân vật mới:** chọn `archetype` + `outfit` (library) hoặc clone `"extends": "<id gốc>"` + `rig_params` chỉ phần đổi. Bible khai `"rig": {tham số}` hoặc `"rig": "assets/rig/<id>.svg"` + `"rig_params": {...}`.
+- Mỗi địa điểm: 3 lớp xa/giữa/gần + trạng thái ánh sáng; đạo cụ có file riêng + trạng thái — tất cả lấy từ `library/` (R2), không vẽ tại chỗ.
 - [ ] Giọng: nhân vật xuất hiện chung một cảnh phải khác giọng; vai phụ chỉ dùng chung giọng khi không bao giờ cùng cảnh.
 - [ ] `emotion_vocab` thay cho "31 sắc thái" (không dẫn chiếu `claude-animation-base`).
 
@@ -213,7 +218,8 @@ Quy ước (đã kiểm bằng cách ghép thử một cảnh: bối cảnh + b�
 ```
 Quy tắc:
 - [ ] **Mỗi line ≥ 1 beat diễn riêng**, kể cả line < 1,2 s (câu ngắn được ở chung shot nhưng phải có beat riêng: liếc mắt, hít vào, đặt tay, quay đầu…).
-- [ ] Shot 1,0–6,0 s; trung bình 3–5 s; line > 5 s tách ≥ 2 shot (đổi cỡ cảnh/góc).
+- [ ] Shot 1,0–6,0 s; trung bình 3–5 s; line > 5 s tách ≥ 2 shot (đổi cỡ cảnh/góc). Khi một line được nhiều shot chia nhau, **mỗi shot khai `"span": [từ, đến]`** (giây, tính từ đầu line) — `check_shots.py` dùng span làm thời lượng shot và báo lỗi nếu thiếu.
+- [ ] `t` của beat và SFX tính từ đầu shot và phải nằm trong `[0, thời lượng shot]`; mỗi beat phải có `do` không rỗng; shot phải có `light` thuộc `light_states` của địa điểm, và mọi prop trong bible phải khai `states`.
 - [ ] Nhân vật nói phải xuất hiện trong ít nhất một shot của line đó với `mouth: true`. Người kể (narrator) → cutaway/insert/establishing.
 - [ ] Không 3 shot liền cùng cỡ cảnh + camera; ≤ 50% shot cùng một cỡ cảnh.
 - [ ] Đạo cụ chỉ đổi trạng thái theo thứ tự `states` (lùi trạng thái phải ghi `reset: true`); hướng nhìn (eye-line) nhất quán giữa các shot liền kề.
@@ -225,7 +231,7 @@ Quy tắc:
 
 ### C4. SFX theo cue (`audio/sfx_cues` suy ra từ shotlist)
 - [ ] Mỗi beat `physical: true` có SFX cue trong ±0,15 s; `t` tính **theo đầu shot** (không dùng giây tuyệt đối) → đổi lời không làm lệch.
-- [ ] Nguồn SFX: file có trong `sfx/` hoặc recipe tổng hợp lưu thành file (`src` hoặc `synth:<tên>`); không gộp mọi thứ vào một wav lớn.
+- [ ] Nguồn SFX: `src` là file có thật (tương đối gốc repo hoặc project), hoặc `synth:<tên>` = recipe **đã render** ra `projects/<slug>/audio/sfx/<tên>.wav` (gate kiểm file này tồn tại; `src` rỗng bị từ chối); không gộp mọi thứ vào một wav lớn.
 - [ ] 4 tầng: giọng / BGM / foley / stinger. BGM luôn có room tone liên tục; stinger ≤ 3–4 lần trong demo để còn chỗ nhấn. Hạ BGM và foley khi có thoại bằng `data-automation` (xem `media-use/references/mixing.md`), mục tiêu lời luôn nghe rõ nhất.
 - [ ] Bổ sung kho còn thiếu (gong, cối giã, tim đập, củi nổ, bước chân, cửa kẹt, thở, stinger, drone) bằng recipe tham số hóa (tách từ `build_perfect_sfx_72s.py`) hoặc nguồn CC0; tên cue ổn định, ví dụ `foley.cloth`, `amb.wind_night`, `hit.gong_funeral`.
 
@@ -248,18 +254,19 @@ Quy tắc:
 
 ### C6. QC demo (gate)
 ```bash
+# chỉ chế độ A/B (có nguồn). Chế độ C không có nguồn → bỏ dòng originality_check, dùng I4 (script/concept.md) làm gate ý tưởng gốc
 python .agents/skills/video-pipeline/scripts/check_rules.py --project projects/<slug> --phase demo
 python .agents/skills/video-pipeline/scripts/originality_check.py --script projects/<slug>/script/script.json --source projects/<slug>/source/transcript-sentences.json
 python .agents/skills/video-pipeline/scripts/check_shots.py --project projects/<slug> --scenes S01,S02
 python .agents/skills/video-pipeline/scripts/check_sync.py  --project projects/<slug>
 cd projects/<slug>/video && npx hyperframes lint && npx hyperframes check --json
 ```
-- [ ] Cả năm lệnh pass (`check_shots` bỏ qua cảnh ngoài lát cắt nhờ `--scenes`).
+- [ ] Mọi lệnh áp dụng cho chế độ của dự án đều pass (A/B: cả năm lệnh; C: bốn lệnh còn lại). `check_shots` bỏ qua cảnh ngoài lát cắt nhờ `--scenes` (id scene sai/không có trong manifest → lỗi, không được "OK rỗng").
 - [ ] Xem snapshot **từng shot** (không chỉ từng scene): nhân vật cùng màu/tỉ lệ/trang phục; đạo cụ đúng trạng thái; bối cảnh không đổi vô cớ.
 - [ ] Nghe riêng 3 lớp: chỉ giọng; giọng + BGM; mix đủ. Không SFX nào che lời.
 - [ ] Mỗi câu thoại ngắn: tua khung hình, có chuyển động/biểu cảm riêng tại câu đó.
 - [ ] Tiếng Việt không lỗi dấu, caption không đè nhân vật.
-- [ ] Ghi vào `PROJECT.md`: ngày, kết quả 5 lệnh, đường dẫn demo, thời lượng thật.
+- [ ] Ghi vào `PROJECT.md`: ngày, kết quả các lệnh gate, đường dẫn demo, thời lượng thật.
 
 ### 👤 Cổng duyệt demo
 Người dùng duyệt từng mục: ① nhân vật (pose sheet + trong demo) ② diễn xuất ③ SFX & mix ④ bối cảnh/đạo cụ ⑤ nhịp shot ⑥ giọng. Mục chưa đạt → sửa **bible/rig/recipe** rồi dựng lại demo, không vá riêng trong HTML.

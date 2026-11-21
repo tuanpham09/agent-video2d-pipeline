@@ -15,6 +15,8 @@ Kiểm:
   E4  nhân vật nói phải xuất hiện trong shot, mouth=true
   E5  location / nhân vật / đạo cụ / trạng thái đạo cụ / cảm xúc / ánh sáng phải có trong bible
   E6  beat physical=true phải có SFX cue trong ±0.15 s; file SFX phải tồn tại
+      (`synth:<tên>` = file đã render ở audio/sfx/<tên>.wav); t của beat/SFX tính từ đầu shot, phải nằm trong shot
+  Line dài tách nhiều shot: mỗi shot khai `span: [từ, đến]` (giây, tính từ đầu line đầu tiên của shot).
   W   cỡ cảnh lặp, đạo cụ lùi trạng thái, shot quá ngắn, nhịp shot trung bình chậm
 
 Dùng:
@@ -33,7 +35,26 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 
 SFX_TOLERANCE = 0.15
+EPS = 0.05
 SIZES = {"wide", "medium", "close", "macro", "ots"}
+
+
+def check_sfx_src(src: str, repo: Path, proj: Path) -> str | None:
+    """None nếu hợp lệ, ngược lại là thông điệp lỗi. Phải trỏ tới FILE âm thanh có thật."""
+    if not src:
+        return "SFX cue thiếu `src`"
+    if src.startswith("synth:"):
+        name = src[len("synth:"):].strip()
+        if not name or "/" in name or "\\" in name:
+            return f"recipe synth không hợp lệ: {src}"
+        wav = proj / "audio" / "sfx" / f"{name}.wav"
+        if not wav.is_file():
+            return f"recipe '{name}' chưa render ra {wav.as_posix()}"
+        return None
+    for base in (repo, proj):
+        if (base / src).is_file():
+            return None
+    return f"file SFX không tồn tại: {src}"
 
 
 def load(path: Path) -> dict:
@@ -58,13 +79,23 @@ def main() -> int:
     bible = load(proj / "script" / "bible.json")
     shotlist = load(proj / "script" / "shotlist.json")
 
-    only = set(args.scenes.split(",")) if args.scenes else None
+    only = {x.strip() for x in args.scenes.split(",") if x.strip()} if args.scenes else None
+    if args.scenes is not None and not only:
+        print("✗ --scenes rỗng", file=sys.stderr)
+        return 1
+    manifest_ids = {sc["id"] for sc in manifest["scenes"]}
+    if only and only - manifest_ids:
+        print(f"✗ --scenes có scene không có trong manifest: {', '.join(sorted(only - manifest_ids))}", file=sys.stderr)
+        return 1
     lines: dict[str, dict] = {}
     for sc in manifest["scenes"]:
         if only and sc["id"] not in only:
             continue
         for ln in sc["lines"]:
             lines[ln["id"]] = ln
+    if not lines:
+        print("✗ không có line nào để kiểm (manifest rỗng hoặc scene không có line)", file=sys.stderr)
+        return 1
     roles = {c["id"]: c.get("role", "character") for c in script.get("characters", [])}
 
     chars = {c["id"]: c for c in bible.get("characters", [])}
@@ -81,6 +112,13 @@ def main() -> int:
     sfx_total = 0
     beats_total = 0
 
+    # line nào được >1 shot chia sẻ thì mỗi shot phải khai span
+    shared: dict[str, int] = {}
+    for shot in shots:
+        for lid in set(shot.get("line_ids", [])):
+            if lid in lines:
+                shared[lid] = shared.get(lid, 0) + 1
+
     for shot in shots:
         sid = shot.get("id", "?")
         lids = [lid for lid in shot.get("line_ids", []) if lid in lines]
@@ -92,7 +130,20 @@ def main() -> int:
             covering[lid].append(shot)
         start = min(lines[l]["start"] for l in lids)
         end = max(lines[l]["start"] + lines[l]["duration"] for l in lids)
-        dur = end - start
+        span = shot.get("span")
+        if span is not None:
+            if not (isinstance(span, list) and len(span) == 2 and all(isinstance(x, (int, float)) for x in span)):
+                errors.append(f"{sid}: span phải là [từ, đến] bằng giây")
+                span = None
+            elif not (0 <= span[0] < span[1] <= (end - start) + 1e-6):
+                errors.append(f"{sid}: span {span} nằm ngoài khoảng {end - start:.2f}s của line")
+                span = None
+        if span is not None:
+            dur = float(span[1]) - float(span[0])
+        else:
+            if any(shared[l] > 1 for l in lids):
+                errors.append(f"{sid}: line dùng chung với shot khác nhưng thiếu `span` — không tính được thời lượng riêng của shot")
+            dur = end - start
         durations.append(dur)
         if dur > args.max_shot:
             errors.append(f"{sid}: dài {dur:.1f}s > {args.max_shot:.1f}s ({', '.join(lids)}) — tách shot/đổi góc")
@@ -106,7 +157,11 @@ def main() -> int:
         else:
             light = shot.get("light")
             states = locs[loc].get("light_states")
-            if light and states and light not in states:
+            if not states:
+                errors.append(f"{sid}: bối cảnh {loc} chưa khai light_states trong bible")
+            elif not light:
+                errors.append(f"{sid}: thiếu `light` (phải thuộc light_states của {loc})")
+            elif light not in states:
                 errors.append(f"{sid}: ánh sáng '{light}' không thuộc light_states của {loc}")
         if shot.get("size") not in SIZES:
             errors.append(f"{sid}: size '{shot.get('size')}' không hợp lệ ({'/'.join(sorted(SIZES))})")
@@ -121,7 +176,10 @@ def main() -> int:
                 errors.append(f"{sid}: đạo cụ '{pid}' không có trong bible")
                 continue
             st = p.get("state")
-            if props[pid].get("states") and st not in props[pid]["states"]:
+            declared = props[pid].get("states")
+            if not declared:
+                errors.append(f"{sid}: đạo cụ {pid} chưa khai `states` trong bible")
+            elif st not in declared:
                 errors.append(f"{sid}: đạo cụ {pid} trạng thái '{st}' không có trong bible")
             allowed = props[pid].get("locations")
             if allowed and loc not in allowed:
@@ -135,16 +193,21 @@ def main() -> int:
         for b in beats:
             if b.get("line_id") not in lids:
                 errors.append(f"{sid}: beat tham chiếu line '{b.get('line_id')}' ngoài shot")
+            if not str(b.get("do", "")).strip():
+                errors.append(f"{sid}: beat của {b.get('line_id')} thiếu mô tả hành động `do`")
             if b.get("physical"):
                 t = float(b.get("t", 0.0))
+                if not (-EPS <= t <= dur + EPS):
+                    errors.append(f"{sid}: beat vật lý t={t} nằm ngoài shot (0–{dur:.2f}s)")
                 if not any(abs(float(s.get("t", 0.0)) - t) <= SFX_TOLERANCE for s in sfx):
                     errors.append(f"{sid}: beat vật lý '{b.get('do', '')[:40]}' (t={t}) chưa có SFX trong ±{SFX_TOLERANCE}s")
         for s in sfx:
-            src = s.get("src", "")
-            if src.startswith("synth:"):
-                continue
-            if not (args.repo / src).exists() and not (proj / src).exists():
-                errors.append(f"{sid}: file SFX không tồn tại: {src}")
+            st_ = float(s.get("t", 0.0))
+            if not (-EPS <= st_ <= dur + EPS):
+                errors.append(f"{sid}: SFX '{s.get('cue', '')}' t={st_} nằm ngoài shot (0–{dur:.2f}s)")
+            err = check_sfx_src(str(s.get("src", "")).strip(), args.repo, proj)
+            if err:
+                errors.append(f"{sid}: {err}")
 
     # --- E1/E2/E4 theo từng line
     for lid, ln in lines.items():
@@ -152,7 +215,9 @@ def main() -> int:
         if not cov:
             errors.append(f"{lid}: không có shot")
             continue
-        if not any(b.get("line_id") == lid for s in cov for b in s.get("beats", [])):
+        if not any(
+            b.get("line_id") == lid and str(b.get("do", "")).strip() for s in cov for b in s.get("beats", [])
+        ):
             errors.append(f"{lid}: có shot nhưng không có beat diễn riêng")
         spk = ln.get("speaker")
         if roles.get(spk, "character") != "narrator":
