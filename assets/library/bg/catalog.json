@@ -32,7 +32,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "toan_canh_lang",
@@ -64,7 +64,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "gian_tho_dem",
@@ -96,7 +96,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "bo_song",
@@ -128,7 +128,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "gieng_lang",
@@ -160,7 +160,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "bui_tre_chuoi",
@@ -193,7 +193,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "truong_bo_hoang",
@@ -225,7 +225,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "nha_hoang",
@@ -257,7 +257,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "canh_dong_lua",
@@ -289,7 +289,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "rap_dam_tang",
@@ -321,7 +321,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "nui",
@@ -353,7 +353,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "chua",
@@ -385,7 +385,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "nha_ve_sinh",
@@ -417,7 +417,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "mieu_dinh",
@@ -449,7 +449,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "song",
@@ -482,7 +482,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "cay_da",
@@ -515,7 +515,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "san_nha",
@@ -547,7 +547,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "nha_bep",
@@ -578,7 +578,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "phong_ngu",
@@ -609,7 +609,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "phong_khach",
@@ -640,7 +640,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "nha_co_nha_tho_ho",
@@ -673,7 +673,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     },
     {
       "id": "nha_cap_bon",
@@ -705,7 +705,7 @@
         "normal",
         "creepy"
       ],
-      "has_creep_layer": false
+      "has_creep_layer": true
     }
   ]
 }

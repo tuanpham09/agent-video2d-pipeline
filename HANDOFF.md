@@ -13,7 +13,7 @@ Rule: **dùng sẵn trước, thiếu mới tạo** (AGENTS.md điều 9). Bối
 
 ## Nâng cấp truyện ma (đang làm theo 4 bước, commit mỗi bước)
 - [x] B1+B2: `data-mood="creepy"` (sương dày, vignette đậm, nhiễu hạt, tint u ám) + ánh sáng có chiều sâu (xa nhạt/gần tối) + vùng sáng quanh nến/đèn (`.pool`, `.pool2`) — trong `core.py`.
-- [ ] B3: lớp chi tiết rợn `.creep` cho từng cảnh — `bg_lib/creep.py` (`CREEP[id]() -> {far,mid,near}`), chỉ hiện khi `data-mood="creepy"`.
+- [x] B3: lớp chi tiết rợn `.creep` cho 22 cảnh — `bg_lib/creep.py` (`CREEP[id]() -> {far,mid,near}`), chỉ hiện khi `data-mood="creepy"`; duyệt bằng `sheets/creepy.png`. Cầu sáng `lamp` ngoài trời chỉ có ở cảnh khai `lamp=`.
 - [ ] B4: sửa cảnh yếu: nha_hoang (đổ nát thật), truong_bo_hoang, bui_tre_chuoi (lá chuối thiếu thân → sửa `banana()` trong core), nha_ve_sinh, canh_dong_lua.
 - [ ] B5 (chưa làm): xem 9:16 crop + dùng thử trong HyperFrames với 1 video thật.
 

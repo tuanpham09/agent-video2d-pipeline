@@ -7,7 +7,7 @@ from .core import *  # noqa: F401,F403
 from .core import P, W, H, HORIZON
 
 
-@register("nghia_dia", "Nghĩa địa", "exterior", ["ma", "đêm", "mồ mả"], focus=(960, 760), sky=("#7f8f99", "#c9c3b0"))
+@register("nghia_dia", "Nghĩa địa", "exterior", ["ma", "đêm", "mồ mả"], focus=(960, 760), lamp=(960, 770), sky=("#7f8f99", "#c9c3b0"))
 def nghia_dia():
     far = sky() + hills(560, P["mount_far"], 50, 1) + hills(620, P["leaf_d"], 40, 4)
     far += "".join(tree(x, 640, 300 + (x % 90), leaf=P["leaf_d"]) for x in (120, 430, 1500, 1800))

@@ -245,7 +245,7 @@ def wrap_svg(bid: str, spec: dict, layers: dict, light: str | None = None, mood:
     vig2 = f'<rect class="vig2" x="0" y="0" width="{W}" height="{H}" fill="url(#vig2g)"/>'
     moon = f'<g class="moon"><circle cx="{spec.get("moon", (1500, 170))[0]}" cy="{spec.get("moon", (1500, 170))[1]}" r="70" fill="#f1ecd8" stroke="none"/></g>' if kind == "exterior" else ""
     glow = f'<g class="glow"><circle cx="{fx}" cy="{fy}" r="460" fill="url(#glowg)" style="mix-blend-mode:screen"/></g>'
-    lamp = f'<g class="lamp"><circle cx="{spec.get("lamp", (fx, fy))[0]}" cy="{spec.get("lamp", (fx, fy))[1]}" r="170" fill="url(#glowg)" style="mix-blend-mode:screen"/></g>' if kind == "exterior" else ""
+    lamp = f'<g class="lamp"><circle cx="{spec.get("lamp", (fx, fy))[0]}" cy="{spec.get("lamp", (fx, fy))[1]}" r="170" fill="url(#glowg)" style="mix-blend-mode:screen"/></g>' if (kind == "exterior" and "lamp" in spec) else ""
     title = esc(f"{spec['name']} ({bid})")
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" data-light="{default}" data-mood="{mood}" role="img" aria-label="{title}">'

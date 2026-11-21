@@ -75,8 +75,9 @@ def main() -> int:
     catalog_path.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     if not args.no_sheet and built:
-        from bg_lib.sheet import render_sheet
+        from bg_lib.sheet import render_creepy_sheet, render_sheet
         render_sheet(args.out, [catalog[b] for b in order])
+        render_creepy_sheet(args.out, [catalog[b] for b in order])
     print(json.dumps({"status": "ok", "built": built, "total_in_catalog": len(order)}, ensure_ascii=False))
     return 0
 
