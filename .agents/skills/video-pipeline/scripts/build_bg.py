@@ -6,7 +6,9 @@ Mỗi bối cảnh = 1 file SVG tự chứa, viewBox 0 0 1920 1080, 3 lớp đ�
   <g class="layer far"> <g class="layer mid"> <g class="layer near">
 Ánh sáng điều khiển bằng thuộc tính trên <svg data-light="...">, không đổi DOM:
   day | dusk | night | dark | candle_warm | red_flash
-(tint nhân màu + trăng/ánh nến bật theo trạng thái; CSS nằm trong file SVG).
+(tint nhân màu + trăng/vùng sáng quanh nến/đèn + xa nhạt/gần tối; CSS nằm trong file SVG).
+Mood: <svg data-mood="normal|creepy">. creepy = sương dày, vignette đậm, nhiễu hạt, tint u ám,
+và bật các nhóm .creep (quạ, bóng người, mạng nhện, cây xiêu... định nghĩa ở bg_lib/creep.py).
 Tiêu điểm hành động đặt ở dải giữa x 656..1264 nên cắt dọc 9:16 (viewBox "656 0 608 1080") vẫn đúng cảnh.
 
 Dùng:
@@ -25,6 +27,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from bg_lib.core import LIGHTS_EXT, LIGHTS_INT, wrap_svg  # noqa: E402
 from bg_lib import REGISTRY  # noqa: E402
+from bg_lib.creep import CREEP  # noqa: E402
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -54,6 +57,7 @@ def main() -> int:
         if only and bid not in only:
             continue
         layers = spec["draw"]()
+        spec = dict(spec, creep_layers=CREEP[bid]() if bid in CREEP else {})
         svg = wrap_svg(bid, spec, layers)
         (args.out / f"{bid}.svg").write_text(svg, encoding="utf-8")
         catalog[bid] = {
@@ -61,6 +65,7 @@ def main() -> int:
             "layers": ["far", "mid", "near"],
             "light_states": LIGHTS_EXT if spec["kind"] == "exterior" else LIGHTS_INT,
             "tags": spec.get("tags", []), "focus": spec.get("focus", [960, 700]),
+            "moods": ["normal", "creepy"], "has_creep_layer": bool(spec["creep_layers"]),
         }
         built.append(bid)
 

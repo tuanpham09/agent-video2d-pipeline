@@ -11,6 +11,12 @@ Rule: **dùng sẵn trước, thiếu mới tạo** (AGENTS.md điều 9). Bối
 - SVG: viewBox 1920×1080, 3 lớp `.layer.far|mid|near` (parallax). Ánh sáng: `data-light` trên `<svg>` = `day|dusk|night|dark|red_flash` (ngoài trời) hoặc `day|candle_warm|dark|red_flash` (trong nhà). Cắt dọc 9:16: viewBox `656 0 608 1080`; tiêu điểm trong dải giữa.
 - Mã nguồn: `scripts/bg_lib/{core.py (primitive+CSS), batch*.py (bối cảnh), sheet.py}`; đăng ký bằng `@register(id, tên, kind, tags, focus=...)`.
 
+## Nâng cấp truyện ma (đang làm theo 4 bước, commit mỗi bước)
+- [x] B1+B2: `data-mood="creepy"` (sương dày, vignette đậm, nhiễu hạt, tint u ám) + ánh sáng có chiều sâu (xa nhạt/gần tối) + vùng sáng quanh nến/đèn (`.pool`, `.pool2`) — trong `core.py`.
+- [ ] B3: lớp chi tiết rợn `.creep` cho từng cảnh — `bg_lib/creep.py` (`CREEP[id]() -> {far,mid,near}`), chỉ hiện khi `data-mood="creepy"`.
+- [ ] B4: sửa cảnh yếu: nha_hoang (đổ nát thật), truong_bo_hoang, bui_tre_chuoi (lá chuối thiếu thân → sửa `banana()` trong core), nha_ve_sinh, canh_dong_lua.
+- [ ] B5 (chưa làm): xem 9:16 crop + dùng thử trong HyperFrames với 1 video thật.
+
 ## Danh sách bối cảnh — XONG 22/22 (`catalog.json` là nguồn đúng)
 - đợt 1 `batch1.py`: nghia_dia, toan_canh_lang, gian_tho_dem, bo_song, gieng_lang, bui_tre_chuoi
 - đợt 2 `batch2.py`: truong_bo_hoang, nha_hoang, canh_dong_lua, rap_dam_tang, nui, chua

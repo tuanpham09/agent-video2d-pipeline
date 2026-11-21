@@ -194,14 +194,29 @@ svg[data-light='day']{--a:0}
 svg[data-light='dusk']{--t:#ff9a55;--a:.38}
 svg[data-light='night']{--t:#1a2650;--a:.74}
 svg[data-light='night'] .moon,svg[data-light='dark'] .moon{display:inline}
-svg[data-light='dark']{--t:#06070c;--a:.9}
-svg[data-light='candle_warm']{--t:#20110a;--a:.8}
+svg[data-light='dark']{--t:#080a12;--a:.8}
+svg[data-light='candle_warm']{--t:#2a160c;--a:.58}
 svg[data-light='candle_warm'] .glow,svg[data-light='dusk'] .lamp,svg[data-light='night'] .lamp{display:inline}
 svg[data-light='red_flash']{--t:#ff2a1a;--a:.58}
+/* chiều sâu: xa nhạt/mờ sương, gần chìm vào bóng tối */
+svg[data-light='night'] .layer.near,svg[data-light='candle_warm'] .layer.near{filter:brightness(.72)}
+svg[data-light='night'] .layer.far{filter:brightness(1.12) saturate(.75)}
+svg[data-light='dark'] .layer.near{filter:brightness(.5)}
+svg[data-light='dark'] .layer.far{filter:brightness(1.2) saturate(.6)}
+/* vùng sáng: tối dần ra xa nguồn sáng */
+.pool,.pool2,.mist,.grain,.vig2,.creep{display:none}
+svg[data-light='candle_warm'] .pool{display:inline}
+svg[data-light='night'] .pool2,svg[data-light='dark'] .pool2,svg[data-light='dusk'] .pool2{display:inline}
+/* mood rợn */
+svg[data-mood='creepy'] .creep,svg[data-mood='creepy'] .mist,svg[data-mood='creepy'] .vig2{display:inline}
+svg[data-mood='creepy'] .grain{display:inline;opacity:.16;mix-blend-mode:overlay}
+svg[data-mood='creepy'][data-light='day']{--t:#8d9a94;--a:.34}
+svg[data-mood='creepy'][data-light='dusk']{--t:#c9764a;--a:.5}
+svg[data-mood='creepy'][data-light='night']{--t:#141f3a;--a:.8}
 """
 
 
-def wrap_svg(bid: str, spec: dict, layers: dict, light: str | None = None) -> str:
+def wrap_svg(bid: str, spec: dict, layers: dict, light: str | None = None, mood: str = "normal") -> str:
     kind = spec["kind"]
     default = light or ("day" if kind == "exterior" else "day")
     fx, fy = spec.get("focus", [960, 700])
@@ -211,21 +226,34 @@ def wrap_svg(bid: str, spec: dict, layers: dict, light: str | None = None) -> st
         '<linearGradient id="fogg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="%s"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>'
         '<radialGradient id="vig" cx=".5" cy=".5" r=".75"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".45"/></radialGradient>'
         '<radialGradient id="glowg" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffd27a" stop-opacity=".95"/><stop offset=".45" stop-color="#ff9a3a" stop-opacity=".45"/><stop offset="1" stop-color="#ff7a1a" stop-opacity="0"/></radialGradient>'
+        '<radialGradient id="poolg" gradientUnits="userSpaceOnUse" cx="%d" cy="%d" r="880"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset=".3" stop-color="#000" stop-opacity=".12"/><stop offset="1" stop-color="#000" stop-opacity=".72"/></radialGradient>'
+        '<radialGradient id="poolg2" gradientUnits="userSpaceOnUse" cx="%d" cy="%d" r="900"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset=".25" stop-color="#000" stop-opacity=".1"/><stop offset="1" stop-color="#000" stop-opacity=".6"/></radialGradient>'
+        '<radialGradient id="vig2g" cx=".5" cy=".5" r=".7"><stop offset=".35" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".8"/></radialGradient>'
+        '<filter id="grainf" x="0" y="0" width="100%%" height="100%%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="7"/><feColorMatrix type="saturate" values="0"/></filter>'
         '</defs>'
-    ) % (spec.get("sky", (P["sky_top"], P["sky_bot"]))[0], spec.get("sky", (P["sky_top"], P["sky_bot"]))[1], P["fog"])
-    far = layers.get("far", "")
-    mid = layers.get("mid", "")
-    near = layers.get("near", "")
+    ) % (spec.get("sky", (P["sky_top"], P["sky_bot"]))[0], spec.get("sky", (P["sky_top"], P["sky_bot"]))[1], P["fog"],
+      fx, fy, spec.get("lamp", (fx, fy))[0], spec.get("lamp", (fx, fy))[1])
+    creep = spec.get("creep_layers") or {}
+    far = layers.get("far", "") + (f'<g class="creep">{creep["far"]}</g>' if creep.get("far") else "")
+    mid = layers.get("mid", "") + (f'<g class="creep">{creep["mid"]}</g>' if creep.get("mid") else "")
+    near = layers.get("near", "") + (f'<g class="creep">{creep["near"]}</g>' if creep.get("near") else "")
+    mist = (f'<g class="mist"><rect x="0" y="{HORIZON - 60}" width="{W}" height="200" fill="url(#fogg)" opacity=".5"/>'
+            f'<rect x="0" y="{HORIZON + 140}" width="{W}" height="240" fill="url(#fogg)" opacity=".38"/></g>')
+    pools = (f'<rect class="pool" x="0" y="0" width="{W}" height="{H}" fill="url(#poolg)"/>'
+             f'<rect class="pool2" x="0" y="0" width="{W}" height="{H}" fill="url(#poolg2)"/>')
+    grain = f'<rect class="grain" x="0" y="0" width="{W}" height="{H}" filter="url(#grainf)"/>'
+    vig2 = f'<rect class="vig2" x="0" y="0" width="{W}" height="{H}" fill="url(#vig2g)"/>'
     moon = f'<g class="moon"><circle cx="{spec.get("moon", (1500, 170))[0]}" cy="{spec.get("moon", (1500, 170))[1]}" r="70" fill="#f1ecd8" stroke="none"/></g>' if kind == "exterior" else ""
     glow = f'<g class="glow"><circle cx="{fx}" cy="{fy}" r="460" fill="url(#glowg)" style="mix-blend-mode:screen"/></g>'
     lamp = f'<g class="lamp"><circle cx="{spec.get("lamp", (fx, fy))[0]}" cy="{spec.get("lamp", (fx, fy))[1]}" r="170" fill="url(#glowg)" style="mix-blend-mode:screen"/></g>' if kind == "exterior" else ""
     title = esc(f"{spec['name']} ({bid})")
     return (
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" data-light="{default}" role="img" aria-label="{title}">'
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" data-light="{default}" data-mood="{mood}" role="img" aria-label="{title}">'
         f'<title>{title}</title><style>{CSS}</style>{defs}'
         f'<g class="layer far">{far}</g>{moon}'
         f'<g class="layer mid">{mid}</g>'
         f'<g class="layer near">{near}</g>'
-        f'<rect class="tint" x="0" y="0" width="{W}" height="{H}"/>{glow}{lamp}{vignette()}'
+        f'{mist if kind == "exterior" else ""}'
+        f'<rect class="tint" x="0" y="0" width="{W}" height="{H}"/>{pools}{glow}{lamp}{vignette()}{vig2}{grain}'
         f'</svg>'
     )

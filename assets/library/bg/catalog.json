@@ -27,7 +27,12 @@
       "focus": [
         960,
         760
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "toan_canh_lang",
@@ -54,7 +59,12 @@
       "focus": [
         960,
         700
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "gian_tho_dem",
@@ -81,7 +91,12 @@
       "focus": [
         960,
         560
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "bo_song",
@@ -108,7 +123,12 @@
       "focus": [
         960,
         760
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "gieng_lang",
@@ -135,7 +155,12 @@
       "focus": [
         960,
         760
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "bui_tre_chuoi",
@@ -163,7 +188,12 @@
       "focus": [
         960,
         780
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "truong_bo_hoang",
@@ -190,7 +220,12 @@
       "focus": [
         960,
         720
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "nha_hoang",
@@ -217,7 +252,12 @@
       "focus": [
         960,
         700
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "canh_dong_lua",
@@ -244,7 +284,12 @@
       "focus": [
         960,
         760
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "rap_dam_tang",
@@ -271,7 +316,12 @@
       "focus": [
         960,
         640
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "nui",
@@ -298,7 +348,12 @@
       "focus": [
         960,
         700
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "chua",
@@ -325,7 +380,12 @@
       "focus": [
         960,
         560
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "nha_ve_sinh",
@@ -352,7 +412,12 @@
       "focus": [
         960,
         700
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "mieu_dinh",
@@ -379,7 +444,12 @@
       "focus": [
         960,
         600
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "song",
@@ -407,7 +477,12 @@
       "focus": [
         960,
         720
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "cay_da",
@@ -435,7 +510,12 @@
       "focus": [
         960,
         760
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "san_nha",
@@ -462,7 +542,12 @@
       "focus": [
         960,
         760
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "nha_bep",
@@ -488,7 +573,12 @@
       "focus": [
         900,
         640
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "phong_ngu",
@@ -514,7 +604,12 @@
       "focus": [
         760,
         620
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "phong_khach",
@@ -540,7 +635,12 @@
       "focus": [
         960,
         640
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "nha_co_nha_tho_ho",
@@ -568,7 +668,12 @@
       "focus": [
         960,
         560
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     },
     {
       "id": "nha_cap_bon",
@@ -595,7 +700,12 @@
       "focus": [
         960,
         700
-      ]
+      ],
+      "moods": [
+        "normal",
+        "creepy"
+      ],
+      "has_creep_layer": false
     }
   ]
 }
