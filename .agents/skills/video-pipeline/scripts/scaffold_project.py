@@ -52,6 +52,15 @@ EMOTION_VOCAB = [
     "sad", "grief", "angry", "suspicious", "relieved",
 ]
 
+def mode_aware(text: str, mode: str) -> str:
+    """Chế độ C không có transcript nguồn: originality_check.py (cần --source) không áp dụng → thay bằng quyết định I4."""
+    if mode != "c":
+        return text
+    text = text.replace(" · `originality_check.py` · ", " · ý tưởng gốc: quyết định I4 trong `script/concept.md` · ")
+    text = text.replace("- [ ] `originality_check.py` chạy lại trên script cuối", "- [ ] Ý tưởng gốc: đối chiếu lại quyết định I4 (`script/concept.md`) với script cuối")
+    return text
+
+
 PHASE_SOURCE = """\
 ## Giai đoạn A — QA nguồn
 - [ ] `source/qa.md`: loại nội dung, tình trạng quyền, ý tưởng chung vs biểu đạt riêng, mức rủi ro
@@ -301,6 +310,8 @@ def main() -> int:
     ap.add_argument("--root", default="projects", help="thư mục chứa project")
     ap.add_argument("--force", action="store_true", help="ghi đè file khung")
     args = ap.parse_args()
+    if args.speed is not None and not (1.2 <= args.speed <= 1.3):
+        ap.error(f"--speed {args.speed} ngoài dải cho phép 1.2–1.3 (RULES R6.3); cần ngoại lệ thì người dùng nói rõ và ghi vào PROJECT.md mục Ngoại lệ")
 
     speed = args.speed if args.speed is not None else (1.3 if args.mode == "c" else 1.25)
     slug = args.slug.strip().lower().replace(" ", "-")
@@ -338,11 +349,11 @@ def main() -> int:
 
     created += write_new(
         project / "PROJECT.md",
-        PROJECT_MD.format(
+        mode_aware(PROJECT_MD.format(
             title=args.title, slug=slug, mode_name=mode_name, fmt=args.format,
             w=w, h=h, fps=args.fps, speed=speed, today=date.today(), phase_front=phase_front,
             rules_v=rules_version(),
-        ),
+        ), args.mode),
         args.force,
     )
 

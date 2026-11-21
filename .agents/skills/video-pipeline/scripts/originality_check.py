@@ -81,7 +81,11 @@ def main() -> int:
     ap.add_argument("--max-copied-pct", type=float, default=10.0, help="%% line sao chép tối đa để qua gate")
     ap.add_argument("--max-mean-overlap", type=float, default=0.20)
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--max-stream-copied-pct", type=float, default=15.0,
+                    help="%% từ của CẢ script nằm trong cụm n-từ trùng nguồn (không phụ thuộc cách chia line)")
     args = ap.parse_args()
+    if args.n < 2:
+        ap.error("--n phải >= 2 (n=1 so từng từ đơn nên mọi script đều trùng; n<=0 làm gate vô hiệu)")
 
     script = json.loads(args.script.read_text(encoding="utf-8-sig"))
     lines = [(ln["id"], ln["text"]) for sc in script.get("scenes", []) for ln in sc.get("lines", [])]
@@ -126,6 +130,17 @@ def main() -> int:
         if overlaps[-1] >= args.line_threshold:
             copied.append((overlaps[-1], lid, text))
 
+    # độc lập với cách chia line: nối toàn bộ lời theo thứ tự rồi đánh dấu từ nằm trong cụm n-từ trùng nguồn
+    stream = [w for _, t in lines for w in norm(t)]
+    covered = [False] * len(stream)
+    for i in range(len(stream) - args.n + 1):
+        if tuple(stream[i:i + args.n]) in src_grams:
+            for k in range(i, i + args.n):
+                covered[k] = True
+    if 0 < len(stream) < args.n and len(stream) >= min_frag and (" " + " ".join(stream) + " ") in src_blob:
+        covered = [True] * len(stream)
+    stream_pct = 100.0 * sum(covered) / len(stream) if stream else 0.0
+
     total = len(lines)
     copied_pct = 100.0 * len(copied) / total if total else 0.0
     mean_overlap = statistics.mean(overlaps) if overlaps else 0.0
@@ -142,6 +157,9 @@ def main() -> int:
             f"{len(copied)}/{total} line ({copied_pct:.0f}%) trùng >= {args.line_threshold:.0%} cụm {args.n} từ "
             f"với nguồn (ngưỡng {args.max_copied_pct:.0f}%)"
         )
+    if stream_pct > args.max_stream_copied_pct:
+        errors.append(f"{stream_pct:.0f}% từ của cả script nằm trong cụm {args.n} từ trùng nguồn (ngưỡng {args.max_stream_copied_pct:.0f}%) "
+                      "— có thể đã chia câu nguồn thành nhiều line ngắn")
     if mean_overlap > args.max_mean_overlap:
         errors.append(f"overlap trung bình {mean_overlap:.2f} > ngưỡng {args.max_mean_overlap:.2f}")
     if name_retention >= 0.6 and len(src_names) >= 5:
@@ -158,6 +176,7 @@ def main() -> int:
         "copied_pct": round(copied_pct, 1),
         "exact_sentence_matches": exact,
         "mean_overlap": round(mean_overlap, 3),
+        "stream_copied_pct": round(stream_pct, 1),
         "proper_name_retention": round(name_retention, 2),
         "worst": [{"overlap": round(o, 2), "line": i, "text": t} for o, i, t in sorted(copied, reverse=True)[:10]],
         "errors": errors,
@@ -168,7 +187,7 @@ def main() -> int:
     else:
         print(f"script   : {total} line | nguồn: {len(source_sentences)} câu")
         print(f"trùng    : {len(copied)} line ({copied_pct:.0f}%) >= {args.line_threshold:.0%}; khớp nguyên câu: {exact}")
-        print(f"overlap  : trung bình {mean_overlap:.2f}")
+        print(f"overlap  : trung bình {mean_overlap:.2f}; cả script {stream_pct:.0f}% từ trùng cụm nguồn")
         print(f"tên riêng: giữ {len(kept_names)}/{len(src_names)}")
         for o, i, t in sorted(copied, reverse=True)[:5]:
             print(f"   {o:.2f} {i}: {t[:90]}")

@@ -151,6 +151,11 @@ def esc(s: str) -> str:
     return (s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
 
 
+def esc_attr(s: str) -> str:
+    """Giá trị thuộc tính XML: thêm escape dấu nháy kép (tên như Lan "Bé" không làm hỏng aria-label)."""
+    return esc(s).replace('"', "&quot;")
+
+
 class Rig:
     """Một nhân vật + palette đã giải quyết."""
 
@@ -433,9 +438,10 @@ class Rig:
 
     def svg(self, state: dict | None = None, viewbox: str | None = None, standalone: bool = True) -> str:
         vb = viewbox or f"0 0 {VB_W} {VB_H}"
-        title = esc(f"{self.char.get('name', self.id)} ({self.id})")
+        title_raw = f"{self.char.get('name', self.id)} ({self.id})"
+        title = esc(title_raw)
         return (
-            f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb}" role="img" aria-label="{title}">'
+            f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{vb}" role="img" aria-label="{esc_attr(title_raw)}">'
             f'<title>{title}</title><style>{self.css()}</style>{self.inner(state or {})}</svg>'
         )
 
@@ -482,9 +488,9 @@ def bounds_errors(rig: Rig) -> list[str]:
     top = 105.0 if (p.get("hat") or p.get("hair", "short") == "bun") else 144.0
     half = max(bw / 2 + 4, 70.0, 62.5 if p.get("hair") == "bun" else 0)
     right = CX + (100.0 if p.get("headband") else half)
-    check("đầu/thân", CX - half, top, right, 590.0)
-    if hunch and top + hunch < 0:
-        errs.append(f"{rig.id}: hunch quá lớn")
+    # đầu bị dời xuống 14*hunch (head()), thân thì không → kiểm riêng để không báo tràn oan ở scale lớn
+    check("đầu", CX - half, top + hunch, right, 330.0 + hunch)
+    check("thân", CX - (bw / 2 + 4), 300.0, CX + (bw / 2 + 4), 590.0)
     return errs
 
 
@@ -515,6 +521,9 @@ def sheet_html(rig: Rig, emotions: list[str]) -> str:
         f'<figure>{rig.svg({"emotion": "calm", "mouth": m}, rig.crop())}<figcaption>mouth: {m}</figcaption></figure>'
         for m in ("closed", "half", "open", "round")
     )
+    cells_sit = "".join(
+        f'<figure>{rig.svg({"emotion": e, "stance": "sit"}, rig.crop(y1=420))}<figcaption>sit · {e}</figcaption></figure>' for e in emotions
+    )
     poses = [("idle", {}), ("clasp", {"emotion": "worried"}), ("point-l", {"emotion": "focused"}),
              ("reach-l", {"emotion": "afraid"}), ("raise-both", {"emotion": "shocked"}),
              ("sit", {"stance": "sit", "emotion": "calm"})]
@@ -537,6 +546,7 @@ figcaption{{font-size:12px;opacity:.85;margin-top:2px}}
 </style>
 <h1>{esc(rig.id)} — pose sheet</h1><div class="meta">{meta}</div>
 <h2>Biểu cảm ({len(emotions)})</h2><div class="grid">{cells_e}</div>
+<h2>Biểu cảm khi ngồi ({len(emotions)})</h2><div class="grid">{cells_sit}</div>
 <h2>Hình miệng</h2><div class="grid">{cells_m}</div>
 <h2>Tư thế</h2><div class="grid">{cells_p}</div></html>"""
 

@@ -36,6 +36,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 SFX_TOLERANCE = 0.15
 EPS = 0.05
+BEAT_LEAD = 0.6  # beat được phép đi trước thoại tối đa chừng này (anticipation)
 SIZES = {"wide", "medium", "close", "macro", "ots"}
 
 
@@ -97,11 +98,20 @@ def main() -> int:
         print("✗ không có line nào để kiểm (manifest rỗng hoặc scene không có line)", file=sys.stderr)
         return 1
     roles = {c["id"]: c.get("role", "character") for c in script.get("characters", [])}
+    script_ids = {ln["id"] for sc in script.get("scenes", []) if not only or sc.get("id") in only for ln in sc.get("lines", [])}
+    missing_in_manifest = sorted(script_ids - set(lines))
+    if missing_in_manifest:
+        print(f"✗ script.json có {len(missing_in_manifest)} line không có trong manifest.json (chạy lại build_voiceover.py): "
+              f"{', '.join(missing_in_manifest[:8])}{' …' if len(missing_in_manifest) > 8 else ''}", file=sys.stderr)
+        return 1
 
     chars = {c["id"]: c for c in bible.get("characters", [])}
     locs = {l["id"]: l for l in bible.get("locations", [])}
     props = {p["id"]: p for p in bible.get("props", [])}
     emotions = set(bible.get("emotion_vocab", []))
+    if not emotions and any(c.get("emotion") for sh in shotlist.get("shots", []) for c in sh.get("characters", [])):
+        print("✗ shotlist dùng emotion nhưng bible.emotion_vocab trống/thiếu — khai từ vựng cảm xúc trước", file=sys.stderr)
+        return 1
 
     errors: list[str] = []
     warnings: list[str] = []
@@ -111,6 +121,9 @@ def main() -> int:
     durations: list[float] = []
     sfx_total = 0
     beats_total = 0
+    shot_win: dict[str, tuple[float, float]] = {}  # cửa sổ tuyệt đối (giây trên timeline thoại) của từng shot
+    line_ivals: dict[str, list[tuple[float, float, str]]] = {lid: [] for lid in lines}
+    acted: set[str] = set()
 
     # line nào được >1 shot chia sẻ thì mỗi shot phải khai span
     shared: dict[str, int] = {}
@@ -145,6 +158,13 @@ def main() -> int:
                 errors.append(f"{sid}: line dùng chung với shot khác nhưng thiếu `span` — không tính được thời lượng riêng của shot")
             dur = end - start
         durations.append(dur)
+        abs0 = start + (float(span[0]) if span is not None else 0.0)
+        abs1 = start + (float(span[1]) if span is not None else (end - start))
+        shot_win[sid] = (abs0, abs1)
+        for l in lids:
+            lo, hi = max(abs0, lines[l]["start"]), min(abs1, lines[l]["start"] + lines[l]["duration"])
+            if hi > lo:
+                line_ivals[l].append((lo, hi, sid))
         if dur > args.max_shot:
             errors.append(f"{sid}: dài {dur:.1f}s > {args.max_shot:.1f}s ({', '.join(lids)}) — tách shot/đổi góc")
         elif dur < args.min_shot:
@@ -168,7 +188,7 @@ def main() -> int:
         for c in shot.get("characters", []):
             if c.get("id") not in chars:
                 errors.append(f"{sid}: nhân vật '{c.get('id')}' không có trong bible")
-            if emotions and c.get("emotion") not in emotions:
+            if c.get("emotion") not in emotions:
                 errors.append(f"{sid}: cảm xúc '{c.get('emotion')}' ngoài emotion_vocab")
         for p in shot.get("props", []):
             pid = p.get("id")
@@ -193,12 +213,23 @@ def main() -> int:
         for b in beats:
             if b.get("line_id") not in lids:
                 errors.append(f"{sid}: beat tham chiếu line '{b.get('line_id')}' ngoài shot")
-            if not str(b.get("do", "")).strip():
+            has_do = bool(str(b.get("do", "")).strip())
+            if not has_do:
                 errors.append(f"{sid}: beat của {b.get('line_id')} thiếu mô tả hành động `do`")
+            t = float(b.get("t", 0.0))
+            t_ok = -EPS <= t <= dur + EPS
+            if not t_ok:
+                errors.append(f"{sid}: beat t={t} nằm ngoài shot (0–{dur:.2f}s)")
+            bl = lines.get(b.get("line_id"))
+            if t_ok and bl is not None:
+                at = abs0 + t
+                if bl["start"] - BEAT_LEAD - EPS <= at <= bl["start"] + bl["duration"] + EPS:
+                    if has_do:
+                        acted.add(b["line_id"])
+                else:
+                    errors.append(f"{sid}: beat '{str(b.get('do', ''))[:30]}' rơi ở {at:.2f}s, ngoài cửa sổ thoại của {b['line_id']} "
+                                  f"({bl['start']:.2f}–{bl['start'] + bl['duration']:.2f}s, cho phép sớm {BEAT_LEAD}s)")
             if b.get("physical"):
-                t = float(b.get("t", 0.0))
-                if not (-EPS <= t <= dur + EPS):
-                    errors.append(f"{sid}: beat vật lý t={t} nằm ngoài shot (0–{dur:.2f}s)")
                 if not any(abs(float(s.get("t", 0.0)) - t) <= SFX_TOLERANCE for s in sfx):
                     errors.append(f"{sid}: beat vật lý '{b.get('do', '')[:40]}' (t={t}) chưa có SFX trong ±{SFX_TOLERANCE}s")
         for s in sfx:
@@ -215,10 +246,21 @@ def main() -> int:
         if not cov:
             errors.append(f"{lid}: không có shot")
             continue
-        if not any(
-            b.get("line_id") == lid and str(b.get("do", "")).strip() for s in cov for b in s.get("beats", [])
-        ):
-            errors.append(f"{lid}: có shot nhưng không có beat diễn riêng")
+        if lid not in acted:
+            errors.append(f"{lid}: có shot nhưng không có beat diễn hợp lệ (có `do`, t trong shot, rơi trong cửa sổ thoại)")
+        # các shot chia sẻ line phải phủ kín line, không hở, không chồng
+        if len(line_ivals[lid]) > 0 and (shared.get(lid, 0) > 1 or any(sh.get("span") for sh in cov)):
+            iv = sorted(line_ivals[lid])
+            cur = ln["start"]
+            end_l = ln["start"] + ln["duration"]
+            for lo, hi, sid_ in iv:
+                if lo > cur + EPS:
+                    errors.append(f"{lid}: hở {cur - ln['start']:.2f}–{lo - ln['start']:.2f}s không shot nào phủ (trước {sid_})")
+                elif lo < cur - EPS:
+                    errors.append(f"{lid}: shot {sid_} chồng lên shot trước {cur - lo:.2f}s")
+                cur = max(cur, hi)
+            if cur < end_l - EPS:
+                errors.append(f"{lid}: hở {cur - ln['start']:.2f}–{ln['duration']:.2f}s cuối line không shot nào phủ")
         spk = ln.get("speaker")
         if roles.get(spk, "character") != "narrator":
             ok = any(

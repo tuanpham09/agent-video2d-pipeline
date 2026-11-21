@@ -257,7 +257,7 @@ Quy tắc:
 # chỉ chế độ A/B (có nguồn). Chế độ C không có nguồn → bỏ dòng originality_check, dùng I4 (script/concept.md) làm gate ý tưởng gốc
 python .agents/skills/video-pipeline/scripts/check_rules.py --project projects/<slug> --phase demo
 python .agents/skills/video-pipeline/scripts/originality_check.py --script projects/<slug>/script/script.json --source projects/<slug>/source/transcript-sentences.json
-python .agents/skills/video-pipeline/scripts/check_shots.py --project projects/<slug> --scenes S01,S02
+python .agents/skills/video-pipeline/scripts/check_shots.py --project projects/<slug> --scenes <id các scene thuộc demo, vd S01 hoặc S01,S02>   # bỏ --scenes nếu manifest demo chỉ chứa scene demo
 python .agents/skills/video-pipeline/scripts/check_sync.py  --project projects/<slug>
 cd projects/<slug>/video && npx hyperframes lint && npx hyperframes check --json
 ```
@@ -282,13 +282,13 @@ Chỉ bắt đầu khi 👤 duyệt demo.
 - [ ] Mỗi scene: render snapshot, 1 lần xem nhanh trước khi gộp. Cứ 5 scene kiểm một lượt **liên tục** (trạng thái đạo cụ, trang phục, ánh sáng, vị trí nhân vật khi cắt giữa các scene).
 - [ ] Bản full dùng chính generator và rig đã dùng ở demo (không viết generator mới cho từng scene).
 - [ ] Hòa âm full: dùng lại thông số đã khóa; stinger dành cho các điểm ngoặt thật.
-- [ ] QC cuối: bốn lệnh ở C6 (không `--scenes`), duration video = `manifest.duration` ± 0,1 s, xem snapshot mọi shot đầu/cuối scene, nghe lại các cảnh cao trào.
+- [ ] QC cuối: các lệnh gate ở C6 (không `--scenes`; chế độ C bỏ `originality_check.py` và dùng quyết định I4), duration video = `manifest.duration` ± 0,1 s, xem snapshot mọi shot đầu/cuối scene, nghe lại các cảnh cao trào.
 - [ ] Render (`--quality delivery`); đặt biến thư mục tạm theo hệ điều hành đang dùng.
 - [ ] Ghi vào `PROJECT.md`: kết quả lệnh, đường dẫn `output/final.mp4`.
 
 ## 8. Giai đoạn E — Đóng gói
 Theo `references/packaging.md`. Thêm:
-- [ ] `originality_check.py` chạy lại trên bản script cuối.
+- [ ] Chế độ A/B: `originality_check.py` chạy lại trên bản script cuối. Chế độ C: đối chiếu lại quyết định I4 (`script/concept.md`) với script cuối (không có `--source` để so).
 - [ ] **Đưa asset mới vào library (R2.4/R8.4):** mỗi rig archetype/outfit, đạo cụ, bối cảnh mới → `library.py promote` (kèm `library.py sheet`, `library.py check` sạch, commit `library/`), hoặc khai `project-only` + lý do trong bible. `check_rules.py --project projects/<slug> --phase final` sạch.
 - [ ] Mô tả/credit đúng với `qa.md` (nguồn tham khảo, giấy phép nếu có).
 - [ ] Lưu bài học vào `PROJECT.md`.

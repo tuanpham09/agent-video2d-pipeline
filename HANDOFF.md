@@ -36,7 +36,7 @@ Người dùng muốn: làm đến đâu commit đến đó, kèm handoff (file 
 3. Mở rộng library: nhân vật phụ (bố, chú, em gái, bé Na, Vy), đạo cụ (gương đồng, quan tài, nhang đèn, quạt, áo tang…), outfit; mỗi cái qua `promote` + `sheet` + commit.
 4. SFX: bổ sung kho còn thiếu + recipe (workflow-v2 C4); sửa `sfx/README.md` (link `file:///d:/...`).
 5. Chạy thử Chế độ C với một ý tưởng người dùng đưa.
-6. Dọn legacy: generator `preview_*` có hàng trăm hex (chỉ cảnh báo); project `ma-thoi-den-thanh-co-tinh-tuyet` chưa có bible (R1.4, cần quyết định); PR #1 chưa có CI chạy gate, 19 review thread chưa resolve.
+6. Dọn legacy: generator `preview_*` có hàng trăm hex (chỉ cảnh báo); project `ma-thoi-den-thanh-co-tinh-tuyet` chưa có bible (R1.4, cần quyết định); PR #1: đã có CI (`.github/workflows/gates.yml`); review thread đã sửa thì resolve, còn mở 2 thread cần người dùng quyết (dung sai SFX ±0,15 s vs 'mili-giây'; pivot `0% 0%` vs pivot viewBox của R3.4).
 
 ## Lưu ý kỹ thuật
 - `RULES.md`: agent không tự sửa (R0.3). Nếu cần đổi, đề xuất cho người dùng.
