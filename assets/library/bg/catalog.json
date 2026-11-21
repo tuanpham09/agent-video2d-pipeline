@@ -1,0 +1,169 @@
+{
+  "viewBox": "0 0 1920 1080",
+  "portrait_crop": "656 0 608 1080",
+  "backgrounds": [
+    {
+      "id": "nghia_dia",
+      "name": "Nghĩa địa",
+      "file": "nghia_dia.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "ma",
+        "đêm",
+        "mồ mả"
+      ],
+      "focus": [
+        960,
+        760
+      ]
+    },
+    {
+      "id": "toan_canh_lang",
+      "name": "Toàn cảnh làng",
+      "file": "toan_canh_lang.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "làng",
+        "toàn cảnh",
+        "thiết lập"
+      ],
+      "focus": [
+        960,
+        700
+      ]
+    },
+    {
+      "id": "gian_tho_dem",
+      "name": "Gian thờ đêm",
+      "file": "gian_tho_dem.svg",
+      "kind": "interior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "candle_warm",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "thờ",
+        "nhà",
+        "ma",
+        "nến"
+      ],
+      "focus": [
+        960,
+        560
+      ]
+    },
+    {
+      "id": "bo_song",
+      "name": "Bờ sông",
+      "file": "bo_song.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "sông",
+        "bến",
+        "nước"
+      ],
+      "focus": [
+        960,
+        760
+      ]
+    },
+    {
+      "id": "gieng_lang",
+      "name": "Giếng làng",
+      "file": "gieng_lang.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "giếng",
+        "làng",
+        "nước"
+      ],
+      "focus": [
+        960,
+        760
+      ]
+    },
+    {
+      "id": "bui_tre_chuoi",
+      "name": "Bụi tre bụi chuối",
+      "file": "bui_tre_chuoi.svg",
+      "kind": "exterior",
+      "layers": [
+        "far",
+        "mid",
+        "near"
+      ],
+      "light_states": [
+        "day",
+        "dusk",
+        "night",
+        "dark",
+        "red_flash"
+      ],
+      "tags": [
+        "tre",
+        "chuối",
+        "ma",
+        "cây cối"
+      ],
+      "focus": [
+        960,
+        780
+      ]
+    }
+  ]
+}
