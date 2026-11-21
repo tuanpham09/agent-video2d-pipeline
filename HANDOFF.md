@@ -20,7 +20,7 @@ Người dùng muốn: làm đến đâu commit đến đó, kèm handoff (file 
 
 ## Đã kiểm thật / chưa kiểm
 - Đã kiểm: `library.py check` 0 lỗi (35 asset) + thử phá (hex, token lạ, thiếu part/layer, state lệch); `promote`; ghép thử một cảnh trong Chromium (bối cảnh + bàn thờ + nến/bát hương + 2 rig lồng `<svg>`); sheet bối cảnh sau khi sửa lỗi "ảnh đen" (sheet từng chỉ nạp palette `base` → token `bg_*` không có giá trị; đã sửa: nạp mọi palette asset dùng).
-- **Chưa kiểm:** animation thật trong HyperFrames/GSAP; render video; TTS; `teen`/`child` chưa duyệt pose sheet; **anchor (`stand`/`floor_y`/`crop_9x16`) của 22 cảnh sinh bằng code là suy ra tự động từ `focus`, chưa ghép thử nhân vật**; crop dọc 9:16 chưa xem từng cảnh.
+- **Chưa kiểm:** animation thật trong HyperFrames/GSAP; render video; TTS; `teen`/`child` chưa duyệt pose sheet; `slots` đạo cụ của 22 cảnh còn trống. Anchor (`bg_lib/anchors.py`): phiên song song đã ghép `host` kiểm cả 22 cảnh; mình tự ghép lại `host` ở giữa khung 9:16 cho 5 cảnh (nghia_dia, gian_tho_dem, nha_bep, nui, chua) → chân chạm đất, tỉ lệ hợp lý. Vị trí L/R nằm ngoài khung 9:16 (chỉ dùng cho 16:9), chưa xem.
 - Thiết kế nhân vật/đạo cụ ngoài nguồn là **đề xuất** của agent, chưa người dùng duyệt. **`RULES.md` do agent soạn — cần người dùng duyệt/sửa** (agent không tự sửa nữa: R0.3).
 
 ## Bối cảnh — quy trình & việc dở của phiên song song
