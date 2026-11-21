@@ -1,0 +1,18 @@
+{
+  "id": "folk-horror-vn",
+  "extends": "base",
+  "description": "Truyện ma / dân gian Việt Nam: đồ tang, áo nâu sồng, áo the, bóng ma. Dùng chung cho mọi project cùng thể loại.",
+  "tokens": {
+    "robe_mourning": "#e6e0d3",
+    "robe_mourning_dark": "#cfc8b8",
+    "robe_brown": "#584333",
+    "robe_brown_dark": "#483424",
+    "robe_indigo": "#2b2f45",
+    "robe_indigo_dark": "#20233a",
+    "shadow_body": "#07070a",
+    "shadow_ink": "#000000",
+    "shadow_eye": "#ffffff",
+    "shadow_pupil": "#d01010",
+    "shadow_line": "#e8e4db"
+  }
+}

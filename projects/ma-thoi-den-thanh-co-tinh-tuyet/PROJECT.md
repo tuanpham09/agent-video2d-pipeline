@@ -1,5 +1,7 @@
 # Ma Thổi Đèn: Bí Mật Ngọn Nến Góc Đông Nam
 
+**Luật áp dụng: RULES.md v1** (đọc `RULES.md` ở gốc repo trước mọi việc; ngoại lệ do người dùng cho phép ghi ở mục *Ngoại lệ* bên dưới)
+
 - Slug: `ma-thoi-den-thanh-co-tinh-tuyet`
 - Format: 16:9 (1920×1080 @ 30fps)
 - Tạo ngày: 2026-11-19
@@ -17,3 +19,7 @@
 ## Ghi chú / bài học
 
 -
+
+## Ngoại lệ so với RULES.md
+
+- (chưa có)

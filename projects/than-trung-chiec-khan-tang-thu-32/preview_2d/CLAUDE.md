@@ -1,3 +1,5 @@
+> **Luật chung của repo: đọc và tuân theo `RULES.md` (gốc repo) trước mọi việc. File này không được nới luật đó.**
+
 # HyperFrames Composition Project
 
 This folder is a [HyperFrames](https://hyperframes.heygen.com) video: HTML, CSS and seekable

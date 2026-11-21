@@ -157,33 +157,48 @@ Script này **chỉ đo lời**. "Đổi tên + đổi từ nhưng giữ nguyên
 
 **Chọn lát cắt** (8–12 shot): hook; ≥ 1 cặp thoại hai nhân vật khác nhau; ≥ 1 hành động vật lý có SFX; 1 cao trào/stinger; ≥ 2 góc hoặc 2 địa điểm; mọi nhân vật chính xuất hiện ≥ 1 lần. Tạo `script.demo.json` chỉ gồm các scene/line này (giữ nguyên `id` so với script full).
 
-### C1. Bible & rig (`script/bible.json`, `assets/rig|props|bg/`)
+### C1. Bible, rig, đạo cụ, bối cảnh — **tra `library/` trước** (RULES R2, R3, R4)
+
+Thứ tự bắt buộc:
+
+1. **Tra thư viện (R2.1).** `library.py list [--kind prop|location|archetype|outfit] [--tag ...]`, `library.py show <id>`. Xem `library/sheets/props.png`, `locations.png` để chọn bằng mắt.
+2. **Gán vào bible.** Nhân vật: `rig.archetype` + `rig.outfit` (+ ghi đè rời). Bối cảnh/đạo cụ: trường `lib` = id trong library, `states`/`light_states` ⊆ trạng thái của asset.
+3. **Chốt phiên bản (R2.2).** `library.py use --project <slug> <id>...` → chép vào `assets/props|bg/` kèm palette đã nhúng, ghi `assets/LIBRARY.lock.json`.
+4. **Dựng rig.** `build_rig.py --bible ... --out projects/<slug>/assets/rig` → `<id>.svg`, `<id>.rig.json` (pivot, trạng thái), `sheets/<id>.png`, `sheets/lineup.png`; tự kiểm tràn khung và token màu lạ.
+5. **Thiếu gì mới tạo (R2.4).** Làm đúng chuẩn library ngay từ đầu (token màu, `data-state`/`data-light`, gốc giữa-đáy, 3 lớp, không `<text>`), thử trong project, rồi `library.py promote` ở giai đoạn E (hoặc khai `project-only` + lý do).
+6. **Cổng:** `check_rules.py --project projects/<slug>` sạch; 👤 duyệt pose sheet + sheet đạo cụ/bối cảnh được dùng.
 
 **Tái sử dụng trước (bắt buộc):** quét `projects/*/script/bible.json` và `projects/*/assets/` tìm nhân vật/đạo cụ/bối cảnh dùng được. Có sẵn → dùng lại nguyên id/rig/giọng. Thiếu nhân vật → clone nhân vật gần nhất bằng `"extends": "<id gốc>"` và `rig_params` chỉ ghi phần khác (gốc ở project khác: copy mục đó sang bible mới trước). Thiếu đạo cụ → đổi `states`/màu của đạo cụ gần nhất; chỉ tạo mới khi không có, và khai vào `bible.props` + `assets/props/`. Ghi lý do tạo mới vào `PROJECT.md`.
 
 ```json
 {
   "emotion_vocab": ["calm","focused","worried","afraid","shocked","dread","sad","grief","angry","suspicious","relieved"],
-  "style": {"line": "hand-drawn boil 6fps", "palette": {"skin_a": "#cf9063", "wall": "#241a13"}},
+  "style": {"line": "hand-drawn boil 6fps", "palette_ref": ["base", "folk-horror-vn"], "palette": {}},
   "characters": [{
     "id": "ba_noi", "name": "Bà nội", "voice": "Kim Thanh",
-    "design": "áo bà ba nâu, búi tóc bạc, 89 tuổi, lưng còng",
-    "rig": "assets/rig/ba_noi.svg",
+    "design": "89 tuổi, lưng còng, tóc bạc búi, áo nâu sồng",
+    "rig": {"file": "assets/rig/ba_noi.svg", "archetype": "elder_f", "outfit": "nau_song"},
     "mouth_shapes": ["closed","half","open","round"],
-    "idle": {"breath_s": 3.4, "blink_s": [2.5, 5.5]}
+    "idle": {"breath_s": 2.8, "blink_s": [3.0, 6.0], "seed": 89}
   }],
-  "locations": [{"id": "loc_gian_tho", "layers": ["far","mid","near"], "light_states": ["candle_warm","dark","red_flash"]}],
-  "props": [{"id": "khan_xo", "states": ["folded","counted","missing"], "locations": ["loc_gian_tho"]}]
+  "locations": [{"id": "loc_gian_tho", "lib": "house_altar_room", "light_states": ["warm","dark","red_flash","dawn"]}],
+  "props": [
+    {"id": "khan_xo", "lib": "mourning_cloth", "states": ["folded","spread","torn"], "locations": ["loc_gian_tho"]},
+    {"id": "guong_dong", "scope": "project-only", "reason": "chỉ có ở truyện này; sẽ promote nếu dùng lại", "states": ["clear","fogged"], "locations": ["loc_gian_tho"]}
+  ]
 }
 ```
-- [ ] Mỗi nhân vật: 1 file rig SVG, nhóm có tên (đầu, mắt, mí, đồng tử, mày, 4 hình miệng, thân, vai/tay có pivot). **Màu lấy từ bible, không gõ lại hex trong generator.**
-- [ ] Tấm **pose sheet** mỗi nhân vật (đứng/ngồi × 5 cảm xúc chính) render ra ảnh để duyệt trước khi dựng shot.
-  - Sinh tự động: `python .agents/skills/video-pipeline/scripts/build_rig.py --bible projects/<slug>/script/bible.json --out projects/<slug>/assets/rig` → `<id>.svg` + `sheets/<id>.png` + `sheets/lineup.png`. Thêm `--script projects/<slug>/script/script.json` để khớp id/giọng với kịch bản. Trước khi ghi file, script kiểm **giải tích** (không render): tay ở mọi pose × đứng/ngồi và đầu/thân có nằm trong viewBox không (có tính `scale`), id + giọng khớp `script.json`; lỗi → thoát 1, không ghi gì (`--no-check` để bỏ). Không thay cho việc xem pose sheet. Bible khai `"rig": {tham số}` hoặc `"rig": "assets/rig/<id>.svg"` + `"rig_params": {...}`.
-  - Quy ước rig: `l`/`r` theo giải phẫu nhân vật; cảm xúc/tư thế/miệng điều khiển bằng data-attribute trên `<g class="rig">` (CSS biến; danh sách trong docstring build_rig.py), không đổi DOM; viewBox `0 0 520 600`.
-  - ⚠️ Khớp vai/khuỷu dùng pivot theo toạ độ viewBox (`Rig.pivots()`), **khác** luật `0% 0%` trong AGENTS.md vì cánh tay 2 đoạn cần xoay quanh đúng vai. Chi tiết mặt vẫn `50% 50%`. Chưa kiểm trong HyperFrames/GSAP: kiểm ở demo C1 trước khi khoá.
-- [ ] Mỗi địa điểm: 3 lớp (xa/giữa/gần) + các trạng thái ánh sáng; đạo cụ có file riêng + các trạng thái (bàn thờ, khăn, cối, gương…).
+
+Quy ước (đã kiểm bằng cách ghép thử một cảnh: bối cảnh + bàn thờ + nến/bát hương vào slot + 2 nhân vật):
+- **Rig:** viewBox `0 0 520 600`, chân ở `(260, 580)`; điều khiển bằng `data-emotion|mouth|pose|stance|gaze|blink|khan` trên `<g class="rig">`; `l`/`r` theo giải phẫu nhân vật. **Chỉ nhúng bằng `<svg>` lồng nhau** (`x = X - 260·s`, `y = Y - 580·s`, `width = 520·s`, `height = 600·s`); pivot tay trong `<id>.rig.json` (R3.4).
+- **Đạo cụ:** gốc toạ độ = giữa-đáy; đặt tại `(X, Y)` với `scale = scene_s` trong index; trạng thái bằng `data-state`; prop có `slots` (vd bàn thờ: `candle-l`, `candle-r`, `incense`) thì đặt prop con vào đúng toạ độ slot (theo tỉ lệ của prop cha).
+- **Bối cảnh:** 1920×1080; chọn vị trí đứng từ `stand` (L/C/R) và `slots` trong index (R4.2); ánh sáng bằng `data-light`; 9:16 cắt cửa sổ 608×1080 quanh `crop_9x16` (R4.4).
+- **Chưa kiểm trong HyperFrames/GSAP:** ghép thử mới dùng CSS/Chromium. Kiểm animation thật (GSAP đổi `data-*`/biến CSS, xoay tay) ở demo C5 trước khi khoá.
+- **Sinh rig + kiểm giải tích:** `python .agents/skills/video-pipeline/scripts/build_rig.py --bible projects/<slug>/script/bible.json --out projects/<slug>/assets/rig [--script projects/<slug>/script/script.json]` → `<id>.svg` + `<id>.rig.json` + `sheets/<id>.png` + `sheets/lineup.png`. Trước khi ghi file, script kiểm **giải tích** (không render): tay ở mọi pose × đứng/ngồi và đầu/thân có nằm trong viewBox không (có tính `scale`/`head_scale`); với `--script` thì id + giọng khớp `script.json`. Lỗi → thoát 1, không ghi gì (`--no-check` để bỏ). Không thay cho việc xem pose sheet.
+- **Nhân vật mới:** chọn `archetype` + `outfit` (library) hoặc clone `"extends": "<id gốc>"` + `rig_params` chỉ phần đổi. Bible khai `"rig": {tham số}` hoặc `"rig": "assets/rig/<id>.svg"` + `"rig_params": {...}`.
+- Mỗi địa điểm: 3 lớp xa/giữa/gần + trạng thái ánh sáng; đạo cụ có file riêng + trạng thái — tất cả lấy từ `library/` (R2), không vẽ tại chỗ.
 - [ ] Giọng: nhân vật xuất hiện chung một cảnh phải khác giọng; vai phụ chỉ dùng chung giọng khi không bao giờ cùng cảnh.
-- [ ] `emotion_vocab` thay cho "31 sắc thái" (xóa các tham chiếu `claude-animation-base` hoặc thêm skill đó vào repo).
+- [ ] `emotion_vocab` thay cho "31 sắc thái" (không dẫn chiếu `claude-animation-base`).
 
 ### C2. Shotlist (`script/shotlist.json`) — mỗi câu thoại một beat diễn
 
@@ -239,13 +254,14 @@ Quy tắc:
 
 ### C6. QC demo (gate)
 ```bash
-# chỉ chế độ A/B (có nguồn). Chế độ C không có nguồn → bỏ dòng này, dùng I4 (script/concept.md) làm gate ý tưởng gốc
+# chỉ chế độ A/B (có nguồn). Chế độ C không có nguồn → bỏ dòng originality_check, dùng I4 (script/concept.md) làm gate ý tưởng gốc
+python .agents/skills/video-pipeline/scripts/check_rules.py --project projects/<slug> --phase demo
 python .agents/skills/video-pipeline/scripts/originality_check.py --script projects/<slug>/script/script.json --source projects/<slug>/source/transcript-sentences.json
 python .agents/skills/video-pipeline/scripts/check_shots.py --project projects/<slug> --scenes S01,S02
 python .agents/skills/video-pipeline/scripts/check_sync.py  --project projects/<slug>
 cd projects/<slug>/video && npx hyperframes lint && npx hyperframes check --json
 ```
-- [ ] Mọi lệnh áp dụng cho chế độ của dự án đều pass (A/B: bốn lệnh; C: ba lệnh còn lại). `check_shots` bỏ qua cảnh ngoài lát cắt nhờ `--scenes` (id scene sai/không có trong manifest → lỗi, không được "OK rỗng").
+- [ ] Mọi lệnh áp dụng cho chế độ của dự án đều pass (A/B: cả năm lệnh; C: bốn lệnh còn lại). `check_shots` bỏ qua cảnh ngoài lát cắt nhờ `--scenes` (id scene sai/không có trong manifest → lỗi, không được "OK rỗng").
 - [ ] Xem snapshot **từng shot** (không chỉ từng scene): nhân vật cùng màu/tỉ lệ/trang phục; đạo cụ đúng trạng thái; bối cảnh không đổi vô cớ.
 - [ ] Nghe riêng 3 lớp: chỉ giọng; giọng + BGM; mix đủ. Không SFX nào che lời.
 - [ ] Mỗi câu thoại ngắn: tua khung hình, có chuyển động/biểu cảm riêng tại câu đó.
@@ -254,13 +270,13 @@ cd projects/<slug>/video && npx hyperframes lint && npx hyperframes check --json
 
 ### 👤 Cổng duyệt demo
 Người dùng duyệt từng mục: ① nhân vật (pose sheet + trong demo) ② diễn xuất ③ SFX & mix ④ bối cảnh/đạo cụ ⑤ nhịp shot ⑥ giọng. Mục chưa đạt → sửa **bible/rig/recipe** rồi dựng lại demo, không vá riêng trong HTML.
-**Khi duyệt: khóa** bible, giọng + tốc độ, thông số mix, style, danh sách cue SFX. Ghi vào `PROJECT.md` mục "Đã khóa ở demo". Thay đổi sau đó cần yêu cầu thay đổi rõ ràng.
+**Khi duyệt: khóa** bible, phiên bản library đã dùng (`assets/LIBRARY.lock.json`), giọng + tốc độ, thông số mix, style, danh sách cue SFX. Ghi vào `PROJECT.md` mục "Đã khóa ở demo". Thay đổi sau đó cần yêu cầu thay đổi rõ ràng.
 
 ## 7. Giai đoạn D — Full
 
 Chỉ bắt đầu khi 👤 duyệt demo.
 
-- [ ] Mở rộng `script.json`, bible (nhân vật/địa điểm/đạo cụ mới nếu có, kèm pose sheet) — nhân vật đã khóa không đổi.
+- [ ] Mở rộng `script.json`, bible (nhân vật/địa điểm/đạo cụ mới nếu có, kèm pose sheet) — nhân vật đã khóa không đổi. Mục mới cũng **tra library trước** (R2.1); sửa asset dùng chung tại `library/`, không vá bản trong project (R2.3).
 - [ ] Voice full (cache theo câu) → `check_sync.py`.
 - [ ] Shotlist **theo scene**, sau mỗi scene chạy `check_shots.py --scenes Sxx` rồi mới sang scene kế. Dùng `--project` không kèm `--scenes` ở cuối để kiểm toàn bộ.
 - [ ] Mỗi scene: render snapshot, 1 lần xem nhanh trước khi gộp. Cứ 5 scene kiểm một lượt **liên tục** (trạng thái đạo cụ, trang phục, ánh sáng, vị trí nhân vật khi cắt giữa các scene).
@@ -273,6 +289,7 @@ Chỉ bắt đầu khi 👤 duyệt demo.
 ## 8. Giai đoạn E — Đóng gói
 Theo `references/packaging.md`. Thêm:
 - [ ] `originality_check.py` chạy lại trên bản script cuối.
+- [ ] **Đưa asset mới vào library (R2.4/R8.4):** mỗi rig archetype/outfit, đạo cụ, bối cảnh mới → `library.py promote` (kèm `library.py sheet`, `library.py check` sạch, commit `library/`), hoặc khai `project-only` + lý do trong bible. `check_rules.py --project projects/<slug> --phase final` sạch.
 - [ ] Mô tả/credit đúng với `qa.md` (nguồn tham khảo, giấy phép nếu có).
 - [ ] Lưu bài học vào `PROJECT.md`.
 
@@ -280,12 +297,12 @@ Theo `references/packaging.md`. Thêm:
 
 | Việc | Ghi chú |
 | --- | --- |
-| Cập nhật `scaffold_project.py` | sinh thêm `source/qa.md`, `script/{rewrite_plan.md,diff_matrix.md,bible.json,shotlist.json}`, `PROJECT.md` theo giai đoạn A–E |
-| Cập nhật `PROJECT.md` template | checkbox theo giai đoạn + ô "Đã khóa ở demo" |
-| Viết `build_video.py` dựng từ dữ liệu | chưa có; gom 5 generator hiện tại thành một |
-| Tạo rig/prop/bg cho các nhân vật chính | tách từ SVG trong generator hiện có |
+| ~~Cập nhật `scaffold_project.py`~~ ✅ | sinh thêm `source/qa.md`, `script/{rewrite_plan.md,diff_matrix.md,bible.json,shotlist.json}`, `PROJECT.md` theo giai đoạn A–E |
+| ~~Cập nhật `PROJECT.md` template~~ ✅ (thêm tem luật + C0 tra thư viện + promote ở E) | checkbox theo giai đoạn + ô "Đã khóa ở demo" |
+| Viết `build_video.py` dựng từ dữ liệu | chưa có; gom 5 generator hiện tại thành một. Dùng quy ước nhúng ở C1 (rig/prop `<svg>` lồng, anchor trong `library/index.json`); không gõ hex (R2.5) |
+| ~~Tạo rig/prop/bg dùng lại được~~ | ✅ `library/` (7 archetype, 4 outfit, 10 đạo cụ, 3 bối cảnh, 2 palette) + `library.py`, `check_rules.py`; rig 5 nhân vật chính của project mẫu. Còn thiếu: nhân vật phụ, thêm bối cảnh (đình làng, bờ sông, phòng khách…), đạo cụ (gương đồng, quan tài, nhang đèn…) — thêm dần qua `promote` |
 | Thêm kho SFX còn thiếu + recipe | xem C4 |
-| Xóa/thay `claude-animation-base` trong 4 file | xem Phát hiện #7 |
+| ~~Xóa/thay `claude-animation-base`~~ | ✅ đã thay bằng `emotion_vocab` (SKILL.md, doctrine, script-rewrite) |
 | Sửa luật giọng (≤ 4 giọng long-form) | cho khớp thực tế hoặc giảm số nhân vật |
 | `sfx/README.md`: đổi link `file:///d:/...` thành đường dẫn tương đối; `AGENTS.md`: ghi cả lệnh đặt thư mục tạm cho Linux/macOS | |
 | `projects/reverse-than-trung-1m/` | giữ làm tư liệu đo, đừng xuất bản |

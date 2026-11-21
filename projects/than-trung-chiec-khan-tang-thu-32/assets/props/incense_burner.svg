@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -10 240 310" data-lib-id="incense_burner" data-lib-kind="prop" role="img" aria-label="Bát hương cắm nhang"><style data-palette="1">svg[data-lib-id="incense_burner"]{--pal-ash:#8d8a85;--pal-ash_dark:#5d5a56;--pal-bamboo:#b59a5a;--pal-bamboo_dark:#8a7240;--pal-bamboo_shadow:#5e4d28;--pal-brass:#b08a3a;--pal-brass_dark:#7c5e22;--pal-brow_white:#8d857a;--pal-clay:#6f4a32;--pal-clay_dark:#4d3222;--pal-clay_light:#8b6144;--pal-cloth_grey:#c9c2b2;--pal-cloth_red:#a8201a;--pal-cloth_red_dark:#761410;--pal-cloth_white:#ece6d8;--pal-cloud:#c9d6d8;--pal-earth:#5a4630;--pal-earth_dark:#3b2e20;--pal-ember:#e0451f;--pal-end_red:#d0332b;--pal-eye_white:#fffdf7;--pal-flame:#ffb347;--pal-flame_core:#fff3c4;--pal-flame_edge:#e8741f;--pal-floor:#4a3626;--pal-floor_dark:#31241a;--pal-hair_black:#1b120c;--pal-hair_white:#eae4db;--pal-ink:#1f140b;--pal-khan_white:#f4f1ea;--pal-leaf:#2d4a35;--pal-leaf_dark:#1b3224;--pal-light_cold:#5c7fa8;--pal-light_dawn:#ffd9a0;--pal-light_red:#c01818;--pal-light_warm:#ffb060;--pal-mist:#9fb0b0;--pal-moon:#e8e6d2;--pal-mouth_dark:#4a1a14;--pal-ok_green:#3fae5a;--pal-paper:#d9c48a;--pal-phone_body:#25272b;--pal-phone_screen_off:#0d1013;--pal-pupil:#1b120c;--pal-robe_brown:#584333;--pal-robe_brown_dark:#483424;--pal-robe_indigo:#2b2f45;--pal-robe_indigo_dark:#20233a;--pal-robe_mourning:#e6e0d3;--pal-robe_mourning_dark:#cfc8b8;--pal-scar:#e6b99a;--pal-screen_call:#1f3a4d;--pal-screen_glow:#6fd0ff;--pal-shadow:#000000;--pal-shadow_body:#07070a;--pal-shadow_eye:#ffffff;--pal-shadow_ink:#000000;--pal-shadow_line:#e8e4db;--pal-shadow_pupil:#d01010;--pal-shoe:#120d09;--pal-skin:#cf9063;--pal-skin_old:#c48a5d;--pal-sky_dawn:#8aa0a6;--pal-sky_dawn_low:#e3c49a;--pal-sky_night:#121b22;--pal-sky_night_low:#1d2b31;--pal-smoke:#cfcac0;--pal-tear:#cfe6ee;--pal-thatch:#7a6538;--pal-tile:#5a4636;--pal-vignette:#000000;--pal-wall_wood:#3a281b;--pal-wall_wood_dark:#241a13;--pal-wax:#efe6d2;--pal-wax_shadow:#c9bda3;--pal-window_night:#1a2428;--pal-wood:#6b4d31;--pal-wood_black:#1b120c;--pal-wood_dark:#3e2a1a;--pal-wood_light:#8a6a47}</style>
+<title>incense_burner — bát hương</title>
+<style>
+.prop-incense_burner .st{display:none}
+.prop-incense_burner[data-state='burning'] .st-burning,.prop-incense_burner[data-state='spent'] .st-spent,
+.prop-incense_burner[data-state='burning'] .st-sticks,.prop-incense_burner[data-state='spent'] .st-stubs{display:inline}
+</style>
+<g class="prop prop-incense_burner" data-state="burning">
+  <g class="st st-burning st-sticks">
+    <g stroke="var(--pal-wood_light)" stroke-width="5" stroke-linecap="round">
+      <line x1="92" y1="170" x2="84" y2="60"/><line x1="106" y1="170" x2="104" y2="46"/>
+      <line x1="120" y1="170" x2="120" y2="38"/><line x1="134" y1="170" x2="136" y2="46"/>
+      <line x1="148" y1="170" x2="156" y2="60"/>
+    </g>
+    <g fill="var(--pal-ember)">
+      <circle cx="84" cy="60" r="4.5"/><circle cx="104" cy="46" r="4.5"/><circle cx="120" cy="38" r="4.5"/>
+      <circle cx="136" cy="46" r="4.5"/><circle cx="156" cy="60" r="4.5"/>
+    </g>
+    <g class="smoke" stroke="var(--pal-smoke)" stroke-width="5" stroke-linecap="round" fill="none" opacity=".55">
+      <path d="M84 54 Q72 44 84 34 Q96 24 84 12"/><path d="M120 32 Q108 22 120 12 Q132 2 120 -6"/><path d="M156 54 Q144 44 156 34 Q168 24 156 12"/>
+    </g>
+  </g>
+  <g class="st st-spent st-stubs">
+    <g stroke="var(--pal-wood_dark)" stroke-width="5" stroke-linecap="round">
+      <line x1="92" y1="170" x2="90" y2="146"/><line x1="112" y1="170" x2="112" y2="140"/>
+      <line x1="128" y1="170" x2="130" y2="142"/><line x1="148" y1="170" x2="150" y2="148"/>
+    </g>
+    <g fill="var(--pal-ash_dark)"><circle cx="90" cy="146" r="3.5"/><circle cx="112" cy="140" r="3.5"/><circle cx="130" cy="142" r="3.5"/><circle cx="150" cy="148" r="3.5"/></g>
+  </g>
+  <path d="M18 168 Q16 280 120 284 Q224 280 222 168 Z" fill="var(--pal-brass)" stroke="var(--pal-ink)" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M40 200 Q42 248 78 266" stroke="var(--pal-flame_core)" stroke-width="5" stroke-linecap="round" fill="none" opacity=".45"/>
+  <path d="M30 214 Q120 232 210 214" stroke="var(--pal-brass_dark)" stroke-width="5" fill="none"/>
+  <path d="M82 284 L90 296 L150 296 L158 284 Z" fill="var(--pal-brass_dark)" stroke="var(--pal-ink)" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M18 186 Q-2 186 2 206 Q6 222 22 220 M222 186 Q242 186 238 206 Q234 222 218 220" stroke="var(--pal-ink)" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M18 186 Q-2 186 2 206 Q6 222 22 220 M222 186 Q242 186 238 206 Q234 222 218 220" stroke="var(--pal-brass)" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <ellipse cx="120" cy="168" rx="102" ry="16" fill="var(--pal-brass_dark)" stroke="var(--pal-ink)" stroke-width="6"/>
+  <ellipse cx="120" cy="170" rx="86" ry="10" fill="var(--pal-ash)" stroke="var(--pal-ink)" stroke-width="3"/>
+</g>
+</svg>

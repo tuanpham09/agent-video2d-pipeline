@@ -1,0 +1,87 @@
+{
+  "items": {
+    "house_altar_room": {
+      "kind": "location",
+      "version": 1,
+      "sha256": "200d4eb7055dca06c8c0ecbc83b393571baf57f80d90f17ece954dd3ae7181c6",
+      "file": "assets/bg/house_altar_room.svg"
+    },
+    "village_yard_night": {
+      "kind": "location",
+      "version": 1,
+      "sha256": "301064b6bee46759a0341618712c7a1cc39f9fb6bd63ea668a88dfbbd7ac249e",
+      "file": "assets/bg/village_yard_night.svg"
+    },
+    "veranda_night": {
+      "kind": "location",
+      "version": 1,
+      "sha256": "3bcae407b968ff88263759ff9ce4996adcefc9691b0c4531f04c7ee0cd6251a7",
+      "file": "assets/bg/veranda_night.svg"
+    },
+    "ancestral_altar": {
+      "kind": "prop",
+      "version": 1,
+      "sha256": "ee6f9421f621bba5fe2ec74af4ae530101d20975579e3d2cc901265d171a7231",
+      "file": "assets/props/ancestral_altar.svg"
+    },
+    "candle": {
+      "kind": "prop",
+      "version": 1,
+      "sha256": "23cd6544f7957156bac38e01007cfe4ae5be91605669ab907b9e6abcafd1ace1",
+      "file": "assets/props/candle.svg"
+    },
+    "incense_burner": {
+      "kind": "prop",
+      "version": 1,
+      "sha256": "94bf2711597dddf735491ed1fd350dceef32588b89976a98f49457531f438566",
+      "file": "assets/props/incense_burner.svg"
+    },
+    "oil_lamp": {
+      "kind": "prop",
+      "version": 1,
+      "sha256": "bfe2bc00a50e9cdb258be76c222fb646414c4bdbcde7d6aeb4f68260393367b1",
+      "file": "assets/props/oil_lamp.svg"
+    },
+    "clay_jar": {
+      "kind": "prop",
+      "version": 1,
+      "sha256": "e8ec616e16d2a811b17a49ffd3df75ef9fb03f983190c787ac72d41c9c089274",
+      "file": "assets/props/clay_jar.svg"
+    },
+    "mourning_cloth": {
+      "kind": "prop",
+      "version": 1,
+      "sha256": "5ed9728bfadac00f995b5c5cec6333de9ed116996a8a077627d794c36ad7eb73",
+      "file": "assets/props/mourning_cloth.svg"
+    },
+    "bamboo_tray": {
+      "kind": "prop",
+      "version": 1,
+      "sha256": "2cb4fdc3b23baa042378111858713081e3e88427b8c859859cccc5ef8cf22c0f",
+      "file": "assets/props/bamboo_tray.svg"
+    },
+    "betel_mortar": {
+      "kind": "prop",
+      "version": 1,
+      "sha256": "920f73cd9455fe492df6cbf34371ac92f65b38bd2252c5077ac5cefea268c4b1",
+      "file": "assets/props/betel_mortar.svg"
+    },
+    "bamboo_bed": {
+      "kind": "prop",
+      "version": 1,
+      "sha256": "e6938f4414249b64c0713e10211078c27d8432609b6d40202132521c4eb7bdcb",
+      "file": "assets/props/bamboo_bed.svg"
+    },
+    "smartphone": {
+      "kind": "prop",
+      "version": 1,
+      "sha256": "a29aaeca7604b2fbfad023ed753f8733e95d1cb01723bdb07406d93806c9de69",
+      "file": "assets/props/smartphone.svg"
+    }
+  },
+  "palette_ref": [
+    "base",
+    "folk-horror-vn"
+  ],
+  "palette_sha": "ec0a4388f6529d8de52d4dc37973f2d735a1649b8d9e8e33a231c0b86e8b0192"
+}

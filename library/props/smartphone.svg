@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 300" data-lib-id="smartphone" data-lib-kind="prop" role="img" aria-label="Điện thoại thông minh">
+<title>smartphone — điện thoại (cuộc gọi video: không chữ để khỏi phụ thuộc font)</title>
+<defs><radialGradient id="phn-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="var(--pal-screen_glow)" stop-opacity=".55"/><stop offset="1" stop-color="var(--pal-screen_glow)" stop-opacity="0"/></radialGradient></defs>
+<style>
+.prop-smartphone .st{display:none}
+.prop-smartphone[data-state='off'] .st-off,.prop-smartphone[data-state='ringing'] .st-ringing,
+.prop-smartphone[data-state='call'] .st-call,.prop-smartphone[data-state='ended'] .st-ended,
+.prop-smartphone[data-state='ringing'] .st-lit,.prop-smartphone[data-state='call'] .st-lit{display:inline}
+</style>
+<g class="prop prop-smartphone" data-state="off">
+  <circle class="glow st st-lit" cx="80" cy="150" r="130" fill="url(#phn-glow)" opacity=".6"/>
+  <rect x="14" y="8" width="132" height="284" rx="22" fill="var(--pal-phone_body)" stroke="var(--pal-ink)" stroke-width="6"/>
+  <rect x="24" y="22" width="112" height="256" rx="12" fill="var(--pal-phone_screen_off)"/>
+  <rect x="62" y="12" width="36" height="6" rx="3" fill="var(--pal-ink)"/>
+  <g class="st st-off"><path d="M30 34 L60 28" stroke="var(--pal-ash_dark)" stroke-width="3" opacity=".4" stroke-linecap="round"/></g>
+  <g class="st st-ringing">
+    <rect x="24" y="22" width="112" height="256" rx="12" fill="var(--pal-screen_call)"/>
+    <circle cx="80" cy="100" r="30" fill="var(--pal-ash)"/><circle cx="80" cy="92" r="11" fill="var(--pal-ash_dark)"/><path d="M58 122 Q80 100 102 122 Q92 130 80 130 Q68 130 58 122 Z" fill="var(--pal-ash_dark)"/>
+    <circle cx="52" cy="240" r="17" fill="var(--pal-end_red)"/><circle cx="108" cy="240" r="17" fill="var(--pal-ok_green)"/>
+    <circle cx="80" cy="100" r="40" fill="none" stroke="var(--pal-screen_glow)" stroke-width="3" opacity=".6"/>
+  </g>
+  <g class="st st-call">
+    <rect x="24" y="22" width="112" height="256" rx="12" fill="var(--pal-screen_call)"/>
+    <rect x="24" y="22" width="112" height="196" fill="var(--pal-wall_wood_dark)"/>
+    <circle cx="80" cy="104" r="34" fill="var(--pal-ash)"/><path d="M34 218 Q38 158 80 146 Q122 158 126 218 Z" fill="var(--pal-ash_dark)"/>
+    <rect x="98" y="30" width="32" height="44" rx="4" fill="var(--pal-wall_wood)" stroke="var(--pal-screen_glow)" stroke-width="2"/>
+    <circle cx="114" cy="48" r="8" fill="var(--pal-ash)"/>
+    <circle cx="80" cy="248" r="17" fill="var(--pal-end_red)"/>
+  </g>
+  <g class="st st-ended"><rect x="24" y="22" width="112" height="256" rx="12" fill="var(--pal-phone_screen_off)"/><circle cx="80" cy="150" r="20" fill="none" stroke="var(--pal-end_red)" stroke-width="4" opacity=".7"/><path d="M68 138 L92 162 M92 138 L68 162" stroke="var(--pal-end_red)" stroke-width="4" stroke-linecap="round" opacity=".7"/></g>
+</g>
+</svg>

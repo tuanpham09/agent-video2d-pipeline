@@ -58,6 +58,8 @@ def check_sfx_src(src: str, repo: Path, proj: Path) -> str | None:
 
 
 def load(path: Path) -> dict:
+    if not path.exists():
+        sys.exit(f"LỖI: thiếu {path} — chưa tới bước này của workflow (C2 shotlist / C3 voice) hay sai đường dẫn --project?")
     return json.loads(path.read_text(encoding="utf-8-sig"))
 
 

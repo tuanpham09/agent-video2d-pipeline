@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 280" data-lib-id="oil_lamp" data-lib-kind="prop" role="img" aria-label="Đèn dầu thuỷ tinh"><style data-palette="1">svg[data-lib-id="oil_lamp"]{--pal-ash:#8d8a85;--pal-ash_dark:#5d5a56;--pal-bamboo:#b59a5a;--pal-bamboo_dark:#8a7240;--pal-bamboo_shadow:#5e4d28;--pal-brass:#b08a3a;--pal-brass_dark:#7c5e22;--pal-brow_white:#8d857a;--pal-clay:#6f4a32;--pal-clay_dark:#4d3222;--pal-clay_light:#8b6144;--pal-cloth_grey:#c9c2b2;--pal-cloth_red:#a8201a;--pal-cloth_red_dark:#761410;--pal-cloth_white:#ece6d8;--pal-cloud:#c9d6d8;--pal-earth:#5a4630;--pal-earth_dark:#3b2e20;--pal-ember:#e0451f;--pal-end_red:#d0332b;--pal-eye_white:#fffdf7;--pal-flame:#ffb347;--pal-flame_core:#fff3c4;--pal-flame_edge:#e8741f;--pal-floor:#4a3626;--pal-floor_dark:#31241a;--pal-hair_black:#1b120c;--pal-hair_white:#eae4db;--pal-ink:#1f140b;--pal-khan_white:#f4f1ea;--pal-leaf:#2d4a35;--pal-leaf_dark:#1b3224;--pal-light_cold:#5c7fa8;--pal-light_dawn:#ffd9a0;--pal-light_red:#c01818;--pal-light_warm:#ffb060;--pal-mist:#9fb0b0;--pal-moon:#e8e6d2;--pal-mouth_dark:#4a1a14;--pal-ok_green:#3fae5a;--pal-paper:#d9c48a;--pal-phone_body:#25272b;--pal-phone_screen_off:#0d1013;--pal-pupil:#1b120c;--pal-robe_brown:#584333;--pal-robe_brown_dark:#483424;--pal-robe_indigo:#2b2f45;--pal-robe_indigo_dark:#20233a;--pal-robe_mourning:#e6e0d3;--pal-robe_mourning_dark:#cfc8b8;--pal-scar:#e6b99a;--pal-screen_call:#1f3a4d;--pal-screen_glow:#6fd0ff;--pal-shadow:#000000;--pal-shadow_body:#07070a;--pal-shadow_eye:#ffffff;--pal-shadow_ink:#000000;--pal-shadow_line:#e8e4db;--pal-shadow_pupil:#d01010;--pal-shoe:#120d09;--pal-skin:#cf9063;--pal-skin_old:#c48a5d;--pal-sky_dawn:#8aa0a6;--pal-sky_dawn_low:#e3c49a;--pal-sky_night:#121b22;--pal-sky_night_low:#1d2b31;--pal-smoke:#cfcac0;--pal-tear:#cfe6ee;--pal-thatch:#7a6538;--pal-tile:#5a4636;--pal-vignette:#000000;--pal-wall_wood:#3a281b;--pal-wall_wood_dark:#241a13;--pal-wax:#efe6d2;--pal-wax_shadow:#c9bda3;--pal-window_night:#1a2428;--pal-wood:#6b4d31;--pal-wood_black:#1b120c;--pal-wood_dark:#3e2a1a;--pal-wood_light:#8a6a47}</style>
+<title>oil_lamp — đèn dầu bóng thuỷ tinh</title>
+<defs><radialGradient id="olmp-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="var(--pal-light_warm)" stop-opacity=".55"/><stop offset="1" stop-color="var(--pal-light_warm)" stop-opacity="0"/></radialGradient></defs>
+<style>
+.prop-oil_lamp .st{display:none}
+.prop-oil_lamp[data-state='lit'] .st-lit,.prop-oil_lamp[data-state='low'] .st-low,
+.prop-oil_lamp[data-state='lit'] .st-on,.prop-oil_lamp[data-state='low'] .st-on,.prop-oil_lamp[data-state='out'] .st-out{display:inline}
+.prop-oil_lamp .flame{transform-box:view-box;transform-origin:80px 176px}
+.prop-oil_lamp[data-state='low'] .flame{transform:scale(.5)}
+</style>
+<g class="prop prop-oil_lamp" data-state="lit">
+  <circle class="glow st st-lit" cx="80" cy="140" r="96" fill="url(#olmp-glow)"/>
+  <circle class="glow st st-low" cx="80" cy="170" r="50" fill="url(#olmp-glow)" opacity=".7"/>
+  <path d="M40 270 L120 270 L112 250 L48 250 Z" fill="var(--pal-brass_dark)" stroke="var(--pal-ink)" stroke-width="4" stroke-linejoin="round"/>
+  <ellipse cx="80" cy="232" rx="50" ry="34" fill="var(--pal-brass)" stroke="var(--pal-ink)" stroke-width="5"/>
+  <path d="M52 226 Q64 214 80 214" stroke="var(--pal-flame_core)" stroke-width="4" stroke-linecap="round" fill="none" opacity=".5"/>
+  <path d="M128 214 Q154 214 150 240 Q146 258 124 256" stroke="var(--pal-ink)" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M128 214 Q154 214 150 240 Q146 258 124 256" stroke="var(--pal-brass)" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <rect x="64" y="190" width="32" height="18" rx="4" fill="var(--pal-brass_dark)" stroke="var(--pal-ink)" stroke-width="4"/>
+  <path d="M66 190 C 38 154 46 112 62 56 L98 56 C 114 112 122 154 94 190 Z" fill="var(--pal-smoke)" fill-opacity=".22" stroke="var(--pal-ink)" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M58 150 Q54 110 66 72" stroke="var(--pal-wax)" stroke-width="4" stroke-linecap="round" fill="none" opacity=".5"/>
+  <line x1="80" y1="190" x2="80" y2="180" stroke="var(--pal-ink)" stroke-width="4" stroke-linecap="round"/>
+  <g class="flame st st-on">
+    <path d="M80 118 Q100 148 92 172 Q80 186 68 172 Q60 148 80 118 Z" fill="var(--pal-flame)" stroke="var(--pal-flame_edge)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M80 142 Q89 156 85 170 Q80 176 75 170 Q71 156 80 142 Z" fill="var(--pal-flame_core)"/>
+  </g>
+  <path class="smoke st st-out" d="M80 176 Q68 150 82 130 Q94 112 80 84" stroke="var(--pal-smoke)" stroke-width="5" stroke-linecap="round" fill="none" opacity=".55"/>
+</g>
+</svg>

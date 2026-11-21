@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" data-lib-id="village_yard_night" data-lib-kind="location" role="img" aria-label="Sân nhà quê ban đêm, vườn chuối"><style data-palette="1">svg[data-lib-id="village_yard_night"]{--pal-ash:#8d8a85;--pal-ash_dark:#5d5a56;--pal-bamboo:#b59a5a;--pal-bamboo_dark:#8a7240;--pal-bamboo_shadow:#5e4d28;--pal-brass:#b08a3a;--pal-brass_dark:#7c5e22;--pal-brow_white:#8d857a;--pal-clay:#6f4a32;--pal-clay_dark:#4d3222;--pal-clay_light:#8b6144;--pal-cloth_grey:#c9c2b2;--pal-cloth_red:#a8201a;--pal-cloth_red_dark:#761410;--pal-cloth_white:#ece6d8;--pal-cloud:#c9d6d8;--pal-earth:#5a4630;--pal-earth_dark:#3b2e20;--pal-ember:#e0451f;--pal-end_red:#d0332b;--pal-eye_white:#fffdf7;--pal-flame:#ffb347;--pal-flame_core:#fff3c4;--pal-flame_edge:#e8741f;--pal-floor:#4a3626;--pal-floor_dark:#31241a;--pal-hair_black:#1b120c;--pal-hair_white:#eae4db;--pal-ink:#1f140b;--pal-khan_white:#f4f1ea;--pal-leaf:#2d4a35;--pal-leaf_dark:#1b3224;--pal-light_cold:#5c7fa8;--pal-light_dawn:#ffd9a0;--pal-light_red:#c01818;--pal-light_warm:#ffb060;--pal-mist:#9fb0b0;--pal-moon:#e8e6d2;--pal-mouth_dark:#4a1a14;--pal-ok_green:#3fae5a;--pal-paper:#d9c48a;--pal-phone_body:#25272b;--pal-phone_screen_off:#0d1013;--pal-pupil:#1b120c;--pal-robe_brown:#584333;--pal-robe_brown_dark:#483424;--pal-robe_indigo:#2b2f45;--pal-robe_indigo_dark:#20233a;--pal-robe_mourning:#e6e0d3;--pal-robe_mourning_dark:#cfc8b8;--pal-scar:#e6b99a;--pal-screen_call:#1f3a4d;--pal-screen_glow:#6fd0ff;--pal-shadow:#000000;--pal-shadow_body:#07070a;--pal-shadow_eye:#ffffff;--pal-shadow_ink:#000000;--pal-shadow_line:#e8e4db;--pal-shadow_pupil:#d01010;--pal-shoe:#120d09;--pal-skin:#cf9063;--pal-skin_old:#c48a5d;--pal-sky_dawn:#8aa0a6;--pal-sky_dawn_low:#e3c49a;--pal-sky_night:#121b22;--pal-sky_night_low:#1d2b31;--pal-smoke:#cfcac0;--pal-tear:#cfe6ee;--pal-thatch:#7a6538;--pal-tile:#5a4636;--pal-vignette:#000000;--pal-wall_wood:#3a281b;--pal-wall_wood_dark:#241a13;--pal-wax:#efe6d2;--pal-wax_shadow:#c9bda3;--pal-window_night:#1a2428;--pal-wood:#6b4d31;--pal-wood_black:#1b120c;--pal-wood_dark:#3e2a1a;--pal-wood_light:#8a6a47}</style>
+<title>village_yard_night — sân đất, vườn chuối, nhà mái lá, trăng mờ sương</title>
+<defs>
+  <linearGradient id="vyn-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--pal-sky_night)"/><stop offset="1" stop-color="var(--pal-sky_night_low)"/></linearGradient>
+  <linearGradient id="vyn-mist" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--pal-mist)" stop-opacity="0"/><stop offset="1" stop-color="var(--pal-mist)" stop-opacity=".38"/></linearGradient>
+  <radialGradient id="vyn-vig" cx="50%" cy="50%" r="75%"><stop offset=".55" stop-color="var(--pal-vignette)" stop-opacity="0"/><stop offset="1" stop-color="var(--pal-vignette)" stop-opacity=".7"/></radialGradient>
+  <radialGradient id="vyn-moon" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="var(--pal-moon)" stop-opacity=".5"/><stop offset="1" stop-color="var(--pal-moon)" stop-opacity="0"/></radialGradient>
+  <path id="vyn-leaf" d="M0 0 Q80 -56 220 -10 Q120 18 0 0 Z"/>
+  <g id="vyn-banana"><rect x="-10" y="0" width="20" height="260" fill="var(--pal-leaf_dark)"/>
+    <use href="#vyn-leaf" transform="translate(0 6) rotate(-165) scale(1.15)"/><use href="#vyn-leaf" transform="translate(0 6) rotate(-120) scale(1.3)"/><use href="#vyn-leaf" transform="translate(0 6) rotate(-70) scale(1.3)"/>
+    <use href="#vyn-leaf" transform="translate(0 6) rotate(-20) scale(1.15)"/><use href="#vyn-leaf" transform="translate(0 6) rotate(15) scale(.9)"/></g>
+</defs>
+<style>
+.loc-village_yard_night .lw{opacity:0}
+.loc-village_yard_night[data-light='warm'] .lw-warm{opacity:.10}
+.loc-village_yard_night[data-light='dark'] .lw-dark{opacity:.55}
+.loc-village_yard_night[data-light='red_flash'] .lw-red{opacity:.34}
+.loc-village_yard_night[data-light='dawn'] .lw-dawn{opacity:.34}
+.loc-village_yard_night[data-light='dark'] .moon{opacity:.15}
+.loc-village_yard_night .door-spill{opacity:.28}
+.loc-village_yard_night[data-light='dark'] .door-spill{opacity:.06}
+</style>
+<g class="loc loc-village_yard_night" data-light="warm">
+  <g class="layer layer-far">
+    <rect width="1920" height="820" fill="url(#vyn-sky)"/>
+    <g class="moon"><circle cx="400" cy="190" r="190" fill="url(#vyn-moon)"/><circle cx="400" cy="190" r="62" fill="var(--pal-moon)"/><circle cx="380" cy="176" r="9" fill="var(--pal-mist)" opacity=".4"/><circle cx="420" cy="208" r="13" fill="var(--pal-mist)" opacity=".3"/></g>
+    <path d="M0 560 Q120 470 240 540 Q340 470 460 548 Q560 490 700 552 Q840 486 980 556 Q1120 482 1260 552 Q1400 490 1540 556 Q1700 480 1920 548 L1920 820 L0 820 Z" fill="var(--pal-leaf_dark)"/>
+    <path d="M0 640 Q200 580 380 640 Q600 590 800 646 Q1040 590 1260 644 Q1500 590 1700 646 Q1820 610 1920 636 L1920 820 L0 820 Z" fill="var(--pal-leaf)" opacity=".7"/>
+    <rect y="560" width="1920" height="280" fill="url(#vyn-mist)"/>
+  </g>
+  <g class="layer layer-mid">
+    <!-- nhà mái lá bên phải -->
+    <path d="M1180 470 L1520 300 L1900 470 L1900 520 L1180 520 Z" fill="var(--pal-thatch)" stroke="var(--pal-ink)" stroke-width="8" stroke-linejoin="round"/>
+    <g stroke="var(--pal-wood_dark)" stroke-width="4" opacity=".7"><path d="M1260 480 L1500 360 M1340 500 L1540 390 M1440 500 L1620 400 M1560 500 L1730 420 M1660 500 L1800 440"/></g>
+    <rect x="1210" y="520" width="660" height="290" fill="var(--pal-wall_wood)" stroke="var(--pal-ink)" stroke-width="8"/>
+    <g stroke="var(--pal-wall_wood_dark)" stroke-width="5"><line x1="1300" y1="520" x2="1300" y2="810"/><line x1="1390" y1="520" x2="1390" y2="810"/><line x1="1700" y1="520" x2="1700" y2="810"/><line x1="1790" y1="520" x2="1790" y2="810"/></g>
+    <rect x="1470" y="580" width="190" height="230" fill="var(--pal-wood_black)" stroke="var(--pal-ink)" stroke-width="8"/>
+    <rect class="door-spill" x="1482" y="592" width="166" height="218" fill="var(--pal-light_warm)"/>
+    <path class="door-spill" d="M1482 810 L1648 810 L1760 1000 L1370 1000 Z" fill="var(--pal-light_warm)"/>
+    <rect x="1728" y="590" width="100" height="90" fill="var(--pal-window_night)" stroke="var(--pal-ink)" stroke-width="7"/>
+    <rect x="1228" y="610" width="140" height="80" fill="var(--pal-window_night)" stroke="var(--pal-ink)" stroke-width="7"/>
+    <!-- vườn chuối bên trái -->
+    <use href="#vyn-banana" transform="translate(150 540)"/><use href="#vyn-banana" transform="translate(360 570) scale(1.1)"/><use href="#vyn-banana" transform="translate(600 548) scale(.95)"/><use href="#vyn-banana" transform="translate(860 576)"/>
+    <!-- nền sân -->
+    <rect y="810" width="1920" height="270" fill="var(--pal-earth)"/>
+    <path d="M760 1080 Q1040 930 1450 812 L1650 812 Q1360 950 1280 1080 Z" fill="var(--pal-earth_dark)" opacity=".55"/>
+    <g stroke="var(--pal-earth_dark)" stroke-width="4" stroke-linecap="round" opacity=".7"><path d="M100 900 l40 6 M420 960 l50 -6 M560 1010 l36 8 M980 880 l42 6 M300 1040 l50 4 M1700 960 l40 -4"/></g>
+    <rect x="0" y="806" width="1920" height="10" fill="var(--pal-earth_dark)"/>
+    <!-- hàng rào tre -->
+    <g stroke="var(--pal-ink)" stroke-width="5" fill="var(--pal-bamboo_dark)">
+      <rect x="980" y="700" width="16" height="130"/><rect x="1040" y="708" width="16" height="122"/><rect x="1100" y="698" width="16" height="132"/><rect x="1160" y="706" width="16" height="124"/>
+      <rect x="970" y="738" width="200" height="12"/><rect x="970" y="786" width="200" height="12"/>
+    </g>
+    <ellipse cx="760" cy="906" rx="290" ry="22" fill="var(--pal-shadow)" opacity=".25"/>
+  </g>
+  <g class="layer layer-near">
+    <g fill="var(--pal-leaf_dark)">
+      <path d="M0 1080 L0 960 Q30 1010 44 960 Q60 1020 84 972 Q100 1030 130 990 Q150 1040 170 1080 Z"/>
+      <path d="M1700 1080 Q1740 1000 1760 1030 Q1790 960 1810 1020 Q1840 970 1860 1030 Q1890 990 1920 1010 L1920 1080 Z"/>
+    </g>
+    <rect y="900" width="1920" height="180" fill="url(#vyn-mist)" opacity=".7"/>
+    <rect width="1920" height="1080" fill="url(#vyn-vig)"/>
+  </g>
+  <g class="lights" pointer-events="none">
+    <rect class="lw lw-warm" width="1920" height="1080" fill="var(--pal-light_cold)"/>
+    <rect class="lw lw-dark" width="1920" height="1080" fill="var(--pal-shadow)"/>
+    <rect class="lw lw-red" width="1920" height="1080" fill="var(--pal-light_red)"/>
+    <rect class="lw lw-dawn" width="1920" height="1080" fill="var(--pal-light_dawn)"/>
+  </g>
+</g>
+</svg>

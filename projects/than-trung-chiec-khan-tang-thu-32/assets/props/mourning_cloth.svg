@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" data-lib-id="mourning_cloth" data-lib-kind="prop" role="img" aria-label="Khăn tang xô trắng"><style data-palette="1">svg[data-lib-id="mourning_cloth"]{--pal-ash:#8d8a85;--pal-ash_dark:#5d5a56;--pal-bamboo:#b59a5a;--pal-bamboo_dark:#8a7240;--pal-bamboo_shadow:#5e4d28;--pal-brass:#b08a3a;--pal-brass_dark:#7c5e22;--pal-brow_white:#8d857a;--pal-clay:#6f4a32;--pal-clay_dark:#4d3222;--pal-clay_light:#8b6144;--pal-cloth_grey:#c9c2b2;--pal-cloth_red:#a8201a;--pal-cloth_red_dark:#761410;--pal-cloth_white:#ece6d8;--pal-cloud:#c9d6d8;--pal-earth:#5a4630;--pal-earth_dark:#3b2e20;--pal-ember:#e0451f;--pal-end_red:#d0332b;--pal-eye_white:#fffdf7;--pal-flame:#ffb347;--pal-flame_core:#fff3c4;--pal-flame_edge:#e8741f;--pal-floor:#4a3626;--pal-floor_dark:#31241a;--pal-hair_black:#1b120c;--pal-hair_white:#eae4db;--pal-ink:#1f140b;--pal-khan_white:#f4f1ea;--pal-leaf:#2d4a35;--pal-leaf_dark:#1b3224;--pal-light_cold:#5c7fa8;--pal-light_dawn:#ffd9a0;--pal-light_red:#c01818;--pal-light_warm:#ffb060;--pal-mist:#9fb0b0;--pal-moon:#e8e6d2;--pal-mouth_dark:#4a1a14;--pal-ok_green:#3fae5a;--pal-paper:#d9c48a;--pal-phone_body:#25272b;--pal-phone_screen_off:#0d1013;--pal-pupil:#1b120c;--pal-robe_brown:#584333;--pal-robe_brown_dark:#483424;--pal-robe_indigo:#2b2f45;--pal-robe_indigo_dark:#20233a;--pal-robe_mourning:#e6e0d3;--pal-robe_mourning_dark:#cfc8b8;--pal-scar:#e6b99a;--pal-screen_call:#1f3a4d;--pal-screen_glow:#6fd0ff;--pal-shadow:#000000;--pal-shadow_body:#07070a;--pal-shadow_eye:#ffffff;--pal-shadow_ink:#000000;--pal-shadow_line:#e8e4db;--pal-shadow_pupil:#d01010;--pal-shoe:#120d09;--pal-skin:#cf9063;--pal-skin_old:#c48a5d;--pal-sky_dawn:#8aa0a6;--pal-sky_dawn_low:#e3c49a;--pal-sky_night:#121b22;--pal-sky_night_low:#1d2b31;--pal-smoke:#cfcac0;--pal-tear:#cfe6ee;--pal-thatch:#7a6538;--pal-tile:#5a4636;--pal-vignette:#000000;--pal-wall_wood:#3a281b;--pal-wall_wood_dark:#241a13;--pal-wax:#efe6d2;--pal-wax_shadow:#c9bda3;--pal-window_night:#1a2428;--pal-wood:#6b4d31;--pal-wood_black:#1b120c;--pal-wood_dark:#3e2a1a;--pal-wood_light:#8a6a47}</style>
+<title>mourning_cloth — khăn tang xô trắng</title>
+<style>
+.prop-mourning_cloth .st{display:none}
+.prop-mourning_cloth[data-state='folded'] .st-folded,.prop-mourning_cloth[data-state='spread'] .st-spread,.prop-mourning_cloth[data-state='torn'] .st-torn{display:inline}
+</style>
+<g class="prop prop-mourning_cloth" data-state="folded">
+  <g class="st st-folded">
+    <rect x="40" y="70" width="120" height="70" rx="4" fill="var(--pal-khan_white)" stroke="var(--pal-ink)" stroke-width="5"/>
+    <rect x="40" y="70" width="120" height="14" rx="3" fill="var(--pal-cloth_grey)" stroke="var(--pal-ink)" stroke-width="3"/>
+    <path d="M40 104 L160 104 M100 84 L100 140" stroke="var(--pal-cloth_grey)" stroke-width="3"/>
+  </g>
+  <g class="st st-spread">
+    <path d="M16 140 L56 30 L150 26 L186 140 Z" fill="var(--pal-khan_white)" stroke="var(--pal-ink)" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M70 40 Q84 90 62 134 M118 36 Q108 88 132 134 M40 90 L170 88" stroke="var(--pal-cloth_grey)" stroke-width="3" fill="none"/>
+  </g>
+  <g class="st st-torn">
+    <path d="M16 140 L40 96 L30 60 L66 40 L84 14 L116 36 L150 20 L160 60 L190 84 L172 140 Z" fill="var(--pal-khan_white)" stroke="var(--pal-ink)" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M60 140 L72 100 L56 70 M120 140 L130 104 L146 78" stroke="var(--pal-cloth_grey)" stroke-width="3" fill="none"/>
+    <path d="M100 56 l8 10 l-8 8 l10 8" stroke="var(--pal-cloth_red_dark)" stroke-width="3" fill="none" stroke-linecap="round" opacity=".8"/>
+  </g>
+</g>
+</svg>
