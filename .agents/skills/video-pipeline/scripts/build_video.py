@@ -526,6 +526,12 @@ def main() -> int:
     t0 = wins[0][0]
     ends = [wins[i + 1][0] if i + 1 < len(shots) else wins[i][1] for i in range(len(shots))]  # lấp khoảng nghỉ giữa các line
     total = ends[-1] - t0
+    # R9.4: khi dựng toàn bộ project, thời lượng composition lấy từ manifest
+    # (gồm cả tail); dựng từng phần (--scenes/--shots/--until) giữ thời lượng
+    # cửa sổ shot — video từng phần chỉ dài bằng phần đã dựng.
+    covered_ids = {lid for s in shots for lid in s["line_ids"]}
+    if covered_ids >= set(ctx.lines):
+        total = float(ctx.manifest.get("duration") or total)
 
     (out / "compositions").mkdir(parents=True, exist_ok=True)
     (out / "assets" / "sfx").mkdir(parents=True, exist_ok=True)

@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 """Kiểm thử các phần roadmap v3 (không cần VieNeu, không cần trình duyệt):
   - timing_lib: mốc theo từ, beat theo từ, ranh giới
-  - check_shots E7 (mỗi nhân vật trong shot nhiều người phải có hành vi tường minh) và E8 (beat theo từ)
+  - check_shots E7 (mỗi nhân vật trong shot nhiều người phải có hành vi tường minh) và E8 (beat theo từ),
+    E9 (pose/emotion/stance/gaze phải có trong rig) và E10 (nhân vật không đứng đè lên đạo cụ)
+  - check_sync: layout 1 track giọng duy nhất được chấp nhận (kiểm src, duration, file wav);
+    layout clip-riêng từng line vẫn kiểm nghiêm; dựng từng phần chỉ kiểm line được phủ
   - build_video: beat move/look/react sinh tween đúng; người nghe tự gật không trùng gật tường minh
   - check_audio: bắt đúng clip, câm, sai thời lượng, chồng lấn; câu đạt không báo lỗi
 
@@ -105,6 +108,43 @@ def test_check_shots() -> None:
         write_min_project(d, bad_word)
         code, out = run([str(SCRIPTS / "check_shots.py"), "--project", str(d), "--scenes", "S01"])
         ok("E8: word ngoài số từ bị báo", code == 1 and "ngoài" in out, out[-300:])
+
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        d.mkdir()
+
+        def bad_pose(s):
+            for sh in s["shots"]:
+                if sh["id"] == "SH008":
+                    sh["characters"][0]["pose"] = "reach-r"
+                    for b in sh["beats"]:
+                        st = b.get("set") or {}
+                        if any("pose" in v for v in st.values()):
+                            cid = next(iter(st))
+                            b["set"][cid]["pose"] = "reach-r"
+                            break
+
+        write_min_project(d, bad_pose)
+        code, out = run([str(SCRIPTS / "check_shots.py"), "--project", str(d), "--scenes", "S01", "--repo", str(REPO)])
+        ok("E9: pose không có trong rig bị báo (characters[] và beat set)",
+           code == 1 and out.count("(E9)") >= 2 and "reach-r" in out, out[-300:])
+
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        d.mkdir()
+
+        def overlap_prop(s):
+            for sh in s["shots"]:
+                if sh["id"] == "SH008":
+                    for p in sh["props"]:
+                        if p.get("id") == "mam_tre":
+                            p["at"] = "stand:C"
+                            p["dx"] = -230
+
+        write_min_project(d, overlap_prop)
+        code, out = run([str(SCRIPTS / "check_shots.py"), "--project", str(d), "--scenes", "S01", "--repo", str(REPO)])
+        ok("E10: nhân vật đứng đè lên đạo cụ bị báo",
+           code == 1 and "(E10)" in out and "mam_tre" in out, out[-300:])
 
 
 def test_build_video_tweens() -> None:
@@ -231,6 +271,66 @@ def test_check_audio() -> None:
         ok("speed ngoài 1.2–1.3 bị báo (E1)", "E1: speed 1.5" in out)
 
 
+def test_check_sync() -> None:
+    print("check_sync (voice track duy nhất / clip-riêng / dựng từng phần)")
+    import wave
+
+    def silent_wav(path: Path, seconds: float, sr: int = 48000) -> None:
+        n = int(seconds * sr)
+        with wave.open(str(path), "wb") as w:
+            w.setnchannels(1)
+            w.setsampwidth(2)
+            w.setframerate(sr)
+            w.writeframes(b"\x00\x00" * n)
+
+    def voice_tag(dur: str, src: str = "assets/audio/voiceover.wav") -> str:
+        return (f'    <audio id="voice" class="clip" src="{src}" data-start="0" data-duration="{dur}" '
+                f'data-media-start="0.000" data-volume="1" data-track-index="2"></audio>\n')
+
+    def sync(tmp: Path, index: Path) -> tuple[int, str]:
+        return run([str(SCRIPTS / "check_sync.py"), "--manifest", str(tmp / "audio" / "manifest.json"),
+                    "--index", str(index)])
+
+    # per-line layout cũ (video/ đầy đủ, 414 clip) vẫn phải pass
+    code, out = run([str(SCRIPTS / "check_sync.py"), "--manifest", str(PROJ / "audio" / "manifest.json"),
+                     "--index", str(PROJ / "video" / "index.html")])
+    ok("layout clip-riêng cũ (414 clip) vẫn pass", code == 0, out[-300:])
+
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        d.mkdir()
+        write_min_project(d)
+        out_dir = Path(td) / "video_demo"
+        code, out = run([str(SCRIPTS / "build_video.py"), "--project", str(d), "--scenes", "S01", "--out", str(out_dir)])
+        ok("dựng S01 (không voice) được", code == 0, out[-300:])
+        idx = out_dir / "index.html"
+        code, out = sync(d, idx)
+        ok("không voice + không clip -> FAIL, chỉ đòi 13 clip S01 (đã scope, không đòi 414)",
+           code == 1 and "thiếu 13 audio clip" in out and "cắt mất lời" not in out, out[-300:])
+
+        # thêm track giọng đúng -> pass
+        html = idx.read_text(encoding="utf-8")
+        (out_dir / "assets" / "audio").mkdir(parents=True, exist_ok=True)
+        silent_wav(out_dir / "assets" / "audio" / "voiceover.wav", 46.323)
+        idx.write_text(html.replace("    </div>\n    <script>", voice_tag("46.323") + "    </div>\n    <script>", 1),
+                       encoding="utf-8")
+        code, out = sync(d, idx)
+        ok("track giọng duy nhất đúng duration + file wav khớp -> pass", code == 0, out[-300:])
+
+        # duration lệch -> fail
+        idx.write_text(html.replace("    </div>\n    <script>", voice_tag("40.000") + "    </div>\n    <script>", 1),
+                       encoding="utf-8")
+        code, out = sync(d, idx)
+        ok("track giọng lệch duration -> FAIL", code == 1 and "track giọng" in out, out[-300:])
+
+        # src không tồn tại -> fail
+        idx.write_text(html.replace("    </div>\n    <script>",
+                                    voice_tag("46.323", "assets/audio/khong-co.wav") + "    </div>\n    <script>", 1),
+                       encoding="utf-8")
+        code, out = sync(d, idx)
+        ok("track giọng trỏ file không tồn tại -> FAIL", code == 1 and "không tồn tại" in out, out[-300:])
+
+
 def main() -> int:
     test_timing_lib()
     test_check_shots()
@@ -238,6 +338,7 @@ def main() -> int:
     test_hand_over()
     test_schemas()
     test_check_audio()
+    test_check_sync()
     print(f"\n{'TẤT CẢ QUA' if not FAILS else f'THẤT BẠI {len(FAILS)}: ' + '; '.join(FAILS)}")
     return 0 if not FAILS else 1
 

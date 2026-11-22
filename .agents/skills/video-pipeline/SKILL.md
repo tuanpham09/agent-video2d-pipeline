@@ -44,7 +44,7 @@ Mặc định nếu người dùng không nói:
 - Format: `9:16` (1080×1920) cho TikTok/Shorts; `16:9` (1920×1080) cho video dài YouTube.
 - Thời lượng: short 35–60 s; long-form 8–15 phút.
 - Giọng: nam `Hải Đăng` (mặc định) hoặc nữ `Đoan Trang`; đa nhân vật thì mỗi nhân vật một giọng.
-- Tốc độ đọc: `--speed 1.25` (mặc định của `build_voiceover.py`, dải 1.2–1.3).
+- Tốc độ đọc: `--speed 1.25` (mặc định chung của `build_voiceover.py`, dải 1.2–1.3); tốc độ riêng từng nhân vật khai `speed` trong `script.json` (giọng kể Đức Trí 1.3, nhân vật miền Bắc 1.2, miền Nam 1.0 — luật Tuấn 23/11).
 - Thể loại **truyện ma / kinh dị**: `Đức Trí` @1.3 (**luôn dùng**), `Thiền Tâm Đức`
   (phương án phụ), `Thiện Minh` (hook), nhân vật `Xuân Vĩnh` — chi tiết + cảnh báo trùng quãng:
   `/script-rewrite` → `references/casting-genres.md`.
@@ -133,8 +133,13 @@ npx hyperframes lint
 npx hyperframes check --json
 python ../../../.agents/skills/video-pipeline/scripts/check_sync.py --project ../
 npx hyperframes preview --background
-npx hyperframes render --quality delivery -o ../output/final.mp4
+# render nháp (draft, nhanh) để xem chuyển động — lặp bao nhiêu lần cũng được:
+python ../../../.agents/skills/video-pipeline/scripts/render.py --project ../
+# chỉ khi đã chốt preview mới render delivery, 1 lần cuối:
+python ../../../.agents/skills/video-pipeline/scripts/render.py --project ../ --delivery
 ```
+
+**Quy tắc render:** bản nháp luôn dùng `--quality draft` + 15 fps (mặc định của `render.py`, ra `output/draft-<thời gian>.mp4`); `--quality delivery` (ra `output/final.mp4`) chỉ 1 lần cuối sau khi chốt preview. Không render delivery cho bản xem thử — tốn thời gian mà không xem được gì hơn.
 
 QC bắt buộc: duration video = `manifest.duration` ±0.1 s; không có clip vượt `data-duration`; ảnh snapshot từng scene đã xem; tiếng Việt không lỗi dấu; caption không đè UI.
 

@@ -72,6 +72,12 @@
             "type": "number",
             "minimum": 0,
             "maximum": 2
+          },
+          "speed": {
+            "type": "number",
+            "minimum": 1.0,
+            "maximum": 2.0,
+            "description": "tốc độ đọc riêng của nhân vật (atempo); thắng --speed chung của build_voiceover.py"
           }
         }
       }
@@ -129,6 +135,12 @@
                 "pause_after": {
                   "type": "number",
                   "minimum": 0
+                },
+                "speed": {
+                  "type": "number",
+                  "minimum": 1.0,
+                  "maximum": 2.0,
+                  "description": "tốc độ đọc riêng của line; thắng speed của nhân vật"
                 }
               }
             }

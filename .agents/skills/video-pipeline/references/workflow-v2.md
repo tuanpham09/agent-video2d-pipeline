@@ -84,7 +84,7 @@ Bạn nhập ý tưởng sơ qua → agent xác nhận → chốt thể loại/n
 - [ ] Nhân vật: tên, tuổi, nghề, quan hệ, tính cách, ngoại hình/trang phục, **giọng VieNeu** (khác nhau cho các vai cùng cảnh; theo `/script-rewrite` → `casting-genres.md`).
 - [ ] Bối cảnh: địa điểm chính (tối đa 3–4 cho bản đầu), thời điểm, đạo cụ trung tâm và các trạng thái của chúng.
 - [ ] Bảng cảm xúc (`emotion_vocab`) và phong cách hình (nét vẽ, bảng màu, ánh sáng chủ đạo).
-- [ ] Tốc độ đọc: `--speed 1.3` (ghi vào `concept.md`).
+- [ ] Tốc độ đọc: mặc định `--speed 1.3`; tốc độ riêng từng nhân vật khai `speed` trong `script.json` (giọng kể Đức Trí 1.3, nhân vật miền Bắc 1.2, miền Nam 1.0 — luật Tuấn 23/11; ghi vào `concept.md`).
 - [ ] Bạn xác nhận / sửa. Bản bible này là gốc cho C1 của demo, không làm lại từ đầu.
 
 ### I3. Đề cương (`script/outline.md`) 👤
@@ -268,6 +268,7 @@ cd projects/<slug>/video && npx hyperframes lint && npx hyperframes check --json
 - [ ] Mỗi câu thoại ngắn: tua khung hình, có chuyển động/biểu cảm riêng tại câu đó.
 - [ ] Tiếng Việt không lỗi dấu, caption không đè nhân vật.
 - [ ] Ghi vào `PROJECT.md`: ngày, kết quả các lệnh gate, đường dẫn demo, thời lượng thật.
+- [ ] Render demo bằng `render.py` (mặc định `--quality draft`, nhanh) để người dùng duyệt chuyển động; **không** render delivery cho bản xem thử — delivery chỉ 1 lần cuối ở giai đoạn D.
 
 ### 👤 Cổng duyệt demo
 Người dùng duyệt từng mục: ① nhân vật (pose sheet + trong demo) ② diễn xuất ③ SFX & mix ④ bối cảnh/đạo cụ ⑤ nhịp shot ⑥ giọng. Mục chưa đạt → sửa **bible/rig/recipe** rồi dựng lại demo, không vá riêng trong HTML.
@@ -284,7 +285,7 @@ Chỉ bắt đầu khi 👤 duyệt demo.
 - [ ] Bản full dùng chính generator và rig đã dùng ở demo (không viết generator mới cho từng scene).
 - [ ] Hòa âm full: dùng lại thông số đã khóa; stinger dành cho các điểm ngoặt thật.
 - [ ] QC cuối: các lệnh gate ở C6 (không `--scenes`; chế độ C bỏ `originality_check.py` và dùng quyết định I4), duration video = `manifest.duration` ± 0,1 s, xem snapshot mọi shot đầu/cuối scene, nghe lại các cảnh cao trào.
-- [ ] Render (`--quality delivery`); đặt biến thư mục tạm theo hệ điều hành đang dùng.
+- [ ] Render nháp (`render.py`, mặc định `--quality draft` + 15 fps) để xem chuyển động, lặp bao nhiêu lần cũng được; **chỉ render `--quality delivery` 1 lần cuối** sau khi đã chốt preview; đặt biến thư mục tạm theo hệ điều hành đang dùng.
 - [ ] Ghi vào `PROJECT.md`: kết quả lệnh, đường dẫn `output/final.mp4`.
 
 ## 8. Giai đoạn E — Đóng gói

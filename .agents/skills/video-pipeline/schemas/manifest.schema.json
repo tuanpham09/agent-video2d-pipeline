@@ -98,6 +98,12 @@
                   "type": "number",
                   "minimum": 0
                 },
+                "speed": {
+                  "type": "number",
+                  "minimum": 1.0,
+                  "maximum": 2.0,
+                  "description": "tốc độ đọc thật của line (atempo); tốc độ chung ở gốc manifest, tốc độ riêng từng nhân vật khai trong script.json"
+                },
                 "words": {
                   "type": "array",
                   "items": {
