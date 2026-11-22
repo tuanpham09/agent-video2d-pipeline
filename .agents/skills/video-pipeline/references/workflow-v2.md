@@ -263,12 +263,13 @@ python .agents/skills/video-pipeline/scripts/check_sync.py  --project projects/<
 cd projects/<slug>/video && npx hyperframes lint && npx hyperframes check --json
 ```
 - [ ] Mọi lệnh áp dụng cho chế độ của dự án đều pass (A/B: cả năm lệnh; C: bốn lệnh còn lại). `check_shots` bỏ qua cảnh ngoài lát cắt nhờ `--scenes` (id scene sai/không có trong manifest → lỗi, không được "OK rỗng").
+- [ ] Gộp 4 gate chế độ C thành 1 lệnh (chạy song song, Opt round 2): `python .agents/skills/video-pipeline/scripts/gates.py --project projects/<slug> [--phase demo] [--scenes S01]` — kết quả gộp, mã thoát 1 nếu gate nào fail. Chế độ A/B chạy thêm `originality_check.py` riêng.
 - [ ] Xem snapshot **từng shot** (không chỉ từng scene): nhân vật cùng màu/tỉ lệ/trang phục; đạo cụ đúng trạng thái; bối cảnh không đổi vô cớ.
 - [ ] Nghe riêng 3 lớp: chỉ giọng; giọng + BGM; mix đủ. Không SFX nào che lời.
 - [ ] Mỗi câu thoại ngắn: tua khung hình, có chuyển động/biểu cảm riêng tại câu đó.
 - [ ] Tiếng Việt không lỗi dấu, caption không đè nhân vật.
 - [ ] Ghi vào `PROJECT.md`: ngày, kết quả các lệnh gate, đường dẫn demo, thời lượng thật.
-- [ ] Render demo bằng `render.py` (mặc định `--quality draft`, nhanh) để người dùng duyệt chuyển động; **không** render delivery cho bản xem thử — delivery chỉ 1 lần cuối ở giai đoạn D.
+- [ ] Render demo bằng `render.py` (mặc định `--quality draft`, nhanh) để người dùng duyệt chuyển động; **không** render delivery cho bản xem thử — delivery chỉ 1 lần cuối ở giai đoạn D. Chỉ sửa 1 shot thì render riêng shot đó: `render.py --project projects/<slug> --shots SH002` (xem chuyển động, không kèm track giọng).
 
 ### 👤 Cổng duyệt demo
 Người dùng duyệt từng mục: ① nhân vật (pose sheet + trong demo) ② diễn xuất ③ SFX & mix ④ bối cảnh/đạo cụ ⑤ nhịp shot ⑥ giọng. Mục chưa đạt → sửa **bible/rig/recipe** rồi dựng lại demo, không vá riêng trong HTML.
@@ -280,12 +281,14 @@ Chỉ bắt đầu khi 👤 duyệt demo.
 
 - [ ] Mở rộng `script.json`, bible (nhân vật/địa điểm/đạo cụ mới nếu có, kèm pose sheet) — nhân vật đã khóa không đổi. Mục mới cũng **tra library trước** (R2.1); sửa asset dùng chung tại `library/`, không vá bản trong project (R2.3).
 - [ ] Voice full (cache theo câu) → `check_sync.py`.
+- [ ] **Khóa timing đã duyệt (Opt round 2):** khi giọng đã duyệt, chạy `python .agents/skills/voice-sync/scripts/freeze_manifest.py --project projects/<slug>` để ghi `audio/timing.md` (thời lượng từng line + SHA của `script.json`), rồi commit `audio/manifest.json` + `audio/timing.md`. VieNeu đọc lại lệch ±0,1s/line nên **chỉ rebuild giọng khi đổi chữ** — rebuild vô cớ làm timing trôi; chạy lại `freeze_manifest.py` sẽ cảnh báo nếu script đã đổi so với bản khóa.
 - [ ] Shotlist **theo scene**, sau mỗi scene chạy `check_shots.py --scenes Sxx` rồi mới sang scene kế. Dùng `--project` không kèm `--scenes` ở cuối để kiểm toàn bộ.
 - [ ] Mỗi scene: render snapshot, 1 lần xem nhanh trước khi gộp. Cứ 5 scene kiểm một lượt **liên tục** (trạng thái đạo cụ, trang phục, ánh sáng, vị trí nhân vật khi cắt giữa các scene).
 - [ ] Bản full dùng chính generator và rig đã dùng ở demo (không viết generator mới cho từng scene).
 - [ ] Hòa âm full: dùng lại thông số đã khóa; stinger dành cho các điểm ngoặt thật.
 - [ ] QC cuối: các lệnh gate ở C6 (không `--scenes`; chế độ C bỏ `originality_check.py` và dùng quyết định I4), duration video = `manifest.duration` ± 0,1 s, xem snapshot mọi shot đầu/cuối scene, nghe lại các cảnh cao trào.
 - [ ] Render nháp (`render.py`, mặc định `--quality draft` + 15 fps) để xem chuyển động, lặp bao nhiêu lần cũng được; **chỉ render `--quality delivery` 1 lần cuối** sau khi đã chốt preview; đặt biến thư mục tạm theo hệ điều hành đang dùng.
+- [ ] **Trên máy ảo Muse (Linux) — đầu mỗi phiên:** `source ~/workspace/vm-env.sh` (đặt `TMPDIR=$HOME/workspace/tmp`, `chmod go-w ~` vì VM restart làm `~` bị group-writable lại khiến HyperFrames từ chối Chrome cache; venv test bền vững ở `~/workspace/.venv-test`, không để trong `/tmp` vì restart sẽ dọn sạch). Không ghi cứng đường dẫn Linux vào code repo — repo phải chạy được trên máy Windows của người dùng.
 - [ ] Ghi vào `PROJECT.md`: kết quả lệnh, đường dẫn `output/final.mp4`.
 
 ## 8. Giai đoạn E — Đóng gói

@@ -127,6 +127,12 @@ Khi làm video hoạt hình hoặc kể chuyện (truyện ma, explainer, drama)
 
 ## Bước 5 — Kiểm và render
 
+Gộp 4 gate chế độ C thành 1 lệnh (chạy song song, `gates.py`): rules + shots + sync + hyperframes lint/check — kết quả gộp, mã thoát 1 nếu gate nào fail. Chế độ A/B chạy thêm `originality_check.py` riêng.
+
+```bash
+python ../../../.agents/skills/video-pipeline/scripts/gates.py --project ../ [--phase demo] [--scenes S01]
+```
+
 ```bash
 cd projects/<slug>/video
 npx hyperframes lint
@@ -135,11 +141,15 @@ python ../../../.agents/skills/video-pipeline/scripts/check_sync.py --project ..
 npx hyperframes preview --background
 # render nháp (draft, nhanh) để xem chuyển động — lặp bao nhiêu lần cũng được:
 python ../../../.agents/skills/video-pipeline/scripts/render.py --project ../
+# chỉ sửa 1 shot thì render riêng shot đó (nhanh hơn render cả video, không kèm track giọng):
+python ../../../.agents/skills/video-pipeline/scripts/render.py --project ../ --shots SH002
 # chỉ khi đã chốt preview mới render delivery, 1 lần cuối:
 python ../../../.agents/skills/video-pipeline/scripts/render.py --project ../ --delivery
 ```
 
 **Quy tắc render:** bản nháp luôn dùng `--quality draft` + 15 fps (mặc định của `render.py`, ra `output/draft-<thời gian>.mp4`); `--quality delivery` (ra `output/final.mp4`) chỉ 1 lần cuối sau khi chốt preview. Không render delivery cho bản xem thử — tốn thời gian mà không xem được gì hơn.
+
+**Khóa timing giọng đã duyệt:** sau khi duyệt giọng, chạy `python ../../../.agents/skills/voice-sync/scripts/freeze_manifest.py --project ../` để ghi `audio/timing.md` rồi commit cùng `audio/manifest.json`. Chỉ rebuild giọng khi đổi chữ — VieNeu đọc lại lệch ±0,1s/line nên rebuild vô cớ làm timing trôi.
 
 QC bắt buộc: duration video = `manifest.duration` ±0.1 s; không có clip vượt `data-duration`; ảnh snapshot từng scene đã xem; tiếng Việt không lỗi dấu; caption không đè UI.
 

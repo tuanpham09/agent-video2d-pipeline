@@ -8,6 +8,8 @@
     layout clip-riêng từng line vẫn kiểm nghiêm; dựng từng phần chỉ kiểm line được phủ
   - build_video: beat move/look/react sinh tween đúng; người nghe tự gật không trùng gật tường minh
   - check_audio: bắt đúng clip, câm, sai thời lượng, chồng lấn; câu đạt không báo lỗi
+  - freeze_manifest (Opt round 2): khóa timing đã duyệt vào audio/timing.md; script đổi -> cảnh báo exit 2, --force mới khóa lại
+  - render.py --shots (Opt round 2): shot không có composition / xung đột --delivery -> exit 1 (không cần Chrome)
 
 Chạy:  python .agents/skills/video-pipeline/scripts/tests/test_roadmap_v3.py
 Mã thoát 0 = tất cả qua. Không ghi vào project thật (dùng thư mục tạm).
@@ -331,6 +333,48 @@ def test_check_sync() -> None:
         ok("track giọng trỏ file không tồn tại -> FAIL", code == 1 and "không tồn tại" in out, out[-300:])
 
 
+def test_freeze_manifest() -> None:
+    print("freeze_manifest (khóa timing + cảnh báo khi script đổi)")
+    fm = str(REPO / ".agents" / "skills" / "voice-sync" / "scripts" / "freeze_manifest.py")
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        (d / "audio").mkdir(parents=True)
+        (d / "script").mkdir(parents=True)
+        manifest = {"duration": 10.0,
+                    "characters": {"host": {"voice": "Đức Trí", "speed": 1.3}},
+                    "scenes": [{"id": "S01", "lines": [
+                        {"id": "S01_L01", "speaker": "host", "text": "Xin chào.",
+                         "start": 0.0, "duration": 1.5, "speed": 1.3}]}]}
+        (d / "audio" / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False), encoding="utf-8")
+        script = {"characters": [], "scenes": [{"id": "S01", "lines": [{"id": "S01_L01", "text": "Xin chào."}]}]}
+        sp = d / "script" / "script.json"
+        sp.write_text(json.dumps(script, ensure_ascii=False), encoding="utf-8")
+        code, out = run([fm, "--project", str(d)])
+        tm = d / "audio" / "timing.md"
+        ok("khóa lần đầu -> exit 0 + timing.md có SHA",
+           code == 0 and tm.is_file() and "Script SHA:" in tm.read_text(encoding="utf-8"), out[-200:])
+        code, out = run([fm, "--project", str(d)])
+        ok("chạy lại khi script không đổi -> exit 0", code == 0, out[-200:])
+        script["scenes"][0]["lines"][0]["text"] = "Xin chào nhé."
+        sp.write_text(json.dumps(script, ensure_ascii=False), encoding="utf-8")
+        code, out = run([fm, "--project", str(d)])
+        ok("script đổi -> exit 2 + cảnh báo", code == 2 and "CẢNH BÁO" in out, out[-200:])
+        code, out = run([fm, "--project", str(d), "--force"])
+        ok("--force khóa lại -> exit 0", code == 0, out[-200:])
+
+
+def test_render_shots() -> None:
+    print("render.py --shots (chỉ render shot riêng, không cần Chrome)")
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        (d / "video" / "compositions").mkdir(parents=True)
+        (d / "video" / "compositions" / "SH001.html").write_text("<template></template>", encoding="utf-8")
+        code, out = run([str(SCRIPTS / "render.py"), "--project", str(d), "--shots", "SH999"])
+        ok("shot không có composition -> exit 1", code == 1 and "không có composition" in out, out[-200:])
+        code, out = run([str(SCRIPTS / "render.py"), "--project", str(d), "--shots", "SH001", "--delivery"])
+        ok("--shots + --delivery xung đột -> exit 1", code == 1 and "xung đột" in out, out[-200:])
+
+
 def main() -> int:
     test_timing_lib()
     test_check_shots()
@@ -339,6 +383,8 @@ def main() -> int:
     test_schemas()
     test_check_audio()
     test_check_sync()
+    test_freeze_manifest()
+    test_render_shots()
     print(f"\n{'TẤT CẢ QUA' if not FAILS else f'THẤT BẠI {len(FAILS)}: ' + '; '.join(FAILS)}")
     return 0 if not FAILS else 1
 
