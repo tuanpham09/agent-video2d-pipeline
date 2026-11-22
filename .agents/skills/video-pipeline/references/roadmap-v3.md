@@ -1,6 +1,16 @@
 # Roadmap v3 — nhân vật tương tác, giọng VieNeu chính xác, quy trình đồng bộ, release bộ skill
 
-Trạng thái: **ĐỀ XUẤT, chờ người dùng duyệt** (2026-11-22). Luật mới (R10–R12) chỉ có hiệu lực khi người dùng duyệt và dán vào `RULES.md` (R0.3).
+Trạng thái (2026-11-22): **RULES.md đã lên v2** (R10–R12) theo chỉ thị trực tiếp của người dùng (ghi ở Ngoại lệ PROJECT.md).
+
+| Mốc | Trạng thái | Ghi chú |
+| --- | --- | --- |
+| P0 | Một phần | RULES v2 xong. **JSON Schema chưa làm.** |
+| P1 | Một phần | `timing_lib.py` (mốc theo từ, dùng `words` thật khi có) + beat neo theo từ + `check_audio.py` xong. **Chưa:** mốc từ thật từ ASR, khẩu hình theo biên độ, chồng lời, từ điển phát âm, whisper. |
+| P2 | Một phần | `move` (đi trượt + bob), `look`, `react` (nod/flinch), người nghe tự quay mắt và gật ở dấu câu, gate E7/E8, sửa SH008/SH012. **Chưa:** pose `walk`/`turn` trong rig (cần pose sheet duyệt), đối mặt 3/4. |
+| P3 | Chưa làm | Chưa có CLI `vp`, khoá phase, scaffolder. |
+| P4 | Chưa làm | Chưa tách skill có phiên bản, lint_skills, CI release. Đã có `tests/test_roadmap_v3.py` (25 kiểm thử). |
+
+Luật mới chưa có hiệu lực tự động đầy đủ: R10.2/R10.1/R10.3 vẫn do agent tự giữ kỷ luật, máy chỉ bắt được một phần.
 
 ## 0. Hiện trạng đo được (không phải ước đoán)
 

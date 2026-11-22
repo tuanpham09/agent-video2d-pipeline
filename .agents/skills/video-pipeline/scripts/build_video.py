@@ -34,7 +34,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[3]
 sys.path.insert(0, str(HERE))
-import library as L  # noqa: E402
+import library as L
+from timing_lib import beat_time, sentence_ends  # noqa: E402
 
 W, H = 1920, 1080
 ZOOM = {"wide": 1.0, "medium": 1.6, "close": 2.4, "macro": 3.2, "ots": 1.8}
@@ -245,6 +246,43 @@ def js(v) -> str:
     return json.dumps(v, ensure_ascii=False)
 
 
+class PosTrack:
+    """Tâm x (toạ độ cảnh) của một nhân vật theo thời gian trong shot — để quay mắt đúng khi đang đi."""
+
+    def __init__(self, x0: float):
+        self.x0, self.segs = x0, []  # segs: (t0, dur, xa, xb)
+
+    def x_at(self, t: float) -> float:
+        x = self.x0
+        for t0, d, xa, xb in self.segs:
+            if t >= t0 + d:
+                x = xb
+            elif t >= t0:
+                x = xa + (xb - xa) * (t - t0) / d
+                break
+            else:
+                break
+        return x
+
+    def end_x(self) -> float:
+        return self.segs[-1][3] if self.segs else self.x0
+
+
+def gaze_toward(from_x: float, to_x: float) -> str:
+    if abs(to_x - from_x) < 1:
+        return "center"
+    return "left" if to_x < from_x else "right"
+
+
+def nod_js(sel: str, t: float) -> str:
+    # gật: cả thân rig xuống 2.5 px rồi về chỗ cũ (yoyo 2 nhịp = kết thúc đúng vị trí ban đầu)
+    return f'tl.to("{sel}", {{attr: {{y: "+=2.5"}}, duration: 0.14, repeat: 1, yoyo: true, ease: "sine.inOut"}}, {t:.2f});'
+
+
+def flinch_js(sel: str, t: float) -> str:
+    return f'tl.to("{sel}", {{attr: {{x: "-=6"}}, duration: 0.08, repeat: 1, yoyo: true, ease: "power2.out"}}, {t:.2f});'
+
+
 def build_shot_js(st: Stage, dur: float, abs0: float, ctx: Ctx) -> str:
     sid, out = st.sid, []
     v0, v1 = st.camera()
@@ -282,9 +320,57 @@ def build_shot_js(st: Stage, dur: float, abs0: float, ctx: Ctx) -> str:
             n = max(1, int(dur // 0.4))
             out.append(f'tl.fromTo("#{pid} .flame", {{scaleY: 1, scaleX: 1, transformOrigin: "50% 100%"}}, '
                        f'{{scaleY: 1.08, scaleX: 0.95, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: {n - 1}}}, {r.uniform(0, 0.3):.2f});')
+
+    # --- beat đã quy ra giây trong shot (theo từ nếu có word)
+    beats = []
     for b in st.shot.get("beats", []):
+        beats.append((beat_time(b, ctx.lines, abs0), b))
+    beats.sort(key=lambda x: x[0])
+
+    # --- quỹ đạo vị trí: di chuyển khai bằng beat `move` (tuần tự theo thời gian)
+    tracks = {cid: PosTrack(c["x"]) for cid, c in st.chars.items()}
+    for t, b in beats:
+        mv = b.get("move")
+        if not mv:
+            continue
+        cid = mv["char"]
+        if cid not in st.chars:
+            raise ValueError(f"{sid}: move cho '{cid}' không có trong shot")
+        tgt = st.loc["stand"].get(mv["to"])
+        if not tgt:
+            raise ValueError(f"{sid}: move.to '{mv['to']}' không phải anchor stand (L/C/R)")
+        d = float(mv.get("dur", 1.2))
+        tr = tracks[cid]
+        xa = tr.end_x()
+        tr.segs.append((t, d, xa, tgt["x"]))
+
+    # --- người nghe & người nói tự động: quay mắt theo vị trí tại thời điểm line bắt đầu; người nghe gật ở dấu câu
+    explicit_react: dict[str, list[float]] = {}
+    for t_b, b in beats:
+        if isinstance(b.get("react"), dict):
+            explicit_react.setdefault(b["react"]["char"], []).append(t_b)
+    auto = []
+    for ln in (ctx.lines[i] for i in st.shot["line_ids"]):
+        spk = ln["speaker"]
+        t_line = max(0.0, ln["start"] - abs0)
+        if spk not in st.chars:
+            continue
+        listeners = [k for k in st.chars if k != spk]
+        for lk in listeners:
+            auto.append((t_line, f'tl.set("#{st.chars[lk]["id"]}", {{attr: {{"data-gaze": {js(gaze_toward(tracks[lk].x_at(t_line), tracks[spk].x_at(t_line)))}}}}}, {t_line:.2f});'))
+            for te in sentence_ends(ln["text"], ln["start"], ln["duration"], ln.get("words")):
+                tt = te - abs0
+                # bỏ gật tự động nếu đã có gật tường minh gần đó (tránh hai tween cùng lệch = gật đôi)
+                if 0 <= tt < dur and not any(abs(tt - x) < 0.3 for x in explicit_react.get(lk, [])):
+                    auto.append((tt, nod_js(f"#{st.chars[lk]['id']}", tt)))
+        if listeners:
+            lk0 = listeners[0]
+            auto.append((t_line, f'tl.set("#{st.chars[spk]["id"]}", {{attr: {{"data-gaze": {js(gaze_toward(tracks[spk].x_at(t_line), tracks[lk0].x_at(t_line)))}}}}}, {t_line:.2f});'))
+    out.extend(s for _, s in sorted(auto, key=lambda x: x[0]))
+
+    # --- trạng thái đạo cụ/ánh sáng/nhân vật theo beat, di chuyển, nhìn, phản ứng
+    for t, b in beats:
         for target, val in (b.get("set") or {}).items():
-            t = float(b["t"])
             if target == "light":
                 out.append(f'tl.set("#{st.light_id}", {{attr: {{"data-light": {js(val)}}}}}, {t:.2f});')
             elif target.startswith("prop:"):
@@ -294,6 +380,32 @@ def build_shot_js(st: Stage, dur: float, abs0: float, ctx: Ctx) -> str:
                 out.append(f'tl.set("#{st.chars[target]["id"]}", {{attr: {js(attrs)}}}, {t:.2f});')
             else:
                 raise ValueError(f"{sid}: beat.set có khoá lạ '{target}'")
+        if b.get("move"):
+            mv = b["move"]
+            cid = mv["char"]
+            c = st.chars[cid]
+            d = float(mv.get("dur", 1.2))
+            tgt = st.loc["stand"][mv["to"]]
+            x_new = tgt["x"] - 260 * c["s"]
+            k = max(1, round(d / 0.5))
+            out.append(f'tl.set("#{c["id"]}", {{attr: {{"data-gaze": {js(gaze_toward(tracks[cid].x_at(t), tgt["x"]))}}}}}, {t:.2f});')
+            out.append(f'tl.to("#{c["id"]}", {{attr: {{x: {x_new:.1f}}}, duration: {d:.2f}, ease: "power1.inOut"}}, {t:.2f});')
+            # bước nhẹ: bob 3 px, 2k nhịp đều (kết thúc đúng cao độ ban đầu)
+            out.append(f'tl.to("#{c["id"]}", {{attr: {{y: "-=3"}}, duration: {d / (2 * k):.3f}, repeat: {2 * k - 1}, yoyo: true, ease: "sine.inOut"}}, {t:.2f});')
+            c["x"] = tgt["x"]  # bản ghi tĩnh dùng cho các bước sau (tracks giữ quỹ đạo chính xác)
+        if b.get("look"):
+            lk = b["look"]
+            out.append(f'tl.set("#{st.chars[lk["char"]]["id"]}", {{attr: {{"data-gaze": {js(gaze_toward(tracks[lk["char"]].x_at(t), tracks[lk["target"]].x_at(t)))}}}}}, {t:.2f});')
+        if b.get("react"):
+            rc = b["react"]
+            sel = f"#{st.chars[rc['char']]['id']}"
+            preset = rc.get("preset", "nod")
+            if preset == "nod":
+                out.append(nod_js(sel, t))
+            elif preset == "flinch":
+                out.append(flinch_js(sel, t))
+            else:
+                raise ValueError(f"{sid}: react.preset '{preset}' không hỗ trợ (nod|flinch)")
     return "\n    ".join(out)
 
 

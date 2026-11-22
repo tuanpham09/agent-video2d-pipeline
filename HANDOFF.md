@@ -9,6 +9,15 @@ Cách làm việc: "làm video <URL>" / "clone video <URL>" → QA → viết l�
 Yêu cầu mới nhất: **rig, đạo cụ, bối cảnh phải dùng lại được cho project sau; bắt agent tuân theo luật chung ở cấp cao nhất** → `RULES.md` + `library/`.
 Người dùng muốn: làm đến đâu commit đến đó, kèm handoff (file này).
 
+## Lượt 2026-11-22 (plan v3, M1–M3 một phần)
+- RULES.md v2: R10 (tay nghề), R11 (tương tác), R12 (giọng). Ngoại lệ ghi ở PROJECT.md của cả hai project. Tem `Luật áp dụng: RULES.md v2` đã cập nhật.
+- Generator: `timing_lib.py` (mốc từ, beat `word`), `build_video.py` (move/look/react, người nghe tự quay mắt và gật), `check_shots.py` (E7, E8).
+- `voice-sync/scripts/check_audio.py` (gate giọng, đã test với wav giả).
+- S01: SH008 và SH012 thêm beat tường minh. Gate S01 OK. hyperframes check ok. Snapshot đã xem: `projects/than-trung-chiec-khan-tang-thu-32/review/`.
+- Test: `python .agents/skills/video-pipeline/scripts/tests/test_roadmap_v3.py` → 25/25.
+- **Việc của người dùng**: chạy `build_voiceover.py` trên máy có VieNeu (cần `audio/lines/*.wav`, `voiceover.wav`, `manifest.json`), rồi `check_audio.py`. Sau đó báo lại để mình chỉnh beat theo giọng thật.
+- **Còn lại theo thứ tự**: rig pose walk/turn (cần pose sheet duyệt); schema; CLI `vp`; khẩu hình theo biên độ; mốc từ ASR (chỉ khi cần); release skill.
+
 ## Plan v3 (đề xuất, chờ duyệt): `references/roadmap-v3.md` — nhân vật tương tác, giọng VieNeu chính xác (mốc từ), `vp` CLI đồng bộ agent, release skill. Phát hiện: shot đã theo độ dài audio nhưng chỉ 1 nhân vật diễn/shot, không có di chuyển.
 
 ## Yêu cầu mới (2026-11-22): agent khác phải làm đẹp như mẫu

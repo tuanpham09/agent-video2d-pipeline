@@ -16,6 +16,9 @@ Kiểm:
   E5  location / nhân vật / đạo cụ / trạng thái đạo cụ / cảm xúc / ánh sáng phải có trong bible
   E6  beat physical=true phải có SFX cue trong ±0.15 s; file SFX phải tồn tại
       (`synth:<tên>` = file đã render ở audio/sfx/<tên>.wav); t của beat/SFX tính từ đầu shot, phải nằm trong shot
+  E7  shot có ≥2 nhân vật: MỖI nhân vật có ≥1 hành vi tường minh (beat set/move/look/react) — người nói cũng vậy.
+      Người nghe/người nói tự động (quay mắt, gật) do generator thêm, không thay được beat tường minh (R11.1).
+  E8  beat theo từ (`word`) phải trỏ tới từ có thật trong line; `move.to` phải là anchor L/C/R; react.preset ∈ {nod, flinch}.
   Line dài tách nhiều shot: mỗi shot khai `span: [từ, đến]` (giây, tính từ đầu line đầu tiên của shot).
   W   cỡ cảnh lặp, đạo cụ lùi trạng thái, shot quá ngắn, nhịp shot trung bình chậm
 
@@ -30,6 +33,9 @@ import argparse
 import json
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from timing_lib import beat_time  # noqa: E402
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -216,7 +222,19 @@ def main() -> int:
             has_do = bool(str(b.get("do", "")).strip())
             if not has_do:
                 errors.append(f"{sid}: beat của {b.get('line_id')} thiếu mô tả hành động `do`")
-            t = float(b.get("t", 0.0))
+            try:
+                t = beat_time(b, lines, abs0)
+            except (ValueError, KeyError) as exc:
+                errors.append(f"{sid}: beat không hợp lệ — {exc}")
+                continue
+            if "word" in b:
+                ln_w = lines.get(b.get("line_id"))
+                if ln_w is not None and not (0 <= int(b["word"]) < len(str(ln_w["text"]).split())):
+                    errors.append(f"{sid}: beat word={b['word']} ngoài số từ của {b.get('line_id')}")
+            if isinstance(b.get("react"), dict) and b["react"].get("preset", "nod") not in ("nod", "flinch"):
+                errors.append(f"{sid}: react.preset '{b['react'].get('preset')}' không hỗ trợ (nod|flinch)")
+            if b.get("move") and not isinstance(b["move"], dict):
+                errors.append(f"{sid}: move phải là object {{char,to,dur}}")
             t_ok = -EPS <= t <= dur + EPS
             if not t_ok:
                 errors.append(f"{sid}: beat t={t} nằm ngoài shot (0–{dur:.2f}s)")
@@ -232,6 +250,18 @@ def main() -> int:
             if b.get("physical"):
                 if not any(abs(float(s.get("t", 0.0)) - t) <= SFX_TOLERANCE for s in sfx):
                     errors.append(f"{sid}: beat vật lý '{b.get('do', '')[:40]}' (t={t}) chưa có SFX trong ±{SFX_TOLERANCE}s")
+        shot_chars = shot.get("characters", []) or []
+        if len(shot_chars) >= 2:
+            explicit = set()
+            for b in beats:
+                explicit |= set((b.get("set") or {}).keys()) & {c.get("id") for c in shot_chars}
+                for k in ("move", "look", "react"):
+                    if isinstance(b.get(k), dict):
+                        explicit.add(b[k].get("char"))
+            for c in shot_chars:
+                if c.get("id") not in explicit:
+                    errors.append(f"{sid}: shot nhiều người nhưng {c.get('id')} không có hành vi tường minh (beat set/move/look/react) — "
+                                  f"thêm beat cho nhân vật này (E7/R11.1)")
         for s in sfx:
             st_ = float(s.get("t", 0.0))
             if not (-EPS <= st_ <= dur + EPS):

@@ -294,12 +294,12 @@
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#SH010-stage", {attr: {viewBox: "580.0 272.5 1200.0 675.0"}}, {attr: {viewBox: "580.0 272.5 1200.0 675.0"}, duration: 1.919, ease: "none"}, 0);
+    tl.fromTo("#SH010-stage", {attr: {viewBox: "580.0 272.5 1200.0 675.0"}}, {attr: {viewBox: "580.0 272.5 1200.0 675.0"}, duration: 2.169, ease: "none"}, 0);
     tl.fromTo("#SH010-host .head", {y: 0}, {y: -2.5, duration: 1.80, ease: "sine.inOut", yoyo: true, repeat: 0}, 0);
     tl.fromTo("#SH010-host .torso", {y: 0}, {y: -1.2, duration: 1.80, ease: "sine.inOut", yoyo: true, repeat: 0}, 0);
     tl.set("#SH010-host", {attr: {"data-blink": 1}}, 0.79); tl.set("#SH010-host", {attr: {"data-blink": 0}}, 0.91);
-    tl.fromTo("#SH010-p2 .flame", {scaleY: 1, scaleX: 1, transformOrigin: "50% 100%"}, {scaleY: 1.08, scaleX: 0.95, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 3}, 0.18);
-    tl.fromTo("#SH010-p3 .flame", {scaleY: 1, scaleX: 1, transformOrigin: "50% 100%"}, {scaleY: 1.08, scaleX: 0.95, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 3}, 0.02);
+    tl.fromTo("#SH010-p2 .flame", {scaleY: 1, scaleX: 1, transformOrigin: "50% 100%"}, {scaleY: 1.08, scaleX: 0.95, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 4}, 0.18);
+    tl.fromTo("#SH010-p3 .flame", {scaleY: 1, scaleX: 1, transformOrigin: "50% 100%"}, {scaleY: 1.08, scaleX: 0.95, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 4}, 0.02);
     tl.set("#SH010-host", {attr: {"data-gaze": "left"}}, 0.30);
     window.__timelines["SH010"] = tl;
   </script>

@@ -399,7 +399,12 @@
     tl.set("#SH008-me", {attr: {"data-blink": 1}}, 1.36); tl.set("#SH008-me", {attr: {"data-blink": 0}}, 1.48);
     tl.fromTo("#SH008-p2 .flame", {scaleY: 1, scaleX: 1, transformOrigin: "50% 100%"}, {scaleY: 1.08, scaleX: 0.95, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 10}, 0.22);
     tl.fromTo("#SH008-p3 .flame", {scaleY: 1, scaleX: 1, transformOrigin: "50% 100%"}, {scaleY: 1.08, scaleX: 0.95, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 10}, 0.19);
+    tl.set("#SH008-me", {attr: {"data-gaze": "left"}}, 0.00);
+    tl.set("#SH008-host", {attr: {"data-gaze": "right"}}, 0.00);
+    tl.to("#SH008-me", {attr: {y: "+=2.5"}, duration: 0.14, repeat: 1, yoyo: true, ease: "sine.inOut"}, 4.38);
+    tl.set("#SH008-host", {attr: {"data-gaze": "right"}}, 2.06);
     tl.set("#SH008-me", {attr: {"data-pose": "reach-l"}}, 2.40);
+    tl.to("#SH008-host", {attr: {y: "+=2.5"}, duration: 0.14, repeat: 1, yoyo: true, ease: "sine.inOut"}, 4.38);
     window.__timelines["SH008"] = tl;
   </script>
 </template>

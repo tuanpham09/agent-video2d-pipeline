@@ -517,6 +517,28 @@
        "pose": "reach-l"
       }
      }
+    },
+    {
+     "line_id": "S01_L07",
+     "word": 9,
+     "do": "chị ngước nhìn mẹ khi nhắc người đã mất",
+     "physical": false,
+     "set": {
+      "host": {
+       "gaze": "right"
+      }
+     }
+    },
+    {
+     "line_id": "S01_L07",
+     "word": 17,
+     "edge": "end",
+     "do": "chị khẽ gật, mắt rơi xuống chiếc khăn",
+     "physical": false,
+     "react": {
+      "char": "host",
+      "preset": "nod"
+     }
     }
    ],
    "sfx": [
@@ -803,6 +825,27 @@
       "host": {
        "pose": "clasp"
       }
+     }
+    },
+    {
+     "line_id": "S01_L10",
+     "word": 4,
+     "do": "ông ngước nhìn cháu khi cháu nói sẽ kể hết",
+     "physical": false,
+     "look": {
+      "char": "ong_cuu",
+      "target": "host"
+     }
+    },
+    {
+     "line_id": "S01_L10",
+     "word": 13,
+     "edge": "end",
+     "do": "ông gật khẽ, chậm rãi",
+     "physical": false,
+     "react": {
+      "char": "ong_cuu",
+      "preset": "nod"
      }
     }
    ],

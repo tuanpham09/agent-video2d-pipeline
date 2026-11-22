@@ -7,6 +7,14 @@ description: Generate character voiceovers from script.json with VieNeu-TTS v3 T
 
 Biến `script/script.json` thành bộ audio đồng bộ trong một lần chạy. Không đọc từng câu bằng tay, không tự đoán `data-start`.
 
+## Kiểm sau khi đọc (R12.3)
+
+```bash
+python .agents/skills/voice-sync/scripts/check_audio.py --project projects/<slug>
+```
+
+Phải OK trước khi dựng video. Kiểm: engine = vieneu-v3-turbo, speed 1.2–1.3, thời lượng wav khớp manifest, không clip/câm/chồng lời, tổng khớp voiceover.
+
 ## Điều kiện
 
 - `vieneu` đã cài: `python -c "import vieneu"` (nếu thiếu: `pip install vieneu` hoặc `pip install "vieneu[cuda]"`).

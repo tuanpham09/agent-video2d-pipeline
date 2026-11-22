@@ -1,6 +1,8 @@
 # RULES — luật chung của repo (cấp cao nhất)
 
-**Phiên bản luật: 1**
+**Phiên bản luật: 2**
+
+> Lịch sử: **v2** (2026-11-22) — thêm R10 (tay nghề), R11 (tương tác nhân vật), R12 (giọng đọc). Nâng phiên bản theo chỉ thị rõ ràng của người dùng trong phiên (R0.2, ghi ở *Ngoại lệ* của `PROJECT.md`). **v1** — R0–R9.
 
 Mọi agent (mọi skill, subagent, phiên làm việc) phải đọc file này **trước khi làm bất cứ việc gì** trong repo.
 Skill, workflow, `PROJECT.md`, ghi chú, memory mà mâu thuẫn với file này thì **file này thắng**.
@@ -92,6 +94,34 @@ Mục tiêu: nhân vật, đạo cụ, bối cảnh làm một lần, dùng cho 
 - **R9.3** Không animate trực tiếp phần tử `class="clip"` (chỉ animate thẻ con). Không gán `transform` cố định trong CSS nếu GSAP cũng điều khiển thuộc tính đó (khởi tạo bằng `gsap.set`). Gán `data-layout-allow-overflow` cho `#root`, các scene và `<svg>`.
 - **R9.4** Thời lượng composition và track audio lấy từ `manifest.json` (R1.2).
 
+
+## R10. Tay nghề (craft) — bắt buộc khi tạo nhân vật, đạo cụ, bối cảnh, dựng video
+
+Chi tiết từng bước, mẫu vàng, checklist mắt, lỗi đã biết: [`.agents/skills/video-pipeline/references/craft-playbook.md`](.agents/skills/video-pipeline/references/craft-playbook.md). Phải đọc playbook trước khi làm bất kỳ việc nào trong mục này.
+
+- **R10.1** Làm theo `craft-playbook.md`; không tự nghĩ ra quy trình vẽ/dựng riêng; không bỏ bước nào.
+- **R10.2** **Nhìn ảnh thật rồi mới báo xong.** Mọi nhân vật/đạo cụ/bối cảnh/shot mới hoặc sửa phải render ra PNG và agent mở ảnh xem ở cỡ dùng thật; lặp ít nhất một vòng sửa nếu thấy lệch. Lệnh check xanh không thay cho việc xem. Không xem được ảnh → dừng và báo người dùng (R0.4), không tuyên bố đạt.
+- **R10.3** Clone mẫu vàng, không vẽ từ trắng: nhân vật theo archetype+outfit hoặc `extends`; đạo cụ/bối cảnh copy asset library gần nhất rồi sửa. Tạo mới phải đạt chuẩn library ngay (R2.4–R2.7).
+- **R10.4** Mỗi nhân vật có `assets/rig/sheets/<id>.png` và được xem/duyệt trước khi dựng shot (R3.7). Đạo cụ mới có trong `library/sheets/` và đã thử ghép vào bối cảnh thật cạnh một nhân vật.
+- **R10.5** Tương thích HyperFrames: CSS asset/rig không dùng combinator `>`; glow bằng `radialGradient`; rig chỉ nhúng dạng `<svg>` lồng (R3.4).
+- **R10.6** Dựng shot chỉ bằng `build_video.py` từ `shotlist.json` (R1.6). Mọi beat nhìn thấy được có `set`/`move`/`look`/`react`; beat vật lý có SFX (R6.1). Thiếu tính năng → mở rộng generator, không vá riêng một video.
+- **R10.7** Báo cáo theo khung playbook §8: có dòng "Ảnh đã XEM: <đường dẫn> — thấy gì, lỗi đã sửa" và "Chưa kiểm". Nhật ký gate trong `PROJECT.md` nêu snapshot/ảnh đã xem khi đã dựng video.
+
+## R11. Tương tác nhân vật — bắt buộc khi có từ hai nhân vật trở lên trong một shot
+
+- **R11.1** Shot có ≥ 2 nhân vật: **mỗi nhân vật** có ít nhất một hành vi tường minh (beat `set`/`move`/`look`/`react`), kể cả người nói. Shot chỉ một người nói còn người kia đứng im là không đạt (gate `check_shots` E7).
+- **R11.2** Người nói hướng về người nghe khi nói; người nghe phản ứng ở điểm ngắt câu (gật). Generator tự thêm các phản ứng này; beat tường minh luôn ghi đè mặc định.
+- **R11.3** Đổi vị trí trong cùng cảnh chỉ bằng `move` (đi có thời gian, không nhảy tức thời). Đổi cảnh/cắt shot là ngoại lệ hợp lệ.
+- **R11.4** Giữ trục hai người: trong cùng cảnh, nhân vật ở bên nào giữ bên đó trừ khi có `move` rõ ràng.
+- **R11.5** Khi đạo cụ chuyển tay, phải có beat hành động tương ứng và SFX nếu là vật lý (R6.1). Hiện generator chưa có thao tác `hand_over`; đến khi có, việc này được kiểm bằng gate.
+
+## R12. Giọng đọc & đồng bộ thời gian
+
+- **R12.1** Giọng đọc sinh bằng VieNeu-TTS v3 Turbo (`voice-sync`), chạy trên máy có model. Không coi giọng là đạt khi chưa có `audio/manifest.json` thật (`engine: vieneu-v3-turbo`) và `check_audio.py` xanh.
+- **R12.2** Beat lời nói neo theo **từ** (`word`) khi có thể; không dùng số giây đoán khi đã có mốc từ thật (`words` trong manifest). Mốc ước lượng phải được ghi là ước lượng trong báo cáo.
+- **R12.3** Kiểm âm thanh bằng máy trước khi dựng: `check_audio.py` (thời lượng khớp manifest, không clip, không câm, không chồng lời, mức âm lượng, tốc độ 1.2–1.3).
+- **R12.4** Kiểm phát âm bằng ASR (whisper) là tuỳ chọn: chỉ dùng khi người dùng yêu cầu hoặc khi có nghi ngờ đọc sai; kết quả ghi vào báo cáo.
+
 ---
 
 ## Luật → công cụ kiểm
@@ -106,3 +136,8 @@ Mục tiêu: nhân vật, đạo cụ, bối cảnh làm một lần, dùng cho 
 | R1.2, R9.4 | `check_sync.py` |
 | R7.2 | `originality_check.py` |
 | R8.x | `workflow-v2.md` (checklist + cổng 👤) |
+| R10.4, R10.7 | `check_rules.py` (CRAFT: pose sheet; nhật ký gate có ảnh đã xem) |
+| R10.1–R10.3, R10.5, R10.6 | `craft-playbook.md` + `library.py check` (cấm `>`) + người duyệt |
+| R11.1 | `check_shots.py` E7 |
+| R12.2 | `timing_lib.py` + `check_shots.py` E8 (beat theo từ) |
+| R12.1, R12.3 | `check_audio.py` (voice-sync) |
