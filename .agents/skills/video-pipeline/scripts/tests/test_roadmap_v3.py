@@ -172,6 +172,21 @@ def test_hand_over() -> None:
         ok("hand_over không physical bị từ chối (R6.1)", code != 0 and "physical=true" in out, out[-200:])
 
 
+def test_schemas() -> None:
+    print("validate_schemas (JSON Schema, P0)")
+    code, out = run([str(SCRIPTS / "validate_schemas.py"), "--project", str(PROJ)])
+    ok("project S01 thật đúng cấu trúc bốn file", code == 0, out[-300:])
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        d.mkdir()
+        write_min_project(d)
+        m = json.loads((d / "audio" / "manifest.json").read_text(encoding="utf-8"))
+        m["speed"] = 1.5
+        (d / "audio" / "manifest.json").write_text(json.dumps(m, ensure_ascii=False), encoding="utf-8")
+        code, out = run([str(SCRIPTS / "validate_schemas.py"), "--project", str(d)])
+        ok("manifest speed 1.5 bị schema từ chối", code == 1 and "speed" in out, out[-300:])
+
+
 def test_check_audio() -> None:
     print("check_audio (wav giả)")
     import numpy as np
@@ -221,6 +236,7 @@ def main() -> int:
     test_check_shots()
     test_build_video_tweens()
     test_hand_over()
+    test_schemas()
     test_check_audio()
     print(f"\n{'TẤT CẢ QUA' if not FAILS else f'THẤT BẠI {len(FAILS)}: ' + '; '.join(FAILS)}")
     return 0 if not FAILS else 1
