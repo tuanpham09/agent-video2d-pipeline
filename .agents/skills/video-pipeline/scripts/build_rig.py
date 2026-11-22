@@ -386,7 +386,7 @@ class Rig:
             f"{r} .shade{{opacity:var(--shade,0)}}",
             f"{r} .tears{{opacity:var(--tear,0)}}",
             f"{r} .m-closed{{transform:scaleY(var(--mc,.9))}}",
-            f"{r} .mouth>*{{display:none}}",
+            f"{r} .mouth *{{display:none}}",  # không dùng ">": scoper CSS của HyperFrames bỏ cả khối <style> khi gặp combinator con
             f"{r}[data-khan='off'] .acc-khan{{display:none}}",
             f"{r} .lap{{display:none}}",
             f"{r}[data-stance='sit'] .lap{{display:inline}}",

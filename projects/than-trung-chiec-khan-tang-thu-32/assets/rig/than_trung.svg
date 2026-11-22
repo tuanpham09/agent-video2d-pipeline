@@ -12,7 +12,7 @@
 .rig-than_trung .shade{opacity:var(--shade,0)}
 .rig-than_trung .tears{opacity:var(--tear,0)}
 .rig-than_trung .m-closed{transform:scaleY(var(--mc,.9))}
-.rig-than_trung .mouth>*{display:none}
+.rig-than_trung .mouth *{display:none}
 .rig-than_trung[data-khan='off'] .acc-khan{display:none}
 .rig-than_trung .lap{display:none}
 .rig-than_trung[data-stance='sit'] .lap{display:inline}

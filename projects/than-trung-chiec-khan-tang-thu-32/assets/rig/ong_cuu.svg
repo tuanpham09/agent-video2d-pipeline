@@ -12,7 +12,7 @@
 .rig-ong_cuu .shade{opacity:var(--shade,0)}
 .rig-ong_cuu .tears{opacity:var(--tear,0)}
 .rig-ong_cuu .m-closed{transform:scaleY(var(--mc,.9))}
-.rig-ong_cuu .mouth>*{display:none}
+.rig-ong_cuu .mouth *{display:none}
 .rig-ong_cuu[data-khan='off'] .acc-khan{display:none}
 .rig-ong_cuu .lap{display:none}
 .rig-ong_cuu[data-stance='sit'] .lap{display:inline}

@@ -12,7 +12,7 @@
 .rig-ba_noi .shade{opacity:var(--shade,0)}
 .rig-ba_noi .tears{opacity:var(--tear,0)}
 .rig-ba_noi .m-closed{transform:scaleY(var(--mc,.9))}
-.rig-ba_noi .mouth>*{display:none}
+.rig-ba_noi .mouth *{display:none}
 .rig-ba_noi[data-khan='off'] .acc-khan{display:none}
 .rig-ba_noi .lap{display:none}
 .rig-ba_noi[data-stance='sit'] .lap{display:inline}

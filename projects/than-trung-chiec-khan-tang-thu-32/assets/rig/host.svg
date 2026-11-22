@@ -12,7 +12,7 @@
 .rig-host .shade{opacity:var(--shade,0)}
 .rig-host .tears{opacity:var(--tear,0)}
 .rig-host .m-closed{transform:scaleY(var(--mc,.9))}
-.rig-host .mouth>*{display:none}
+.rig-host .mouth *{display:none}
 .rig-host[data-khan='off'] .acc-khan{display:none}
 .rig-host .lap{display:none}
 .rig-host[data-stance='sit'] .lap{display:inline}
