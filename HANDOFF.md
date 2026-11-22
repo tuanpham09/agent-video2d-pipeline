@@ -9,6 +9,8 @@ Cách làm việc: "làm video <URL>" / "clone video <URL>" → QA → viết l�
 Yêu cầu mới nhất: **rig, đạo cụ, bối cảnh phải dùng lại được cho project sau; bắt agent tuân theo luật chung ở cấp cao nhất** → `RULES.md` + `library/`.
 Người dùng muốn: làm đến đâu commit đến đó, kèm handoff (file này).
 
+## Plan v3 (đề xuất, chờ duyệt): `references/roadmap-v3.md` — nhân vật tương tác, giọng VieNeu chính xác (mốc từ), `vp` CLI đồng bộ agent, release skill. Phát hiện: shot đã theo độ dài audio nhưng chỉ 1 nhân vật diễn/shot, không có di chuyển.
+
 ## Yêu cầu mới (2026-11-22): agent khác phải làm đẹp như mẫu
 - Đã viết `.agents/skills/video-pipeline/references/craft-playbook.md` (bắt buộc: nhìn ảnh thật, clone mẫu vàng, chỉ dựng bằng `build_video.py`, lỗi kỹ thuật đã biết, khung báo cáo) và trỏ tới từ `AGENTS.md` (mục "Tay nghề"), `SKILL.md`, `workflow-v2.md`.
 - `check_rules.py` kiểm thêm (CRAFT): pose sheet mỗi nhân vật; nhật ký gate nêu snapshot/ảnh đã xem. Đã test âm tính.
