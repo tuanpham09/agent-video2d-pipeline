@@ -12,6 +12,7 @@ Một video = một project riêng trong `projects/<slug>/`. Không viết file 
 **Trước mọi việc, đọc `RULES.md` ở gốc repo.** Skill này không được nới luật đó; mâu thuẫn thì `RULES.md` thắng (R0.1).
 Trọng tâm khi dựng nhân vật/đạo cụ/bối cảnh: **tra `library/` trước, dùng lại bằng `library.py use`, làm mới thì đạt chuẩn rồi `promote`** (R2.x).
 Cổng cuối mỗi giai đoạn: `check_rules.py`, `check_shots.py`, `check_sync.py` phải sạch (R8.2).
+**Tay nghề bắt buộc:** trước khi tạo/sửa nhân vật, đạo cụ, bối cảnh hoặc dựng video, đọc `references/craft-playbook.md` và làm đúng từng bước — nhất là *mở ảnh render ra xem trước khi báo xong*, clone mẫu vàng thay vì vẽ từ trắng, chỉ dựng bằng `build_video.py`.
 
 ## Nguyên tắc vàng
 

@@ -15,6 +15,10 @@ Kiểm những gì máy kiểm được:
   R2.9  library.py check sạch
   R2.10 lock không lệch library (cảnh báo)
   R2.4/R8.4 (--phase final) asset trong assets/{props,bg} không có trong lock phải là project-only đã khai báo
+CRAFT (craft-playbook.md; đề xuất R10.4/R10.7, AGENTS.md "Tay nghề"):
+  mỗi nhân vật có rig trong bible phải có assets/rig/sheets/<id>.png (pose sheet để xem/duyệt)
+  nếu đã dựng video (video_demo/ hoặc video/ có index.html): PROJECT.md phải có nhật ký gate nêu
+  "snapshot"/"ảnh đã xem" (bằng chứng đã nhìn ảnh thật, không chỉ chạy lệnh)
 Trạng thái bible so với library: states của prop ⊆ states library; light_states ⊆ light library.
 
 Mã thoát 1 nếu có lỗi (--strict: cảnh báo cũng là lỗi).
@@ -164,6 +168,15 @@ def check_project(proj: Path, phase: str, fix: bool) -> tuple[list[str], list[st
             (warns if legacy else errs).append(
                 f"R2.5: {rel} có {n} màu viết cứng" + (" (generator preview cũ — thay bằng generator dùng library/token khi làm bản full)" if legacy else "; dùng token từ palette")
             )
+
+    # CRAFT: pose sheet + bằng chứng đã xem ảnh (craft-playbook.md)
+    for c in bible.get("characters", []):
+        if c.get("rig") and not (proj / "assets" / "rig" / "sheets" / f"{c['id']}.png").exists():
+            errs.append(f"CRAFT: nhân vật {c['id']} chưa có assets/rig/sheets/{c['id']}.png — chạy build_rig.py rồi MỞ pose sheet xem/duyệt (craft-playbook §2)")
+    if any((proj / d / "index.html").exists() for d in ("video_demo", "video")):
+        pm_txt = pm.read_text(encoding="utf-8") if pm.exists() else ""
+        if not re.search(r"snapshot|ảnh đã xem", pm_txt, re.I):
+            errs.append("CRAFT: đã dựng video nhưng nhật ký gate trong PROJECT.md không nêu snapshot/ảnh đã xem — render ảnh, MỞ xem, rồi ghi (craft-playbook §1, §8)")
 
     # phase final: asset chưa promote (R2.4/R8.4)
     if phase == "final":

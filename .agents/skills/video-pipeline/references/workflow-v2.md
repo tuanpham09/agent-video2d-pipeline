@@ -47,6 +47,7 @@ Gọi `/video-pipeline` và đọc `references/workflow-v2.md`.
 - A/B: Giai đoạn A (QA nguồn) → B (viết lại, chống reup). C: Giai đoạn I (ý tưởng → xác nhận → thể loại/nhân vật/bối cảnh → đề cương → kịch bản).
 - Sau đó cả ba: C (demo 30–40 s) → 👤 duyệt → D (full).
 - Không sang giai đoạn sau khi gate chưa pass. Cập nhật `PROJECT.md` sau mỗi gate.
+- **Mọi giai đoạn có tạo nhân vật/đạo cụ/bối cảnh/shot** (C1–C4, D): làm theo `references/craft-playbook.md` (bắt buộc) — render PNG, *mở ảnh xem*, ghi "Ảnh đã XEM" vào báo cáo và nhật ký gate.
 - Không xuất bản bản dựng lại khung hình/nhân vật của nguồn (`reverse-any-video` chỉ để đo).
 ```
 

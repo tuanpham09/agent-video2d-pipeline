@@ -9,6 +9,11 @@ Cách làm việc: "làm video <URL>" / "clone video <URL>" → QA → viết l�
 Yêu cầu mới nhất: **rig, đạo cụ, bối cảnh phải dùng lại được cho project sau; bắt agent tuân theo luật chung ở cấp cao nhất** → `RULES.md` + `library/`.
 Người dùng muốn: làm đến đâu commit đến đó, kèm handoff (file này).
 
+## Yêu cầu mới (2026-11-22): agent khác phải làm đẹp như mẫu
+- Đã viết `.agents/skills/video-pipeline/references/craft-playbook.md` (bắt buộc: nhìn ảnh thật, clone mẫu vàng, chỉ dựng bằng `build_video.py`, lỗi kỹ thuật đã biết, khung báo cáo) và trỏ tới từ `AGENTS.md` (mục "Tay nghề"), `SKILL.md`, `workflow-v2.md`.
+- `check_rules.py` kiểm thêm (CRAFT): pose sheet mỗi nhân vật; nhật ký gate nêu snapshot/ảnh đã xem. Đã test âm tính.
+- **Chờ người dùng duyệt**: nâng thành luật R10 trong `RULES.md` (v2). Agent không tự sửa RULES.md (R0.3) — nội dung sẵn ở `references/RULES-R10-proposal.md`; duyệt thì dán vào, nâng version, cập nhật tem trong PROJECT.md các project.
+
 ## Đã xong (đã commit & push)
 - Workflow v2 (`references/workflow-v2.md`): 3 chế độ A/B/C, giai đoạn A–E, checklist, cổng 👤.
 - Gate: `originality_check.py`, `check_shots.py`, `check_sync.py`, `check_rules.py`, `library.py check`; `scaffold_project.py --mode a|b|c`.

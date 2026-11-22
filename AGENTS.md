@@ -33,6 +33,18 @@ Ba điều hay bị quên nhất:
 2. **Màu chỉ là token** (R2.5); **sửa asset dùng chung tại `library/`**, không sửa bản trong project (R2.3).
 3. **Gate phải sạch mới được nói "xong"** (R8.2): `check_rules.py`, `check_shots.py`, `check_sync.py`, `hyperframes check`.
 
+### ⛔ Tay nghề (craft) — BẮT BUỘC cho mọi agent (Codex, Cursor, Claude…) khi tạo nhân vật, đạo cụ, bối cảnh, dựng video
+
+Chỉ thị của người dùng (phiên 2026-11-22): các agent khác làm video/nhân vật/đạo cụ chưa đẹp bằng mẫu; **phải** làm theo hướng dẫn chi tiết. Đọc và làm theo [`.agents/skills/video-pipeline/references/craft-playbook.md`](.agents/skills/video-pipeline/references/craft-playbook.md) **trước** khi vẽ/sửa/dựng bất cứ thứ gì. Tóm tắt (chi tiết ở playbook):
+
+1. **Nhìn ảnh thật rồi mới báo xong.** Render PNG → *mở ảnh xem* ở cỡ dùng thật → sửa → xem lại. Check xanh ≠ đẹp (đã từng: check 0 lỗi nhưng sheet đen, mặt đen). Không xem được ảnh → dừng, báo người dùng.
+2. **Clone mẫu vàng, không vẽ từ trắng**: nhân vật = archetype+outfit/`extends`; đạo cụ/bối cảnh = copy asset library gần nhất (`candle.svg`, `house_altar_room.svg`…) rồi sửa, đạt chuẩn library ngay.
+3. **Chỉ dựng bằng `build_video.py` + `shotlist.json`**; mỗi beat nhìn thấy được có `set`, beat vật lý có SFX; không viết tay HTML/GSAP từng shot.
+4. **Kỹ thuật HyperFrames**: CSS không dùng `>`; glow = `radialGradient`; rig chỉ nhúng `<svg>` lồng.
+5. **Báo cáo theo khung playbook §8**, bắt buộc có dòng "Ảnh đã XEM: <đường dẫn> — thấy gì, lỗi đã sửa" và "Chưa kiểm". Thiếu = báo cáo không hợp lệ.
+
+Máy kiểm một phần (`check_rules.py`: pose sheet từng nhân vật, nhật ký gate có ảnh đã xem); phần còn lại do bạn tự giữ kỷ luật. Đề xuất đưa thành luật R10 trong `RULES.md` đang chờ người dùng duyệt: [`references/RULES-R10-proposal.md`](.agents/skills/video-pipeline/references/RULES-R10-proposal.md) (agent không tự sửa `RULES.md`, R0.3).
+
 ## 1. Bắt đầu ở đâu
 
 Gọi skill **`/video-pipeline`** cho mọi yêu cầu làm video. Skill đó giữ thứ tự phase, checkpoint và QC. Quy trình chi tiết, checklist từng giai đoạn: `.agents/skills/video-pipeline/references/workflow-v2.md`.
