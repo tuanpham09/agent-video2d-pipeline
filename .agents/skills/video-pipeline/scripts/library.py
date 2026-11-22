@@ -128,6 +128,10 @@ def check_asset(entry: dict, lib: Path | None = None, base_tokens: dict | None =
             if v is not None and not OK_COLOR.match(v.strip()):
                 errs.append(f"{eid}: <{el.tag.split('}')[-1]} {a}={v!r}> không phải token màu")
                 break
+    for css in re.findall(r"<style[^>]*>(.*?)</style>", text, re.S):  # HyperFrames scoper bỏ cả khối <style> khi gặp ">"
+        if ">" in css:
+            errs.append(f"{eid}: CSS trong asset có combinator '>' — scoper của HyperFrames sẽ bỏ cả khối <style>; dùng selector hậu duệ (khoảng trắng)")
+            break
     if "<text" in text or "<script" in text:
         errs.append(f"{eid}: không dùng <text> (phụ thuộc font) hoặc <script> trong asset")
     if re.search(r"<image\b|href=\"https?:", text):
