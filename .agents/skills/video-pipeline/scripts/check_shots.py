@@ -247,6 +247,8 @@ def main() -> int:
                 else:
                     errors.append(f"{sid}: beat '{str(b.get('do', ''))[:30]}' rơi ở {at:.2f}s, ngoài cửa sổ thoại của {b['line_id']} "
                                   f"({bl['start']:.2f}–{bl['start'] + bl['duration']:.2f}s, cho phép sớm {BEAT_LEAD}s)")
+            if isinstance(b.get("hand_over"), dict) and not b.get("physical"):
+                errors.append(f"{sid}: beat hand_over phải có physical=true (R6.1/R11.5)")
             if b.get("physical"):
                 if not any(abs(float(s.get("t", 0.0)) - t) <= SFX_TOLERANCE for s in sfx):
                     errors.append(f"{sid}: beat vật lý '{b.get('do', '')[:40]}' (t={t}) chưa có SFX trong ±{SFX_TOLERANCE}s")
@@ -258,6 +260,8 @@ def main() -> int:
                 for k in ("move", "look", "react"):
                     if isinstance(b.get(k), dict):
                         explicit.add(b[k].get("char"))
+                if isinstance(b.get("hand_over"), dict):  # chuyển tay: cả người cho lẫn người nhận đều có hành vi
+                    explicit |= {b["hand_over"].get("from"), b["hand_over"].get("to")}
             for c in shot_chars:
                 if c.get("id") not in explicit:
                     errors.append(f"{sid}: shot nhiều người nhưng {c.get('id')} không có hành vi tường minh (beat set/move/look/react) — "

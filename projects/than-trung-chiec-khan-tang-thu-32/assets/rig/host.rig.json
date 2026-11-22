@@ -48,7 +48,9 @@
       "clasp",
       "point-l",
       "reach-l",
-      "raise-both"
+      "raise-both",
+      "walk-a",
+      "walk-b"
     ],
     "stance": [
       "stand",

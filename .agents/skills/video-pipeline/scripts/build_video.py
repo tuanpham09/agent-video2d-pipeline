@@ -160,6 +160,43 @@ class Stage:
         self.parts.append((st["y"], 1, place_svg(svg, st["x"] - 260 * s, st["y"] - 580 * s, 520 * s, 600 * s)))
         self.chars[cid] = {"x": st["x"], "y": st["y"], "s": s, "mouth": bool(spec.get("mouth")), "id": f"{self.sid}-{cid}"}
 
+    def hand_pos(self, cid: str, side: str) -> tuple[float, float]:
+        """Vị trí tay nghỉ (l|r) của nhân vật trong toạ độ cảnh. Đọc pivot vai từ rig.json; tay nghỉ ở y=462 trong viewBox rig."""
+        c = self.chars[cid]
+        piv = jload(self.ctx.proj / "assets" / "rig" / f"{cid}.rig.json")["pivots"][f"arm-{side}"]
+        vx = float(piv.split("px")[0])
+        s = c["s"]
+        return c["x"] - 260 * s + vx * s, c["y"] - 580 * s + 462 * s
+
+    def hand_over_js(self, b: dict, t: float) -> list[str]:
+        """Đạo cụ chuyển tay (R11.5): nhấc từ vị trí hiện tại lên tay người cho, rồi chuyển sang tay người nhận. Cần physical=true (SFX, R6.1)."""
+        ho = b["hand_over"]
+        key, g, r = ho.get("prop"), ho.get("from"), ho.get("to")
+        if not b.get("physical"):
+            raise ValueError(f"{self.sid}: hand_over phải có physical=true (R6.1: cần SFX)")
+        if key not in self.props:
+            raise ValueError(f"{self.sid}: hand_over prop '{key}' không có trong shot")
+        if g not in self.chars or r not in self.chars or g == r:
+            raise ValueError(f"{self.sid}: hand_over cần from/to là hai nhân vật khác nhau trong shot")
+        side_g = "l" if self.chars[r]["x"] > self.chars[g]["x"] else "r"  # tay phía người nhận
+        side_r = "r" if side_g == "l" else "l"
+        p, pid = self.props[key], self.prop_ids[key]
+        half_w, half_h = p["w"] * p["k"] / 2, p["h"] * p["k"] / 2
+
+        def top_left(xy):  # gốc của đạo cụ là góc trên-trái; đặt tâm đạo cụ vào tay
+            return xy[0] - half_w, xy[1] - half_h
+
+        d = float(ho.get("dur", 0.9))
+        d1 = d * 0.4
+        gx, gy = top_left(self.hand_pos(g, side_g))
+        rx, ry = top_left(self.hand_pos(r, side_r))
+        p["x0"], p["y0"] = rx, ry
+        p["x"], p["y"] = rx + half_w, ry + half_h
+        return [
+            f'tl.to("#{pid}", {{attr: {{x: {gx:.1f}, y: {gy:.1f}}}, duration: {d1:.2f}, ease: "power1.inOut"}}, {t:.2f});',
+            f'tl.to("#{pid}", {{attr: {{x: {rx:.1f}, y: {ry:.1f}}}, duration: {d - d1:.2f}, ease: "power1.inOut"}}, {t + d1:.2f});',
+        ]
+
     def focus_point(self) -> tuple[float, float]:
         f, size = self.shot.get("focus"), self.shot["size"]
         if f in self.chars:
@@ -392,7 +429,14 @@ def build_shot_js(st: Stage, dur: float, abs0: float, ctx: Ctx) -> str:
             out.append(f'tl.to("#{c["id"]}", {{attr: {{x: {x_new:.1f}}}, duration: {d:.2f}, ease: "power1.inOut"}}, {t:.2f});')
             # bước nhẹ: bob 3 px, 2k nhịp đều (kết thúc đúng cao độ ban đầu)
             out.append(f'tl.to("#{c["id"]}", {{attr: {{y: "-=3"}}, duration: {d / (2 * k):.3f}, repeat: {2 * k - 1}, yoyo: true, ease: "sine.inOut"}}, {t:.2f});')
+            # bước chân: đổi walk-a/walk-b ~0.3 s/nhịp trong lúc đi, kết thúc về idle (R5.4, R11.3)
+            steps = max(2, int(d / 0.3))
+            for i in range(steps):
+                out.append(f'tl.set("#{c["id"]}", {{attr: {{"data-pose": "{"walk-a" if i % 2 == 0 else "walk-b"}"}}}}, {t + i * d / steps:.2f});')
+            out.append(f'tl.set("#{c["id"]}", {{attr: {{"data-pose": "idle"}}}}, {t + d:.2f});')
             c["x"] = tgt["x"]  # bản ghi tĩnh dùng cho các bước sau (tracks giữ quỹ đạo chính xác)
+        if b.get("hand_over"):
+            out.extend(st.hand_over_js(b, t))
         if b.get("look"):
             lk = b["look"]
             out.append(f'tl.set("#{st.chars[lk["char"]]["id"]}", {{attr: {{"data-gaze": {js(gaze_toward(tracks[lk["char"]].x_at(t), tracks[lk["target"]].x_at(t)))}}}}}, {t:.2f});')

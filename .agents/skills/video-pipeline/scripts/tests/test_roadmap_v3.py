@@ -140,6 +140,38 @@ def test_build_video_tweens() -> None:
            html.count('"+=2.5"') == 1, str(html.count('"+=2.5"')))
 
 
+def test_hand_over() -> None:
+    print("build_video (hand_over: đạo cụ chuyển tay)")
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        d.mkdir()
+
+        def add_ho(s, physical=True):
+            for sh in s["shots"]:
+                if sh["id"] == "SH008":
+                    sh["beats"].append({"line_id": sh["beats"][0]["line_id"], "t": 2.4, "do": "đưa mâm", "physical": physical,
+                                        "hand_over": {"prop": "mam_tre", "from": "me", "to": "host", "dur": 0.9}})
+
+        write_min_project(d, add_ho)
+        out_dir = Path(td) / "video"
+        code, out = run([str(SCRIPTS / "build_video.py"), "--project", str(d), "--shots", "SH008", "--out", str(out_dir)])
+        ok("hand_over dựng được", code == 0, out[-300:])
+        html = (out_dir / "compositions" / "SH008.html").read_text(encoding="utf-8")
+        ok("đạo cụ được tween tới tay người nhận (hai đoạn: nhấc rồi chuyển)",
+           len(__import__("re").findall(r'tl\.to\("#SH008-p\d+", \{attr: \{x: [-\d.]+, y: [-\d.]+\}, duration: [\d.]+, ease: "power1.inOut"\}, 2\.[47]\d\)', html)) == 2)
+
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        d.mkdir()
+
+        def add_ho_nophys(s):
+            add_ho(s, physical=False)
+
+        write_min_project(d, add_ho_nophys)
+        code, out = run([str(SCRIPTS / "build_video.py"), "--project", str(d), "--shots", "SH008", "--out", str(Path(td) / "v")])
+        ok("hand_over không physical bị từ chối (R6.1)", code != 0 and "physical=true" in out, out[-200:])
+
+
 def test_check_audio() -> None:
     print("check_audio (wav giả)")
     import numpy as np
@@ -188,6 +220,7 @@ def main() -> int:
     test_timing_lib()
     test_check_shots()
     test_build_video_tweens()
+    test_hand_over()
     test_check_audio()
     print(f"\n{'TẤT CẢ QUA' if not FAILS else f'THẤT BẠI {len(FAILS)}: ' + '; '.join(FAILS)}")
     return 0 if not FAILS else 1

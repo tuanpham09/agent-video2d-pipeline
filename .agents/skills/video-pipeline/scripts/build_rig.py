@@ -82,7 +82,19 @@ POSES = {
     "point-l": ((-72, -8), (4, 0)),
     "reach-l": ((-95, -4), (4, 0)),
     "raise-both": ((-50, -130), (50, 130)),
+    # đi bộ: tay giữ idle; hai chân ngược pha (xem LEG_POSES). Generator chuyển walk-a ↔ walk-b khi di chuyển.
+    "walk-a": ((-4, 0), (4, 0)),
+    "walk-b": ((-4, 0), (4, 0)),
 }
+
+# Đi bộ NHÌN CHÍNH DIỆN: chân nhấc lên (dịch lên 10 px, vào giữa 4 px), chân kia tựa đất.
+# Không xoay đối xứng (sẽ thành dang chân / khép chéo). [leg-l, leg-r]; leg-l = chân trái nhân vật (bên phải người xem).
+LEG_POSES = {
+    "walk-a": ("translate(6px,-16px)", "translate(0px,0px)"),
+    "walk-b": ("translate(0px,0px)", "translate(-6px,-16px)"),
+}
+HIP_Y = 470
+LEG_X = {"l": CX + 24, "r": CX - 24}  # tâm hông theo toạ độ viewBox
 
 GAZE = {"center": (0, 0), "left": (-5, 0), "right": (5, 0), "up": (0, -4), "down": (0, 4)}
 
@@ -215,9 +227,11 @@ class Rig:
         if self.shadow:
             ink, pants, shoe = self.c("shadow_ink"), self.c("shadow_body"), self.c("shadow_ink")
         out = ['<g class="legs">']
-        for x in (CX - 36, CX + 12):
-            out.append(f'<rect x="{x}" y="470" width="24" height="98" rx="10" fill="{pants}" stroke="{ink}" stroke-width="5"/>')
+        for side, x in (("r", CX - 36), ("l", CX + 12)):  # r = chân phải nhân vật (bên trái người xem)
+            out.append(f'<g class="leg leg-{side}">')
+            out.append(f'<rect x="{x}" y="{HIP_Y}" width="24" height="98" rx="10" fill="{pants}" stroke="{ink}" stroke-width="5"/>')
             out.append(f'<ellipse cx="{x + 12}" cy="572" rx="23" ry="11" fill="{shoe}" stroke="{ink}" stroke-width="3"/>')
+            out.append("</g>")
         out.append("</g>")
         return "".join(out)
 
@@ -390,6 +404,9 @@ class Rig:
             f"{r}[data-khan='off'] .acc-khan{{display:none}}",
             f"{r} .lap{{display:none}}",
             f"{r}[data-stance='sit'] .lap{{display:inline}}",
+            f"{r} .leg{{transform-box:view-box}}",
+            f"{r} .leg-l{{transform-origin:{LEG_X['l']}px {HIP_Y}px}}",
+            f"{r} .leg-r{{transform-origin:{LEG_X['r']}px {HIP_Y}px}}",
             f"{r}[data-stance='sit'] .legs{{display:none}}",
             f"{r}[data-stance='sit'] .body{{transform:translateY(56px)}}",
         ]
@@ -413,6 +430,10 @@ class Rig:
             lines.append(f"{sel} .fore-l{{transform:rotate({fl}deg)}}")
             lines.append(f"{sel} .arm-r{{transform:rotate({ur}deg)}}")
             lines.append(f"{sel} .fore-r{{transform:rotate({fr}deg)}}")
+        for name, (tl_, tr_) in LEG_POSES.items():
+            sel = f"{r}[data-pose='{name}']"
+            lines.append(f"{sel} .leg-l{{transform:{tl_}}}")
+            lines.append(f"{sel} .leg-r{{transform:{tr_}}}")
         return "\n".join(lines)
 
     # ---- tổng hợp --------------------------------------------------------
@@ -526,6 +547,7 @@ def sheet_html(rig: Rig, emotions: list[str]) -> str:
     )
     poses = [("idle", {}), ("clasp", {"emotion": "worried"}), ("point-l", {"emotion": "focused"}),
              ("reach-l", {"emotion": "afraid"}), ("raise-both", {"emotion": "shocked"}),
+             ("walk-a", {"emotion": "focused"}), ("walk-b", {"emotion": "focused"}),
              ("sit", {"stance": "sit", "emotion": "calm"})]
     cells_p = "".join(
         f'<figure class="tall">{rig.svg({"pose": "idle" if n == "sit" else n, **st})}<figcaption>{n}</figcaption></figure>'
