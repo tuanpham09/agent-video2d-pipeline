@@ -16,6 +16,8 @@ Trạng thái mốc hiện tại (cập nhật bảng này sau mỗi mốc):
 | M1 | `hashing.py`, `pipeline_state.py`, `vp.py` (doctor/validate/status/next/gate/approve), CI | **Chưa làm** |
 | M2 | `shot_key`, `vp plan`, bảng vô hiệu hoá + test | Chưa làm (phụ thuộc M1) |
 | M3 | `world_state.py`, `check_continuity.py` | Chưa làm (phụ thuộc M1) |
+| M4 | Aligner mốc từ + cổng chính xác (cần wav thật) | Chờ người dùng gật + có wav |
+| M5 | Thử `three_quarter` cho một nhân vật | Chờ người dùng gật; sau M3 |
 
 Đã có sẵn (đừng làm lại): `schemas/{script,bible,shotlist,manifest}.schema.json` + `validate_schemas.py`; `timing_lib.py`; `check_shots.py` (E1–E8); `check_audio.py`; generator hỗ trợ beat `move|look|react|hand_over`; pose `walk-a/walk-b`; `tests/test_roadmap_v3.py` (31 kiểm, tất cả qua tại commit `8a56a58`).
 
@@ -50,11 +52,11 @@ python .agents/skills/video-pipeline/scripts/library.py check
 
 ## 5. Câu hỏi mở / đề xuất luật (agent ghi vào đây, người dùng quyết)
 
-Chờ người dùng xác nhận (spec đang dùng mặc định):
-1. Migration: thêm `.pipeline/` + `vp` song song luồng cũ (mặc định: có).
-2. Quay người/3/4: vẽ thêm hay xấp xỉ (mặc định: ngoài phạm vi).
-3. Cache/khoá: tự viết tối giản (mặc định) hay dùng `doit`/SQLite.
-4. ASR/MFA tiếng Việt (mặc định: ngoài phạm vi, cần wav thật từ máy người dùng).
+Spec dùng **khuyến nghị theo ưu tiên chính xác / đồng bộ / tốc độ ổn định** (lý do ở spec §1); chờ người dùng gật hoặc đổi. **M1–M3 làm được ngay không cần câu trả lời nào ngoài câu 1 và 3 (đã là mặc định); M4–M5 chỉ làm khi người dùng gật câu 4 và 2.**
+1. Migration: `.pipeline/` + `vp` song song luồng cũ; chỉ chuyển khi `vp gate` trùng kết luận gate cũ trên mọi project.
+2. Quay người: `three_quarter` sinh theo tham số rig, thử một nhân vật, người dùng duyệt ảnh rồi mới nhân rộng (M5).
+3. Cache/khoá: tự viết tối giản (thư mục theo hash + `os.replace` + khoá `O_EXCL`); không `doit`; SQLite chỉ khi ≥ 2 worker (P5).
+4. ASR/MFA: forced alignment có điều kiện (M4): thăm dò VieNeu trước, MFA sau, đường lui biên độ; cổng đo 20 câu < 0,1 s; hỏi pháp lý trước khi dùng thương mại.
 
 Đề xuất luật (nếu cần, **không tự sửa `RULES.md`**): _(trống)_
 

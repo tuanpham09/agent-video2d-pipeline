@@ -12,14 +12,16 @@ Nguồn lý do và nghiên cứu: [`research-v4-report.md`](research-v4-report.m
 6. Không dùng code từ repo bên ngoài (đặc biệt OpenMontage AGPL, Spine/Remotion license tuỳ chỉnh). Chỉ học ý tưởng.
 7. File sinh ra trong `.pipeline/` là **dữ liệu sinh tự động** (như R1.3): không sửa tay, không commit `cache/`.
 
-## 1. Quyết định mặc định (chờ người dùng xác nhận)
+## 1. Quyết định khuyến nghị (ưu tiên: độ chính xác, đồng bộ, tốc độ ổn định) — chờ người dùng xác nhận
 
-| Câu hỏi | Mặc định dùng trong spec |
-| --- | --- |
-| Migration | Thêm `.pipeline/` + `vp` bọc script cũ; không chuyển luồng chính; roll-back = xoá `.pipeline/` |
-| Quay người / 3/4 | **Ngoài phạm vi** các mốc này |
-| Bộ cache/khoá | Tự viết tối giản (khoá tệp + JSON), **không** thêm `doit`/SQLite ở M1–M2 |
-| ASR/MFA tiếng Việt | **Ngoài phạm vi** (P3 cần wav thật từ máy người dùng) |
+| Câu hỏi | Khuyến nghị | Vì sao (theo ưu tiên) |
+| --- | --- | --- |
+| Migration | Thêm `.pipeline/` + `vp` bọc script cũ, chạy **song song** luồng cũ. Chuyển luồng chính chỉ khi `vp gate` cho **kết luận trùng gate cũ** trên mọi project hiện có (tiêu chí cắt chuyển); roll-back = xoá `.pipeline/` | Không đổi kết quả đang đúng (chính xác); không có thời điểm "đứt" (ổn định) |
+| Quay người / 3/4 | **Không vẽ tay từng nhân vật, không xấp xỉ mắt.** Sinh `three_quarter` **theo tham số từ chính rig** trong `build_rig.py` (cùng bible → cùng khuôn mặt, nhất quán), đổi bằng `data-view` (hoán slot, ý từ Spine skin/attachment), cú quay = hoán view + `scaleX` ngắn. **Làm thử một nhân vật, người dùng duyệt view sheet rồi mới nhân rộng** (M5) | Nhất quán nhân vật do cùng nguồn tham số; chi phí render bằng 0 (chỉ đổi thuộc tính) nên tốc độ ổn định. Đây là suy luận từ kiến trúc, **chưa thấy ai làm cho SVG** [CHƯA KIỂM] — vì vậy bắt buộc thử + duyệt ảnh (R10.2) |
+| Bộ cache/khoá | **Tự viết tối giản, không `doit`.** Cache = thư mục theo hash, ghi tệp tạm rồi `os.replace` (nguyên tử); khoá = tệp `O_EXCL` có hạn dùng (chạy được Windows). SQLite (có sẵn trong thư viện chuẩn) chỉ thêm khi ≥ 2 worker/agent song song thật (P5) | Key của ta là tổ hợp nhiều trường (§3 M2.1) nên `doit` (md5 theo tệp) không thay thế được; mỗi shot độc lập nên không cần bộ lập lịch DAG; ít phụ thuộc = ít biến động tốc độ |
+| ASR/MFA tiếng Việt | **Chấp nhận có điều kiện (M4):** (1) kiểm trước xem VieNeu có trả mốc/độ dài âm tiết gốc không (rẻ nhất, chính xác nhất nếu có); (2) nếu không: **căn chỉnh cưỡng bức** văn bản đã biết bằng MFA `vietnamese_mfa` (đây là forced alignment, không phải nhận dạng); (3) luôn có đường lui bằng đường biên độ RMS. Aligner đứng sau giao diện trung lập `manifest.words[]` để đổi được; **cổng chấp nhận đo thật** trên 20 câu có mốc tay (sai lệch < 0,1 s) trước khi dùng cho dựng. Quyết định dùng cho sản phẩm thương mại chỉ sau khi hỏi pháp lý về dữ liệu huấn luyện (có VIVOS CC BY-NC-SA); **không** dùng model căn chỉnh vi của whisperX (phi thương mại) | Mốc từ thật là thứ quyết định đồng bộ môi/beat (R12.2); ước tính theo ký tự là nguồn lệch lớn nhất hiện nay |
+
+Nghĩa của "tốc độ ổn định" trong spec: thời gian dựng/render **dự đoán được** (cache tất định, render độc lập theo shot, không phụ thuộc mạng/provider) — đo ở M1.5 và M2. Tốc độ đọc giọng giữ cố định theo R6.3.
 
 ## 2. Mốc M1 — `vp` + trạng thái + hash (P0)
 
@@ -125,8 +127,23 @@ Lỗi (E) / cảnh báo (W):
 ### M3.3 Test
 Fixture lỗi giả (bản sao tạm): người cho không cầm → E1; đổi anchor không move → E2; cốc đặt xuống rồi shot sau xuất hiện trên tay → E4; cắt cảnh giữ `holding`.
 
+## 4b. Mốc M4 — Aligner mốc từ (P3, cần wav thật từ máy người dùng)
+
+Chỉ bắt đầu khi người dùng gật mục 1 dòng ASR/MFA và đã có `audio/lines/*.wav` thật.
+1. **M4.1 Thăm dò nguồn gốc:** kiểm VieNeu có trả mốc/độ dài âm tiết không (đọc API/mã nguồn của `vieneu`, ghi kết quả). Có ⇒ dùng, bỏ M4.2.
+2. **M4.2 `voice-sync/scripts/align.py`:** forced alignment văn bản biết trước → ghi `words[]` (`{start,end}` tương đối trong câu) vào manifest qua `build_voiceover.py` (không sửa tay manifest, R1.2). Aligner chọn bằng `--aligner mfa|none`; `none` = ước tính hiện tại.
+3. **M4.3 Cổng chính xác:** `check_alignment.py`: tổng khoảng từ = độ dài wav (± 0,05 s), mốc đơn điệu, không từ dài 0, và so với **20 câu có mốc đánh dấu tay** (`tests/fixtures/align_gold.json`) — sai lệch trung bình < 0,1 s; không đạt ⇒ không bật.
+4. **M4.4 Miệng theo biên độ:** từ RMS từng khung trong khoảng từ, lượng tử closed/half/open/round, giữ tối thiểu; dùng làm đường lui khi không có `words[]` thật.
+5. Báo cáo ghi rõ mốc là **thật hay ước tính** (R12.2).
+
+## 4c. Mốc M5 — Thử `three_quarter` (P2, thử nghiệm)
+
+1. Một nhân vật (`host`), thêm `data-view="front|three_quarter"` do `build_rig.py` sinh từ tham số có sẵn; sheet có hàng view.
+2. Beat `turn {char, to:view, dur}` trong generator = hoán `data-view` + `scaleX` ngắn; `check_shots` kiểm giá trị `view` hợp lệ; `world_state` ghi `facing/view` (M3).
+3. **Cổng:** xem ảnh sheet + một snapshot cảnh hai người đối mặt (R10.2); người dùng duyệt trước khi áp cho nhân vật khác. Không đạt ⇒ ghi lý do, không nhân rộng.
+
 ## 5. Không làm (ngoài phạm vi)
-Render thật / render phân tán; clip chuyển động; quay người 3/4; căn chỉnh tiếng Việt (MFA/whisper); thay đổi `RULES.md`; sửa dữ liệu project; thêm phụ thuộc nặng.
+Render phân tán; clip chuyển động đầy đủ (P2 phần còn lại); thay đổi `RULES.md`; sửa dữ liệu project; thêm phụ thuộc nặng. (Render thật chỉ ở M1.5 benchmark, khi có Chromium.)
 
 ## 6. Cách báo cáo (R8.3, R10.7)
 Mỗi mốc: danh sách file đổi, **lệnh đã chạy + mã thoát + đoạn kết quả**, test đã thêm, và mục **Chưa kiểm** (ví dụ: chưa chạy Windows, chưa đo render). Cập nhật `projects/<slug>/PROJECT.md` (nhật ký gate) và `HANDOFF-opencode.md` (trạng thái từng mốc) sau mỗi mốc; commit theo mốc, nội dung commit nêu "chưa làm".
