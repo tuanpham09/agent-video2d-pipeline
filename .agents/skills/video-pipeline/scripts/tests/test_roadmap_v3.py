@@ -4,12 +4,17 @@
   - timing_lib: mốc theo từ, beat theo từ, ranh giới
   - check_shots E7 (mỗi nhân vật trong shot nhiều người phải có hành vi tường minh) và E8 (beat theo từ),
     E9 (pose/emotion/stance/gaze phải có trong rig) và E10 (nhân vật không đứng đè lên đạo cụ)
+    và E11 (focus phải trỏ tới thứ có thật trong shot; bắt lỗi thiếu tiền tố prop: kiểu SH006 demo #3)
   - check_sync: layout 1 track giọng duy nhất được chấp nhận (kiểm src, duration, file wav);
     layout clip-riêng từng line vẫn kiểm nghiêm; dựng từng phần chỉ kiểm line được phủ
   - build_video: beat move/look/react sinh tween đúng; người nghe tự gật không trùng gật tường minh
   - check_audio: bắt đúng clip, câm, sai thời lượng, chồng lấn; câu đạt không báo lỗi
   - freeze_manifest (Opt round 2): khóa timing đã duyệt vào audio/timing.md; script đổi -> cảnh báo exit 2, --force mới khóa lại
   - render.py --shots (Opt round 2): shot không có composition / xung đột --delivery -> exit 1 (không cần Chrome)
+  - build_voiceover lazy-load (Opt round 3, mục 5): quét cache trước khi nạp model; all-cached thì bỏ qua hẳn Speaker; alias sau canonicalize vẫn hit cache cũ
+  - concat_shots (Opt round 3, mục 1): nối shot + mux giọng/SFX; gate duration từng shot, fps giống nhau, thiếu file
+  - detect_issues (Opt round 3, mục 2): black/freeze/silence trên video tổng hợp; map khoảng bị cờ vào shot
+  - gates.py --auto-skip (Opt round 3, backlog): bỏ bước Chrome khi diff chỉ chạm .py/.md và video/ không mới hơn code
 
 Chạy:  python .agents/skills/video-pipeline/scripts/tests/test_roadmap_v3.py
 Mã thoát 0 = tất cả qua. Không ghi vào project thật (dùng thư mục tạm).
@@ -147,6 +152,34 @@ def test_check_shots() -> None:
         code, out = run([str(SCRIPTS / "check_shots.py"), "--project", str(d), "--scenes", "S01", "--repo", str(REPO)])
         ok("E10: nhân vật đứng đè lên đạo cụ bị báo",
            code == 1 and "(E10)" in out and "mam_tre" in out, out[-300:])
+
+    # E11 (Opt round 3, mục 6): focus phải trỏ tới thứ có thật trong shot.
+    # SH001 (S01): focus gốc ong_cuu, chars [ong_cuu], props [ban_tho, nen, bat_huong].
+    e11_cases = [
+        ("E11: focus đạo cụ thiếu tiền tố prop: (bug SH006 demo #3)",
+         "mam_tre", "thiếu tiền tố"),
+        ("E11: focus prop: có trong bible nhưng không trong shot",
+         "prop:mam_tre", "không có trong shot này"),
+        ("E11: focus prop: không có trong bible",
+         "prop:khan_khong_co", "không có trong bible"),
+        ("E11: focus nhân vật có trong bible nhưng không trong shot",
+         "me", "không có trong shot này"),
+        ("E11: focus slot: không có trong bối cảnh",
+         "slot:khong_co", "không có trong bối cảnh"),
+    ]
+    for label, focus_val, needle in e11_cases:
+        with tempfile.TemporaryDirectory() as td:
+            d = Path(td) / "p"
+            d.mkdir()
+
+            def bad_focus(s, fv=focus_val):
+                for sh in s["shots"]:
+                    if sh["id"] == "SH001":
+                        sh["focus"] = fv
+
+            write_min_project(d, bad_focus)
+            code, out = run([str(SCRIPTS / "check_shots.py"), "--project", str(d), "--scenes", "S01", "--repo", str(REPO)])
+            ok(label, code == 1 and "(E11)" in out and needle in out, out[-300:])
 
 
 def test_build_video_tweens() -> None:
@@ -371,8 +404,286 @@ def test_render_shots() -> None:
         (d / "video" / "compositions" / "SH001.html").write_text("<template></template>", encoding="utf-8")
         code, out = run([str(SCRIPTS / "render.py"), "--project", str(d), "--shots", "SH999"])
         ok("shot không có composition -> exit 1", code == 1 and "không có composition" in out, out[-200:])
-        code, out = run([str(SCRIPTS / "render.py"), "--project", str(d), "--shots", "SH001", "--delivery"])
-        ok("--shots + --delivery xung đột -> exit 1", code == 1 and "xung đột" in out, out[-200:])
+        code, out = run([str(SCRIPTS / "render.py"), "--project", str(d), "--shots", "SH999", "--delivery"])
+        ok("--shots + --delivery KHÔNG xung đột nữa (mục 1: ra output/shots/<id>.mp4) — thiếu composition mới fail",
+           code == 1 and "không có composition" in out and "xung đột" not in out, out[-200:])
+
+
+def _silent_wav(path: Path, seconds: float, sr: int = 48000) -> None:
+    import wave
+
+    n = int(seconds * sr)
+    with wave.open(str(path), "wb") as w:
+        w.setnchannels(1)
+        w.setsampwidth(2)
+        w.setframerate(sr)
+        w.writeframes(b"\x00\x00" * n)
+
+
+def _flat_mp4(path: Path, seconds: float, fps: int = 30, size: str = "640x360") -> None:
+    r = subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi",
+                        "-i", f"color=c=red:s={size}:r={fps}:d={seconds}",
+                        "-c:v", "libx264", "-pix_fmt", "yuv420p", str(path)],
+                       capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr[-300:]
+
+
+def test_concat_shots() -> None:
+    print("concat_shots (Opt round 3, mục 1: nối shot + mux giọng/SFX)")
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        (d / "audio").mkdir(parents=True)
+        (d / "script").mkdir(parents=True)
+        (d / "output" / "shots").mkdir(parents=True)
+        manifest = {"duration": 7.0, "scenes": [{"id": "S01", "lines": [
+            {"id": "L1", "speaker": "host", "text": "Một.", "start": 0.0, "duration": 4.0},
+            {"id": "L2", "speaker": "host", "text": "Hai.", "start": 4.0, "duration": 3.0}]}]}
+        (d / "audio" / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+        shotlist = {"shots": [
+            {"id": "SH001", "line_ids": ["L1"],
+             "sfx": [{"cue": "test", "src": "sfx/test.wav", "t": 0.5}]},
+            {"id": "SH002", "line_ids": ["L2"]}]}
+        (d / "script" / "shotlist.json").write_text(json.dumps(shotlist), encoding="utf-8")
+        _silent_wav(d / "audio" / "voiceover.wav", 7.0)
+        (d / "sfx").mkdir()
+        _silent_wav(d / "sfx" / "test.wav", 0.5)
+        _flat_mp4(d / "output" / "shots" / "SH001.mp4", 4.0)
+        _flat_mp4(d / "output" / "shots" / "SH002.mp4", 3.0)
+        code, out = run([str(SCRIPTS / "concat_shots.py"), "--project", str(d), "--repo", str(d)])
+        ok("nối 2 shot + mux giọng/SFX -> exit 0", code == 0, out[-300:])
+        r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                            "-of", "csv=p=0", str(d / "output" / "final-concat.mp4")],
+                           capture_output=True, text=True)
+        ok("file nối dài ~7.0s", r.returncode == 0 and abs(float(r.stdout.strip()) - 7.0) < 0.3,
+           r.stdout.strip())
+        _flat_mp4(d / "output" / "shots" / "SH002.mp4", 3.6)
+        code, out = run([str(SCRIPTS / "concat_shots.py"), "--project", str(d), "--repo", str(d)])
+        ok("shot lệch 0.6s > ngưỡng 0.15s -> exit 1", code == 1 and "lệch" in out, out[-300:])
+        _flat_mp4(d / "output" / "shots" / "SH002.mp4", 3.0, fps=25)
+        code, out = run([str(SCRIPTS / "concat_shots.py"), "--project", str(d), "--repo", str(d)])
+        ok("fps khác nhau -> exit 1", code == 1 and "fps" in out, out[-300:])
+        _flat_mp4(d / "output" / "shots" / "SH002.mp4", 3.0)
+        (d / "output" / "shots" / "SH001.mp4").unlink()
+        code, out = run([str(SCRIPTS / "concat_shots.py"), "--project", str(d), "--repo", str(d)])
+        ok("thiếu file shot -> exit 1", code == 1 and "thiếu" in out, out[-300:])
+    # cửa sổ gap-inclusive (khớp build_video.py: ends[i] = wins[i+1][0]) + pad tail
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        (d / "audio").mkdir(parents=True)
+        (d / "script").mkdir(parents=True)
+        (d / "output" / "shots").mkdir(parents=True)
+        manifest = {"duration": 7.5, "scenes": [{"id": "S01", "lines": [
+            {"id": "L1", "speaker": "host", "text": "Một.", "start": 0.0, "duration": 4.0},
+            {"id": "L2", "speaker": "host", "text": "Hai.", "start": 4.5, "duration": 2.5}]}]}
+        (d / "audio" / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+        shotlist = {"shots": [
+            {"id": "SH001", "line_ids": ["L1"]},
+            {"id": "SH002", "line_ids": ["L2"]}]}
+        (d / "script" / "shotlist.json").write_text(json.dumps(shotlist), encoding="utf-8")
+        _silent_wav(d / "audio" / "voiceover.wav", 7.5)
+        _flat_mp4(d / "output" / "shots" / "SH001.mp4", 4.5)
+        _flat_mp4(d / "output" / "shots" / "SH002.mp4", 2.5)
+        code, out = run([str(SCRIPTS / "concat_shots.py"), "--project", str(d), "--repo", str(d)])
+        ok("gap 0.5s: shot 4.5s (gap-inclusive) -> exit 0", code == 0, out[-300:])
+        r = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0",
+                            "-show_entries", "stream=duration", "-of", "csv=p=0",
+                            str(d / "output" / "final-concat.mp4")],
+                           capture_output=True, text=True)
+        ok("pad tail: video stream ~7.5s (khớp giọng)",
+           r.returncode == 0 and abs(float(r.stdout.strip()) - 7.5) < 0.15, r.stdout.strip())
+        _flat_mp4(d / "output" / "shots" / "SH001.mp4", 4.0)
+        code, out = run([str(SCRIPTS / "concat_shots.py"), "--project", str(d), "--repo", str(d)])
+        ok("shot chỉ dài bằng line (4.0s, thiếu gap) -> exit 1", code == 1 and "lệch" in out,
+           out[-300:])
+
+
+def test_detect_issues() -> None:
+    print("detect_issues (Opt round 3, mục 2: black/freeze/silence)")
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td)
+        src = d / "base.mp4"
+        r = subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi",
+                            "-i", "testsrc=size=320x180:rate=30:d=6",
+                            "-f", "lavfi", "-i", "sine=frequency=440:d=6",
+                            "-shortest", "-c:v", "libx264", "-pix_fmt", "yuv420p",
+                            "-c:a", "aac", str(src)], capture_output=True, text=True)
+        assert r.returncode == 0, r.stderr[-300:]
+        code, out = run([str(SCRIPTS / "detect_issues.py"), "--video", str(src)])
+        ok("video sạch -> exit 0 + 'sạch'", code == 0 and "sạch" in out, out[-300:])
+        black = d / "black.mp4"
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(src),
+                        "-vf", "drawbox=x=0:y=0:w=iw:h=ih:color=black:t=fill:enable='between(t,2,5)'",
+                        "-c:a", "copy", str(black)], check=True, capture_output=True)
+        code, out = run([str(SCRIPTS / "detect_issues.py"), "--video", str(black)])
+        ok("đen 3s -> cờ đen", code == 0 and "đen 2.00" in out, out[-300:])
+        mute = d / "mute.mp4"
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(src),
+                        "-af", "volume=0:enable='between(t,2,5)'",
+                        "-c:v", "copy", str(mute)], check=True, capture_output=True)
+        code, out = run([str(SCRIPTS / "detect_issues.py"), "--video", str(mute)])
+        ok("câm 3s -> cờ câm", code == 0 and "câm" in out, out[-300:])
+        frz = d / "freeze.mp4"
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(src), "-filter_complex",
+                        "[0:v]trim=0:2,setpts=PTS-STARTPTS[a];[0:v]trim=2:2.033,setpts=PTS-STARTPTS,loop=loop=89:size=1:start=0,setpts=N/30/TB[b];[0:v]trim=5,setpts=PTS-STARTPTS[c];[a][b][c]concat=n=3:v=1:a=0[v]",
+                        "-map", "[v]", "-map", "0:a", "-c:a", "copy", str(frz)],
+                       check=True, capture_output=True)
+        code, out = run([str(SCRIPTS / "detect_issues.py"), "--video", str(frz)])
+        ok("đứng hình 3s -> cờ đứng hình", code == 0 and "đứng hình" in out, out[-300:])
+        # map khoảng đen vào shot: đen 0.5–2.5s nằm trọn trong SH001 (0–3s)
+        black1 = d / "black1.mp4"
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(src),
+                        "-vf", "drawbox=x=0:y=0:w=iw:h=ih:color=black:t=fill:enable='between(t,0.5,2.5)'",
+                        "-c:a", "copy", str(black1)], check=True, capture_output=True)
+        p = d / "p"
+        (p / "audio").mkdir(parents=True)
+        (p / "script").mkdir(parents=True)
+        manifest = {"duration": 6.0, "scenes": [{"id": "S01", "lines": [
+            {"id": "L1", "speaker": "host", "text": "Một.", "start": 0.0, "duration": 3.0},
+            {"id": "L2", "speaker": "host", "text": "Hai.", "start": 3.0, "duration": 3.0}]}]}
+        (p / "audio" / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+        shotlist = {"shots": [{"id": "SH001", "line_ids": ["L1"]}, {"id": "SH002", "line_ids": ["L2"]}]}
+        (p / "script" / "shotlist.json").write_text(json.dumps(shotlist), encoding="utf-8")
+        code, out = run([str(SCRIPTS / "detect_issues.py"), "--project", str(p), "--video", str(black1)])
+        ok("khoảng đen map đúng shot SH001 (không lẫn SH002)",
+           code == 0 and "SH001" in out and "SH002" not in out, out[-300:])
+        # đuôi câm cuối video được miễn (giọng hết trước khi hình hết là bình thường).
+        # Lưu ý: audio stream phải DÀI bằng video (3s sine + 3s lặng pad) thì
+        # silencedetect mới thấy khoảng lặng — stream audio kết thúc sớm thì
+        # ffmpeg không còn gì để phân tích, không cờ gì cả.
+        tail = d / "tail.mp4"
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi",
+                        "-i", "testsrc=size=320x180:rate=30:d=6",
+                        "-f", "lavfi", "-i", "sine=frequency=440:d=3",
+                        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac",
+                        "-af", "apad=whole_dur=6", "-t", "6", str(tail)], check=True, capture_output=True)
+        code, out = run([str(SCRIPTS / "detect_issues.py"), "--video", str(tail)])
+        ok("câm 3s ở đuôi video -> miễn, không tính lỗi",
+           code == 0 and "đuôi video" in out, out[-300:])
+
+
+def test_gates_auto_skip() -> None:
+    print("gates.py --auto-skip (Opt round 3, backlog: bỏ bước Chrome khi chỉ đổi .py/.md)")
+    import importlib.util
+    import os
+    import time
+
+    spec = importlib.util.spec_from_file_location("gates", str(SCRIPTS / "gates.py"))
+    gates = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gates)
+
+    def make_repo(td: Path) -> Path:
+        repo = td / "repo"
+        (repo / ".agents" / "skills" / "test").mkdir(parents=True)
+
+        def git(*a):
+            r = subprocess.run(["git", *a], cwd=repo, capture_output=True, text=True)
+            assert r.returncode == 0, r.stderr[-300:]
+
+        git("init", "-q")
+        git("config", "user.email", "t@t.t")
+        git("config", "user.name", "t")
+        (repo / ".agents" / "skills" / "test" / "x.py").write_text("x = 1\n", encoding="utf-8")
+        git("add", ".")
+        git("commit", "-qm", "init")
+        return repo
+
+    with tempfile.TemporaryDirectory() as td:
+        repo = make_repo(Path(td))
+        ok2, _ = gates.only_py_md_changed(repo)
+        ok("cây sạch -> đủ điều kiện skip", ok2)
+        (repo / ".agents" / "skills" / "test" / "x.py").write_text("x = 2\n", encoding="utf-8")
+        ok2, _ = gates.only_py_md_changed(repo)
+        ok("chỉ .py đổi -> đủ điều kiện skip", ok2)
+        (repo / "data.json").write_text("{}", encoding="utf-8")
+        ok2, _ = gates.only_py_md_changed(repo)
+        ok("thêm file .json đổi -> KHÔNG skip", not ok2)
+        (repo / "data.json").unlink()
+        proj = Path(td) / "p"
+        (proj / "video").mkdir(parents=True)
+        (proj / "video" / "index.html").write_text("<html></html>", encoding="utf-8")
+        old = time.time() - 3600
+        os.utime(proj / "video" / "index.html", (old, old))
+        ok("video/ cũ hơn code -> không rebuild",
+           not gates.video_newer_than_code(proj, repo))
+        now = time.time()
+        os.utime(proj / "video" / "index.html", (now, now))
+        ok("video/ mới hơn code -> vừa rebuild",
+           gates.video_newer_than_code(proj, repo))
+    # end-to-end: --auto-skip trên bản copy demo #3 + repo giả -> SKIP hyperframes, không chạy Chrome
+    demo = REPO / "projects" / "demo-30s-than-trung"
+    with tempfile.TemporaryDirectory() as td:
+        repo = make_repo(Path(td))
+        py = repo / ".agents" / "skills" / "test" / "x.py"
+        py.write_text("x = 2\n", encoding="utf-8")  # chỉ .py đổi
+        d = Path(td) / "demo"
+        shutil.copytree(demo, d, ignore=shutil.ignore_patterns("output"))
+        old = time.time() - 3600  # video/ cũ hơn lần sửa .py (py vừa touch = now)
+        for p in (d / "video").rglob("*"):
+            if p.is_file():
+                os.utime(p, (old, old))
+        code, out = run([str(SCRIPTS / "gates.py"), "--project", str(d),
+                         "--auto-skip", "--repo", str(repo), "--scenes", "S01"])
+        ok("--auto-skip: bỏ hyperframes, 3 gate Python vẫn chạy",
+           code == 0 and "[SKIP] hyperframes" in out, out[-400:])
+
+
+def test_lazy_load() -> None:
+    print("build_voiceover lazy-load (Opt round 3, mục 5: quét cache trước khi nạp model)")
+    import importlib.util
+
+    vs = REPO / ".agents" / "skills" / "voice-sync" / "scripts"
+    spec = importlib.util.spec_from_file_location("build_voiceover", str(vs / "build_voiceover.py"))
+    bv = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(bv)
+    char = {"id": "host", "name": "Host", "voice": "Đức Trí",
+            "temperature": 0.85, "ref_audio": None, "denoise": False}
+    cast = {"host": char}
+    speeds = {"L1": 1.3, "L2": 1.3, "L3": 1.3}
+    scenes = [{"id": "S01", "lines": [
+        {"id": "L1", "speaker": "host", "text": "Xin chào."},
+        {"id": "L2", "speaker": "host", "text": "Tạm biệt."},
+        {"id": "L3", "speaker": "host", "text": "Alo."}]}]
+    with tempfile.TemporaryDirectory() as td:
+        lines_dir = Path(td) / "lines"
+        lines_dir.mkdir(parents=True)
+        # L1: cache khớp key -> hit. L2: không có file -> miss.
+        k1 = bv.make_key("Xin chào.", char, 1.3)
+        (lines_dir / "L1.wav").write_bytes(b"RIFF....")
+        (lines_dir / "L1.json").write_text(
+            json.dumps({"key": k1, "duration": 1.5}), encoding="utf-8")
+        entries, uncached, hits, durs = bv.scan_cache(scenes, cast, speeds, lines_dir)
+        ok("scan_cache: L1 hit, L2+L3 miss",
+           hits == 1 and [e["lid"] for e in uncached] == ["L2", "L3"]
+           and durs.get("L1") == 1.5, f"hits={hits} uncached={[e['lid'] for e in uncached]}")
+        # L3: meta ghi bằng tên chuẩn "Hải Đăng", script ghi alias "Minh Quân".
+        # Dùng scenes chỉ có L3 để không lẫn với L1 (ghi bằng "Đức Trí").
+        char_alias = {"id": "host", "name": "Host", "voice": "Minh Quân",
+                      "temperature": 0.85, "ref_audio": None, "denoise": False}
+        k3 = bv.make_key("Alo.", {**char_alias, "voice": "Hải Đăng"}, 1.3)
+        (lines_dir / "L3.wav").write_bytes(b"RIFF....")
+        (lines_dir / "L3.json").write_text(
+            json.dumps({"key": k3, "duration": 0.8}), encoding="utf-8")
+        scenes3 = [{"id": "S01", "lines": [{"id": "L3", "speaker": "host", "text": "Alo."}]}]
+        _, uncached2, _, _ = bv.scan_cache(scenes3, {"host": char_alias}, {"L3": 1.3}, lines_dir)
+        ok("quét bằng tên alias -> L3 miss (key khác tên chuẩn)",
+           [e["lid"] for e in uncached2] == ["L3"])
+        char_alias["voice"] = "Hải Đăng"  # mô phỏng canonicalize sau khi nạp model
+        uncached3, hits3, durs3 = bv.rescan_after_canonicalize(uncached2, 0, {})
+        ok("sau canonicalize, quét lại -> L3 hit cache cũ",
+           hits3 == 1 and durs3.get("L3") == 0.8 and uncached3 == [], f"hits={hits3}")
+    # End-to-end: chạy lại trên bản copy demo #3 (7 line đã cache) bằng python
+    # của test venv — KHÔNG có vieneu. Nếu code hồi quy (nạp model trước khi
+    # quét cache) thì chết PackageNotInstalled, exit != 0.
+    demo = REPO / "projects" / "demo-30s-than-trung"
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "demo"
+        shutil.copytree(demo / "script", d / "script")
+        shutil.copytree(demo / "audio", d / "audio")
+        code, out = run([str(vs / "build_voiceover.py"),
+                         "--script", str(d / "script" / "script.json"),
+                         "--out", str(d / "audio")])
+        ok("chạy lại all-cached: exit 0 + bỏ qua nạp model",
+           code == 0 and "bỏ qua nạp model" in out, out[-300:])
 
 
 def main() -> int:
@@ -385,6 +696,10 @@ def main() -> int:
     test_check_sync()
     test_freeze_manifest()
     test_render_shots()
+    test_lazy_load()
+    test_concat_shots()
+    test_detect_issues()
+    test_gates_auto_skip()
     print(f"\n{'TẤT CẢ QUA' if not FAILS else f'THẤT BẠI {len(FAILS)}: ' + '; '.join(FAILS)}")
     return 0 if not FAILS else 1
 

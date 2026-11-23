@@ -25,6 +25,12 @@ Kiểm:
   E10 vị trí đứng (stand) của nhân vật không được trùng với đạo cụ — chân nhân vật đè lên
       đạo cụ là lỗi; vị trí `at` không giải được (thiếu `at`, stand/slot/parent không tồn tại)
       cũng là lỗi vì generator sẽ crash.
+  E11 (Opt round 3, mục 6) `focus` phải trỏ tới thứ có thật trong shot: nhân vật trong
+      shot, `prop:<id>` đạo cụ trong shot, hoặc `slot:<tên>` slot của bối cảnh (library).
+      Thiếu tiền tố `prop:` (bug SH006 demo #3) hoặc trỏ tới thứ không có trong shot là
+      lỗi — build_video.focus_point() trước đây rơi im lặng về giữa khung. Thiếu focus
+      thì cho phép (camera mặc định về giữa khung, dùng cho wide). Chỉ kiểm tham chiếu,
+      KHÔNG gợi ý bố cục — linter không được đẩy về shot tĩnh (luật di chuyển 21/11).
   Line dài tách nhiều shot: mỗi shot khai `span: [từ, đến]` (giây, tính từ đầu line đầu tiên của shot).
   W   cỡ cảnh lặp, đạo cụ lùi trạng thái, shot quá ngắn, nhịp shot trung bình chậm
 
@@ -252,6 +258,59 @@ def check_overlap(sid: str, shot: dict, loc_entry: dict, errors: list[str], rect
                 )
 
 
+def check_focus(sid: str, shot: dict, chars: dict, props: dict,
+                loc_entry: dict | None, errors: list[str]) -> None:
+    """E11 (Opt round 3, mục 6): `focus` phải trỏ tới thứ có thật trong shot.
+
+    build_video.focus_point() hiểu: "<char>" (nhân vật trong shot),
+    "prop:<id>" (đạo cụ trong shot), "slot:<tên>" (slot của bối cảnh trong
+    library). Giá trị khác rơi IM LẶNG về giữa khung (bug SH006 demo #3: focus
+    "mam_tre" thiếu tiền tố prop:), còn "prop:<id-không-tồn-tại>" thì KeyError
+    lúc dựng. E11 bắt cả hai ở gate. Thiếu focus = cho phép (wide).
+    Chỉ kiểm tham chiếu, không gợi ý bố cục (luật di chuyển 21/11).
+    """
+    f = shot.get("focus")
+    if f is None:
+        return
+    shot_chars = {c.get("id") for c in shot.get("characters", [])}
+    shot_props = {p.get("id") for p in shot.get("props", [])}
+    slots = set((loc_entry or {}).get("slots") or {})
+    valid = sorted(
+        list(shot_chars)
+        + [f"prop:{p}" for p in sorted(shot_props)]
+        + [f"slot:{s}" for s in sorted(slots)]
+    )
+    hint = f" (focus hợp lệ ở shot này: {', '.join(valid) or '—'})" if valid else ""
+    if not isinstance(f, str) or not f:
+        errors.append(f"{sid}: focus phải là chuỗi (char | prop:<id> | slot:<tên>){hint} (E11)")
+        return
+    if f in shot_chars:
+        return
+    if f.startswith("prop:"):
+        pid = f[5:]
+        if pid in shot_props:
+            return
+        where = "có trong bible nhưng không có trong shot này" if pid in props else "không có trong bible"
+        errors.append(f"{sid}: focus '{f}' — đạo cụ '{pid}' {where}{hint} (E11)")
+        return
+    if f.startswith("slot:"):
+        name = f[5:]
+        if name in slots:
+            return
+        errors.append(f"{sid}: focus '{f}' — slot '{name}' không có trong bối cảnh '{shot.get('location')}'{hint} (E11)")
+        return
+    if f in props:
+        errors.append(f"{sid}: focus '{f}' thiếu tiền tố — đạo cụ phải viết 'prop:{f}'{hint} (E11)")
+        return
+    if f in chars:
+        errors.append(f"{sid}: focus '{f}' — nhân vật '{f}' có trong bible nhưng không có trong shot này{hint} (E11)")
+        return
+    if f in slots:
+        errors.append(f"{sid}: focus '{f}' thiếu tiền tố — slot phải viết 'slot:{f}'{hint} (E11)")
+        return
+    errors.append(f"{sid}: focus '{f}' không trỏ tới nhân vật/đạo cụ/slot nào{hint} (E11)")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Kiểm thoại ↔ shot ↔ bible ↔ SFX.")
     ap.add_argument("--project", type=Path, required=True)
@@ -423,6 +482,9 @@ def main() -> int:
         if loc_entry is not None:
             rects = prop_rects(sid, shot, loc_entry, props, index_items, errors)
             check_overlap(sid, shot, loc_entry, errors, rects)
+
+        # --- E11: focus phải trỏ tới thứ có thật trong shot
+        check_focus(sid, shot, chars, props, loc_entry, errors)
 
         # --- beats & sfx
         beats = shot.get("beats", [])
