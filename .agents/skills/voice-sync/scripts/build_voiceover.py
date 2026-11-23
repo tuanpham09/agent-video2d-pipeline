@@ -4,7 +4,9 @@
 xuất audio từng câu, audio tổng, manifest timing tuyệt đối và phụ đề SRT.
 
 Đặc điểm:
-- Một process, một model: nạp VieNeu một lần cho cả kịch bản.
+- Một process, một model: nạp VieNeu một lần cho cả kịch bản. Lazy-load (Opt
+  round 3, mục 5): quét cache TRƯỚC khi nạp model — chạy lại mà không có line
+  mới thì bỏ qua hẳn việc nạp model (~15s).
 - Nhiều nhân vật: preset voice hoặc clone từ ref_audio 3–8 s.
 - Cache theo nội dung: sửa 1 câu chỉ đọc lại câu đó.
 - Tốc độ đọc: mặc định 1.25× (khuyến nghị 1.2–1.3), hạ/tăng bằng --speed; dùng
@@ -309,6 +311,76 @@ def make_key(text: str, char: dict, speed: float = 1.0) -> str:
     return hashlib.sha1(json.dumps(payload, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
 
 
+def scan_cache(scenes, cast, speeds, lines_dir, force=False):
+    """Quét cache WAV từng line — KHÔNG cần model (Opt round 3, mục 5: lazy-load).
+
+    Trả về (line_entries, uncached_queue, cache_hits, durations). Key dùng tên
+    giọng NHƯ GHI trong script (xem ghi chú alias ở main()).
+    """
+    line_entries: list[dict] = []
+    uncached_queue: list[dict] = []
+    durations: dict[str, float] = {}
+    cache_hits = 0
+    for scene in scenes:
+        for line in scene["lines"]:
+            lid = line["id"]
+            char = cast[line["speaker"]]
+            wav = lines_dir / f"{safe_name(lid)}.wav"
+            meta_path = lines_dir / f"{safe_name(lid)}.json"
+            line_speed = speeds[lid]
+            key = make_key(line["text"].strip(), char, line_speed)
+            cached = False
+            meta = None
+            if not force and wav.exists() and meta_path.exists():
+                try:
+                    meta = json.loads(meta_path.read_text(encoding="utf-8-sig"))
+                    cached = meta.get("key") == key
+                except json.JSONDecodeError:
+                    cached = False
+            entry = {
+                "lid": lid,
+                "text": line["text"].strip(),
+                "char": char,
+                "wav": wav,
+                "meta_path": meta_path,
+                "key": key,
+                "speed": line_speed,
+                "cached": cached,
+            }
+            line_entries.append(entry)
+            if cached:
+                cache_hits += 1
+                durations[lid] = float(meta["duration"])
+            else:
+                uncached_queue.append(entry)
+    return line_entries, uncached_queue, cache_hits, durations
+
+
+def rescan_after_canonicalize(uncached_queue, cache_hits, durations):
+    """Sau khi canonicalize tên giọng, tính lại key + quét lại cache cho các line
+    chưa cache (trường hợp alias: 'Minh Quân'→'Hải Đăng' có thể hit cache cũ
+    ghi bằng tên chuẩn). Trả về (uncached_queue mới, cache_hits, durations)."""
+    still_uncached: list[dict] = []
+    for entry in uncached_queue:
+        new_key = make_key(entry["text"], entry["char"], entry["speed"])
+        if new_key == entry["key"]:
+            still_uncached.append(entry)
+            continue
+        entry["key"] = new_key
+        meta = None
+        try:
+            meta = json.loads(entry["meta_path"].read_text(encoding="utf-8-sig"))
+        except (OSError, json.JSONDecodeError):
+            meta = None
+        if meta and entry["wav"].exists() and meta.get("key") == new_key:
+            entry["cached"] = True
+            cache_hits += 1
+            durations[entry["lid"]] = float(meta["duration"])
+        else:
+            still_uncached.append(entry)
+    return still_uncached, cache_hits, durations
+
+
 class Speaker:
     """Nạp VieNeu một lần, đọc từng line."""
 
@@ -548,66 +620,42 @@ def main() -> int:
         )
         return 0
 
-    speaker = Speaker()
-    for cid, char in cast.items():
-        if char["ref_audio"] or not char["voice"]:
-            continue
-        canon = speaker.canonical_name(char["voice"])
-        if canon and canon != char["voice"]:
-            print(f"[alias] {cid}: '{char['voice']}' → '{canon}'", file=sys.stderr)
-            char["voice"] = canon
-    missing_voices = speaker.check_cast(cast)
-    if missing_voices:
-        die(
-            "VoiceNotFound",
-            "Có giọng không tồn tại trong model. Xem danh mục: python .agents/skills/vieneu-tts/scripts/list_voices.py",
-            missing_voices,
-        )
     warn_once: set[str] = set()
-    durations: dict[str, float] = {}
-    cache_hits = 0
     failures: list[str] = []
     total = info["lines"]
     done = 0
     started = time.time()
 
-    # Thu thập danh sách lines cần đọc (uncached) vs cache hits
-    uncached_queue: list[dict] = []
-    line_entries: list[dict] = []
-
-    for scene in scenes:
-        for line in scene["lines"]:
-            lid = line["id"]
-            char = cast[line["speaker"]]
-            wav = lines_dir / f"{safe_name(lid)}.wav"
-            meta_path = lines_dir / f"{safe_name(lid)}.json"
-            line_speed = info["speeds"][lid]
-            key = make_key(line["text"].strip(), char, line_speed)
-
-            cached = False
-            if not args.force and wav.exists() and meta_path.exists():
-                try:
-                    meta = json.loads(meta_path.read_text(encoding="utf-8-sig"))
-                    cached = meta.get("key") == key
-                except json.JSONDecodeError:
-                    cached = False
-
-            entry = {
-                "lid": lid,
-                "text": line["text"].strip(),
-                "char": char,
-                "wav": wav,
-                "meta_path": meta_path,
-                "key": key,
-                "speed": line_speed,
-                "cached": cached,
-            }
-            line_entries.append(entry)
-            if cached:
-                cache_hits += 1
-                durations[lid] = float(json.loads(meta_path.read_text(encoding="utf-8-sig"))["duration"])
-            else:
-                uncached_queue.append(entry)
+    # Opt round 3, mục 5 (lazy-load): quét cache TRƯỚC khi nạp model (~15s).
+    # Quét bằng tên giọng THÔ là an toàn: hit chỉ xảy ra khi key đã lưu khớp đúng
+    # tên thô đó (tức meta đã ghi bằng đúng tên đó, hoặc tên thô = tên chuẩn).
+    # Trường hợp alias ("Minh Quân"→"Hải Đăng"): quét thô MISS → vẫn nạp model
+    # như cũ → canonicalize → tính lại key + quét lại (rescan_after_canonicalize).
+    # Chỉ bỏ qua check_cast khi tất cả đã cache — cache tồn tại ⟹ giọng đã từng
+    # qua check_cast thành công lúc synth.
+    line_entries, uncached_queue, cache_hits, durations = scan_cache(
+        scenes, cast, info["speeds"], lines_dir, args.force)
+    speaker = None
+    if uncached_queue:
+        speaker = Speaker()
+        for cid, char in cast.items():
+            if char["ref_audio"] or not char["voice"]:
+                continue
+            canon = speaker.canonical_name(char["voice"])
+            if canon and canon != char["voice"]:
+                print(f"[alias] {cid}: '{char['voice']}' → '{canon}'", file=sys.stderr)
+                char["voice"] = canon
+        missing_voices = speaker.check_cast(cast)
+        if missing_voices:
+            die(
+                "VoiceNotFound",
+                "Có giọng không tồn tại trong model. Xem danh mục: python .agents/skills/vieneu-tts/scripts/list_voices.py",
+                missing_voices,
+            )
+        uncached_queue, cache_hits, durations = rescan_after_canonicalize(
+            uncached_queue, cache_hits, durations)
+    else:
+        print("[cache] tất cả line đã cache — bỏ qua nạp model", file=sys.stderr)
 
     # Đọc batch các câu chưa cache (gom theo cùng nhân vật, tối đa 4 câu/mẻ)
     BATCH_SIZE = 4
