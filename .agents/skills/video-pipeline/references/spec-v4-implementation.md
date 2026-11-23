@@ -12,9 +12,11 @@ Nguồn lý do và nghiên cứu: [`research-v4-report.md`](research-v4-report.m
 6. Không dùng code từ repo bên ngoài (đặc biệt OpenMontage AGPL, Spine/Remotion license tuỳ chỉnh). Chỉ học ý tưởng.
 7. File sinh ra trong `.pipeline/` là **dữ liệu sinh tự động** (như R1.3): không sửa tay, không commit `cache/`.
 
-## 1. Quyết định khuyến nghị (ưu tiên: độ chính xác, đồng bộ, tốc độ ổn định) — chờ người dùng xác nhận
+## 1. Quyết định ĐÃ CHỐT (người dùng yêu cầu làm theo khuyến nghị, 2026-11-23; ưu tiên: độ chính xác, đồng bộ, tốc độ ổn định)
 
-| Câu hỏi | Khuyến nghị | Vì sao (theo ưu tiên) |
+Hướng đã chốt cho cả 4 câu. **Vẫn còn cổng riêng, không bỏ:** câu 2 phải có người dùng duyệt ảnh sau lần thử một nhân vật trước khi nhân rộng; câu 4 cần wav thật từ máy người dùng, cổng đo 20 câu, và hỏi pháp lý trước khi dùng cho sản phẩm thương mại.
+
+| Câu hỏi | Quyết định | Vì sao (theo ưu tiên) |
 | --- | --- | --- |
 | Migration | Thêm `.pipeline/` + `vp` bọc script cũ, chạy **song song** luồng cũ. Chuyển luồng chính chỉ khi `vp gate` cho **kết luận trùng gate cũ** trên mọi project hiện có (tiêu chí cắt chuyển); roll-back = xoá `.pipeline/` | Không đổi kết quả đang đúng (chính xác); không có thời điểm "đứt" (ổn định) |
 | Quay người / 3/4 | **Không vẽ tay từng nhân vật, không xấp xỉ mắt.** Sinh `three_quarter` **theo tham số từ chính rig** trong `build_rig.py` (cùng bible → cùng khuôn mặt, nhất quán), đổi bằng `data-view` (hoán slot, ý từ Spine skin/attachment), cú quay = hoán view + `scaleX` ngắn. **Làm thử một nhân vật, người dùng duyệt view sheet rồi mới nhân rộng** (M5) | Nhất quán nhân vật do cùng nguồn tham số; chi phí render bằng 0 (chỉ đổi thuộc tính) nên tốc độ ổn định. Đây là suy luận từ kiến trúc, **chưa thấy ai làm cho SVG** [CHƯA KIỂM] — vì vậy bắt buộc thử + duyệt ảnh (R10.2) |
@@ -129,7 +131,7 @@ Fixture lỗi giả (bản sao tạm): người cho không cầm → E1; đổi 
 
 ## 4b. Mốc M4 — Aligner mốc từ (P3, cần wav thật từ máy người dùng)
 
-Chỉ bắt đầu khi người dùng gật mục 1 dòng ASR/MFA và đã có `audio/lines/*.wav` thật.
+Hướng đã chốt (mục 1). Chỉ bắt đầu khi đã có `audio/lines/*.wav` thật từ máy người dùng.
 1. **M4.1 Thăm dò nguồn gốc:** kiểm VieNeu có trả mốc/độ dài âm tiết không (đọc API/mã nguồn của `vieneu`, ghi kết quả). Có ⇒ dùng, bỏ M4.2.
 2. **M4.2 `voice-sync/scripts/align.py`:** forced alignment văn bản biết trước → ghi `words[]` (`{start,end}` tương đối trong câu) vào manifest qua `build_voiceover.py` (không sửa tay manifest, R1.2). Aligner chọn bằng `--aligner mfa|none`; `none` = ước tính hiện tại.
 3. **M4.3 Cổng chính xác:** `check_alignment.py`: tổng khoảng từ = độ dài wav (± 0,05 s), mốc đơn điệu, không từ dài 0, và so với **20 câu có mốc đánh dấu tay** (`tests/fixtures/align_gold.json`) — sai lệch trung bình < 0,1 s; không đạt ⇒ không bật.

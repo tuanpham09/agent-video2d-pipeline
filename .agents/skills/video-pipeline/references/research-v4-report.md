@@ -411,7 +411,7 @@ Mỗi phase giữ tương thích ngược; không sửa production trước khi 
 - *MFA cho tiếng Việt* có nhiều rủi ro (giọng tổng hợp, license dữ liệu): giữ đường lui bằng biên độ RMS, luôn ghi "ước tính" khi chưa có mốc thật.
 - *`vp` là giao diện duy nhất*, MCP chỉ là vỏ: tương thích Claude/Codex/OpenCode/Antigravity mà không khoá.
 
-**Câu hỏi cần bạn quyết trước khi code:** (1) duyệt hướng migration §F-0; (2) hướng quay người (3/4 vẽ thêm hay xấp xỉ); (3) chấp nhận phụ thuộc `doit`/SQLite hay tự viết tối giản; (4) có chấp nhận ASR/MFA (và rủi ro license dữ liệu) cho căn chỉnh tiếng Việt.
+**Bốn quyết định (đã chốt 2026-11-23 theo khuyến nghị, chi tiết ở `spec-v4-implementation.md` §1):** (1) migration song song, chuyển khi `vp gate` trùng kết luận gate cũ; (2) `three_quarter` sinh theo tham số rig, thử một nhân vật rồi người dùng duyệt ảnh; (3) cache/khoá tự viết tối giản, không `doit`, SQLite chỉ khi ≥ 2 worker; (4) forced alignment có điều kiện (thăm dò VieNeu → MFA → đường lui biên độ), cổng đo 20 câu < 0,1 s, hỏi pháp lý trước khi dùng thương mại.
 
 ---
 
