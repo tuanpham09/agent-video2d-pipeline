@@ -545,10 +545,11 @@ class Rig:
                 lines.append(f"{r}[data-gaze='{g}']{{--gx:{gx}px;--gy:{gy}px}}")
         for name, ((ul, fl), (ur, fr)) in POSES.items():
             sel = f"{r}[data-pose='{name}']"
-            lines.append(f"{sel} .arm-l{{transform:rotate({ul}deg)}}")
-            lines.append(f"{sel} .fore-l{{transform:rotate({fl}deg)}}")
-            lines.append(f"{sel} .arm-r{{transform:rotate({ur}deg)}}")
-            lines.append(f"{sel} .fore-r{{transform:rotate({fr}deg)}}")
+            # --ik-* (do generator đặt khi beat `reach`, xem ik.py) thắng góc của pose; không đặt thì dùng góc pose như cũ
+            lines.append(f"{sel} .arm-l{{transform:rotate(calc(var(--ik-ul,{ul}) * 1deg))}}")
+            lines.append(f"{sel} .fore-l{{transform:rotate(calc(var(--ik-fl,{fl}) * 1deg))}}")
+            lines.append(f"{sel} .arm-r{{transform:rotate(calc(var(--ik-ur,{ur}) * 1deg))}}")
+            lines.append(f"{sel} .fore-r{{transform:rotate(calc(var(--ik-fr,{fr}) * 1deg))}}")
         for name, (tl_, tr_) in LEG_POSES.items():
             sel = f"{r}[data-pose='{name}']"
             lines.append(f"{sel} .leg-l{{transform:{tl_}}}")

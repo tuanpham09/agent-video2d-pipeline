@@ -232,6 +232,19 @@
                 "react": {
                   "type": "object"
                 },
+                "reach": {
+                  "type": "object",
+                  "description": "Tay với tới đích bằng IK 2 khúc (ik.py). to = {prop}|{char,hand}|{x,y}; side l|r (mặc định: phía đích); dur, hold, release_dur (s). Chỉ stance stand|sit, view front.",
+                  "required": ["char", "to"],
+                  "properties": {
+                    "char": {"type": "string"},
+                    "side": {"enum": ["l", "r"]},
+                    "to": {"type": "object"},
+                    "dur": {"type": "number"},
+                    "hold": {"type": "number"},
+                    "release_dur": {"type": "number"}
+                  }
+                },
                 "move": {
                   "type": "object",
                   "required": [

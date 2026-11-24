@@ -472,9 +472,15 @@ def main() -> int:
         for b in shot.get("beats", []):
             tag = f" (macro {b['from_macro']})" if b.get("from_macro") else ""
             refs = [k for k in (b.get("set") or {}) if k != "light" and not k.startswith("prop:")]
-            for k in ("move", "look", "react"):
+            for k in ("move", "look", "react", "reach"):
                 if isinstance(b.get(k), dict):
                     refs.append(b[k].get("char"))
+            if isinstance(b.get("reach"), dict):
+                rt = b["reach"].get("to") or {}
+                if "char" in rt:
+                    refs.append(rt["char"])
+                if "prop" in rt and rt["prop"] not in pkeys:
+                    errors.append(f"{sid}: beat{tag} reach.to.prop '{rt['prop']}' không có trong shot (E12)")
             if isinstance(b.get("look"), dict):
                 refs.append(b["look"].get("target"))
             if isinstance(b.get("hand_over"), dict):
@@ -573,7 +579,7 @@ def main() -> int:
             explicit = set()
             for b in beats:
                 explicit |= set((b.get("set") or {}).keys()) & {c.get("id") for c in shot_chars}
-                for k in ("move", "look", "react"):
+                for k in ("move", "look", "react", "reach"):
                     if isinstance(b.get(k), dict):
                         explicit.add(b[k].get("char"))
                 if isinstance(b.get("hand_over"), dict):  # chuyển tay: cả người cho lẫn người nhận đều có hành vi

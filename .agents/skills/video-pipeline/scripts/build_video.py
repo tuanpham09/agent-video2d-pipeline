@@ -37,6 +37,8 @@ sys.path.insert(0, str(HERE))
 import library as L
 from timing_lib import beat_time, sentence_ends  # noqa: E402
 from behaviors import expand_shot  # noqa: E402
+import ik  # noqa: E402
+from build_rig import POSES  # noqa: E402
 
 W, H = 1920, 1080
 ZOOM = {"wide": 1.0, "medium": 1.6, "close": 2.4, "macro": 3.2, "ots": 1.8}
@@ -199,6 +201,58 @@ class Stage:
             f'tl.to("#{pid}", {{attr: {{x: {gx:.1f}, y: {gy:.1f}}}, duration: {d1:.2f}, ease: "power1.inOut"}}, {t:.2f});',
             f'tl.to("#{pid}", {{attr: {{x: {rx:.1f}, y: {ry:.1f}}}, duration: {d - d1:.2f}, ease: "power1.inOut"}}, {t + d1:.2f});',
         ]
+
+    def reach_js(self, b: dict, t: float, tracks, beats) -> list[str]:
+        """Beat `reach`: tay với tới điểm đích bằng IK 2 khúc (ik.py) thay vì góc pose cố định.
+        to = {"prop": key} | {"char": id, "hand": "l|r"} | {"x":…, "y":…} (toạ độ cảnh). Giữ `hold` s rồi thả về góc pose.
+        Chỉ cho stance stand|sit nhìn chính diện (kneel/lie/3-4 làm lệch hệ trục)."""
+        r = b["reach"]
+        cid = r["char"]
+        c = self.chars[cid]
+        s_ = c["s"]
+        to = r["to"]
+        if "prop" in to:
+            p = self.props[to["prop"]]
+            X, Y = p["x"], p["y"] - p["h"] * p["k"] / 2
+        elif "char" in to:
+            X, Y = self.hand_pos(to["char"], to.get("hand", "l"))
+            X += tracks[to["char"]].x_at(t) - self.chars[to["char"]]["x"]
+        elif "rel" in to:
+            X = Y = None  # đích tương đối vai (px toạ độ rig): [dx, dy]
+        else:
+            X, Y = float(to["x"]), float(to["y"])
+        cx = tracks[cid].x_at(t)
+        side = r.get("side") or (("l" if to["rel"][0] > 0 else "r") if X is None else ("l" if X > cx else "r"))
+        if side not in ("l", "r"):
+            raise ValueError(f"{self.sid}: reach.side phải là l|r")
+        piv = jload(self.ctx.proj / "assets" / "rig" / f"{cid}.rig.json")["pivots"][f"arm-{side}"]
+        sh = (float(piv.split("px")[0]), 318.0)
+        if X is None:
+            T = (sh[0] + float(to["rel"][0]), sh[1] + float(to["rel"][1]))
+        else:
+            T = ((X - (cx - 260 * s_)) / s_, (Y - (c["y"] - 580 * s_)) / s_)
+        up, fo, ok = ik.solve_arm(sh, T, side)
+        gap = math.hypot(T[0] - sh[0], T[1] - sh[1]) - (ik.L1 + ik.L2)
+        if not ok and gap > 25 * 1.0:
+            raise ValueError(f"{self.sid}: reach {cid}.{side} đích xa quá tầm {gap:.0f}px (rig) — đưa nhân vật lại gần hoặc đổi đích")
+        pose = "idle"
+        for tb, bb in beats:
+            if tb <= t and cid in (bb.get("set") or {}) and "pose" in (bb["set"][cid] or {}):
+                pose = bb["set"][cid]["pose"]
+        base = POSES.get(pose, POSES["idle"])[0 if side == "l" else 1]
+        su, sf = f"--ik-u{side}", f"--ik-f{side}"
+        sel = f"#{c['id']}"
+        d = float(r.get("dur", 0.5))
+        hold = float(r.get("hold", 0.6))
+        rd = float(r.get("release_dur", 0.4))
+        out = [
+            f'tl.set("{sel}", {{"{su}": {base[0]}, "{sf}": {base[1]}}}, {t:.2f});',
+            f'tl.to("{sel}", {{"{su}": {up}, "{sf}": {fo}, duration: {d:.2f}, ease: "power2.out"}}, {t:.2f});',
+        ]
+        t_rel = t + d + hold
+        out.append(f'tl.to("{sel}", {{"{su}": {base[0]}, "{sf}": {base[1]}, duration: {rd:.2f}, ease: "power2.inOut"}}, {t_rel:.2f});')
+        out.append(f'tl.set("{sel}", {{clearProps: "{su},{sf}"}}, {t_rel + rd + 0.01:.2f});')
+        return out
 
     def focus_point(self) -> tuple[float, float]:
         f, size = self.shot.get("focus"), self.shot["size"]
@@ -458,6 +512,8 @@ def build_shot_js(st: Stage, dur: float, abs0: float, ctx: Ctx) -> str:
             c["x"] = tgt["x"]  # bản ghi tĩnh dùng cho các bước sau (tracks giữ quỹ đạo chính xác)
         if b.get("hand_over"):
             out.extend(st.hand_over_js(b, t))
+        if b.get("reach"):
+            out.extend(st.reach_js(b, t, tracks, beats))
         if b.get("look"):
             lk = b["look"]
             out.append(f'tl.set("#{st.chars[lk["char"]]["id"]}", {{attr: {{"data-gaze": {js(gaze_toward(tracks[lk["char"]].x_at(t), tracks[lk["target"]].x_at(t)))}}}}}, {t:.2f});')

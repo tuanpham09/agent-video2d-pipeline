@@ -54,3 +54,9 @@
 - Test: sửa 2 test cho khớp (E12/E13; test E9 thêm beat `set` tường minh vì S01 đã dùng macro); 2 đoạn end-to-end cần `projects/demo-30s-than-trung` (không có trong repo) → BỎ QUA có báo.
 - Đã chạy: `test_roadmap_v3.py` 102 ✓ / 0 ✗; `check_shots --scenes S01` OK; `check_sync` OK; `check_rules --phase demo` 0 lỗi; `behaviors.py check` 23 macro 0 lỗi; `library.py check` 0 lỗi; `validate_schemas` OK; `build_video --scenes S01` + `hyperframes lint` 0 lỗi/0 cảnh báo.
 - Chưa kiểm: render thật (--workers/--resume/cache), thời gian/RAM, `hyperframes check`, SFX nghe thật. HTML sinh ra khác bản trước merge (do thay đổi generator của opt-round3) — chưa xem lại ảnh sau merge.
+
+### 2026-11-25 — Prototype IK tay (beat `reach`)
+- Thêm `scripts/ik.py` (IK 2 khúc), CSS rig dùng `var(--ik-*, góc pose)` (build lại 5 rig), beat `reach` trong generator/schema/check_shots (E12 kiểm prop/char; E7 tính là hành vi), macro STEP_KEYS có `reach`. Chưa đổi shotlist thật.
+- Chạy: `test_roadmap_v3.py` (mục IK, tất cả qua); build SH008 bản thử trong /tmp + `hyperframes snapshot`.
+- Ảnh đã XEM: `.agents/skills/video-pipeline/references/review/ik-reach-sh008-contact.jpg` — thấy host và me giơ tay chạm nhau, khuỷu gập xuống/ra ngoài, hết hold thì tay về đúng pose cũ (clasp / chỉ tay). Lỗi đã sửa: ban đầu chọn nghiệm khuỷu hất lên cao (tay vắt lên mặt) → sửa tiêu chí chọn khuỷu thấp.
+- Chưa kiểm: bàn tay chạm đúng pixel đạo cụ thật; `hand_over` bằng IK; render mp4; `hyperframes check`; rig không phải host/me.

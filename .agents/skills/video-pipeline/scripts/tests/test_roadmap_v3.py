@@ -880,6 +880,54 @@ def test_lazy_load() -> None:
            code == 0 and "bỏ qua nạp model" in out, out[-300:])
 
 
+def test_ik_reach() -> None:
+    print("IK tay + beat reach")
+    sys.path.insert(0, str(SCRIPTS))
+    import ik, random, math
+    random.seed(3)
+    worst, high_elbow = 0.0, 0
+    sh = (300.0, 318.0)
+    for _ in range(500):
+        T = (sh[0] + random.uniform(-120, 120), sh[1] + random.uniform(-60, 130))
+        u, f, reached = ik.solve_arm(sh, T, "l")
+        e, h = ik.fk(sh, u, f)
+        if reached:
+            worst = max(worst, math.dist(h, T))
+        if T[1] > sh[1] and math.dist(T, sh) > 40 and e[1] < sh[1] - 15:
+            high_elbow += 1
+    ok("IK: FK(IK(T)) trúng đích (sai số < 1.5 px)", worst < 1.5, f"{worst:.2f}")
+    ok("IK: đích dưới vai thì khuỷu không bị chọn nghiệm hất lên cao", high_elbow == 0, str(high_elbow))
+    ok("IK: đích quá tầm -> reached=False", ik.solve_arm(sh, (sh[0] + 400, sh[1]), "l")[2] is False)
+
+    def add_reach(to, side="l"):
+        def m(s):
+            for shot in s["shots"]:
+                if shot["id"] == "SH008":
+                    shot["beats"].append({"line_id": shot["beats"][0]["line_id"], "t": 0.3, "do": "test reach",
+                                          "reach": {"char": "host", "side": side, "to": to, "dur": 0.5, "hold": 0.5}})
+        return m
+
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        d.mkdir()
+        write_min_project(d, add_reach({"rel": [60, -10]}))
+        out_dir = Path(td) / "o" / "p"
+        code, out = run([str(SCRIPTS / "build_video.py"), "--project", str(d), "--shots", "SH008", "--out", str(out_dir)])
+        h = (out_dir / "compositions" / "SH008.html").read_text(encoding="utf-8") if code == 0 else ""
+        ok("reach: dựng được; tween --ik-ul và clearProps khi thả", code == 0 and '"--ik-ul"' in h and "clearProps" in h, out[-300:])
+        code, out = run([str(SCRIPTS / "check_shots.py"), "--project", str(d), "--scenes", "S01", "--repo", str(REPO)])
+        ok("reach: qua check_shots", code == 0, out[-300:])
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        d.mkdir()
+        write_min_project(d, add_reach({"rel": [400, 0]}))
+        code, out = run([str(SCRIPTS / "build_video.py"), "--project", str(d), "--shots", "SH008", "--out", str(Path(td) / "o" / "p")])
+        ok("reach: đích quá tầm -> generator báo lỗi rõ", code != 0 and "xa quá tầm" in out, out[-300:])
+        write_min_project(d.parent / "q", add_reach({"prop": "khong_co"}))
+        code, out = run([str(SCRIPTS / "check_shots.py"), "--project", str(d.parent / "q"), "--scenes", "S01", "--repo", str(REPO)])
+        ok("reach: prop không có trong shot bị E12", code == 1 and "reach.to.prop" in out, out[-300:])
+
+
 def main() -> int:
     test_timing_lib()
     test_check_shots()
@@ -888,6 +936,7 @@ def main() -> int:
     test_behaviors()
     test_actions()
     test_combos_autoface()
+    test_ik_reach()
     test_schemas()
     test_check_audio()
     test_check_sync()

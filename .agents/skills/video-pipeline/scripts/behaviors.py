@@ -25,7 +25,7 @@ from timing_lib import beat_time  # noqa: E402
 
 REPO = Path(__file__).resolve().parents[4]
 LIB = REPO / "library" / "behaviors" / "behaviors.json"
-STEP_KEYS = {"dt", "set", "move", "look", "react", "hand_over"}
+STEP_KEYS = {"dt", "set", "move", "look", "react", "hand_over", "reach"}
 STEP_META = {"physical"}  # cờ riêng từng bước (mặc định theo macro)
 ANCHOR_KEYS = ("line_id", "t", "word", "edge")
 _PH = re.compile(r"\{([a-z0-9_]+)\}")

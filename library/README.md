@@ -81,3 +81,12 @@ Lưu ý dàn cảnh: người nằm (`lie`) dài ~480 px ở scale 1 và chân/�
 ### Chuỗi ghép sẵn và tự quay mặt
 Macro nhiều bước (nhịp chỉnh bằng tham số, SFX đi theo nhịp): `cau_xin` (quỳ → lạy → ngẩng; `gap`, `gap2`), `chay_roi_om_dau` (`dur`, `after`), `soc_roi_ngat` (`suf`), `so_roi_bo_chay` (`dur`), `vai_chao` (`gap`).
 `view: "auto"` trong `beat.set` (mặc định của `quy_xuong`/`quy_lay`/`cau_xin`): quay mặt về nhân vật gần nhất tại thời điểm beat; không tự quay lại nếu người kia đi chỗ khác — khi đó ghi lại beat `set {view: auto}`.
+
+## IK tay — beat `reach` (prototype)
+Tay không còn chỉ nhảy giữa các góc pose cố định: beat `reach` cho tay với tới một điểm bằng IK giải tích 2 khúc (`scripts/ik.py`).
+```json
+{"line_id":"L01","t":0.3,"do":"…","reach":{"char":"host","side":"l","to":{"prop":"mam_tre"},"dur":0.6,"hold":1.2}}
+```
+- `to`: `{"prop":key}` | `{"char":id,"hand":"l|r"}` | `{"x","y"}` (toạ độ cảnh) | `{"rel":[dx,dy]}` (px rig, tính từ vai). `side` mặc định = phía đích.
+- Cơ chế: rig đọc `--ik-ul|fl|ur|fr` (CSS var, rơi về góc pose khi không đặt); generator tween các biến này, hết `hold` thì tween về góc pose rồi `clearProps`.
+- Giới hạn đã biết: chỉ stance stand|sit, view front (kneel/lie/3-4 lệch trục); đích quá tầm >25 px → generator báo lỗi; đích sát vai (<40 px) khuỷu mơ hồ; `hand_over` CHƯA dùng IK (đạo cụ vẫn trượt thẳng); đạo cụ chưa tự "dính" vào tay khi tay di chuyển.
