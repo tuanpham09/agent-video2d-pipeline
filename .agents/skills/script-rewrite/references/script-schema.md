@@ -69,6 +69,7 @@ File này là hợp đồng giữa bước viết kịch bản và bước đọ
 | `voice` | ✓* | tên giọng preset của VieNeu (`Hải Đăng`, `Đoan Trang`, `Mai Anh`, `Ngọc Huyền`, `Thái Sơn`, `Mỹ Duyên`, ...). Alias cũ (`Minh Quân`, `Anh Khôi`, `Mạnh Dũng`) vẫn chạy nhưng tự đổi về tên chuẩn |
 | `ref_audio` | ✓* | đường dẫn tương đối tới project cho clone giọng (3–8 s). Có `ref_audio` thì bỏ qua `voice` |
 | `temperature` | – | 0.6–1.0; thấp = ổn định, cao = biểu cảm. Mặc định 0.8 |
+| `speed` | – | tốc độ đọc riêng của nhân vật (atempo, 1.0–2.0; khuyến nghị 1.2–1.3). Thắng `--speed` chung của `build_voiceover.py`. Luật giọng hiện hành (Tuấn 23/11): giọng kể Đức Trí 1.3, nhân vật miền Bắc 1.2, miền Nam 1.0 |
 | `denoise` | – | mặc định `true` cho `ref_audio` |
 
 \* cần đúng một trong `voice` / `ref_audio`.
@@ -100,6 +101,7 @@ Mỗi `visual` phải là chuỗi mô tả rõ ràng (hoặc object JSON gồm c
 | `delivery` | – | ghi chú diễn xuất cho người đọc/duyệt, TTS bỏ qua |
 | `emphasis` | – | từ khoá cần nhấn trên hình/caption |
 | `pause_after` | – | khoảng lặng sau line (giây), mặc định 0.18 |
+| `speed` | – | tốc độ đọc riêng của line (atempo, 1.0–2.0). Thắng `speed` của nhân vật |
 | `on_screen` | – | chữ hiển thị thay cho caption nếu khác lời đọc |
 
 ## Luật kiểm

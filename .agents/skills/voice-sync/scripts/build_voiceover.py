@@ -4,11 +4,15 @@
 xuất audio từng câu, audio tổng, manifest timing tuyệt đối và phụ đề SRT.
 
 Đặc điểm:
-- Một process, một model: nạp VieNeu một lần cho cả kịch bản.
+- Một process, một model: nạp VieNeu một lần cho cả kịch bản. Lazy-load (Opt
+  round 3, mục 5): quét cache TRƯỚC khi nạp model — chạy lại mà không có line
+  mới thì bỏ qua hẳn việc nạp model (~15s).
 - Nhiều nhân vật: preset voice hoặc clone từ ref_audio 3–8 s.
 - Cache theo nội dung: sửa 1 câu chỉ đọc lại câu đó.
 - Tốc độ đọc: mặc định 1.25× (khuyến nghị 1.2–1.3), hạ/tăng bằng --speed; dùng
-  ffmpeg atempo nên giữ nguyên cao độ giọng.
+  ffmpeg atempo nên giữ nguyên cao độ giọng. Tốc độ riêng từng nhân vật khai
+  `speed` trong script.json (characters[] hoặc từng line) hoặc voice_map.json;
+  --speed chỉ là mặc định chung khi không khai riêng (xem `load_script`).
 - Timing tuyệt đối (start/duration) để HyperFrames đặt audio + caption khớp.
 
 Ví dụ:
@@ -172,7 +176,20 @@ def rel(path: Path, base: Path) -> str:
 # ---------------------------------------------------------------- validation
 
 
-def load_script(path: Path, base: Path, overrides: dict) -> tuple[dict, dict]:
+def resolve_speed(raw: object, where: str, default: float) -> float:
+    """Tốc độ đọc cho một nhân vật/line: số trong [SPEED_MIN, SPEED_MAX]; thiếu thì lấy mặc định."""
+    if raw is None:
+        return default
+    try:
+        value = float(raw)  # type: ignore[arg-type]
+    except (TypeError, ValueError):
+        value = float("nan")
+    if not (SPEED_MIN <= value <= SPEED_MAX):  # nan cũng rớt vào đây
+        die("InvalidSpeed", f"{where}: speed '{raw}' ngoài dải {SPEED_MIN}–{SPEED_MAX} hoặc không phải số.")
+    return value
+
+
+def load_script(path: Path, base: Path, overrides: dict, default_speed: float = DEFAULT_SPEED) -> tuple[dict, dict]:
     try:
         script = json.loads(path.read_text(encoding="utf-8-sig"))
     except FileNotFoundError:
@@ -217,10 +234,13 @@ def load_script(path: Path, base: Path, overrides: dict) -> tuple[dict, dict]:
             "ref_audio": ref_path,
             "temperature": float(merged.get("temperature", 0.8)),
             "denoise": bool(merged.get("denoise", True)),
+            # tốc độ riêng từng nhân vật: characters[].speed (hoặc voice_map) thắng --speed chung
+            "speed": resolve_speed(merged.get("speed"), f"nhân vật '{cid}'", default_speed),
         }
 
     seen_scenes: set[str] = set()
     seen_lines: set[str] = set()
+    speeds: dict[str, float] = {}  # tốc độ riêng từng line: line.speed > character.speed > --speed
     warnings: list[str] = []
     total_lines = 0
     for index, scene in enumerate(scenes):
@@ -245,6 +265,7 @@ def load_script(path: Path, base: Path, overrides: dict) -> tuple[dict, dict]:
                     "InvalidScript",
                     f"{lid}: speaker '{line.get('speaker')}' không có trong characters.",
                 )
+            speeds[lid] = resolve_speed(line.get("speed"), f"{lid}", cast[line["speaker"]]["speed"])
             text = (line.get("text") or "").strip()
             if not text or not clean_caption(text):
                 die("InvalidScript", f"{lid}: text rỗng.")
@@ -266,7 +287,7 @@ def load_script(path: Path, base: Path, overrides: dict) -> tuple[dict, dict]:
     if unused:
         warnings.append(f"Nhân vật không dùng: {', '.join(sorted(unused))}")
 
-    return script, {"cast": cast, "warnings": warnings, "lines": total_lines}
+    return script, {"cast": cast, "warnings": warnings, "lines": total_lines, "speeds": speeds}
 
 
 # ---------------------------------------------------------------- synthesis
@@ -288,6 +309,76 @@ def make_key(text: str, char: dict, speed: float = 1.0) -> str:
         "denoise": char["denoise"] if char["ref_audio"] else None,
     }
     return hashlib.sha1(json.dumps(payload, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
+def scan_cache(scenes, cast, speeds, lines_dir, force=False):
+    """Quét cache WAV từng line — KHÔNG cần model (Opt round 3, mục 5: lazy-load).
+
+    Trả về (line_entries, uncached_queue, cache_hits, durations). Key dùng tên
+    giọng NHƯ GHI trong script (xem ghi chú alias ở main()).
+    """
+    line_entries: list[dict] = []
+    uncached_queue: list[dict] = []
+    durations: dict[str, float] = {}
+    cache_hits = 0
+    for scene in scenes:
+        for line in scene["lines"]:
+            lid = line["id"]
+            char = cast[line["speaker"]]
+            wav = lines_dir / f"{safe_name(lid)}.wav"
+            meta_path = lines_dir / f"{safe_name(lid)}.json"
+            line_speed = speeds[lid]
+            key = make_key(line["text"].strip(), char, line_speed)
+            cached = False
+            meta = None
+            if not force and wav.exists() and meta_path.exists():
+                try:
+                    meta = json.loads(meta_path.read_text(encoding="utf-8-sig"))
+                    cached = meta.get("key") == key
+                except json.JSONDecodeError:
+                    cached = False
+            entry = {
+                "lid": lid,
+                "text": line["text"].strip(),
+                "char": char,
+                "wav": wav,
+                "meta_path": meta_path,
+                "key": key,
+                "speed": line_speed,
+                "cached": cached,
+            }
+            line_entries.append(entry)
+            if cached:
+                cache_hits += 1
+                durations[lid] = float(meta["duration"])
+            else:
+                uncached_queue.append(entry)
+    return line_entries, uncached_queue, cache_hits, durations
+
+
+def rescan_after_canonicalize(uncached_queue, cache_hits, durations):
+    """Sau khi canonicalize tên giọng, tính lại key + quét lại cache cho các line
+    chưa cache (trường hợp alias: 'Minh Quân'→'Hải Đăng' có thể hit cache cũ
+    ghi bằng tên chuẩn). Trả về (uncached_queue mới, cache_hits, durations)."""
+    still_uncached: list[dict] = []
+    for entry in uncached_queue:
+        new_key = make_key(entry["text"], entry["char"], entry["speed"])
+        if new_key == entry["key"]:
+            still_uncached.append(entry)
+            continue
+        entry["key"] = new_key
+        meta = None
+        try:
+            meta = json.loads(entry["meta_path"].read_text(encoding="utf-8-sig"))
+        except (OSError, json.JSONDecodeError):
+            meta = None
+        if meta and entry["wav"].exists() and meta.get("key") == new_key:
+            entry["cached"] = True
+            cache_hits += 1
+            durations[entry["lid"]] = float(meta["duration"])
+        else:
+            still_uncached.append(entry)
+    return still_uncached, cache_hits, durations
 
 
 class Speaker:
@@ -460,7 +551,8 @@ def main() -> int:
     ap.add_argument("--sample-rate", type=int, default=48000)
     ap.add_argument(
         "--speed", type=float, default=DEFAULT_SPEED,
-        help=f"tốc độ đọc (atempo), khuyến nghị 1.2–1.3 (mặc định {DEFAULT_SPEED}); 1.0 = giữ nguyên",
+        help=f"tốc độ đọc mặc định chung (atempo), khuyến nghị 1.2–1.3 (mặc định {DEFAULT_SPEED}); 1.0 = giữ nguyên. "
+             "Tốc độ riêng từng nhân vật khai `speed` trong script.json/voice_map.json sẽ thắng giá trị này",
     )
     ap.add_argument("--force", action="store_true", help="bỏ qua cache, đọc lại tất cả")
     ap.add_argument("--dry-run", action="store_true", help="chỉ validate và in kế hoạch, không gọi model")
@@ -495,7 +587,7 @@ def main() -> int:
         except json.JSONDecodeError as exc:
             die("InvalidVoiceMap", f"{voice_map_path} sai JSON: {exc}")
 
-    script, info = load_script(script_path, base, overrides)
+    script, info = load_script(script_path, base, overrides, args.speed)
     cast = info["cast"]
     scenes = script["scenes"]
 
@@ -515,7 +607,8 @@ def main() -> int:
                     "scenes": len(scenes),
                     "speed": args.speed,
                     "characters": {
-                        cid: {"name": c["name"], "voice": c["voice"], "clone": bool(c["ref_audio"])}
+                        cid: {"name": c["name"], "voice": c["voice"], "clone": bool(c["ref_audio"]),
+                              "speed": c["speed"]}
                         for cid, c in cast.items()
                     },
                     "warnings": info["warnings"],
@@ -527,64 +620,42 @@ def main() -> int:
         )
         return 0
 
-    speaker = Speaker()
-    for cid, char in cast.items():
-        if char["ref_audio"] or not char["voice"]:
-            continue
-        canon = speaker.canonical_name(char["voice"])
-        if canon and canon != char["voice"]:
-            print(f"[alias] {cid}: '{char['voice']}' → '{canon}'", file=sys.stderr)
-            char["voice"] = canon
-    missing_voices = speaker.check_cast(cast)
-    if missing_voices:
-        die(
-            "VoiceNotFound",
-            "Có giọng không tồn tại trong model. Xem danh mục: python .agents/skills/vieneu-tts/scripts/list_voices.py",
-            missing_voices,
-        )
     warn_once: set[str] = set()
-    durations: dict[str, float] = {}
-    cache_hits = 0
     failures: list[str] = []
     total = info["lines"]
     done = 0
     started = time.time()
 
-    # Thu thập danh sách lines cần đọc (uncached) vs cache hits
-    uncached_queue: list[dict] = []
-    line_entries: list[dict] = []
-
-    for scene in scenes:
-        for line in scene["lines"]:
-            lid = line["id"]
-            char = cast[line["speaker"]]
-            wav = lines_dir / f"{safe_name(lid)}.wav"
-            meta_path = lines_dir / f"{safe_name(lid)}.json"
-            key = make_key(line["text"].strip(), char, args.speed)
-
-            cached = False
-            if not args.force and wav.exists() and meta_path.exists():
-                try:
-                    meta = json.loads(meta_path.read_text(encoding="utf-8-sig"))
-                    cached = meta.get("key") == key
-                except json.JSONDecodeError:
-                    cached = False
-
-            entry = {
-                "lid": lid,
-                "text": line["text"].strip(),
-                "char": char,
-                "wav": wav,
-                "meta_path": meta_path,
-                "key": key,
-                "cached": cached,
-            }
-            line_entries.append(entry)
-            if cached:
-                cache_hits += 1
-                durations[lid] = float(json.loads(meta_path.read_text(encoding="utf-8-sig"))["duration"])
-            else:
-                uncached_queue.append(entry)
+    # Opt round 3, mục 5 (lazy-load): quét cache TRƯỚC khi nạp model (~15s).
+    # Quét bằng tên giọng THÔ là an toàn: hit chỉ xảy ra khi key đã lưu khớp đúng
+    # tên thô đó (tức meta đã ghi bằng đúng tên đó, hoặc tên thô = tên chuẩn).
+    # Trường hợp alias ("Minh Quân"→"Hải Đăng"): quét thô MISS → vẫn nạp model
+    # như cũ → canonicalize → tính lại key + quét lại (rescan_after_canonicalize).
+    # Chỉ bỏ qua check_cast khi tất cả đã cache — cache tồn tại ⟹ giọng đã từng
+    # qua check_cast thành công lúc synth.
+    line_entries, uncached_queue, cache_hits, durations = scan_cache(
+        scenes, cast, info["speeds"], lines_dir, args.force)
+    speaker = None
+    if uncached_queue:
+        speaker = Speaker()
+        for cid, char in cast.items():
+            if char["ref_audio"] or not char["voice"]:
+                continue
+            canon = speaker.canonical_name(char["voice"])
+            if canon and canon != char["voice"]:
+                print(f"[alias] {cid}: '{char['voice']}' → '{canon}'", file=sys.stderr)
+                char["voice"] = canon
+        missing_voices = speaker.check_cast(cast)
+        if missing_voices:
+            die(
+                "VoiceNotFound",
+                "Có giọng không tồn tại trong model. Xem danh mục: python .agents/skills/vieneu-tts/scripts/list_voices.py",
+                missing_voices,
+            )
+        uncached_queue, cache_hits, durations = rescan_after_canonicalize(
+            uncached_queue, cache_hits, durations)
+    else:
+        print("[cache] tất cả line đã cache — bỏ qua nạp model", file=sys.stderr)
 
     # Đọc batch các câu chưa cache (gom theo cùng nhân vật, tối đa 4 câu/mẻ)
     BATCH_SIZE = 4
@@ -608,7 +679,7 @@ def main() -> int:
             synth_items = []
             for item in batch:
                 raw = lines_dir / f".{safe_name(item['lid'])}.raw.wav"
-                target = raw if args.speed != 1.0 else item["wav"]
+                target = raw if item["speed"] != 1.0 else item["wav"]
                 synth_items.append((item["text"], item["char"], target))
 
             try:
@@ -620,8 +691,8 @@ def main() -> int:
 
             for item, (_, _, target) in zip(batch, synth_items):
                 raw = lines_dir / f".{safe_name(item['lid'])}.raw.wav"
-                if args.speed != 1.0 and raw.exists():
-                    apply_speed(raw, item["wav"], args.speed, args.sample_rate)
+                if item["speed"] != 1.0 and raw.exists():
+                    apply_speed(raw, item["wav"], item["speed"], args.sample_rate)
                     raw.unlink(missing_ok=True)
 
                 _, duration = read_mono(item["wav"], args.sample_rate, warn_once)
@@ -631,7 +702,7 @@ def main() -> int:
                             "key": item["key"],
                             "duration": round(duration, 4),
                             "engine": ENGINE,
-                            "speed": args.speed,
+                            "speed": item["speed"],
                         },
                         ensure_ascii=False,
                     ),
@@ -672,6 +743,7 @@ def main() -> int:
                     "start": round(cursor, 4),
                     "duration": round(duration, 4),
                     "gap_after": round(gap, 4),
+                    "speed": info["speeds"][lid],
                 }
             )
             cursor += duration + gap
@@ -722,6 +794,8 @@ def main() -> int:
         "version": 1,
         "engine": ENGINE,
         "sample_rate": args.sample_rate,
+        # tốc độ chung (mặc định --speed, giữ trong 1.2–1.3 cho schema/check_audio);
+        # tốc độ thật từng line nằm ở lines[].speed, từng nhân vật ở characters[].speed
         "speed": args.speed,
         "duration": total_duration,
         "full_audio": rel(full_audio, base),
@@ -732,11 +806,18 @@ def main() -> int:
                 "role": char["role"],
                 "voice": char["voice"],
                 "clone": rel(char["ref_audio"], base) if char["ref_audio"] else None,
+                "speed": char["speed"],
             }
             for cid, char in cast.items()
         },
         "scenes": manifest_scenes,
     }
+    if any(abs(s - args.speed) > 1e-9 for s in info["speeds"].values()):
+        manifest["speed_note"] = (
+            "tốc độ riêng từng nhân vật (khai speed trong script.json/voice_map.json; "
+            f"--speed {args.speed} chỉ là mặc định chung): "
+            + ", ".join(f"{cid} {c['speed']}" for cid, c in cast.items())
+        )
     manifest_path = out_dir / "manifest.json"
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
@@ -752,6 +833,7 @@ def main() -> int:
         "scenes": len(manifest_scenes),
         "duration_seconds": total_duration,
         "sample_rate": args.sample_rate,
+        "speeds": {cid: c["speed"] for cid, c in cast.items()},
         "full_audio": str(full_audio),
         "manifest": str(manifest_path),
         "captions": str(out_dir / "captions.srt"),

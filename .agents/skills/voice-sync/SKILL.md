@@ -41,7 +41,7 @@ Tuỳ chọn hữu ích:
 
 | Flag | Việc |
 | --- | --- |
-| `--speed 1.25` | tốc độ đọc, **mặc định 1.25×**, dải khuyến nghị 1.2–1.3 (atempo, giữ cao độ) |
+| `--speed 1.25` | tốc độ đọc **mặc định chung**, dải khuyến nghị 1.2–1.3 (atempo, giữ cao độ). Tốc độ riêng từng nhân vật (khai `speed` trong `script.json`/`voice_map.json`) thắng giá trị này |
 | `--gap 0.18` | lặng mặc định giữa các câu (giây) |
 | `--scene-gap 0.4` | lặng giữa các scene, chỗ để thở/chuyển hình |
 | `--tail 0.4` | lặng cuối video |
@@ -54,6 +54,12 @@ Tuỳ chọn hữu ích:
 - Mặc định **1.25×** — video ngắn gọn, nhịp nhanh hơn bản đọc gốc mà vẫn rõ chữ.
 - Chỉnh trong dải 1.2–1.3: `1.2` cho nội dung cần nghỉ (giải thích, kể chuyện), `1.3` cho
   short nhiều năng lượng. Ngoài dải này ffmpeg vẫn chạy (1.0–2.0) nhưng dễ mất tự nhiên.
+- **Tốc độ riêng từng nhân vật:** khai `speed` trong `script.json` — ở `characters[]`
+  (áp cho mọi line của nhân vật đó) hoặc ở từng line (thắng cả `speed` của nhân vật) —
+  hoặc trong `voice_map.json`. Thứ tự ưu tiên: line > nhân vật > `--speed` chung.
+  Luật giọng hiện hành (Tuấn 23/11): giọng kể Đức Trí 1.3, nhân vật miền Bắc 1.2,
+  miền Nam 1.0. `manifest.json` ghi tốc độ thật từng line (`lines[].speed`) và từng
+  nhân vật (`characters[].speed`); tốc độ chung ở gốc manifest vẫn giữ trong 1.2–1.3.
 - Áp bằng `ffmpeg atempo` trên từng line **trước khi đo duration**, nên `manifest.json`,
   SRT và `voiceover.wav` luôn khớp nhau. `--speed 1.0` = giữ nguyên giọng gốc.
 - Speed nằm trong cache key: đổi speed → đọc lại toàn bộ (đúng, vì file cũ sai tốc độ).
@@ -66,7 +72,7 @@ Tuỳ chọn hữu ích:
 
 ```json
 {
-  "host": { "voice": "Mai Anh", "temperature": 0.9 },
+  "host": { "voice": "Mai Anh", "temperature": 0.9, "speed": 1.2 },
   "dev": { "ref_audio": "assets/voices/linh_ref_6s.wav", "denoise": true }
 }
 ```
@@ -89,7 +95,7 @@ audio/
 
 ## Cache
 
-- Key = text + giọng/ref audio + temperature + engine.
+- Key = text + giọng/ref audio + temperature + tốc độ (speed) + engine.
 - Sửa 1 câu → chỉ câu đó được đọc lại; các câu khác lấy từ cache (nhanh, và không đổi âm sắc ngẫu nhiên).
 - Đổi `--force` chỉ khi nghi file hỏng hoặc đổi model.
 

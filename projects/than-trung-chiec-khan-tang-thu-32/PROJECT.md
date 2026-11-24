@@ -48,3 +48,9 @@
 ## Ngoại lệ so với RULES.md
 
 - **2026-11-22 — RULES.md v1 → v2 (R0.2/R0.3).** Người dùng yêu cầu trực tiếp trong phiên: "sửa R10 và đề xuất R11/R12 để nâng RULES.md lên v2", theo plan `references/roadmap-v3.md`. Agent chỉ thực hiện theo chỉ thị đó; không tự đổi luật. Nội dung R10–R12 là đề xuất chờ người dùng xem lại.
+
+### 2026-11-25 — Merge `origin/claude/opt-round3` (fix-pr1-gaps + opt-round2 + opt-round3) vào workflow-v2
+- Xung đột duy nhất: `check_shots.py`. Hai bên cùng đặt E9/E10 → **đổi số phía macro**: E12 = beat/macro chỉ nhắc nhân vật/đạo cụ có mặt trong shot (+ kiểm thư viện macro); E13 = giá trị `set` (kể cả `view`) ∈ rig.json, `move.gait` ∈ walk|run. E9 = pose có trong rig, E10 = chân đè đạo cụ, E11 = focus (của opt-round3) giữ nguyên.
+- Test: sửa 2 test cho khớp (E12/E13; test E9 thêm beat `set` tường minh vì S01 đã dùng macro); 2 đoạn end-to-end cần `projects/demo-30s-than-trung` (không có trong repo) → BỎ QUA có báo.
+- Đã chạy: `test_roadmap_v3.py` 102 ✓ / 0 ✗; `check_shots --scenes S01` OK; `check_sync` OK; `check_rules --phase demo` 0 lỗi; `behaviors.py check` 23 macro 0 lỗi; `library.py check` 0 lỗi; `validate_schemas` OK; `build_video --scenes S01` + `hyperframes lint` 0 lỗi/0 cảnh báo.
+- Chưa kiểm: render thật (--workers/--resume/cache), thời gian/RAM, `hyperframes check`, SFX nghe thật. HTML sinh ra khác bản trước merge (do thay đổi generator của opt-round3) — chưa xem lại ảnh sau merge.

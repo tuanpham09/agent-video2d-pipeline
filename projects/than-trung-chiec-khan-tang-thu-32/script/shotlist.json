@@ -483,8 +483,8 @@
     {
      "id": "mam_tre",
      "state": "cloths",
-     "at": "stand:C",
-     "dx": -230
+     "at": "stand:L",
+     "dx": -260
     }
    ],
    "beats": [

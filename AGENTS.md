@@ -84,7 +84,7 @@ Nhân vật: `build_rig.py` đọc `archetype` + `outfit` trong `bible.json` (xe
 | Thành phần | Trạng thái |
 | --- | --- |
 | Python | 3.14.5, `vieneu` 3.8.4 đã cài (25 giọng preset, mặc định `Hải Đăng`), model `VieNeu-TTS-v3-Turbo` đã cache (~2 GB) |
-| Node / npm | v24.16, `npx hyperframes` 0.9.66 chạy được |
+| Node / npm | v24.16, `hyperframes` **0.9.82 đã ghim** trong render.py/gates.py (Opt round 3 mục 0 — npx từng trôi nổi, tự cài 0.9.82 trong lúc package.json ghim 0.9.81) |
 | FFmpeg / ffprobe | 8.1.1 |
 | yt-dlp | có (fallback transcript) |
 | bun | không cài global; dùng `npx -y bun` (script transcript cần) |

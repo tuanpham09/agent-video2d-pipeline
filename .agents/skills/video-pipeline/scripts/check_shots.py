@@ -18,9 +18,21 @@ Kiểm:
       (`synth:<tên>` = file đã render ở audio/sfx/<tên>.wav); t của beat/SFX tính từ đầu shot, phải nằm trong shot
   E7  shot có ≥2 nhân vật: MỖI nhân vật có ≥1 hành vi tường minh (beat set/move/look/react) — người nói cũng vậy.
       Người nghe/người nói tự động (quay mắt, gật) do generator thêm, không thay được beat tường minh (R11.1).
-  E10 giá trị set (pose/stance/gaze/view/emotion) nằm trong rig.json của nhân vật; move.gait walk|run
-  E9  beat (và macro đã bung) chỉ nhắc nhân vật/đạo cụ có mặt trong shot; thư viện macro hợp lệ
   E8  beat theo từ (`word`) phải trỏ tới từ có thật trong line; `move.to` phải là anchor L/C/R; react.preset ∈ {nod, flinch}.
+  E9  pose/emotion/stance/gaze mà shotlist dùng (characters[] và beat `set`) phải tồn tại
+      trong rig (.rig.json) của nhân vật đó — thiếu thì báo lỗi (generator lặng lẽ bỏ qua pose lạ).
+      Beat `move` cần rig có đủ pose walk-a/walk-b.
+  E10 vị trí đứng (stand) của nhân vật không được trùng với đạo cụ — chân nhân vật đè lên
+      đạo cụ là lỗi; vị trí `at` không giải được (thiếu `at`, stand/slot/parent không tồn tại)
+      cũng là lỗi vì generator sẽ crash.
+  E12 beat (và macro đã bung) chỉ nhắc nhân vật/đạo cụ có mặt trong shot; thư viện macro hợp lệ
+  E13 giá trị set (kể cả view) nằm trong rig.json; move.gait walk|run
+  E11 (Opt round 3, mục 6) `focus` phải trỏ tới thứ có thật trong shot: nhân vật trong
+      shot, `prop:<id>` đạo cụ trong shot, hoặc `slot:<tên>` slot của bối cảnh (library).
+      Thiếu tiền tố `prop:` (bug SH006 demo #3) hoặc trỏ tới thứ không có trong shot là
+      lỗi — build_video.focus_point() trước đây rơi im lặng về giữa khung. Thiếu focus
+      thì cho phép (camera mặc định về giữa khung, dùng cho wide). Chỉ kiểm tham chiếu,
+      KHÔNG gợi ý bố cục — linter không được đẩy về shot tĩnh (luật di chuyển 21/11).
   Line dài tách nhiều shot: mỗi shot khai `span: [từ, đến]` (giây, tính từ đầu line đầu tiên của shot).
   W   cỡ cảnh lặp, đạo cụ lùi trạng thái, shot quá ngắn, nhịp shot trung bình chậm
 
@@ -71,6 +83,235 @@ def load(path: Path) -> dict:
     if not path.exists():
         sys.exit(f"LỖI: thiếu {path} — chưa tới bước này của workflow (C2 shotlist / C3 voice) hay sai đường dẫn --project?")
     return json.loads(path.read_text(encoding="utf-8-sig"))
+
+
+# --- E9/E10 (Fix 3): pose có trong rig + vị trí không chồng đạo cụ --------
+STATE_FIELDS = ("pose", "emotion", "stance", "gaze")
+MOVE_POSES = ("walk-a", "walk-b")
+# dung sai dọc khi so chân nhân vật với khung đạo cụ (đạo cụ đặt trên sàn có
+# đáy trùng y chân nhân vật; nhân vật đứng ngay trước đạo cụ cũng tính là trùng)
+OVERLAP_Y_TOL = 10
+
+
+def rig_json_path(proj: Path, cid: str, char: dict) -> Path:
+    """Đường dẫn .rig.json của nhân vật: từ bible rig.file, hoặc assets/rig/<cid>.rig.json."""
+    rig = char.get("rig") if isinstance(char, dict) else None
+    f = None
+    if isinstance(rig, dict):
+        f = rig.get("file")
+    elif isinstance(rig, str):
+        f = rig
+    if f:
+        p = Path(str(f))
+        return proj / p.with_name(p.stem + ".rig.json")
+    return proj / "assets" / "rig" / f"{cid}.rig.json"
+
+
+def load_rig_states(proj: Path, bible: dict, warnings: list[str]) -> dict:
+    """cid -> states dict (emotion/pose/stance/gaze...). Thiếu file rig -> cảnh báo, bỏ qua E9."""
+    rigs = {}
+    for char in (bible.get("characters") or []):
+        cid = char.get("id")
+        if cid is None:
+            continue
+        path = rig_json_path(proj, cid, char)
+        if not path.exists():
+            warnings.append(
+                f"nhân vật '{cid}': không tìm thấy {path.name} — bỏ qua kiểm E9 (rig)"
+            )
+            continue
+        try:
+            rigs[cid] = json.loads(path.read_text(encoding="utf-8"))["states"]
+        except (json.JSONDecodeError, KeyError) as exc:
+            warnings.append(
+                f"nhân vật '{cid}': không đọc được {path.name} ({exc}) — bỏ qua kiểm E9 (rig)"
+            )
+    return rigs
+
+
+def load_index_items(repo: Path, warnings: list[str]) -> dict:
+    """id -> item trong library/index.json. Thiếu index -> cảnh báo, bỏ qua E10."""
+    index_path = Path(repo) / "library" / "index.json"
+    if not index_path.exists():
+        warnings.append(f"không tìm thấy {index_path} — bỏ qua kiểm E10 (vị trí)")
+        return {}
+    try:
+        items = json.loads(index_path.read_text(encoding="utf-8"))["items"]
+    except (json.JSONDecodeError, KeyError) as exc:
+        warnings.append(f"không đọc được {index_path} ({exc}) — bỏ qua kiểm E10 (vị trí)")
+        return {}
+    return {it["id"]: it for it in items if "id" in it}
+
+
+def check_rig_states(sid: str, cid: str, spec: dict, rig_states: dict, errors: list[str]) -> None:
+    """pose/emotion/stance/gaze trong spec nhân vật phải có trong rig của nhân vật đó (E9)."""
+    states = rig_states.get(cid)
+    if states is None:
+        return
+    for field in STATE_FIELDS:
+        val = spec.get(field)
+        if val is None:
+            continue
+        allowed = states.get(field) or []
+        if val not in allowed:
+            errors.append(
+                f"{sid}: nhân vật '{cid}' dùng {field} '{val}' không có trong rig "
+                f"(có: {', '.join(str(a) for a in allowed) or '—'}) (E9)"
+            )
+
+
+def check_move_poses(sid: str, cid: str, rig_states: dict, errors: list[str]) -> None:
+    """Beat move cần rig có đủ pose walk-a/walk-b (E9)."""
+    states = rig_states.get(cid)
+    if states is None:
+        return
+    poses = states.get("pose") or []
+    for pose in MOVE_POSES:
+        if pose not in poses:
+            errors.append(
+                f"{sid}: nhân vật '{cid}' có beat move nhưng rig thiếu pose '{pose}' "
+                f"(cần walk-a/walk-b để đi bộ) (E9)"
+            )
+
+
+def prop_rects(sid: str, shot: dict, loc_entry: dict, bible_props: dict,
+               index_items: dict, errors: list[str]) -> list:
+    """Khung (key, x0, y0, x1, y1) của từng đạo cụ trong shot — cùng quy tắc
+    Stage.resolve + add_prop của build_video.py (gốc dưới-giữa, y là đáy;
+    parent.slot tính từ góc trái-trên của parent). Vị trí `at` không giải được -> lỗi (E10)."""
+    stand = loc_entry.get("stand") or {}
+    slots = loc_entry.get("slots") or {}
+    placed: dict[str, dict] = {}  # key -> {"x0","y0","k","slots"}
+    rects = []
+    for spec in (shot.get("props") or []):
+        pid = spec.get("id")
+        bp = bible_props.get(pid) or {}
+        lib_id = bp.get("lib") or pid
+        item = index_items.get(lib_id)
+        if item is None:
+            continue
+        w, h = item.get("size") or [0, 0]
+        k = spec.get("scale") or item.get("scene_s") or 1.0
+        at = spec.get("at")
+        key = spec.get("key", pid)
+        if at is None:
+            errors.append(
+                f"{sid}: đạo cụ '{key}' thiếu `at` (generator sẽ lỗi) (E10)"
+            )
+            continue
+        dx = spec.get("dx", 0)
+        dy = spec.get("dy", 0)
+        pos = None
+        if isinstance(at, str) and at.startswith("stand:"):
+            st = stand.get(at[6:])
+            if st:
+                pos = (st["x"] + dx, st["y"] + dy)
+        elif isinstance(at, str) and "." in at:
+            parent_key, slot = at.split(".", 1)
+            parent = placed.get(parent_key)
+            if parent:
+                pslot = (parent["slots"] or {}).get(slot)
+                if pslot:
+                    pos = (parent["x0"] + pslot["x"] * parent["k"] + dx,
+                           parent["y0"] + pslot["y"] * parent["k"] + dy)
+        elif isinstance(at, str):
+            sl = slots.get(at)
+            if sl:
+                pos = (sl["x"] + dx, sl["y"] + dy)
+        if pos is None:
+            errors.append(
+                f"{sid}: đạo cụ '{key}' có at='{at}' không giải được "
+                f"(stand/slot/parent không tồn tại — generator sẽ lỗi) (E10)"
+            )
+            continue
+        x, y = pos
+        placed[key] = {"x0": x - w * k / 2, "y0": y - h * k, "k": k,
+                       "slots": item.get("slots") or {}}
+        rects.append((key, x - w * k / 2, y - h * k, x + w * k / 2, y))
+    return rects
+
+
+def check_overlap(sid: str, shot: dict, loc_entry: dict, errors: list[str], rects: list) -> None:
+    """Chân nhân vật (điểm stand) không được nằm trong khung đạo cụ (E10)."""
+    stand = loc_entry.get("stand") or {}
+    for spec in (shot.get("characters") or []):
+        cid = spec.get("id")
+        at = spec.get("at")
+        if cid is None:
+            continue
+        if at is None:
+            errors.append(
+                f"{sid}: nhân vật '{cid}' thiếu `at` (generator sẽ lỗi) (E10)"
+            )
+            continue
+        st = stand.get(at)
+        if st is None:
+            errors.append(
+                f"{sid}: nhân vật '{cid}' đứng ở vị trí '{at}' không có trong stand "
+                f"của location (generator sẽ lỗi) (E10)"
+            )
+            continue
+        fx, fy = st["x"], st["y"]
+        for key, x0, y0, x1, y1 in rects:
+            if x0 <= fx <= x1 and y0 - OVERLAP_Y_TOL <= fy <= y1 + OVERLAP_Y_TOL:
+                errors.append(
+                    f"{sid}: nhân vật '{cid}' đứng ở ({fx}, {fy}) trùng với đạo cụ "
+                    f"'{key}' (khung x {x0:.0f}–{x1:.0f}, y {y0:.0f}–{y1:.0f}) — "
+                    f"chân nhân vật đè lên đạo cụ (E10)"
+                )
+
+
+def check_focus(sid: str, shot: dict, chars: dict, props: dict,
+                loc_entry: dict | None, errors: list[str]) -> None:
+    """E11 (Opt round 3, mục 6): `focus` phải trỏ tới thứ có thật trong shot.
+
+    build_video.focus_point() hiểu: "<char>" (nhân vật trong shot),
+    "prop:<id>" (đạo cụ trong shot), "slot:<tên>" (slot của bối cảnh trong
+    library). Giá trị khác rơi IM LẶNG về giữa khung (bug SH006 demo #3: focus
+    "mam_tre" thiếu tiền tố prop:), còn "prop:<id-không-tồn-tại>" thì KeyError
+    lúc dựng. E11 bắt cả hai ở gate. Thiếu focus = cho phép (wide).
+    Chỉ kiểm tham chiếu, không gợi ý bố cục (luật di chuyển 21/11).
+    """
+    f = shot.get("focus")
+    if f is None:
+        return
+    shot_chars = {c.get("id") for c in shot.get("characters", [])}
+    shot_props = {p.get("id") for p in shot.get("props", [])}
+    slots = set((loc_entry or {}).get("slots") or {})
+    valid = sorted(
+        list(shot_chars)
+        + [f"prop:{p}" for p in sorted(shot_props)]
+        + [f"slot:{s}" for s in sorted(slots)]
+    )
+    hint = f" (focus hợp lệ ở shot này: {', '.join(valid) or '—'})" if valid else ""
+    if not isinstance(f, str) or not f:
+        errors.append(f"{sid}: focus phải là chuỗi (char | prop:<id> | slot:<tên>){hint} (E11)")
+        return
+    if f in shot_chars:
+        return
+    if f.startswith("prop:"):
+        pid = f[5:]
+        if pid in shot_props:
+            return
+        where = "có trong bible nhưng không có trong shot này" if pid in props else "không có trong bible"
+        errors.append(f"{sid}: focus '{f}' — đạo cụ '{pid}' {where}{hint} (E11)")
+        return
+    if f.startswith("slot:"):
+        name = f[5:]
+        if name in slots:
+            return
+        errors.append(f"{sid}: focus '{f}' — slot '{name}' không có trong bối cảnh '{shot.get('location')}'{hint} (E11)")
+        return
+    if f in props:
+        errors.append(f"{sid}: focus '{f}' thiếu tiền tố — đạo cụ phải viết 'prop:{f}'{hint} (E11)")
+        return
+    if f in chars:
+        errors.append(f"{sid}: focus '{f}' — nhân vật '{f}' có trong bible nhưng không có trong shot này{hint} (E11)")
+        return
+    if f in slots:
+        errors.append(f"{sid}: focus '{f}' thiếu tiền tố — slot phải viết 'slot:{f}'{hint} (E11)")
+        return
+    errors.append(f"{sid}: focus '{f}' không trỏ tới nhân vật/đạo cụ/slot nào{hint} (E11)")
 
 
 def main() -> int:
@@ -125,6 +366,11 @@ def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
     errors += [f"library/behaviors: {e}" for e in check_library(load_library())]
+
+    # E9/E10: rig states + library index (load một lần)
+    rig_states = load_rig_states(proj, bible, warnings)
+    index_items = load_index_items(args.repo, warnings)
+    warned_locs: set[str] = set()
 
     shots = shotlist.get("shots", [])
     covering: dict[str, list[dict]] = {lid: [] for lid in lines}
@@ -220,7 +466,7 @@ def main() -> int:
             shot = expand_shot(shot, lines, abs0)
         except (ValueError, KeyError) as exc:
             errors.append(f"{sid}: macro không hợp lệ — {exc}")
-        # --- E9: beat (kể cả đã bung từ macro) chỉ được nhắc nhân vật/đạo cụ có mặt trong shot
+        # --- E12: beat (kể cả đã bung từ macro) chỉ được nhắc nhân vật/đạo cụ có mặt trong shot
         cids = {c.get("id") for c in (shot.get("characters") or [])}
         pkeys = {(p.get("key") or p.get("id")) for p in (shot.get("props") or [])}
         for b in shot.get("beats", []):
@@ -234,11 +480,11 @@ def main() -> int:
             if isinstance(b.get("hand_over"), dict):
                 refs += [b["hand_over"].get("from"), b["hand_over"].get("to")]
                 if b["hand_over"].get("prop") not in pkeys:
-                    errors.append(f"{sid}: beat{tag} hand_over prop '{b['hand_over'].get('prop')}' không có trong shot (E9)")
+                    errors.append(f"{sid}: beat{tag} hand_over prop '{b['hand_over'].get('prop')}' không có trong shot (E12)")
             for r in refs:
                 if r not in cids:
-                    errors.append(f"{sid}: beat{tag} nhắc nhân vật '{r}' không có trong shot (E9)")
-        # --- E10: giá trị trạng thái (pose/stance/gaze/view/emotion) phải có trong <id>.rig.json (R3.3); move.gait ∈ walk|run
+                    errors.append(f"{sid}: beat{tag} nhắc nhân vật '{r}' không có trong shot (E12)")
+        # --- E13: giá trị trạng thái (pose/stance/gaze/view/emotion) phải có trong <id>.rig.json (R3.3); move.gait ∈ walk|run
         for b in shot.get("beats", []):
             tag = f" (macro {b['from_macro']})" if b.get("from_macro") else ""
             for cid, vals in (b.get("set") or {}).items():
@@ -248,9 +494,39 @@ def main() -> int:
                 vocab = load(rj).get("states", {})
                 for k, v in vals.items():
                     if k in vocab and v not in vocab[k] and not (k == "view" and v == "auto"):
-                        errors.append(f"{sid}: beat{tag} {cid}.{k}='{v}' ngoài rig ({sorted(vocab[k])}) (E10)")
+                        errors.append(f"{sid}: beat{tag} {cid}.{k}='{v}' ngoài rig ({sorted(vocab[k])}) (E13)")
             if isinstance(b.get("move"), dict) and b["move"].get("gait", "walk") not in ("walk", "run"):
-                errors.append(f"{sid}: beat{tag} move.gait phải là walk|run (E10)")
+                errors.append(f"{sid}: beat{tag} move.gait phải là walk|run (E13)")
+
+        # --- E9: pose/emotion/stance/gaze phải có trong rig
+        for c in shot.get("characters", []):
+            if c.get("id") is not None:
+                check_rig_states(sid, c["id"], c, rig_states, errors)
+        for b in shot.get("beats", []):
+            for cid, vals in (b.get("set") or {}).items():
+                if isinstance(vals, dict):
+                    check_rig_states(sid, cid, vals, rig_states, errors)
+            if isinstance(b.get("move"), dict) and b["move"].get("char"):
+                check_move_poses(sid, b["move"]["char"], rig_states, errors)
+
+        # --- E10: chân nhân vật không đè lên đạo cụ
+        loc_entry = None
+        if loc in locs:
+            lib_id = locs[loc].get("lib")
+            loc_entry = index_items.get(lib_id) if lib_id else None
+            if loc_entry is None and loc not in warned_locs:
+                warned_locs.add(loc)
+                warnings.append(
+                    f"{sid}: bối cảnh '{loc}' không có trong library/index.json — "
+                    f"bỏ qua kiểm E10 cho các shot ở đây"
+                )
+        if loc_entry is not None:
+            rects = prop_rects(sid, shot, loc_entry, props, index_items, errors)
+            check_overlap(sid, shot, loc_entry, errors, rects)
+
+        # --- E11: focus phải trỏ tới thứ có thật trong shot
+        check_focus(sid, shot, chars, props, loc_entry, errors)
+
         # --- beats & sfx
         beats = shot.get("beats", [])
         beats_total += len(beats)
