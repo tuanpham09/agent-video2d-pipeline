@@ -9,6 +9,14 @@
       "description": "Nữ trung niên, tóc đen búi",
       "params": {"scale": 0.95, "body_w": 96, "hunch": 0.1, "skin": "skin", "hair": "bun", "hair_color": "hair_black", "wrinkles": 1}
     },
+    "young_adult_m": {
+      "description": "Thanh niên trẻ (nam): dáng thẳng, tóc ngắn gọn gàng",
+      "params": {"scale": 0.98, "body_w": 96, "hunch": 0, "skin": "skin", "hair": "short", "hair_color": "hair_black", "wrinkles": 0}
+    },
+    "young_adult_f": {
+      "description": "Thiếu nữ / cô gái trẻ: vóc dáng mảnh mai, tóc dài buông hoặc cột",
+      "params": {"scale": 0.92, "body_w": 88, "hunch": 0, "skin": "skin", "hair": "long_tied", "hair_color": "hair_black", "wrinkles": 0}
+    },
     "elder_m": {
       "description": "Ông già, hơi còng, đầu trọc, mày bạc, nhiều nếp nhăn",
       "params": {"scale": 0.93, "body_w": 96, "hunch": 0.5, "skin": "skin_old", "hair": "none", "hair_color": "hair_white", "brow_color": "brow_white", "wrinkles": 2}
@@ -18,12 +26,20 @@
       "params": {"scale": 0.86, "body_w": 92, "hunch": 0.9, "skin": "skin_old", "hair": "bun", "hair_color": "hair_white", "brow_color": "brow_white", "wrinkles": 2}
     },
     "teen": {
-      "description": "Thiếu niên: nhỏ hơn người lớn, đầu hơi to",
+      "description": "Thiếu niên (nam): nhỏ hơn người lớn, đầu hơi to",
       "params": {"scale": 0.82, "body_w": 84, "hunch": 0, "head_scale": 1.12, "skin": "skin", "hair": "short", "hair_color": "hair_black", "wrinkles": 0}
     },
+    "teen_f": {
+      "description": "Thiếu nữ tuổi teen: tóc hai bím, dáng mảnh",
+      "params": {"scale": 0.80, "body_w": 80, "hunch": 0, "head_scale": 1.12, "skin": "skin", "hair": "pigtails", "hair_color": "hair_black", "wrinkles": 0}
+    },
     "child": {
-      "description": "Trẻ nhỏ: thân bé, đầu to (head_scale) để không giống người lớn thu nhỏ",
-      "params": {"scale": 0.62, "body_w": 74, "hunch": 0, "head_scale": 1.32, "skin": "skin", "hair": "short", "hair_color": "hair_black", "wrinkles": 0}
+      "description": "Bé trai / trẻ nhỏ: thân bé, chỏm tóc đào lộn hột dân gian hoặc tóc ngắn, kiềng bạc",
+      "params": {"scale": 0.62, "body_w": 74, "hunch": 0, "head_scale": 1.32, "skin": "skin", "hair": "topknot", "hair_color": "hair_black", "necklace": "silver_lock", "wrinkles": 0}
+    },
+    "child_f": {
+      "description": "Bé gái: thân bé, đầu to, tóc búi hai bên (bím củ tỏi)",
+      "params": {"scale": 0.60, "body_w": 72, "hunch": 0, "head_scale": 1.34, "skin": "skin", "hair": "pigtails", "hair_color": "hair_black", "wrinkles": 0}
     },
     "spirit_shadow": {
       "description": "Bóng đen không mặt thật, mắt trắng đồng tử đỏ, miệng ngoác (khăn rách buộc đầu)",
@@ -44,8 +60,28 @@
       "params": {"robe": "robe_brown", "sleeve": "robe_brown_dark", "pants": "robe_brown_dark"}
     },
     "plain_light": {
-      "description": "Áo vải sáng trung tính (trẻ em, người thường, hồi tưởng)",
+      "description": "Áo vải sáng trung tính (người thường, hồi tưởng)",
       "params": {"robe": "cloth_white", "sleeve": "cloth_grey", "pants": "cloth_grey"}
+    },
+    "ao_ba_ba_brick": {
+      "description": "Áo bà ba màu đỏ gạch cổ truyền (thiếu nữ, phụ nữ trẻ)",
+      "params": {"robe": "robe_brick", "sleeve": "robe_brick_dark", "pants": "robe_brown_dark", "sash": "robe_brown"}
+    },
+    "ao_ba_ba_cyan": {
+      "description": "Áo bà ba / cánh màu lam xám (thanh niên, thiếu niên)",
+      "params": {"robe": "robe_cyan", "sleeve": "robe_cyan_dark", "pants": "cloth_grey"}
+    },
+    "ao_tre_em_yellow": {
+      "description": "Áo cánh trẻ em màu vàng đất ấm áp",
+      "params": {"robe": "robe_yellow", "sleeve": "robe_yellow_dark", "pants": "cloth_grey"}
+    },
+    "ao_tre_em_red": {
+      "description": "Áo cánh / yếm trẻ em màu đỏ mận dân gian",
+      "params": {"robe": "cloth_red", "sleeve": "cloth_red_dark", "pants": "cloth_white"}
+    },
+    "ao_nong_dan_moss": {
+      "description": "Áo vải màu rêu tối đậm chất đồng quê",
+      "params": {"robe": "robe_moss", "sleeve": "robe_moss_dark", "pants": "robe_brown_dark"}
     }
   }
 }
