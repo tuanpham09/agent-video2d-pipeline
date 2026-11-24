@@ -86,7 +86,7 @@ def test_check_shots() -> None:
         def drop_host_beats(s):
             for sh in s["shots"]:
                 if sh["id"] == "SH008":
-                    sh["beats"] = [b for b in sh["beats"] if not (b.get("react") or (b.get("set") or {}).get("host"))]
+                    sh["beats"] = [b for b in sh["beats"] if not (b.get("react") or (b.get("set") or {}).get("host") or (b.get("args") or {}).get("char") == "host")]
 
         write_min_project(d, drop_host_beats)
         code, out = run([str(SCRIPTS / "check_shots.py"), "--project", str(d), "--scenes", "S01"])

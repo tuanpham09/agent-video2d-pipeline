@@ -29,6 +29,9 @@
 - 2026-11-22 · `build_rig.py --bible … --script …` · 5 rig OK (kiểm giải tích tràn khung + khớp script). Pose sheet 5 nhân vật chính: **chưa người dùng duyệt**.
 - 2026-11-22 · `check_shots.py --scenes S01` · OK (shotlist 13 shot phủ hết S01).
 - 2026-11-22 · `build_video.py --until SH010` → `video_demo/` (34,402 s) · `hyperframes lint` 0/0; `hyperframes check --json` `ok: true`; snapshot 10 điểm đã xem.
+- 2026-11-24 · **M5 (góc nhìn 3/4)**: rig 5 nhân vật build lại có `data-view` (front|tq-r|tq-l). Ảnh đã XEM: `.agents/skills/video-pipeline/references/review/m5-host-3q-sheet.png` (pose sheet host) và `m5-sh008-tq-snapshot.png` (SH008, host tq-r / me tq-l, thấy hai người quay mặt vào nhau). Người dùng đã duyệt sheet host ("ổn rồi"). Lỗi nhỏ còn lại: nếp nhăn/sẹo sát mép mặt ở góc 3/4 (me, ba_noi). Shotlist thật chưa dùng `view`.
+- 2026-11-24 · **Hành vi mẫu (macro)**: `library/behaviors/behaviors.json` (12 macro) + `scripts/behaviors.py`; `check_shots` thêm E9. Ảnh đã XEM: `library/sheets/behaviors.png` (trước/sau, host + me; phần chuyển động chưa xem được trên ảnh tĩnh). Chuyển 8 beat S01 sang macro (SH002 chi_tay, SH003/SH008 cham_khan, SH005 lo_lang, SH008/SH012 nghe_gat, SH012 chap_tay + nhin_sang; giữ `do` gốc). `build_video.py` dựng lại 13 shot: HTML từng shot và `index.html` giống hệt trước khi chuyển. `check_shots --scenes S01` OK; `check_rules --phase demo` 0 lỗi; `validate_schemas` 0 lỗi; `tests/test_roadmap_v3.py` qua hết. Mức tiết kiệm trên S01 (26 beat + SFX): 4149 → 3844 ký tự (−7%) giữ `do`, 3465 (−16%) nếu bỏ `do` ở beat macro; chỉ 8/26 beat có macro tương ứng. Chưa chạy `hyperframes check`, chưa xem snapshot mới (HTML đã giống hệt bản đã xem).
+
 - **Chưa làm / chưa kiểm:** giọng thật (`audio/voiceover.wav` không có trong repo → demo chưa có tiếng), nghe thử SFX, render mp4, khung 9:16, 👤 duyệt demo (R8.1). Chưa có shotlist cho S02–S20.
 
 ## Ghi chú / bài học

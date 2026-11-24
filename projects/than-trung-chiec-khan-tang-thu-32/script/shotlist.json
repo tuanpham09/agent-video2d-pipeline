@@ -122,14 +122,12 @@
     {
      "line_id": "S01_L01",
      "t": 0.4,
-     "do": "ông vung tay chỉ về phía cửa, nét mặt nghiêm",
-     "physical": false,
-     "set": {
-      "ong_cuu": {
-       "pose": "point-l",
-       "emotion": "focused"
-      }
-     }
+     "macro": "chi_tay",
+     "args": {
+      "char": "ong_cuu",
+      "side": "l"
+     },
+     "do": "ông vung tay chỉ về phía cửa, nét mặt nghiêm"
     }
    ],
    "sfx": []
@@ -195,20 +193,11 @@
     {
      "line_id": "S01_L03",
      "t": 2.2,
-     "do": "tay mẹ nhấc một nếp khăn trên mâm",
-     "physical": true,
-     "set": {
-      "me": {
-       "pose": "reach-l"
-      }
-     }
-    }
-   ],
-   "sfx": [
-    {
-     "cue": "foley.cloth",
-     "src": "sfx/ambience/foley/foley-fabric-touch.wav",
-     "t": 2.2
+     "macro": "cham_khan",
+     "args": {
+      "char": "me"
+     },
+     "do": "tay mẹ nhấc một nếp khăn trên mâm"
     }
    ]
   },
@@ -348,13 +337,11 @@
     {
      "line_id": "S01_L05a",
      "t": 2.0,
-     "do": "ông cau mày, nét mặt chuyển lo ngại",
-     "physical": false,
-     "set": {
-      "ong_cuu": {
-       "emotion": "worried"
-      }
-     }
+     "macro": "lo_lang",
+     "args": {
+      "char": "ong_cuu"
+     },
+     "do": "ông cau mày, nét mặt chuyển lo ngại"
     }
    ],
    "sfx": []
@@ -510,13 +497,11 @@
     {
      "line_id": "S01_L07",
      "t": 2.4,
-     "do": "mẹ chìa tay phát khăn xô cho từng người",
-     "physical": true,
-     "set": {
-      "me": {
-       "pose": "reach-l"
-      }
-     }
+     "macro": "cham_khan",
+     "args": {
+      "char": "me"
+     },
+     "do": "mẹ chìa tay phát khăn xô cho từng người"
     },
     {
      "line_id": "S01_L07",
@@ -533,19 +518,11 @@
      "line_id": "S01_L07",
      "word": 17,
      "edge": "end",
-     "do": "chị khẽ gật, mắt rơi xuống chiếc khăn",
-     "physical": false,
-     "react": {
-      "char": "host",
-      "preset": "nod"
-     }
-    }
-   ],
-   "sfx": [
-    {
-     "cue": "foley.cloth",
-     "src": "sfx/ambience/foley/foley-fabric-touch.wav",
-     "t": 2.4
+     "macro": "nghe_gat",
+     "args": {
+      "char": "host"
+     },
+     "do": "chị khẽ gật, mắt rơi xuống chiếc khăn"
     }
    ]
   },
@@ -819,34 +796,31 @@
     {
      "line_id": "S01_L10",
      "t": 2.0,
-     "do": "tôi hít sâu, hai tay chắp lại trước ngực",
-     "physical": false,
-     "set": {
-      "host": {
-       "pose": "clasp"
-      }
-     }
+     "macro": "chap_tay",
+     "args": {
+      "char": "host"
+     },
+     "do": "tôi hít sâu, hai tay chắp lại trước ngực"
     },
     {
      "line_id": "S01_L10",
      "word": 4,
-     "do": "ông ngước nhìn cháu khi cháu nói sẽ kể hết",
-     "physical": false,
-     "look": {
+     "macro": "nhin_sang",
+     "args": {
       "char": "ong_cuu",
       "target": "host"
-     }
+     },
+     "do": "ông ngước nhìn cháu khi cháu nói sẽ kể hết"
     },
     {
      "line_id": "S01_L10",
      "word": 13,
      "edge": "end",
-     "do": "ông gật khẽ, chậm rãi",
-     "physical": false,
-     "react": {
-      "char": "ong_cuu",
-      "preset": "nod"
-     }
+     "macro": "nghe_gat",
+     "args": {
+      "char": "ong_cuu"
+     },
+     "do": "ông gật khẽ, chậm rãi"
     }
    ],
    "sfx": []
