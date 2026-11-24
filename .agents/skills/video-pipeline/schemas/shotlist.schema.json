@@ -118,6 +118,13 @@
                 "emotion": {
                   "type": "string"
                 },
+                "view": {
+                  "enum": [
+                    "front",
+                    "tq-r",
+                    "tq-l"
+                  ]
+                },
                 "gaze": {
                   "enum": [
                     "center",

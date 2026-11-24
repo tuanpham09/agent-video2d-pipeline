@@ -94,6 +94,10 @@ LEG_POSES = {
     "walk-b": ("translate(0px,0px)", "translate(-6px,-16px)"),
 }
 HIP_Y = 470
+# Góc nhìn (data-view): front = nhìn thẳng; tq-r / tq-l = 3/4, mặt quay về bên PHẢI / TRÁI của người xem.
+# Sinh từ cùng tham số rig (không vẽ riêng từng nhân vật): đổi bằng CSS trên nhóm .view/.feat, chi phí render bằng 0.
+VIEWS = ("front", "tq-r", "tq-l")
+VIEW_BODY_SX, VIEW_BODY_DX, VIEW_FEAT_DX, VIEW_HAIR_DX, VIEW_FAR_EYE = 0.88, 5, 13, 6, 0.72
 LEG_X = {"l": CX + 24, "r": CX - 24}  # tâm hông theo toạ độ viewBox
 
 GAZE = {"center": (0, 0), "left": (-5, 0), "right": (5, 0), "up": (0, -4), "down": (0, 4)}
@@ -298,7 +302,7 @@ class Rig:
             out.append(f'<circle class="bun" cx="{CX}" cy="132" r="24" fill="{hair}" stroke="{ink}" stroke-width="5"/>')
         # tai
         for dx in (-58, 58):
-            out.append(f'<circle cx="{CX + dx}" cy="226" r="10" fill="{skin}" stroke="{ink}" stroke-width="4"/>')
+            out.append(f'<circle class="ear ear-{"r" if dx < 0 else "l"}" cx="{CX + dx}" cy="226" r="10" fill="{skin}" stroke="{ink}" stroke-width="4"/>')
         # mặt
         out.append(f'<ellipse class="face" cx="{CX}" cy="215" rx="58" ry="62" fill="{skin}" stroke="{ink}" stroke-width="6"/>')
         # tóc trước
@@ -306,6 +310,7 @@ class Rig:
             out.append(
                 f'<path class="hair-front" d="M {CX - 60} 206 Q {CX - 64} 148 {CX} 146 Q {CX + 64} 148 {CX + 60} 206 '
                 f'Q {CX + 42} 176 {CX} 174 Q {CX - 42} 176 {CX - 60} 206 Z" fill="{hair}" stroke="{ink}" stroke-width="5" stroke-linejoin="round"/>')
+        out.append('<g class="feat">')  # nét mặt: dịch ngang khi quay 3/4
         # nếp nhăn
         wr = int(p.get("wrinkles", 0))
         if wr >= 1:
@@ -360,6 +365,7 @@ class Rig:
         )
         # bóng tối phủ cả mặt (sau mắt/mày/miệng để mí mắt không nổi sáng hơn da)
         out.append(f'<ellipse class="shade" cx="{CX}" cy="215" rx="58" ry="62" fill="#000"/>')
+        out.append("</g>")
         # mũ / khăn
         if hat == "khan-xep":
             hc = self.c("robe_indigo_dark")
@@ -393,7 +399,7 @@ class Rig:
             f"{r} .fore-r{{transform-origin:{sr[0]:g}px {ELBOW_Y}px}}",
             f"{r} .eye,{r} .sclera,{r} .pupil,{r} .brow,{r} .m-closed{{transform-box:fill-box;transform-origin:50% 50%}}",
             f"{r} .lid{{transform-box:fill-box;transform-origin:50% 0%;transform:scaleY(var(--lid,0))}}",
-            f"{r} .eye{{transform:scale(var(--es,1))}}",
+            f"{r} .eye{{transform:scale(calc(var(--es,1) * var(--exs,1)),var(--es,1))}}",
             f"{r} .pupil{{transform:translate(var(--gx,0px),var(--gy,0px)) scale(var(--ps,1))}}",
             f"{r} .brow-r{{transform:translateY(calc(var(--byr,0) * 1px)) rotate(calc(var(--br,0) * -1deg))}}",
             f"{r} .brow-l{{transform:translateY(calc(var(--byl,0) * 1px)) rotate(calc(var(--br,0) * 1deg))}}",
@@ -410,6 +416,20 @@ class Rig:
             f"{r}[data-stance='sit'] .legs{{display:none}}",
             f"{r}[data-stance='sit'] .body{{transform:translateY(56px)}}",
         ]
+        lines += [
+            f"{r} .view{{transform-box:view-box;transform-origin:{CX}px 0px}}",
+            f"{r} .feat,{r} .hair-front{{transform-box:view-box;transform-origin:{CX}px 215px}}",
+        ]
+        for view, d in (("tq-r", 1), ("tq-l", -1)):
+            vs = f"{r}[data-view='{view}']"
+            far_eye, far_ear = ("l", "l") if d > 0 else ("r", "r")  # mắt/tai phía mặt quay tới là phía "xa"
+            lines += [
+                f"{vs} .view{{transform:translateX({d * VIEW_BODY_DX}px) scaleX({VIEW_BODY_SX})}}",
+                f"{vs} .feat{{transform:translateX({d * VIEW_FEAT_DX}px)}}",
+                f"{vs} .hair-front{{transform:translateX({d * VIEW_HAIR_DX}px)}}",
+                f"{vs} .eye-{far_eye}{{--exs:{VIEW_FAR_EYE}}}",
+                f"{vs} .ear-{far_ear}{{display:none}}",
+            ]
         for name, e in EMOTIONS.items():
             sel = f"{r}[data-emotion='{name}']"
             lines.append(
@@ -445,6 +465,7 @@ class Rig:
             "data-pose": state.get("pose", "idle"),
             "data-stance": state.get("stance", "stand"),
             "data-gaze": state.get("gaze", "center"),
+            "data-view": state.get("view", "front"),
             "data-blink": str(state.get("blink", 0)),
             "data-khan": state.get("khan", self.p.get("khan_default", "on")),
         }
@@ -453,7 +474,7 @@ class Rig:
             f'<g class="rig rig-{self.id}" {a}>'
             f'<ellipse class="floor-shadow" cx="{CX}" cy="578" rx="{self.body_w * 0.9:g}" ry="9" fill="#000" opacity="0.28"/>'
             f'<g class="scale" transform="translate({CX} {FLOOR}) scale({s:g}) translate({-CX} {-FLOOR})">'
-            f'<g class="body">{self.legs()}{self.lap()}{self.torso()}{self.arm("r")}{self.arm("l")}{self.head()}</g>'
+            f'<g class="view"><g class="body">{self.legs()}{self.lap()}{self.torso()}{self.arm("r")}{self.arm("l")}{self.head()}</g></g>'
             f'</g></g>'
         )
 
@@ -553,6 +574,12 @@ def sheet_html(rig: Rig, emotions: list[str]) -> str:
         f'<figure class="tall">{rig.svg({"pose": "idle" if n == "sit" else n, **st})}<figcaption>{n}</figcaption></figure>'
         for n, st in poses
     )
+    cells_v = "".join(
+        f'<figure class="tall">{rig.svg({"view": v})}<figcaption>view: {v}</figcaption></figure>' for v in VIEWS
+    ) + "".join(
+        f'<figure>{rig.svg({"view": v, "emotion": e, "mouth": m}, rig.crop())}<figcaption>{v} · {e} · {m}</figcaption></figure>'
+        for v, e, m in (("tq-r", "calm", "closed"), ("tq-r", "worried", "open"), ("tq-l", "calm", "closed"), ("tq-l", "afraid", "open"))
+    )
     meta = f"{esc(ch.get('name', rig.id))} · giọng {esc(str(ch.get('voice', '?')))} · {esc(ch.get('design', ''))}"
     return f"""<!doctype html><html lang="vi"><meta charset="utf-8">
 <style>
@@ -570,7 +597,8 @@ figcaption{{font-size:12px;opacity:.85;margin-top:2px}}
 <h2>Biểu cảm ({len(emotions)})</h2><div class="grid">{cells_e}</div>
 <h2>Biểu cảm khi ngồi ({len(emotions)})</h2><div class="grid">{cells_sit}</div>
 <h2>Hình miệng</h2><div class="grid">{cells_m}</div>
-<h2>Tư thế</h2><div class="grid">{cells_p}</div></html>"""
+<h2>Tư thế</h2><div class="grid">{cells_p}</div>
+<h2>Góc nhìn 3/4 (view)</h2><div class="grid">{cells_v}</div></html>"""
 
 
 def lineup_html(rigs: list[Rig]) -> str:
@@ -662,7 +690,7 @@ def main() -> int:
             "states": {
                 "emotion": list(EMOTIONS), "mouth": ["auto", "closed", "half", "open", "round"],
                 "pose": list(POSES), "stance": ["stand", "sit"], "gaze": list(GAZE),
-                "blink": [0, 1], "khan": ["on", "off"],
+                "blink": [0, 1], "khan": ["on", "off"], "view": list(VIEWS),
             },
         }
         svg_path.with_suffix(".rig.json").write_text(json.dumps(side, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

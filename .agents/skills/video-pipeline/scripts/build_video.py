@@ -153,7 +153,7 @@ class Stage:
         if not m:
             raise ValueError(f"rig {cid}: không thấy <g class=\"rig rig-{cid}\">")
         tag = set_attr_on_tag(m.group(0), "id", f"{self.sid}-{cid}")
-        for a in ("emotion", "pose", "stance", "gaze"):
+        for a in ("emotion", "pose", "stance", "gaze", "view"):
             if spec.get(a):
                 tag = set_attr_on_tag(tag, f"data-{a}", spec[a])
         svg = svg[: m.start()] + tag + svg[m.end():]
