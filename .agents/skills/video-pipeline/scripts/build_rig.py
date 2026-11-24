@@ -301,6 +301,10 @@ class Rig:
         ]
         if self.p.get("sash"):
             parts.append(f'<rect class="sash" x="{x + 2:g}" y="424" width="{bw - 4:g}" height="16" fill="{self.c(self.p["sash"])}" stroke="{ink}" stroke-width="3"/>')
+        if self.p.get("necklace") == "silver_lock":
+            # Kiềng bạc / khoá bạc đeo cổ hộ mệnh của trẻ con làng quê Việt
+            parts.append(f'<path d="M {CX - 24} 306 Q {CX} 340 {CX + 24} 306" stroke="{self.c("paper")}" stroke-width="3.5" fill="none"/>')
+            parts.append(f'<rect x="{CX - 8}" y="330" width="16" height="12" rx="3" fill="{self.c("paper")}" stroke="{ink}" stroke-width="2"/>')
         if self.shadow:  # rách vải rủ từ vai
             kh = self.c("khan_white")
             for dx, h in ((-bw * 0.32, 120), (bw * 0.34, 96)):
@@ -343,16 +347,34 @@ class Rig:
         if hair_style in ("bun",) and not hat:
             out.append(f'<ellipse cx="{CX}" cy="205" rx="62" ry="66" fill="{hair}" stroke="{ink}" stroke-width="5"/>')
             out.append(f'<circle class="bun" cx="{CX}" cy="132" r="24" fill="{hair}" stroke="{ink}" stroke-width="5"/>')
+        elif hair_style == "pigtails" and not hat:
+            # Hai búi/bím tóc hai bên cho bé gái / thiếu nữ
+            out.append(f'<ellipse cx="{CX}" cy="205" rx="62" ry="66" fill="{hair}" stroke="{ink}" stroke-width="5"/>')
+            out.append(f'<circle class="bun-r" cx="{CX - 56}" cy="162" r="18" fill="{hair}" stroke="{ink}" stroke-width="5"/>')
+            out.append(f'<circle class="bun-l" cx="{CX + 56}" cy="162" r="18" fill="{hair}" stroke="{ink}" stroke-width="5"/>')
+        elif hair_style == "topknot" and not hat:
+            # Chỏm tóc / đào lộn hột cho bé trai nhỏ dân gian Việt Nam
+            out.append(f'<circle class="topknot" cx="{CX}" cy="138" r="17" fill="{hair}" stroke="{ink}" stroke-width="4.5"/>')
+            out.append(f'<path d="M {CX - 6} 144 Q {CX} 156 {CX + 6} 144" stroke="{ink}" stroke-width="3" fill="none"/>')
+        elif hair_style == "long_tied" and not hat:
+            # Tóc nữ trẻ: búi củ tỏi cao gọn gàng + tóc mai buông nhẹ
+            out.append(f'<ellipse cx="{CX}" cy="205" rx="62" ry="66" fill="{hair}" stroke="{ink}" stroke-width="5"/>')
+            out.append(f'<circle class="bun" cx="{CX}" cy="132" r="22" fill="{hair}" stroke="{ink}" stroke-width="5"/>')
+            out.append(f'<path d="M {CX - 56} 226 Q {CX - 58} 265 {CX - 50} 285" stroke="{hair}" stroke-width="6" stroke-linecap="round" fill="none"/>')
+            out.append(f'<path d="M {CX + 56} 226 Q {CX + 58} 265 {CX + 50} 285" stroke="{hair}" stroke-width="6" stroke-linecap="round" fill="none"/>')
         # tai
         for dx in (-58, 58):
             out.append(f'<circle class="ear ear-{"r" if dx < 0 else "l"}" cx="{CX + dx}" cy="226" r="10" fill="{skin}" stroke="{ink}" stroke-width="4"/>')
         # mặt
         out.append(f'<ellipse class="face" cx="{CX}" cy="215" rx="58" ry="62" fill="{skin}" stroke="{ink}" stroke-width="6"/>')
         # tóc trước
-        if hair_style in ("short", "bun") and not hat:
+        if hair_style in ("short", "bun", "pigtails", "long_tied") and not hat:
             out.append(
                 f'<path class="hair-front" d="M {CX - 60} 206 Q {CX - 64} 148 {CX} 146 Q {CX + 64} 148 {CX + 60} 206 '
                 f'Q {CX + 42} 176 {CX} 174 Q {CX - 42} 176 {CX - 60} 206 Z" fill="{hair}" stroke="{ink}" stroke-width="5" stroke-linejoin="round"/>')
+        elif hair_style == "topknot" and not hat:
+            # tóc chỏm trán con nít
+            out.append(f'<path class="hair-front" d="M {CX - 22} 175 Q {CX} 152 {CX + 22} 175 Q {CX} 190 {CX - 22} 175 Z" fill="{hair}" stroke="{ink}" stroke-width="4" stroke-linejoin="round"/>')
         out.append('<g class="feat">')  # nét mặt: dịch ngang khi quay 3/4
         # nếp nhăn
         wr = int(p.get("wrinkles", 0))
@@ -480,7 +502,7 @@ class Rig:
         ]
         lines += [
             f"{r} .view{{transform-box:view-box;transform-origin:{CX}px 0px}}",
-            f"{r} .feat,{r} .hair-front{{transform-box:view-box;transform-origin:{CX}px 215px}}",
+            f"{r} .feat,{r} .hair-front,{r} .bun-r,{r} .bun-l{{transform-box:view-box;transform-origin:{CX}px 215px}}",
         ]
         for view, d in (("tq-r", 1), ("tq-l", -1)):
             vs = f"{r}[data-view='{view}']"
@@ -489,6 +511,7 @@ class Rig:
                 f"{vs} .view{{transform:translateX({d * VIEW_BODY_DX}px) scaleX({VIEW_BODY_SX})}}",
                 f"{vs} .feat{{transform:translateX({d * VIEW_FEAT_DX}px)}}",
                 f"{vs} .hair-front{{transform:translateX({d * VIEW_HAIR_DX}px)}}",
+                f"{vs} .bun-{'l' if d > 0 else 'r'}{{transform:scale({VIEW_FAR_EYE})}}",
                 # nếp nhăn má/sẹo ở phía mặt quay tới bị dồn sát mép: kéo ngược một đoạn
                 f"{vs} .chk-{'l' if d > 0 else 'r'},{vs} .scar-{'l' if d > 0 else 'r'}{{transform:translateX({-d * VIEW_CHEEK_BACK}px)}}",
                 f"{vs} .eye-{far_eye}{{--exs:{VIEW_FAR_EYE}}}",
@@ -605,7 +628,7 @@ def bounds_errors(rig: Rig) -> list[str]:
     bw, p = rig.body_w, rig.p
     hunch = 14 * float(p.get("hunch", 0))
     top = 105.0 if (p.get("hat") or p.get("hair", "short") == "bun") else 144.0
-    half = max(bw / 2 + 4, 70.0, 62.5 if p.get("hair") == "bun" else 0)
+    half = max(bw / 2 + 4, 70.0, 75.0 if p.get("hair") == "pigtails" else (62.5 if p.get("hair") == "bun" else 0))
     right = CX + (100.0 if p.get("headband") else half)
     # đầu bị dời xuống 14*hunch (head()), thân thì không → kiểm riêng để không báo tràn oan ở scale lớn
     check("đầu", CX - half, top + hunch, right, 330.0 + hunch)
