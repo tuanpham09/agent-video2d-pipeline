@@ -18,6 +18,7 @@ Kiểm:
       (`synth:<tên>` = file đã render ở audio/sfx/<tên>.wav); t của beat/SFX tính từ đầu shot, phải nằm trong shot
   E7  shot có ≥2 nhân vật: MỖI nhân vật có ≥1 hành vi tường minh (beat set/move/look/react) — người nói cũng vậy.
       Người nghe/người nói tự động (quay mắt, gật) do generator thêm, không thay được beat tường minh (R11.1).
+  E9  beat (và macro đã bung) chỉ nhắc nhân vật/đạo cụ có mặt trong shot; thư viện macro hợp lệ
   E8  beat theo từ (`word`) phải trỏ tới từ có thật trong line; `move.to` phải là anchor L/C/R; react.preset ∈ {nod, flinch}.
   Line dài tách nhiều shot: mỗi shot khai `span: [từ, đến]` (giây, tính từ đầu line đầu tiên của shot).
   W   cỡ cảnh lặp, đạo cụ lùi trạng thái, shot quá ngắn, nhịp shot trung bình chậm
@@ -36,7 +37,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from timing_lib import beat_time  # noqa: E402
-from behaviors import expand_shot  # noqa: E402
+from behaviors import check_library, expand_shot, load_library  # noqa: E402
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -122,6 +123,7 @@ def main() -> int:
 
     errors: list[str] = []
     warnings: list[str] = []
+    errors += [f"library/behaviors: {e}" for e in check_library(load_library())]
 
     shots = shotlist.get("shots", [])
     covering: dict[str, list[dict]] = {lid: [] for lid in lines}
@@ -217,6 +219,24 @@ def main() -> int:
             shot = expand_shot(shot, lines, abs0)
         except (ValueError, KeyError) as exc:
             errors.append(f"{sid}: macro không hợp lệ — {exc}")
+        # --- E9: beat (kể cả đã bung từ macro) chỉ được nhắc nhân vật/đạo cụ có mặt trong shot
+        cids = {c.get("id") for c in (shot.get("characters") or [])}
+        pkeys = {(p.get("key") or p.get("id")) for p in (shot.get("props") or [])}
+        for b in shot.get("beats", []):
+            tag = f" (macro {b['from_macro']})" if b.get("from_macro") else ""
+            refs = [k for k in (b.get("set") or {}) if k != "light" and not k.startswith("prop:")]
+            for k in ("move", "look", "react"):
+                if isinstance(b.get(k), dict):
+                    refs.append(b[k].get("char"))
+            if isinstance(b.get("look"), dict):
+                refs.append(b["look"].get("target"))
+            if isinstance(b.get("hand_over"), dict):
+                refs += [b["hand_over"].get("from"), b["hand_over"].get("to")]
+                if b["hand_over"].get("prop") not in pkeys:
+                    errors.append(f"{sid}: beat{tag} hand_over prop '{b['hand_over'].get('prop')}' không có trong shot (E9)")
+            for r in refs:
+                if r not in cids:
+                    errors.append(f"{sid}: beat{tag} nhắc nhân vật '{r}' không có trong shot (E9)")
         # --- beats & sfx
         beats = shot.get("beats", [])
         beats_total += len(beats)

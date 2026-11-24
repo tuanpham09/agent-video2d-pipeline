@@ -237,6 +237,19 @@ def test_behaviors() -> None:
         code, out = run([str(SCRIPTS / "check_shots.py"), "--project", str(d), "--scenes", "S01"])
         ok("beat vật lý viết tay thiếu SFX vẫn bị bắt (gate không bị macro làm lỏng)", code == 1 and "chưa có SFX" in out, out[-300:])
 
+    def ghost(s):
+        for sh in s["shots"]:
+            if sh["id"] == "SH008":
+                sh["beats"].append({"line_id": "S01_L07", "t": 1.0, "macro": "nhin_sang", "args": {"char": "host", "target": "ma"}})
+                sh["beats"].append({"line_id": "S01_L07", "t": 1.2, "macro": "trao_do", "args": {"prop": "khong_co", "from": "me", "to": "host"}})
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        d.mkdir()
+        write_min_project(d, ghost)
+        code, out = run([str(SCRIPTS / "check_shots.py"), "--project", str(d), "--scenes", "S01"])
+        ok("E9: macro nhắc nhân vật/đạo cụ không có trong shot bị báo",
+           code == 1 and "nhân vật 'ma' không có trong shot" in out and "prop 'khong_co'" in out and "macro nhin_sang" in out, out[-400:])
+
 
 def test_schemas() -> None:
     print("validate_schemas (JSON Schema, P0)")

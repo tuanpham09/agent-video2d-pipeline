@@ -69,3 +69,5 @@ Macro tái dùng cho beat diễn xuất. Trong `shotlist.json`: `{"line_id":"S01
 (không cần `do`; macro tự sinh). `build_video.py` và `check_shots.py` cùng bung macro qua `scripts/behaviors.py` nên E5/E7/R6.1 vẫn kiểm đủ;
 macro vật lý tự thêm SFX. Beat viết tay vẫn dùng được cùng macro. Lệnh: `python .agents/skills/video-pipeline/scripts/behaviors.py list|check`.
 Thêm macro mới: chỉ thêm, không đổi tên/xoá (như R2.3); `behaviors.py check` phải 0 lỗi.
+Sheet duyệt bằng mắt: `python .agents/skills/video-pipeline/scripts/behavior_sheet.py --project projects/<slug>` → `library/sheets/behaviors.png`
+(trạng thái cuối của từng macro trên hai nhân vật thật; phần chuyển động xem ở snapshot shot). Gate E9 trong `check_shots.py` kiểm macro/beat chỉ nhắc nhân vật, đạo cụ có trong shot.
