@@ -261,6 +261,24 @@ class Rig:
         return (f'<ellipse class="lap" cx="{CX}" cy="500" rx="{self.body_w * 0.95:g}" ry="30" '
                 f'fill="{col}" stroke="{ink}" stroke-width="6"/>')
 
+    def kleg(self) -> str:
+        """Chân khi quỳ NHÌN NGHIÊNG (view tq-r/tq-l): đùi chìa về phía mặt quay, cẳng chân gập ra sau nằm sát đất, gót giày dựng lên.
+        Toạ độ trong .body (đã dịch KNEEL_DY khi quỳ). Chỉ hiện khi stance kneel|lay và view khác front."""
+        ink = self.c("shadow_ink" if self.shadow else "ink")
+        pants = self.c("shadow_body" if self.shadow else self.p.get("pants", "robe_mourning_dark"))
+        shoe = self.c("shadow_ink" if self.shadow else "shoe")
+        out = []
+        for d, name in ((1, "r"), (-1, "l")):  # d=+1: mặt quay phải người xem → gối chìa sang phải
+            kx, bx = CX + d * 66, CX - d * 62
+            out.append(f'<g class="kleg kleg-{name}">')
+            for w, col in ((32, ink), (22, pants)):  # cẳng chân (sau) rồi bàn chân rồi đùi (trước): viền + ruột
+                out.append(f'<line x1="{kx}" y1="492" x2="{bx}" y2="494" stroke="{col}" stroke-width="{w}" stroke-linecap="round"/>')
+            out.append(f'<ellipse cx="{bx - d * 8}" cy="486" rx="11" ry="19" fill="{shoe}" stroke="{ink}" stroke-width="3"/>')
+            for w, col in ((38, ink), (28, pants)):
+                out.append(f'<line x1="{CX - d * 4}" y1="474" x2="{kx}" y2="484" stroke="{col}" stroke-width="{w}" stroke-linecap="round"/>')
+            out.append("</g>")
+        return "".join(out)
+
     def kfeet(self) -> str:
         """Gót chân khi quỳ: hai mũi giày thò ra hai bên váy, ở sát đất (nằm ngoài .body để không bị dịch xuống)."""
         ink = self.c("shadow_ink" if self.shadow else "ink")
@@ -447,7 +465,13 @@ class Rig:
             f"{r}[data-stance='kneel'] .legs,{r}[data-stance='lay'] .legs{{display:none}}",
             f"{r}[data-stance='kneel'] .lap,{r}[data-stance='lay'] .lap{{display:inline}}",
             f"{r}[data-stance='kneel'] .kfoot,{r}[data-stance='lay'] .kfoot{{display:inline}}",
-            f"{r}[data-stance='kneel'] .lap,{r}[data-stance='lay'] .lap{{transform:translateY(-22px)}}",  # váy trải sát đất, không tràn dưới sàn
+            f"{r}[data-stance='kneel'] .lap,{r}[data-stance='lay'] .lap{{transform:translateY(-22px)}}",
+            f"{r} .kleg{{display:none}}",
+            # quỳ nhìn nghiêng: thay váy trải bằng đùi + cẳng chân gập thật (thấy rõ dáng quỳ)
+            f"{r}[data-stance='kneel'][data-view='tq-r'] .kleg-r,{r}[data-stance='lay'][data-view='tq-r'] .kleg-r,"
+            f"{r}[data-stance='kneel'][data-view='tq-l'] .kleg-l,{r}[data-stance='lay'][data-view='tq-l'] .kleg-l{{display:inline}}",
+            f"{r}[data-stance='kneel'][data-view^='tq'] .lap,{r}[data-stance='lay'][data-view^='tq'] .lap,"
+            f"{r}[data-stance='kneel'][data-view^='tq'] .kfoot,{r}[data-stance='lay'][data-view^='tq'] .kfoot{{display:none}}",  # váy trải sát đất, không tràn dưới sàn
             f"{r}[data-stance='kneel'] .body,{r}[data-stance='lay'] .body{{transform:translateY({KNEEL_DY}px)}}",
             # lạy: thân và tay dẹt lại (cúi rạp nhìn chính diện), đầu hạ xuống theo vai
             f"{r} .trunk,{r} .arms{{transform-box:view-box;transform-origin:{CX}px 495px}}",
@@ -526,7 +550,7 @@ class Rig:
             f'<g class="rig rig-{self.id}" {a}>'
             f'<ellipse class="floor-shadow" cx="{CX}" cy="578" rx="{self.body_w * 0.9:g}" ry="9" fill="#000" opacity="0.28"/>'
             f'<g class="scale" transform="translate({CX} {FLOOR}) scale({s:g}) translate({-CX} {-FLOOR})">'
-            f'<g class="view">{self.kfeet()}<g class="body">{self.legs()}{self.lap()}<g class="trunk">{self.torso()}</g>'
+            f'<g class="view">{self.kfeet()}<g class="body">{self.legs()}{self.lap()}{self.kleg()}<g class="trunk">{self.torso()}</g>'
             f'<g class="arms">{self.arm("r")}{self.arm("l")}</g><g class="headg">{self.head()}</g></g></g>'
             f'</g></g>'
         )
@@ -635,6 +659,9 @@ def sheet_html(rig: Rig, emotions: list[str]) -> str:
     )
     acts = [("kneel · pray", {"stance": "kneel", "pose": "pray", "emotion": "grief"}),
             ("lay (lạy)", {"stance": "lay", "pose": "prostrate", "emotion": "grief"}),
+            ("kneel · tq-r (nghiêng)", {"stance": "kneel", "pose": "pray", "emotion": "grief", "view": "tq-r"}),
+            ("kneel · tq-l (nghiêng)", {"stance": "kneel", "pose": "pray", "emotion": "grief", "view": "tq-l"}),
+            ("lay · tq-r (nghiêng)", {"stance": "lay", "pose": "prostrate", "emotion": "grief", "view": "tq-r"}),
             ("run-a", {"pose": "run-a", "emotion": "afraid"}), ("run-b", {"pose": "run-b", "emotion": "afraid"}),
             ("cover-head", {"pose": "cover-head", "emotion": "afraid"}),
             ("stagger", {"stance": "stagger", "emotion": "shocked", "pose": "raise-both"}),

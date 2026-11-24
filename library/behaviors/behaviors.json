@@ -239,9 +239,10 @@
       ]
     },
     "quy_xuong": {
-      "desc": "Quỳ xuống, chắp tay (đầu gối chạm đất: SFX).",
+      "desc": "Quỳ xuống, chắp tay. Quỳ NHÌN NGHIÊNG (view tq-r = mặt quay phải người xem, tq-l = trái) để thấy rõ đùi/cẳng chân gập; hướng nên quay về phía người đối diện.",
       "params": {
-        "char": null
+        "char": null,
+        "view": "tq-r"
       },
       "do": "{char} khuỵu gối quỳ xuống",
       "physical": true,
@@ -251,7 +252,8 @@
           "set": {
             "{char}": {
               "stance": "kneel",
-              "pose": "pray"
+              "pose": "pray",
+              "view": "{view}"
             }
           }
         }
@@ -270,9 +272,10 @@
       ]
     },
     "quy_lay": {
-      "desc": "Quỳ rạp xuống lạy (cúi sát đất, hai tay chống).",
+      "desc": "Quỳ rạp xuống lạy. Quỳ NHÌN NGHIÊNG (view tq-r = mặt quay phải người xem, tq-l = trái) để thấy rõ đùi/cẳng chân gập; hướng nên quay về phía người đối diện.",
       "params": {
-        "char": null
+        "char": null,
+        "view": "tq-r"
       },
       "do": "{char} quỳ rạp xuống lạy",
       "physical": true,
@@ -282,7 +285,8 @@
           "set": {
             "{char}": {
               "stance": "lay",
-              "pose": "prostrate"
+              "pose": "prostrate",
+              "view": "{view}"
             }
           }
         }
@@ -308,7 +312,8 @@
           "set": {
             "{char}": {
               "stance": "stand",
-              "pose": "idle"
+              "pose": "idle",
+              "view": "front"
             }
           }
         }
