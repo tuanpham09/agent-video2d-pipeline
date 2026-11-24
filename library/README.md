@@ -71,3 +71,9 @@ macro vật lý tự thêm SFX. Beat viết tay vẫn dùng được cùng macro
 Thêm macro mới: chỉ thêm, không đổi tên/xoá (như R2.3); `behaviors.py check` phải 0 lỗi.
 Sheet duyệt bằng mắt: `python .agents/skills/video-pipeline/scripts/behavior_sheet.py --project projects/<slug>` → `library/sheets/behaviors.png`
 (trạng thái cuối của từng macro trên hai nhân vật thật; phần chuyển động xem ở snapshot shot). Gate E9 trong `check_shots.py` kiểm macro/beat chỉ nhắc nhân vật, đạo cụ có trong shot.
+
+### Hành động thân người (rig) và macro tương ứng
+`data-stance`: `stand | sit | kneel | lay | stagger[-r] | tilt[-r] | lie[-r]` (quỳ, lạy/quỳ rạp, loạng choạng, nghiêng đổ, nằm; `-r` = ngã về bên phải người xem).
+`data-pose` mới: `run-a/run-b` (chạy), `cover-head` (ôm đầu), `pray` (chắp tay trước ngực), `prostrate` (chống tay khi lạy).
+`move` có `gait: "run"` (nhịp chân 0,16 s, nảy 6 px). Macro: `quy_xuong`, `quy_lay`, `dung_day`, `chay_toi`, `om_dau`, `ngat` (3 khung 0,18 s + SFX ngã ở khung cuối).
+Lưu ý dàn cảnh: người nằm (`lie`) dài ~480 px ở scale 1 và chân/đầu có thể đè nhân vật bên cạnh — chừa chỗ hoặc đổi `suf`/vị trí.

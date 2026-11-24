@@ -4,82 +4,428 @@
   "behaviors": {
     "nghe_gat": {
       "desc": "Người nghe gật nhẹ.",
-      "params": {"char": null},
+      "params": {
+        "char": null
+      },
       "do": "{char} gật khẽ khi nghe",
-      "steps": [{"dt": 0, "react": {"char": "{char}", "preset": "nod"}}]
+      "steps": [
+        {
+          "dt": 0,
+          "react": {
+            "char": "{char}",
+            "preset": "nod"
+          }
+        }
+      ]
     },
     "giat_minh": {
       "desc": "Giật mình: phản xạ flinch, nét mặt sợ.",
-      "params": {"char": null},
+      "params": {
+        "char": null
+      },
       "do": "{char} giật mình",
       "steps": [
-        {"dt": 0, "react": {"char": "{char}", "preset": "flinch"}},
-        {"dt": 0, "set": {"{char}": {"emotion": "afraid"}}}
+        {
+          "dt": 0,
+          "react": {
+            "char": "{char}",
+            "preset": "flinch"
+          }
+        },
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "emotion": "afraid"
+            }
+          }
+        }
       ]
     },
     "so_hai": {
       "desc": "Sững sờ: mặt shocked, mắt nhìn thẳng.",
-      "params": {"char": null},
+      "params": {
+        "char": null
+      },
       "do": "{char} sững sờ, trố mắt",
-      "steps": [{"dt": 0, "set": {"{char}": {"emotion": "shocked", "gaze": "center"}}}]
+      "steps": [
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "emotion": "shocked",
+              "gaze": "center"
+            }
+          }
+        }
+      ]
     },
     "lo_lang": {
       "desc": "Nét mặt chuyển lo lắng.",
-      "params": {"char": null},
+      "params": {
+        "char": null
+      },
       "do": "{char} cau mày lo lắng",
-      "steps": [{"dt": 0, "set": {"{char}": {"emotion": "worried"}}}]
+      "steps": [
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "emotion": "worried"
+            }
+          }
+        }
+      ]
     },
     "nhin_sang": {
       "desc": "Nhìn về phía một nhân vật khác (gaze tự tính theo vị trí).",
-      "params": {"char": null, "target": null},
+      "params": {
+        "char": null,
+        "target": null
+      },
       "do": "{char} nhìn sang {target}",
-      "steps": [{"dt": 0, "look": {"char": "{char}", "target": "{target}"}}]
+      "steps": [
+        {
+          "dt": 0,
+          "look": {
+            "char": "{char}",
+            "target": "{target}"
+          }
+        }
+      ]
     },
     "nhin_nguoi_xem": {
       "desc": "Nhìn thẳng ống kính.",
-      "params": {"char": null},
+      "params": {
+        "char": null
+      },
       "do": "{char} nhìn thẳng người xem",
-      "steps": [{"dt": 0, "set": {"{char}": {"gaze": "center"}}}]
+      "steps": [
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "gaze": "center"
+            }
+          }
+        }
+      ]
     },
     "chap_tay": {
       "desc": "Hai tay chắp trước ngực.",
-      "params": {"char": null},
+      "params": {
+        "char": null
+      },
       "do": "{char} chắp tay trước ngực",
-      "steps": [{"dt": 0, "set": {"{char}": {"pose": "clasp"}}}]
+      "steps": [
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "pose": "clasp"
+            }
+          }
+        }
+      ]
     },
     "chi_tay": {
       "desc": "Giơ tay chỉ (side = l|r theo giải phẫu nhân vật).",
-      "params": {"char": null, "side": "l"},
+      "params": {
+        "char": null,
+        "side": "l"
+      },
       "do": "{char} giơ tay chỉ",
-      "steps": [{"dt": 0, "set": {"{char}": {"pose": "point-{side}", "emotion": "focused"}}}]
+      "steps": [
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "pose": "point-{side}",
+              "emotion": "focused"
+            }
+          }
+        }
+      ]
     },
     "ha_tay": {
       "desc": "Hạ tay về tư thế nghỉ.",
-      "params": {"char": null},
+      "params": {
+        "char": null
+      },
       "do": "{char} hạ tay",
-      "steps": [{"dt": 0, "set": {"{char}": {"pose": "idle"}}}]
+      "steps": [
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "pose": "idle"
+            }
+          }
+        }
+      ]
     },
     "cham_khan": {
       "desc": "Vươn tay chạm/nhấc khăn (vật lý, kèm SFX vải).",
-      "params": {"char": null, "side": "l"},
+      "params": {
+        "char": null,
+        "side": "l"
+      },
       "do": "{char} đưa tay chạm khăn",
       "physical": true,
-      "steps": [{"dt": 0, "set": {"{char}": {"pose": "reach-{side}"}}}],
-      "sfx": [{"dt": 0, "cue": "foley.cloth", "src": "sfx/ambience/foley/foley-fabric-touch.wav"}]
+      "steps": [
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "pose": "reach-{side}"
+            }
+          }
+        }
+      ],
+      "sfx": [
+        {
+          "dt": 0,
+          "cue": "foley.cloth",
+          "src": "sfx/ambience/foley/foley-fabric-touch.wav"
+        }
+      ]
     },
     "trao_do": {
       "desc": "Chuyển đạo cụ từ người này sang người kia (hand_over, vật lý, kèm SFX vải).",
-      "params": {"prop": null, "from": null, "to": null, "dur": 0.9},
+      "params": {
+        "prop": null,
+        "from": null,
+        "to": null,
+        "dur": 0.9
+      },
       "do": "{from} trao {prop} cho {to}",
       "physical": true,
-      "steps": [{"dt": 0, "hand_over": {"prop": "{prop}", "from": "{from}", "to": "{to}", "dur": "{dur}"}}],
-      "sfx": [{"dt": 0, "cue": "foley.cloth", "src": "sfx/ambience/foley/foley-fabric-touch.wav"}]
+      "steps": [
+        {
+          "dt": 0,
+          "hand_over": {
+            "prop": "{prop}",
+            "from": "{from}",
+            "to": "{to}",
+            "dur": "{dur}"
+          }
+        }
+      ],
+      "sfx": [
+        {
+          "dt": 0,
+          "cue": "foley.cloth",
+          "src": "sfx/ambience/foley/foley-fabric-touch.wav"
+        }
+      ]
     },
     "di_toi": {
       "desc": "Đi tới một anchor L|C|R (move có thời gian, R11.3).",
-      "params": {"char": null, "to": null, "dur": 1.2},
+      "params": {
+        "char": null,
+        "to": null,
+        "dur": 1.2
+      },
       "do": "{char} đi tới {to}",
-      "steps": [{"dt": 0, "move": {"char": "{char}", "to": "{to}", "dur": "{dur}"}}]
+      "steps": [
+        {
+          "dt": 0,
+          "move": {
+            "char": "{char}",
+            "to": "{to}",
+            "dur": "{dur}"
+          }
+        }
+      ]
+    },
+    "quy_xuong": {
+      "desc": "Quỳ xuống, chắp tay (đầu gối chạm đất: SFX).",
+      "params": {
+        "char": null
+      },
+      "do": "{char} khuỵu gối quỳ xuống",
+      "physical": true,
+      "steps": [
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "stance": "kneel",
+              "pose": "pray"
+            }
+          }
+        }
+      ],
+      "sfx": [
+        {
+          "dt": 0,
+          "cue": "impact.knee",
+          "src": "sfx/impacts_hits/impacts/impact-medium-soft.wav"
+        },
+        {
+          "dt": 0.05,
+          "cue": "foley.cloth",
+          "src": "sfx/ambience/foley/foley-fabric-touch.wav"
+        }
+      ]
+    },
+    "quy_lay": {
+      "desc": "Quỳ rạp xuống lạy (cúi sát đất, hai tay chống).",
+      "params": {
+        "char": null
+      },
+      "do": "{char} quỳ rạp xuống lạy",
+      "physical": true,
+      "steps": [
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "stance": "lay",
+              "pose": "prostrate"
+            }
+          }
+        }
+      ],
+      "sfx": [
+        {
+          "dt": 0,
+          "cue": "foley.cloth",
+          "src": "sfx/ambience/foley/foley-fabric-touch.wav"
+        }
+      ]
+    },
+    "dung_day": {
+      "desc": "Đứng dậy từ quỳ/ngồi/nằm.",
+      "params": {
+        "char": null
+      },
+      "do": "{char} đứng dậy",
+      "physical": true,
+      "steps": [
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "stance": "stand",
+              "pose": "idle"
+            }
+          }
+        }
+      ],
+      "sfx": [
+        {
+          "dt": 0,
+          "cue": "foley.cloth",
+          "src": "sfx/ambience/foley/foley-fabric-touch.wav"
+        }
+      ]
+    },
+    "chay_toi": {
+      "desc": "Chạy tới một anchor L|C|R (move kiểu chạy: chân bước dài, tay vung).",
+      "params": {
+        "char": null,
+        "to": null,
+        "dur": 0.9
+      },
+      "do": "{char} chạy tới {to}",
+      "steps": [
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "emotion": "afraid"
+            }
+          }
+        },
+        {
+          "dt": 0,
+          "move": {
+            "char": "{char}",
+            "to": "{to}",
+            "dur": "{dur}",
+            "gait": "run"
+          }
+        }
+      ]
+    },
+    "om_dau": {
+      "desc": "Ôm đầu co người vì sợ, giật mình.",
+      "params": {
+        "char": null
+      },
+      "do": "{char} ôm đầu co rúm",
+      "steps": [
+        {
+          "dt": 0,
+          "react": {
+            "char": "{char}",
+            "preset": "flinch"
+          }
+        },
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "pose": "cover-head",
+              "emotion": "afraid"
+            }
+          }
+        }
+      ]
+    },
+    "ngat": {
+      "desc": "Ngất: loạng choạng → nghiêng đổ → nằm bất động (ba khung 0,18 s; tiếng ngã). suf='' ngã về trái người xem, suf='-r' ngã về phải — chọn hướng AWAY khỏi nhân vật khác để không đè lên nhau.",
+      "params": {
+        "char": null,
+        "suf": ""
+      },
+      "do": "{char} loạng choạng rồi ngất xuống",
+      "physical": true,
+      "steps": [
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "stance": "stagger{suf}",
+              "pose": "raise-both",
+              "emotion": "shocked"
+            }
+          },
+          "physical": false
+        },
+        {
+          "dt": 0.18,
+          "set": {
+            "{char}": {
+              "stance": "tilt{suf}"
+            }
+          },
+          "physical": false
+        },
+        {
+          "dt": 0.36,
+          "set": {
+            "{char}": {
+              "stance": "lie{suf}",
+              "pose": "idle",
+              "emotion": "calm"
+            }
+          }
+        }
+      ],
+      "sfx": [
+        {
+          "dt": 0.36,
+          "cue": "impact.body_fall",
+          "src": "sfx/impacts_hits/impacts/impact-deep-soft.wav"
+        },
+        {
+          "dt": 0.38,
+          "cue": "foley.cloth",
+          "src": "sfx/ambience/foley/foley-fabric-touch.wav"
+        }
+      ]
     }
   }
 }

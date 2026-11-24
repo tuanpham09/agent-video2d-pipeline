@@ -26,6 +26,7 @@ from timing_lib import beat_time  # noqa: E402
 REPO = Path(__file__).resolve().parents[4]
 LIB = REPO / "library" / "behaviors" / "behaviors.json"
 STEP_KEYS = {"dt", "set", "move", "look", "react", "hand_over"}
+STEP_META = {"physical"}  # cờ riêng từng bước (mặc định theo macro)
 ANCHOR_KEYS = ("line_id", "t", "word", "edge")
 _PH = re.compile(r"\{([a-z_]+)\}")
 
@@ -87,7 +88,7 @@ def expand_shot(shot: dict, lines: dict, abs0: float, lib: dict | None = None) -
             nb = {k: b[k] for k in ANCHOR_KEYS if k in b}
             nb["dt"] = float(st.get("dt", 0.0))
             nb["do"] = do
-            nb["physical"] = bool(m.get("physical", False))
+            nb["physical"] = bool(st.get("physical", m.get("physical", False)))
             nb["from_macro"] = name
             for k in STEP_KEYS - {"dt"}:
                 if k in st:
@@ -116,7 +117,7 @@ def check_library(lib: dict) -> list[str]:
         if not m.get("steps"):
             errs.append(f"{name}: `steps` rỗng")
         for i, st in enumerate(m.get("steps", [])):
-            extra = set(st) - STEP_KEYS
+            extra = set(st) - STEP_KEYS - STEP_META
             if extra:
                 errs.append(f"{name}.steps[{i}]: khoá lạ {sorted(extra)}")
             if not (set(st) & (STEP_KEYS - {"dt"})):

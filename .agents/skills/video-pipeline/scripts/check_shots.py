@@ -18,6 +18,7 @@ Kiểm:
       (`synth:<tên>` = file đã render ở audio/sfx/<tên>.wav); t của beat/SFX tính từ đầu shot, phải nằm trong shot
   E7  shot có ≥2 nhân vật: MỖI nhân vật có ≥1 hành vi tường minh (beat set/move/look/react) — người nói cũng vậy.
       Người nghe/người nói tự động (quay mắt, gật) do generator thêm, không thay được beat tường minh (R11.1).
+  E10 giá trị set (pose/stance/gaze/view/emotion) nằm trong rig.json của nhân vật; move.gait walk|run
   E9  beat (và macro đã bung) chỉ nhắc nhân vật/đạo cụ có mặt trong shot; thư viện macro hợp lệ
   E8  beat theo từ (`word`) phải trỏ tới từ có thật trong line; `move.to` phải là anchor L/C/R; react.preset ∈ {nod, flinch}.
   Line dài tách nhiều shot: mỗi shot khai `span: [từ, đến]` (giây, tính từ đầu line đầu tiên của shot).
@@ -237,6 +238,19 @@ def main() -> int:
             for r in refs:
                 if r not in cids:
                     errors.append(f"{sid}: beat{tag} nhắc nhân vật '{r}' không có trong shot (E9)")
+        # --- E10: giá trị trạng thái (pose/stance/gaze/view/emotion) phải có trong <id>.rig.json (R3.3); move.gait ∈ walk|run
+        for b in shot.get("beats", []):
+            tag = f" (macro {b['from_macro']})" if b.get("from_macro") else ""
+            for cid, vals in (b.get("set") or {}).items():
+                rj = proj / "assets" / "rig" / f"{cid}.rig.json"
+                if cid == "light" or cid.startswith("prop:") or not rj.exists() or not isinstance(vals, dict):
+                    continue
+                vocab = load(rj).get("states", {})
+                for k, v in vals.items():
+                    if k in vocab and v not in vocab[k]:
+                        errors.append(f"{sid}: beat{tag} {cid}.{k}='{v}' ngoài rig ({sorted(vocab[k])}) (E10)")
+            if isinstance(b.get("move"), dict) and b["move"].get("gait", "walk") not in ("walk", "run"):
+                errors.append(f"{sid}: beat{tag} move.gait phải là walk|run (E10)")
         # --- beats & sfx
         beats = shot.get("beats", [])
         beats_total += len(beats)

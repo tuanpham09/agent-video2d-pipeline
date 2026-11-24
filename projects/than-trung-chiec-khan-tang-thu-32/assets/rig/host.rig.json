@@ -50,11 +50,24 @@
       "reach-l",
       "raise-both",
       "walk-a",
-      "walk-b"
+      "walk-b",
+      "run-a",
+      "run-b",
+      "cover-head",
+      "pray",
+      "prostrate"
     ],
     "stance": [
       "stand",
-      "sit"
+      "sit",
+      "kneel",
+      "lay",
+      "stagger",
+      "tilt",
+      "lie",
+      "stagger-r",
+      "tilt-r",
+      "lie-r"
     ],
     "gaze": [
       "center",

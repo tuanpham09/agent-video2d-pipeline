@@ -15,7 +15,7 @@ Một rig = một file SVG tự chứa, nhóm có tên + CSS điều khiển b�
                 dread, sad, grief, angry, suspicious, relieved)
   data-mouth    auto | closed | half | open | round   (auto = theo cảm xúc)
   data-pose     idle | clasp | point-l | reach-l | raise-both
-  data-stance   stand | sit
+  data-stance   stand | sit | kneel | lay | stagger[-r] | tilt[-r] | lie[-r]   (quỳ, lạy, loạng choạng, nghiêng đổ, nằm/ngất)
   data-gaze     center | left | right | up | down
   data-blink    0 | 1
   data-khan     on | off   (khăn tang trên đầu; dùng cho trạng thái đạo cụ)
@@ -85,6 +85,15 @@ POSES = {
     # đi bộ: tay giữ idle; hai chân ngược pha (xem LEG_POSES). Generator chuyển walk-a ↔ walk-b khi di chuyển.
     "walk-a": ((-4, 0), (4, 0)),
     "walk-b": ((-4, 0), (4, 0)),
+    # chạy: tay gập, vung ngược pha (l = trái nhân vật). Chân: LEG_POSES, bước dài + nhấc cao hơn đi bộ.
+    "run-a": ((-62, -88), (14, 30)),
+    "run-b": ((-14, -30), (62, 88)),
+    # ôm đầu / che mặt khi sợ: hai cánh tay gập lên che đầu
+    "cover-head": ((-150, -135), (150, 135)),
+    # chắp tay vái: như clasp nhưng cao hơn (trước ngực) — đi kèm stance quỳ để lạy
+    "pray": ((-14, 112), (14, -112)),
+    # lạy: hai tay chống xuống đất phía trước, hơi xoè (dùng với stance lay)
+    "prostrate": ((-30, -8), (30, 8)),
 }
 
 # Đi bộ NHÌN CHÍNH DIỆN: chân nhấc lên (dịch lên 10 px, vào giữa 4 px), chân kia tựa đất.
@@ -92,11 +101,17 @@ POSES = {
 LEG_POSES = {
     "walk-a": ("translate(6px,-16px)", "translate(0px,0px)"),
     "walk-b": ("translate(0px,0px)", "translate(-6px,-16px)"),
+    "run-a": ("translate(10px,-34px)", "translate(-4px,0px)"),
+    "run-b": ("translate(4px,0px)", "translate(-10px,-34px)"),
 }
 HIP_Y = 470
 # Góc nhìn (data-view): front = nhìn thẳng; tq-r / tq-l = 3/4, mặt quay về bên PHẢI / TRÁI của người xem.
 # Sinh từ cùng tham số rig (không vẽ riêng từng nhân vật): đổi bằng CSS trên nhóm .view/.feat, chi phí render bằng 0.
 VIEWS = ("front", "tq-r", "tq-l")
+# Tư thế thân (data-stance): đứng/ngồi + quỳ, lạy (quỳ rạp), loạng choạng, nghiêng đổ, nằm (ngất).
+STANCES = ("stand", "sit", "kneel", "lay", "stagger", "tilt", "lie", "stagger-r", "tilt-r", "lie-r")  # "-r" = ngã về bên phải người xem (mặc định ngã về trái)
+KNEEL_DY = 74
+LIE_PIVOT_Y, LIE_DY = 340, 183  # nằm ngửa: quay -90° quanh giữa thân rồi hạ xuống sát đất
 VIEW_BODY_SX, VIEW_BODY_DX, VIEW_FEAT_DX, VIEW_HAIR_DX, VIEW_FAR_EYE = 0.88, 5, 13, 6, 0.72
 VIEW_CHEEK_BACK = 19
 LEG_X = {"l": CX + 24, "r": CX - 24}  # tâm hông theo toạ độ viewBox
@@ -245,6 +260,15 @@ class Rig:
         col = self.c("shadow_body" if self.shadow else self.p.get("pants", "robe_mourning_dark"))
         return (f'<ellipse class="lap" cx="{CX}" cy="500" rx="{self.body_w * 0.95:g}" ry="30" '
                 f'fill="{col}" stroke="{ink}" stroke-width="6"/>')
+
+    def kfeet(self) -> str:
+        """Gót chân khi quỳ: hai mũi giày thò ra hai bên váy, ở sát đất (nằm ngoài .body để không bị dịch xuống)."""
+        ink = self.c("shadow_ink" if self.shadow else "ink")
+        shoe = self.c("shadow_ink" if self.shadow else "shoe")
+        dx = self.body_w * 0.62
+        return "".join(
+            f'<ellipse class="kfoot" cx="{CX + sg * dx:g}" cy="573" rx="22" ry="10" fill="{shoe}" stroke="{ink}" stroke-width="3"/>'
+            for sg in (-1, 1))
 
     def torso(self) -> str:
         bw = self.body_w
@@ -419,6 +443,16 @@ class Rig:
             f"{r} .leg-r{{transform-origin:{LEG_X['r']}px {HIP_Y}px}}",
             f"{r}[data-stance='sit'] .legs{{display:none}}",
             f"{r}[data-stance='sit'] .body{{transform:translateY(56px)}}",
+            f"{r} .kfoot{{display:none}}",
+            f"{r}[data-stance='kneel'] .legs,{r}[data-stance='lay'] .legs{{display:none}}",
+            f"{r}[data-stance='kneel'] .lap,{r}[data-stance='lay'] .lap{{display:inline}}",
+            f"{r}[data-stance='kneel'] .kfoot,{r}[data-stance='lay'] .kfoot{{display:inline}}",
+            f"{r}[data-stance='kneel'] .lap,{r}[data-stance='lay'] .lap{{transform:translateY(-22px)}}",  # váy trải sát đất, không tràn dưới sàn
+            f"{r}[data-stance='kneel'] .body,{r}[data-stance='lay'] .body{{transform:translateY({KNEEL_DY}px)}}",
+            # lạy: thân và tay dẹt lại (cúi rạp nhìn chính diện), đầu hạ xuống theo vai
+            f"{r} .trunk,{r} .arms{{transform-box:view-box;transform-origin:{CX}px 495px}}",
+            f"{r}[data-stance='lay'] .trunk,{r}[data-stance='lay'] .arms{{transform:scaleY(.42)}}",
+            f"{r}[data-stance='lay'] .headg{{transform:translateY(112px)}}",
         ]
         lines += [
             f"{r} .view{{transform-box:view-box;transform-origin:{CX}px 0px}}",
@@ -436,6 +470,18 @@ class Rig:
                 f"{vs} .eye-{far_eye}{{--exs:{VIEW_FAR_EYE}}}",
                 f"{vs} .ear-{far_ear}{{display:none}}",
             ]
+        # đổ người: quay quanh chân (loạng choạng → nghiêng → nằm). Đặt SAU luật view để thắng.
+        lines += [
+            f"{r}[data-stance='stagger'] .view{{transform-origin:{CX}px {FLOOR}px;transform:rotate(-12deg)}}",
+            f"{r}[data-stance='tilt'] .view{{transform-origin:{CX}px {FLOOR}px;transform:translateX(115px) rotate(-42deg)}}",
+            f"{r}[data-stance='lie'] .view{{transform-origin:{CX}px {LIE_PIVOT_Y}px;transform:translateY({LIE_DY}px) rotate(-90deg)}}",
+            f"{r}[data-stance='stagger-r'] .view{{transform-origin:{CX}px {FLOOR}px;transform:rotate(12deg)}}",
+            f"{r}[data-stance='tilt-r'] .view{{transform-origin:{CX}px {FLOOR}px;transform:translateX(-115px) rotate(42deg)}}",
+            f"{r}[data-stance='lie-r'] .view{{transform-origin:{CX}px {LIE_PIVOT_Y}px;transform:translateY({LIE_DY}px) rotate(90deg)}}",
+            f"{r}[data-stance='lie'] .lid,{r}[data-stance='lie-r'] .lid{{transform:scaleY(1)}}",
+            f"{r}[data-stance='lie'] .tears,{r}[data-stance='lie-r'] .tears{{display:none}}",
+            f"{r}[data-pose^='run'] .body{{transform-box:view-box;transform-origin:{CX}px {HIP_Y}px}}",
+        ]
         for name, e in EMOTIONS.items():
             sel = f"{r}[data-emotion='{name}']"
             lines.append(
@@ -480,7 +526,8 @@ class Rig:
             f'<g class="rig rig-{self.id}" {a}>'
             f'<ellipse class="floor-shadow" cx="{CX}" cy="578" rx="{self.body_w * 0.9:g}" ry="9" fill="#000" opacity="0.28"/>'
             f'<g class="scale" transform="translate({CX} {FLOOR}) scale({s:g}) translate({-CX} {-FLOOR})">'
-            f'<g class="view"><g class="body">{self.legs()}{self.lap()}{self.torso()}{self.arm("r")}{self.arm("l")}{self.head()}</g></g>'
+            f'<g class="view">{self.kfeet()}<g class="body">{self.legs()}{self.lap()}<g class="trunk">{self.torso()}</g>'
+            f'<g class="arms">{self.arm("r")}{self.arm("l")}</g><g class="headg">{self.head()}</g></g></g>'
             f'</g></g>'
         )
 
@@ -586,6 +633,14 @@ def sheet_html(rig: Rig, emotions: list[str]) -> str:
         f'<figure>{rig.svg({"view": v, "emotion": e, "mouth": m}, rig.crop())}<figcaption>{v} · {e} · {m}</figcaption></figure>'
         for v, e, m in (("tq-r", "calm", "closed"), ("tq-r", "worried", "open"), ("tq-l", "calm", "closed"), ("tq-l", "afraid", "open"))
     )
+    acts = [("kneel · pray", {"stance": "kneel", "pose": "pray", "emotion": "grief"}),
+            ("lay (lạy)", {"stance": "lay", "pose": "prostrate", "emotion": "grief"}),
+            ("run-a", {"pose": "run-a", "emotion": "afraid"}), ("run-b", {"pose": "run-b", "emotion": "afraid"}),
+            ("cover-head", {"pose": "cover-head", "emotion": "afraid"}),
+            ("stagger", {"stance": "stagger", "emotion": "shocked", "pose": "raise-both"}),
+            ("tilt", {"stance": "tilt", "emotion": "shocked", "pose": "raise-both"}),
+            ("lie (ngất)", {"stance": "lie", "emotion": "calm"})]
+    cells_a = "".join(f'<figure class="tall">{rig.svg(st)}<figcaption>{n}</figcaption></figure>' for n, st in acts)
     meta = f"{esc(ch.get('name', rig.id))} · giọng {esc(str(ch.get('voice', '?')))} · {esc(ch.get('design', ''))}"
     return f"""<!doctype html><html lang="vi"><meta charset="utf-8">
 <style>
@@ -604,7 +659,8 @@ figcaption{{font-size:12px;opacity:.85;margin-top:2px}}
 <h2>Biểu cảm khi ngồi ({len(emotions)})</h2><div class="grid">{cells_sit}</div>
 <h2>Hình miệng</h2><div class="grid">{cells_m}</div>
 <h2>Tư thế</h2><div class="grid">{cells_p}</div>
-<h2>Góc nhìn 3/4 (view)</h2><div class="grid">{cells_v}</div></html>"""
+<h2>Góc nhìn 3/4 (view)</h2><div class="grid">{cells_v}</div>
+<h2>Hành động: quỳ, lạy, chạy, ôm đầu, đổ người, ngất</h2><div class="grid">{cells_a}</div></html>"""
 
 
 def lineup_html(rigs: list[Rig]) -> str:
@@ -695,7 +751,7 @@ def main() -> int:
             "archetype": rig.p.get("archetype"), "outfit": rig.p.get("outfit"),
             "states": {
                 "emotion": list(EMOTIONS), "mouth": ["auto", "closed", "half", "open", "round"],
-                "pose": list(POSES), "stance": ["stand", "sit"], "gaze": list(GAZE),
+                "pose": list(POSES), "stance": list(STANCES), "gaze": list(GAZE),
                 "blink": [0, 1], "khan": ["on", "off"], "view": list(VIEWS),
             },
         }

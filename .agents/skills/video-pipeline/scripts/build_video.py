@@ -428,12 +428,16 @@ def build_shot_js(st: Stage, dur: float, abs0: float, ctx: Ctx) -> str:
             k = max(1, round(d / 0.5))
             out.append(f'tl.set("#{c["id"]}", {{attr: {{"data-gaze": {js(gaze_toward(tracks[cid].x_at(t), tgt["x"]))}}}}}, {t:.2f});')
             out.append(f'tl.to("#{c["id"]}", {{attr: {{x: {x_new:.1f}}}, duration: {d:.2f}, ease: "power1.inOut"}}, {t:.2f});')
-            # bước nhẹ: bob 3 px, 2k nhịp đều (kết thúc đúng cao độ ban đầu)
-            out.append(f'tl.to("#{c["id"]}", {{attr: {{y: "-=3"}}, duration: {d / (2 * k):.3f}, repeat: {2 * k - 1}, yoyo: true, ease: "sine.inOut"}}, {t:.2f});')
+            # bước nhẹ: bob 3 px (chạy: 6 px), 2k nhịp đều (kết thúc đúng cao độ ban đầu)
+            bob = 6 if mv.get("gait") == "run" else 3
+            out.append(f'tl.to("#{c["id"]}", {{attr: {{y: "-={bob}"}}, duration: {d / (2 * k):.3f}, repeat: {2 * k - 1}, yoyo: true, ease: "sine.inOut"}}, {t:.2f});')
             # bước chân: đổi walk-a/walk-b ~0.3 s/nhịp trong lúc đi, kết thúc về idle (R5.4, R11.3)
-            steps = max(2, int(d / 0.3))
+            gait = mv.get("gait", "walk")
+            if gait not in ("walk", "run"):
+                raise ValueError(f"{sid}: move.gait phải là walk|run (nhận '{gait}')")
+            steps = max(2, int(d / (0.16 if gait == "run" else 0.3)))
             for i in range(steps):
-                out.append(f'tl.set("#{c["id"]}", {{attr: {{"data-pose": "{"walk-a" if i % 2 == 0 else "walk-b"}"}}}}, {t + i * d / steps:.2f});')
+                out.append(f'tl.set("#{c["id"]}", {{attr: {{"data-pose": "{gait}-{"a" if i % 2 == 0 else "b"}"}}}}, {t + i * d / steps:.2f});')
             out.append(f'tl.set("#{c["id"]}", {{attr: {{"data-pose": "idle"}}}}, {t + d:.2f});')
             c["x"] = tgt["x"]  # bản ghi tĩnh dùng cho các bước sau (tracks giữ quỹ đạo chính xác)
         if b.get("hand_over"):

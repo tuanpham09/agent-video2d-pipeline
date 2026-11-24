@@ -251,6 +251,56 @@ def test_behaviors() -> None:
            code == 1 and "nhân vật 'ma' không có trong shot" in out and "prop 'khong_co'" in out and "macro nhin_sang" in out, out[-400:])
 
 
+def test_actions() -> None:
+    print("hành động mới (quỳ, lạy, chạy, ngất, ôm đầu)")
+    sys.path.insert(0, str(SCRIPTS))
+    from behaviors import expand_shot, load_library  # noqa: E402
+    lib = load_library()
+    lines = {"L": {"text": "Một hai ba bốn năm.", "start": 10.0, "duration": 5.0}}
+    out = expand_shot({"id": "S", "beats": [{"line_id": "L", "t": 1.0, "macro": "ngat", "args": {"char": "a"}}]}, lines, 10.0)
+    ts = [round(b["dt"] + 1.0, 2) for b in out["beats"]]
+    ok("ngất = 3 khung (t, +0.18, +0.36) stagger → tilt → lie", ts == [1.0, 1.18, 1.36]
+       and [b["set"]["a"]["stance"] for b in out["beats"]] == ["stagger", "tilt", "lie"], str(out["beats"]))
+    ok("ngất: chỉ khung cuối là vật lý và SFX ngã đúng khung cuối", [b["physical"] for b in out["beats"]] == [False, False, True]
+       and abs(out["sfx"][0]["t"] - 1.36) < 1e-6, str(out["sfx"]))
+    ok("chạy: move có gait=run", expand_shot({"id": "S", "beats": [{"line_id": "L", "t": 0, "macro": "chay_toi", "args": {"char": "a", "to": "R"}}]},
+                                           lines, 10.0)["beats"][1]["move"]["gait"] == "run")
+
+    def acts(s):
+        for sh in s["shots"]:
+            if sh["id"] == "SH008":
+                keep = [b for b in sh["beats"] if b.get("t") == 0.3]
+                sh["beats"] = keep + [
+                    {"line_id": "S01_L07", "t": 0.5, "macro": "chay_toi", "args": {"char": "host", "to": "L", "dur": 0.8}},
+                    {"line_id": "S01_L07", "t": 1.4, "macro": "quy_xuong", "args": {"char": "host"}},
+                    {"line_id": "S01_L07", "t": 2.0, "macro": "om_dau", "args": {"char": "me"}},
+                    {"line_id": "S01_L07", "word": 9, "macro": "nhin_sang", "args": {"char": "host", "target": "me"}},
+                    {"line_id": "S01_L07", "t": 2.6, "macro": "ngat", "args": {"char": "me"}},
+                    {"line_id": "S01_L07", "word": 17, "edge": "end", "macro": "nghe_gat", "args": {"char": "host"}}]
+                sh["sfx"] = []
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        d.mkdir()
+        write_min_project(d, acts)
+        code, o = run([str(SCRIPTS / "check_shots.py"), "--project", str(d), "--scenes", "S01"])
+        ok("check_shots qua với macro hành động", code == 0, o[-300:])
+        c, o = run([str(SCRIPTS / "build_video.py"), "--project", str(d), "--shots", "SH008", "--out", str(Path(td) / "v")])
+        ok("build_video dựng được", c == 0, o[-200:])
+        h = (Path(td) / "v" / "compositions" / "SH008.html").read_text(encoding="utf-8")
+        ok("HTML có nhịp chạy run-a/run-b, stance kneel và lie", all(k in h for k in ('"run-a"', '"run-b"', '"kneel"', '"lie"', '"stagger"')))
+
+    def bad_state(s):
+        for sh in s["shots"]:
+            if sh["id"] == "SH008":
+                sh["beats"].append({"line_id": "S01_L07", "t": 1.0, "do": "bay", "set": {"host": {"stance": "bay_len"}}})
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        d.mkdir()
+        write_min_project(d, bad_state)
+        code, o = run([str(SCRIPTS / "check_shots.py"), "--project", str(d), "--scenes", "S01"])
+        ok("E10: stance ngoài rig.json bị báo", code == 1 and "E10" in o and "bay_len" in o, o[-300:])
+
+
 def test_schemas() -> None:
     print("validate_schemas (JSON Schema, P0)")
     code, out = run([str(SCRIPTS / "validate_schemas.py"), "--project", str(PROJ)])
@@ -316,6 +366,7 @@ def main() -> int:
     test_build_video_tweens()
     test_hand_over()
     test_behaviors()
+    test_actions()
     test_schemas()
     test_check_audio()
     print(f"\n{'TẤT CẢ QUA' if not FAILS else f'THẤT BẠI {len(FAILS)}: ' + '; '.join(FAILS)}")

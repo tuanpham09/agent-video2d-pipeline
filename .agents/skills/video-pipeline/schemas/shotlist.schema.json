@@ -111,8 +111,16 @@
                 },
                 "stance": {
                   "enum": [
+                    "stand",
                     "sit",
-                    "stand"
+                    "kneel",
+                    "lay",
+                    "stagger",
+                    "tilt",
+                    "lie",
+                    "stagger-r",
+                    "tilt-r",
+                    "lie-r"
                   ]
                 },
                 "emotion": {
@@ -245,6 +253,12 @@
                     "dur": {
                       "type": "number",
                       "exclusiveMinimum": 0
+                    },
+                    "gait": {
+                      "enum": [
+                        "walk",
+                        "run"
+                      ]
                     }
                   }
                 },
