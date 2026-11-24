@@ -239,10 +239,10 @@
       ]
     },
     "quy_xuong": {
-      "desc": "Quỳ xuống, chắp tay. Quỳ NHÌN NGHIÊNG (view tq-r = mặt quay phải người xem, tq-l = trái) để thấy rõ đùi/cẳng chân gập; hướng nên quay về phía người đối diện.",
+      "desc": "Quỳ xuống, chắp tay. Quỳ NHÌN NGHIÊNG (view tq-r = mặt quay phải người xem, tq-l = trái) để thấy rõ đùi/cẳng chân gập; view=auto (mặc định) tự quay mặt về nhân vật gần nhất; có thể ghi tq-r|tq-l|front.",
       "params": {
         "char": null,
-        "view": "tq-r"
+        "view": "auto"
       },
       "do": "{char} khuỵu gối quỳ xuống",
       "physical": true,
@@ -272,10 +272,10 @@
       ]
     },
     "quy_lay": {
-      "desc": "Quỳ rạp xuống lạy. Quỳ NHÌN NGHIÊNG (view tq-r = mặt quay phải người xem, tq-l = trái) để thấy rõ đùi/cẳng chân gập; hướng nên quay về phía người đối diện.",
+      "desc": "Quỳ rạp xuống lạy. Quỳ NHÌN NGHIÊNG (view tq-r = mặt quay phải người xem, tq-l = trái) để thấy rõ đùi/cẳng chân gập; view=auto (mặc định) tự quay mặt về nhân vật gần nhất; có thể ghi tq-r|tq-l|front.",
       "params": {
         "char": null,
-        "view": "tq-r"
+        "view": "auto"
       },
       "do": "{char} quỳ rạp xuống lạy",
       "physical": true,
@@ -429,6 +429,262 @@
           "dt": 0.38,
           "cue": "foley.cloth",
           "src": "sfx/ambience/foley/foley-fabric-touch.wav"
+        }
+      ]
+    },
+    "cau_xin": {
+      "desc": "Quỳ xuống cầu xin: quỳ → lạy rạp → ngẩng lên (3 nhịp, `gap` giây mỗi nhịp). Quay mặt về nhân vật gần nhất.",
+      "params": {
+        "char": null,
+        "view": "auto",
+        "gap": 1.2,
+        "gap2": 2.4
+      },
+      "do": "{char} quỳ xuống lạy cầu xin",
+      "physical": true,
+      "steps": [
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "stance": "kneel",
+              "pose": "pray",
+              "emotion": "grief",
+              "view": "{view}"
+            }
+          }
+        },
+        {
+          "dt": "{gap}",
+          "set": {
+            "{char}": {
+              "stance": "lay",
+              "pose": "prostrate",
+              "view": "{view}"
+            }
+          }
+        },
+        {
+          "dt": "{gap2}",
+          "set": {
+            "{char}": {
+              "stance": "kneel",
+              "pose": "pray",
+              "view": "{view}"
+            }
+          }
+        }
+      ],
+      "sfx": [
+        {
+          "dt": 0,
+          "cue": "impact.knee",
+          "src": "sfx/impacts_hits/impacts/impact-medium-soft.wav"
+        },
+        {
+          "dt": "{gap}",
+          "cue": "foley.cloth",
+          "src": "sfx/ambience/foley/foley-fabric-touch.wav"
+        },
+        {
+          "dt": "{gap2}",
+          "cue": "foley.cloth",
+          "src": "sfx/ambience/foley/foley-fabric-touch.wav"
+        }
+      ]
+    },
+    "chay_roi_om_dau": {
+      "desc": "Chạy tới rồi khựng lại ôm đầu sợ hãi (chạy `dur` giây, ôm đầu ở `after`).",
+      "params": {
+        "char": null,
+        "to": null,
+        "dur": 0.9,
+        "after": 1.0
+      },
+      "do": "{char} chạy tới {to} rồi khựng lại ôm đầu",
+      "steps": [
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "emotion": "afraid"
+            }
+          }
+        },
+        {
+          "dt": 0,
+          "move": {
+            "char": "{char}",
+            "to": "{to}",
+            "dur": "{dur}",
+            "gait": "run"
+          }
+        },
+        {
+          "dt": "{after}",
+          "react": {
+            "char": "{char}",
+            "preset": "flinch"
+          }
+        },
+        {
+          "dt": "{after}",
+          "set": {
+            "{char}": {
+              "pose": "cover-head",
+              "emotion": "afraid"
+            }
+          }
+        }
+      ]
+    },
+    "soc_roi_ngat": {
+      "desc": "Sốc rồi ngất: giật mình + trố mắt → loạng choạng → nghiêng → nằm (khung ngã lúc +0,8 s). suf='' ngã trái, '-r' ngã phải.",
+      "params": {
+        "char": null,
+        "suf": ""
+      },
+      "do": "{char} giật mình, sững sờ rồi ngất xuống",
+      "physical": true,
+      "steps": [
+        {
+          "dt": 0,
+          "react": {
+            "char": "{char}",
+            "preset": "flinch"
+          },
+          "physical": false
+        },
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "emotion": "afraid"
+            }
+          },
+          "physical": false
+        },
+        {
+          "dt": 0.5,
+          "set": {
+            "{char}": {
+              "emotion": "shocked",
+              "gaze": "center"
+            }
+          },
+          "physical": false
+        },
+        {
+          "dt": 0.8,
+          "set": {
+            "{char}": {
+              "stance": "stagger{suf}",
+              "pose": "raise-both"
+            }
+          },
+          "physical": false
+        },
+        {
+          "dt": 0.98,
+          "set": {
+            "{char}": {
+              "stance": "tilt{suf}"
+            }
+          },
+          "physical": false
+        },
+        {
+          "dt": 1.16,
+          "set": {
+            "{char}": {
+              "stance": "lie{suf}",
+              "pose": "idle",
+              "emotion": "calm"
+            }
+          }
+        }
+      ],
+      "sfx": [
+        {
+          "dt": 1.16,
+          "cue": "impact.body_fall",
+          "src": "sfx/impacts_hits/impacts/impact-deep-soft.wav"
+        },
+        {
+          "dt": 1.18,
+          "cue": "foley.cloth",
+          "src": "sfx/ambience/foley/foley-fabric-touch.wav"
+        }
+      ]
+    },
+    "so_roi_bo_chay": {
+      "desc": "Sợ rồi bỏ chạy: giật mình, nhìn theo hướng chạy rồi chạy tới anchor `to` (chạy sau 0,4 s).",
+      "params": {
+        "char": null,
+        "to": null,
+        "dur": 1.0
+      },
+      "do": "{char} giật mình rồi bỏ chạy tới {to}",
+      "steps": [
+        {
+          "dt": 0,
+          "react": {
+            "char": "{char}",
+            "preset": "flinch"
+          }
+        },
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "emotion": "shocked"
+            }
+          }
+        },
+        {
+          "dt": 0.4,
+          "set": {
+            "{char}": {
+              "emotion": "afraid"
+            }
+          }
+        },
+        {
+          "dt": 0.4,
+          "move": {
+            "char": "{char}",
+            "to": "{to}",
+            "dur": "{dur}",
+            "gait": "run"
+          }
+        }
+      ]
+    },
+    "vai_chao": {
+      "desc": "Chắp tay vái rồi hạ tay (đứng): vái lúc 0, hạ sau `gap` giây.",
+      "params": {
+        "char": null,
+        "gap": 1.2
+      },
+      "do": "{char} chắp tay vái",
+      "steps": [
+        {
+          "dt": 0,
+          "set": {
+            "{char}": {
+              "pose": "pray",
+              "emotion": "grief"
+            }
+          }
+        },
+        {
+          "dt": "{gap}",
+          "set": {
+            "{char}": {
+              "pose": "idle",
+              "emotion": "calm"
+            }
+          }
         }
       ]
     }

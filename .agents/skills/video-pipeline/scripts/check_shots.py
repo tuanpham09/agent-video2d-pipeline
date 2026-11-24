@@ -247,7 +247,7 @@ def main() -> int:
                     continue
                 vocab = load(rj).get("states", {})
                 for k, v in vals.items():
-                    if k in vocab and v not in vocab[k]:
+                    if k in vocab and v not in vocab[k] and not (k == "view" and v == "auto"):
                         errors.append(f"{sid}: beat{tag} {cid}.{k}='{v}' ngoài rig ({sorted(vocab[k])}) (E10)")
             if isinstance(b.get("move"), dict) and b["move"].get("gait", "walk") not in ("walk", "run"):
                 errors.append(f"{sid}: beat{tag} move.gait phải là walk|run (E10)")

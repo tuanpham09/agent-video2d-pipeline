@@ -301,6 +301,68 @@ def test_actions() -> None:
         ok("E10: stance ngoài rig.json bị báo", code == 1 and "E10" in o and "bay_len" in o, o[-300:])
 
 
+def test_combos_autoface() -> None:
+    print("chuỗi ghép sẵn + tự quay mặt (view: auto)")
+    sys.path.insert(0, str(SCRIPTS))
+    from behaviors import expand_shot  # noqa: E402
+    lines = {"L": {"text": "Một hai ba bốn năm.", "start": 10.0, "duration": 5.0}}
+
+    def ex(macro, args, t=1.0):
+        return expand_shot({"id": "S", "beats": [{"line_id": "L", "t": t, "macro": macro, "args": args}]}, lines, 10.0)
+
+    o = ex("cau_xin", {"char": "a"})
+    ok("cau_xin: quỳ → lạy → quỳ ở t, t+1.2, t+2.4, SFX khớp từng nhịp",
+       [round(b["dt"] + 1.0, 2) for b in o["beats"]] == [1.0, 2.2, 3.4]
+       and [b["set"]["a"]["stance"] for b in o["beats"]] == ["kneel", "lay", "kneel"]
+       and [round(f["t"], 2) for f in o["sfx"]] == [1.0, 2.2, 3.4] and all(b["physical"] for b in o["beats"]), str(o["sfx"]))
+    o = ex("cau_xin", {"char": "a", "gap": 0.8, "gap2": 1.6})
+    ok("cau_xin: đổi nhịp bằng tham số (gap/gap2) cả beat lẫn SFX", [round(f["t"], 2) for f in o["sfx"]] == [1.0, 1.8, 2.6]
+       and [round(b["dt"], 2) for b in o["beats"]] == [0.0, 0.8, 1.6])
+    o = ex("soc_roi_ngat", {"char": "a", "suf": "-r"})
+    ok("soc_roi_ngat: 6 beat, chỉ khung nằm là vật lý, SFX ngã +1.16 s, hướng -r",
+       len(o["beats"]) == 6 and [b["physical"] for b in o["beats"]] == [False] * 5 + [True]
+       and abs(o["sfx"][0]["t"] - 2.16) < 1e-6 and o["beats"][-1]["set"]["a"]["stance"] == "lie-r", str(o["beats"][-1]))
+    o = ex("chay_roi_om_dau", {"char": "a", "to": "R"})
+    ok("chay_roi_om_dau: chạy rồi ôm đầu sau `after` giây", o["beats"][1]["move"]["gait"] == "run"
+       and o["beats"][3]["set"]["a"]["pose"] == "cover-head" and round(o["beats"][3]["dt"], 2) == 1.0)
+    ok("so_roi_bo_chay/vai_chao bung được", len(ex("so_roi_bo_chay", {"char": "a", "to": "L"})["beats"]) == 4
+       and len(ex("vai_chao", {"char": "a"})["beats"]) == 2)
+
+    def combos(s):
+        for sh in s["shots"]:
+            if sh["id"] == "SH008":
+                keep = [b for b in sh["beats"] if b.get("t") == 0.3]
+                sh["beats"] = keep + [
+                    {"line_id": "S01_L07", "t": 0.4, "macro": "cau_xin", "args": {"char": "host"}},
+                    {"line_id": "S01_L07", "t": 1.0, "macro": "soc_roi_ngat", "args": {"char": "me", "suf": "-r"}},
+                    {"line_id": "S01_L07", "word": 9, "macro": "nhin_sang", "args": {"char": "host", "target": "me"}},
+                    {"line_id": "S01_L07", "word": 17, "edge": "end", "macro": "nghe_gat", "args": {"char": "host"}}]
+                sh["sfx"] = []
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        d.mkdir()
+        write_min_project(d, combos)
+        code, o = run([str(SCRIPTS / "check_shots.py"), "--project", str(d), "--scenes", "S01"])
+        ok("check_shots qua với chuỗi ghép sẵn (SFX từng nhịp vật lý khớp)", code == 0, o[-300:])
+        c, o = run([str(SCRIPTS / "build_video.py"), "--project", str(d), "--shots", "SH008", "--out", str(Path(td) / "v")])
+        h = (Path(td) / "v" / "compositions" / "SH008.html").read_text(encoding="utf-8") if c == 0 else ""
+        ok("auto-face: host (trái) quỳ quay tq-r về phía me", c == 0 and '"data-view": "tq-r"' in h, o[-200:])
+        ok("chuỗi ngất: có stagger-r → tilt-r → lie-r", all(k in h for k in ('"stagger-r"', '"tilt-r"', '"lie-r"')))
+
+    def auto_me(s):
+        for sh in s["shots"]:
+            if sh["id"] == "SH008":
+                sh["beats"].append({"line_id": "S01_L07", "t": 1.5, "do": "mẹ quay mặt", "set": {"me": {"view": "auto"}}})
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        d.mkdir()
+        write_min_project(d, auto_me)
+        code, o = run([str(SCRIPTS / "check_shots.py"), "--project", str(d), "--scenes", "S01"])
+        c, o2 = run([str(SCRIPTS / "build_video.py"), "--project", str(d), "--shots", "SH008", "--out", str(Path(td) / "v")])
+        h = (Path(td) / "v" / "compositions" / "SH008.html").read_text(encoding="utf-8") if c == 0 else ""
+        ok("auto-face: me (phải) quay tq-l về phía host; E10 chấp nhận view=auto", code == 0 and c == 0 and '"data-view": "tq-l"' in h, o[-200:] + o2[-200:])
+
+
 def test_schemas() -> None:
     print("validate_schemas (JSON Schema, P0)")
     code, out = run([str(SCRIPTS / "validate_schemas.py"), "--project", str(PROJ)])
@@ -367,6 +429,7 @@ def main() -> int:
     test_hand_over()
     test_behaviors()
     test_actions()
+    test_combos_autoface()
     test_schemas()
     test_check_audio()
     print(f"\n{'TẤT CẢ QUA' if not FAILS else f'THẤT BẠI {len(FAILS)}: ' + '; '.join(FAILS)}")

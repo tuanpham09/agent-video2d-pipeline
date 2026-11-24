@@ -154,6 +154,8 @@ class Stage:
         if not m:
             raise ValueError(f"rig {cid}: không thấy <g class=\"rig rig-{cid}\">")
         tag = set_attr_on_tag(m.group(0), "id", f"{self.sid}-{cid}")
+        if spec.get("view") == "auto":
+            raise ValueError(f"{self.sid}: characters[].view=auto chưa hỗ trợ — dùng beat.set {{view: auto}} (cần vị trí theo thời gian)")
         for a in ("emotion", "pose", "stance", "gaze", "view"):
             if spec.get(a):
                 tag = set_attr_on_tag(tag, f"data-{a}", spec[a])
@@ -312,6 +314,18 @@ def gaze_toward(from_x: float, to_x: float) -> str:
     return "left" if to_x < from_x else "right"
 
 
+def facing_view(cid: str, t: float, tracks: dict) -> str:
+    """view tq-r|tq-l quay mặt về nhân vật gần nhất trong shot; một mình hoặc trùng x → front."""
+    me = tracks[cid].x_at(t)
+    others = [tr.x_at(t) for k, tr in tracks.items() if k != cid]
+    if not others:
+        return "front"
+    nearest = min(others, key=lambda x: abs(x - me))
+    if abs(nearest - me) < 1:
+        return "front"
+    return "tq-r" if nearest > me else "tq-l"
+
+
 def nod_js(sel: str, t: float) -> str:
     # gật: cả thân rig xuống 2.5 px rồi về chỗ cũ (yoyo 2 nhịp = kết thúc đúng vị trí ban đầu)
     return f'tl.to("{sel}", {{attr: {{y: "+=2.5"}}, duration: 0.14, repeat: 1, yoyo: true, ease: "sine.inOut"}}, {t:.2f});'
@@ -414,6 +428,8 @@ def build_shot_js(st: Stage, dur: float, abs0: float, ctx: Ctx) -> str:
             elif target.startswith("prop:"):
                 out.append(f'tl.set("#{st.prop_ids[target[5:]]}", {{attr: {{"data-state": {js(val)}}}}}, {t:.2f});')
             elif target in st.chars:
+                if val.get("view") == "auto":  # quay mặt về nhân vật gần nhất tại thời điểm beat (không tự quay lại khi người kia đi chỗ khác)
+                    val = {**val, "view": facing_view(target, t, tracks)}
                 attrs = {f"data-{k}": v for k, v in val.items()}
                 out.append(f'tl.set("#{st.chars[target]["id"]}", {{attr: {js(attrs)}}}, {t:.2f});')
             else:

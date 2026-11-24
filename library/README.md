@@ -77,3 +77,7 @@ Sheet duyệt bằng mắt: `python .agents/skills/video-pipeline/scripts/behavi
 `data-pose` mới: `run-a/run-b` (chạy), `cover-head` (ôm đầu), `pray` (chắp tay trước ngực), `prostrate` (chống tay khi lạy).
 `move` có `gait: "run"` (nhịp chân 0,16 s, nảy 6 px). Macro: `quy_xuong`, `quy_lay`, `dung_day`, `chay_toi`, `om_dau`, `ngat` (3 khung 0,18 s + SFX ngã ở khung cuối).
 Lưu ý dàn cảnh: người nằm (`lie`) dài ~480 px ở scale 1 và chân/đầu có thể đè nhân vật bên cạnh — chừa chỗ hoặc đổi `suf`/vị trí.
+
+### Chuỗi ghép sẵn và tự quay mặt
+Macro nhiều bước (nhịp chỉnh bằng tham số, SFX đi theo nhịp): `cau_xin` (quỳ → lạy → ngẩng; `gap`, `gap2`), `chay_roi_om_dau` (`dur`, `after`), `soc_roi_ngat` (`suf`), `so_roi_bo_chay` (`dur`), `vai_chao` (`gap`).
+`view: "auto"` trong `beat.set` (mặc định của `quy_xuong`/`quy_lay`/`cau_xin`): quay mặt về nhân vật gần nhất tại thời điểm beat; không tự quay lại nếu người kia đi chỗ khác — khi đó ghi lại beat `set {view: auto}`.

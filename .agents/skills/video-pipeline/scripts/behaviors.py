@@ -28,7 +28,7 @@ LIB = REPO / "library" / "behaviors" / "behaviors.json"
 STEP_KEYS = {"dt", "set", "move", "look", "react", "hand_over"}
 STEP_META = {"physical"}  # cờ riêng từng bước (mặc định theo macro)
 ANCHOR_KEYS = ("line_id", "t", "word", "edge")
-_PH = re.compile(r"\{([a-z_]+)\}")
+_PH = re.compile(r"\{([a-z0-9_]+)\}")
 
 
 def load_library(path: Path = LIB) -> dict:
@@ -86,7 +86,7 @@ def expand_shot(shot: dict, lines: dict, abs0: float, lib: dict | None = None) -
         do = b.get("do") or _sub(m["do"], args)
         for st in m["steps"]:
             nb = {k: b[k] for k in ANCHOR_KEYS if k in b}
-            nb["dt"] = float(st.get("dt", 0.0))
+            nb["dt"] = float(_sub(st.get("dt", 0.0), args))
             nb["do"] = do
             nb["physical"] = bool(st.get("physical", m.get("physical", False)))
             nb["from_macro"] = name
@@ -99,7 +99,7 @@ def expand_shot(shot: dict, lines: dict, abs0: float, lib: dict | None = None) -
                 nb["move"]["dur"] = float(nb["move"]["dur"])
             beats.append(nb)
         for fx in m.get("sfx", []):
-            sfx.append({"cue": fx["cue"], "src": fx["src"], "t": round(t0 + float(fx.get("dt", 0.0)), 3), "from_macro": name})
+            sfx.append({"cue": fx["cue"], "src": fx["src"], "t": round(t0 + float(_sub(fx.get("dt", 0.0), args)), 3), "from_macro": name})
     new["beats"] = beats
     new["sfx"] = sfx
     return new
