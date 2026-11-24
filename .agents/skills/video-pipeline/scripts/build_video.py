@@ -36,6 +36,7 @@ REPO = HERE.parents[3]
 sys.path.insert(0, str(HERE))
 import library as L
 from timing_lib import beat_time, sentence_ends  # noqa: E402
+from behaviors import expand_shot  # noqa: E402
 
 W, H = 1920, 1080
 ZOOM = {"wide": 1.0, "medium": 1.6, "close": 2.4, "macro": 3.2, "ots": 1.8}
@@ -538,6 +539,7 @@ def main() -> int:
     hosts, audios, sfx_n = [], [], 0
     for i, (s, (a0, _), end) in enumerate(zip(shots, wins, ends)):
         start, dur = a0 - t0, end - a0
+        s = expand_shot(s, ctx.lines, a0)  # bung macro hành vi (library/behaviors) → beat thường + SFX
         st = Stage(s, ctx)
         (out / "compositions" / f"{s['id']}.html").write_text(shot_html(st, dur, a0, ctx, pal_css), encoding="utf-8")
         hosts.append(f'    <div id="{s["id"]}" class="clip" data-composition-id="{s["id"]}" data-composition-src="compositions/{s["id"]}.html" '

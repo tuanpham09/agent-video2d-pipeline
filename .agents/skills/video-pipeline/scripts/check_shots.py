@@ -36,6 +36,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from timing_lib import beat_time  # noqa: E402
+from behaviors import expand_shot  # noqa: E402
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -211,6 +212,11 @@ def main() -> int:
             if allowed and loc not in allowed:
                 warnings.append(f"{sid}: đạo cụ {pid} xuất hiện ở {loc}, bible chỉ cho {allowed}")
 
+        # --- bung macro hành vi (library/behaviors) → beat thường, để mọi gate dưới đây thấy đúng cái generator dựng
+        try:
+            shot = expand_shot(shot, lines, abs0)
+        except (ValueError, KeyError) as exc:
+            errors.append(f"{sid}: macro không hợp lệ — {exc}")
         # --- beats & sfx
         beats = shot.get("beats", [])
         beats_total += len(beats)

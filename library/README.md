@@ -62,3 +62,10 @@ Nguồn: `.agents/skills/video-pipeline/scripts/bg_lib/` → `build_bg.py` ra `a
 - `stand` (L/C/R: `x,y,s`), `floor_y`, `crop_9x16.center` của nhóm này lấy từ `bg_lib/anchors.py` (sửa ở đó rồi `import_bg.py`; `anchors_reviewed: true`). Đã ghép nhân vật `host` kiểm ở khung 9:16; `s` nhỏ (0.55–0.6) cho cảnh toàn/xa. `slots` đạo cụ vẫn trống: đặt khi cần.
 - Token đặt tên theo giá trị màu (chưa gom theo ngữ nghĩa); muốn đổi tông cả kho thì sửa giá trị trong `scenery-vn.json`.
 - Ba cảnh vẽ tay và nhóm 22 cảnh có trùng chức năng (gian thờ, sân/hiên nhà); chưa hợp nhất — project mẫu đang dùng bản vẽ tay.
+
+## Hành vi mẫu (`library/behaviors/behaviors.json`)
+
+Macro tái dùng cho beat diễn xuất. Trong `shotlist.json`: `{"line_id":"S01_L07","word":9,"macro":"nhin_sang","args":{"char":"host","target":"me"}}`
+(không cần `do`; macro tự sinh). `build_video.py` và `check_shots.py` cùng bung macro qua `scripts/behaviors.py` nên E5/E7/R6.1 vẫn kiểm đủ;
+macro vật lý tự thêm SFX. Beat viết tay vẫn dùng được cùng macro. Lệnh: `python .agents/skills/video-pipeline/scripts/behaviors.py list|check`.
+Thêm macro mới: chỉ thêm, không đổi tên/xoá (như R2.3); `behaviors.py check` phải 0 lỗi.

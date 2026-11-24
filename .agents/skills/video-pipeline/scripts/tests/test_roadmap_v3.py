@@ -172,6 +172,72 @@ def test_hand_over() -> None:
         ok("hand_over không physical bị từ chối (R6.1)", code != 0 and "physical=true" in out, out[-200:])
 
 
+def test_behaviors() -> None:
+    print("behaviors (macro hành vi mẫu)")
+    sys.path.insert(0, str(SCRIPTS))
+    from behaviors import check_library, load_library, expand_shot  # noqa: E402
+    lib = load_library()
+    ok("thư viện macro hợp lệ (0 lỗi)", check_library(lib) == [], str(check_library(lib)))
+
+    lines = {"L": {"text": "Một hai ba bốn năm.", "start": 10.0, "duration": 5.0}}
+    shot = {"id": "SH999", "line_ids": ["L"], "beats": [
+        {"line_id": "L", "word": 2, "macro": "nghe_gat", "args": {"char": "a"}},
+        {"line_id": "L", "t": 1.0, "macro": "cham_khan", "args": {"char": "a"}}]}
+    out = expand_shot(shot, lines, 10.0)
+    ok("bung đúng: react nod + set pose reach-l", out["beats"][0]["react"] == {"char": "a", "preset": "nod"}
+       and out["beats"][1]["set"] == {"a": {"pose": "reach-l"}}, str(out["beats"]))
+    ok("macro vật lý tự thêm SFX đúng thời điểm (t=1.0)", [f["t"] for f in out["sfx"]] == [1.0] and out["beats"][1]["physical"] is True)
+    ok("không sửa dữ liệu vào", "macro" in shot["beats"][0] and "sfx" not in shot)
+    for bad, why in (({"macro": "khong_co"}, "macro lạ"), ({"macro": "nghe_gat"}, "thiếu tham số"),
+                     ({"macro": "nghe_gat", "args": {"char": "a", "x": 1}}, "tham số lạ")):
+        try:
+            expand_shot({"id": "S", "beats": [{"line_id": "L", "t": 0, **bad}]}, lines, 10.0)
+            ok(f"từ chối {why}", False, "không ném lỗi")
+        except ValueError:
+            ok(f"từ chối {why}", True)
+
+    # end-to-end: thay beat SH008 bằng macro → check_shots qua và HTML dựng ra GIỐNG HỆT bản beat tay
+    def to_macros(s):
+        for sh in s["shots"]:
+            if sh["id"] == "SH008":
+                keep = [b for b in sh["beats"] if b.get("t") == 0.3]
+                sh["beats"] = keep + [
+                    {"line_id": "S01_L07", "t": 2.4, "macro": "cham_khan", "args": {"char": "me"}},
+                    {"line_id": "S01_L07", "word": 9, "macro": "nhin_sang", "args": {"char": "host", "target": "me"}},
+                    {"line_id": "S01_L07", "word": 17, "edge": "end", "macro": "nghe_gat", "args": {"char": "host"}}]
+                sh["sfx"] = []
+    with tempfile.TemporaryDirectory() as td:
+        a, b = Path(td) / "ra" / "p", Path(td) / "rb" / "p"  # cùng tên thư mục project (index.html có <title> theo tên)
+        a.mkdir(parents=True); b.mkdir(parents=True)
+        write_min_project(a)
+        write_min_project(b, to_macros)
+        code, out = run([str(SCRIPTS / "check_shots.py"), "--project", str(b), "--scenes", "S01"])
+        ok("check_shots qua khi dùng macro (E5/E7/R6.1 thấy beat đã bung)", code == 0, out[-300:])
+        for d, name in ((a, "va"), (b, "vb")):
+            c, o = run([str(SCRIPTS / "build_video.py"), "--project", str(d), "--shots", "SH008", "--out", str(Path(td) / name)])
+            ok(f"build_video dựng được ({name})", c == 0, o[-200:])
+        ha = (Path(td) / "va" / "compositions" / "SH008.html").read_text(encoding="utf-8")
+        hb = (Path(td) / "vb" / "compositions" / "SH008.html").read_text(encoding="utf-8")
+        ok("HTML từ macro giống hệt HTML từ beat viết tay", ha == hb)
+        ia = (Path(td) / "va" / "index.html").read_text(encoding="utf-8")
+        ib = (Path(td) / "vb" / "index.html").read_text(encoding="utf-8")
+        ok("index (gồm SFX) giống hệt", ia == ib)
+
+    def no_sfx(s):
+        to_macros(s)
+        for sh in s["shots"]:
+            if sh["id"] == "SH008":
+                sh["beats"][1]["args"]["char"] = "me"
+                sh["beats"] = [x for x in sh["beats"] if x.get("macro") != "cham_khan"] + [
+                    {"line_id": "S01_L07", "t": 2.4, "do": "chạm khăn", "physical": True, "set": {"me": {"pose": "reach-l"}}}]
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        d.mkdir()
+        write_min_project(d, no_sfx)
+        code, out = run([str(SCRIPTS / "check_shots.py"), "--project", str(d), "--scenes", "S01"])
+        ok("beat vật lý viết tay thiếu SFX vẫn bị bắt (gate không bị macro làm lỏng)", code == 1 and "chưa có SFX" in out, out[-300:])
+
+
 def test_schemas() -> None:
     print("validate_schemas (JSON Schema, P0)")
     code, out = run([str(SCRIPTS / "validate_schemas.py"), "--project", str(PROJ)])
@@ -236,6 +302,7 @@ def main() -> int:
     test_check_shots()
     test_build_video_tweens()
     test_hand_over()
+    test_behaviors()
     test_schemas()
     test_check_audio()
     print(f"\n{'TẤT CẢ QUA' if not FAILS else f'THẤT BẠI {len(FAILS)}: ' + '; '.join(FAILS)}")

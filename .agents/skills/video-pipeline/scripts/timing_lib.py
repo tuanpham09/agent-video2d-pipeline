@@ -68,10 +68,10 @@ def beat_time(beat: dict, lines: dict, shot_abs0: float) -> float:
         if not (0 <= idx < len(spans)):
             raise ValueError(f"beat {beat.get('line_id')}: word={idx} ngoài 0..{len(spans) - 1}")
         key = "end" if beat.get("edge") == "end" else "start"
-        return spans[idx][key] - shot_abs0
+        return spans[idx][key] - shot_abs0 + float(beat.get("dt", 0.0))
     if "t" not in beat:
         raise ValueError(f"beat {beat.get('line_id')}: thiếu cả `t` lẫn `word`")
-    return float(beat["t"])
+    return float(beat["t"]) + float(beat.get("dt", 0.0))
 
 
 def sentence_ends(text: str, start: float, duration: float, words: list[dict] | None = None) -> list[float]:

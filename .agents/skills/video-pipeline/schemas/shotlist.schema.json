@@ -189,20 +189,7 @@
             "items": {
               "type": "object",
               "required": [
-                "line_id",
-                "do"
-              ],
-              "anyOf": [
-                {
-                  "required": [
-                    "t"
-                  ]
-                },
-                {
-                  "required": [
-                    "word"
-                  ]
-                }
+                "line_id"
               ],
               "properties": {
                 "line_id": {
@@ -286,8 +273,48 @@
                       "exclusiveMinimum": 0
                     }
                   }
+                },
+                "macro": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*$"
+                },
+                "args": {
+                  "type": "object"
+                },
+                "dt": {
+                  "type": "number"
                 }
-              }
+              },
+              "allOf": [
+                {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "t"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "word"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "do"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "macro"
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           },
           "sfx": {
