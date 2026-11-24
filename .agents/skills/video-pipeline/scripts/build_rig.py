@@ -98,6 +98,7 @@ HIP_Y = 470
 # Sinh từ cùng tham số rig (không vẽ riêng từng nhân vật): đổi bằng CSS trên nhóm .view/.feat, chi phí render bằng 0.
 VIEWS = ("front", "tq-r", "tq-l")
 VIEW_BODY_SX, VIEW_BODY_DX, VIEW_FEAT_DX, VIEW_HAIR_DX, VIEW_FAR_EYE = 0.88, 5, 13, 6, 0.72
+VIEW_CHEEK_BACK = 19
 LEG_X = {"l": CX + 24, "r": CX - 24}  # tâm hông theo toạ độ viewBox
 
 GAZE = {"center": (0, 0), "left": (-5, 0), "right": (5, 0), "up": (0, -4), "down": (0, 4)}
@@ -316,9 +317,12 @@ class Rig:
         if wr >= 1:
             w = f'stroke="{ink}" stroke-width="2.6" stroke-linecap="round" fill="none" opacity="0.5"'
             out.append(f'<path d="M {CX - 30} 190 Q {CX} 184 {CX + 30} 190" {w}/>')
-            out.append(f'<path d="M {CX - 52} 232 l 8 3 M {CX - 52} 241 l 8 -2 M {CX + 52} 232 l -8 3 M {CX + 52} 241 l -8 -2" {w}/>')
+            out.append(f'<path class="chk-r" d="M {CX - 52} 232 l 8 3 M {CX - 52} 241 l 8 -2" {w}/>')
+            out.append(f'<path class="chk-l" d="M {CX + 52} 232 l -8 3 M {CX + 52} 241 l -8 -2" {w}/>')
         if wr >= 2:
-            out.append(f'<path d="M {CX - 26} 178 Q {CX} 172 {CX + 26} 178 M {CX - 32} 248 Q {CX - 26} 262 {CX - 18} 268 M {CX + 32} 248 Q {CX + 26} 262 {CX + 18} 268" {w}/>')
+            out.append(f'<path d="M {CX - 26} 178 Q {CX} 172 {CX + 26} 178" {w}/>')
+            out.append(f'<path class="chk-r" d="M {CX - 32} 248 Q {CX - 26} 262 {CX - 18} 268" {w}/>')
+            out.append(f'<path class="chk-l" d="M {CX + 32} 248 Q {CX + 26} 262 {CX + 18} 268" {w}/>')
         # mũi
         out.append(f'<path d="M {CX - 5} 236 Q {CX} 242 {CX + 6} 236" stroke="{ink}" stroke-width="3.5" stroke-linecap="round" fill="none"/>')
         # mắt
@@ -339,7 +343,7 @@ class Rig:
         # sẹo
         if p.get("scar"):
             sx = CX + 28 if p["scar"] == "l" else CX - 28
-            out.append(f'<path class="scar" d="M {sx - 4} 190 L {sx + 6} 206" stroke="{self.c("scar")}" stroke-width="3.4" stroke-linecap="round"/>')
+            out.append(f'<path class="scar scar-{p["scar"]}" d="M {sx - 4} 190 L {sx + 6} 206" stroke="{self.c("scar")}" stroke-width="3.4" stroke-linecap="round"/>')
         # mày
         if not sh:
             out.append(f'<path class="brow brow-r" d="M {CX - 38} 200 Q {CX - 24} 192 {CX - 10} 200" stroke="{brow_col}" stroke-width="5.5" stroke-linecap="round" fill="none"/>')
@@ -427,6 +431,8 @@ class Rig:
                 f"{vs} .view{{transform:translateX({d * VIEW_BODY_DX}px) scaleX({VIEW_BODY_SX})}}",
                 f"{vs} .feat{{transform:translateX({d * VIEW_FEAT_DX}px)}}",
                 f"{vs} .hair-front{{transform:translateX({d * VIEW_HAIR_DX}px)}}",
+                # nếp nhăn má/sẹo ở phía mặt quay tới bị dồn sát mép: kéo ngược một đoạn
+                f"{vs} .chk-{'l' if d > 0 else 'r'},{vs} .scar-{'l' if d > 0 else 'r'}{{transform:translateX({-d * VIEW_CHEEK_BACK}px)}}",
                 f"{vs} .eye-{far_eye}{{--exs:{VIEW_FAR_EYE}}}",
                 f"{vs} .ear-{far_ear}{{display:none}}",
             ]

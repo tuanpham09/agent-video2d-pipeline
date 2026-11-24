@@ -26,11 +26,13 @@
 .rig-than_trung[data-view='tq-r'] .view{transform:translateX(5px) scaleX(0.88)}
 .rig-than_trung[data-view='tq-r'] .feat{transform:translateX(13px)}
 .rig-than_trung[data-view='tq-r'] .hair-front{transform:translateX(6px)}
+.rig-than_trung[data-view='tq-r'] .chk-l,.rig-than_trung[data-view='tq-r'] .scar-l{transform:translateX(-19px)}
 .rig-than_trung[data-view='tq-r'] .eye-l{--exs:0.72}
 .rig-than_trung[data-view='tq-r'] .ear-l{display:none}
 .rig-than_trung[data-view='tq-l'] .view{transform:translateX(-5px) scaleX(0.88)}
 .rig-than_trung[data-view='tq-l'] .feat{transform:translateX(-13px)}
 .rig-than_trung[data-view='tq-l'] .hair-front{transform:translateX(-6px)}
+.rig-than_trung[data-view='tq-l'] .chk-r,.rig-than_trung[data-view='tq-l'] .scar-r{transform:translateX(19px)}
 .rig-than_trung[data-view='tq-l'] .eye-r{--exs:0.72}
 .rig-than_trung[data-view='tq-l'] .ear-r{display:none}
 .rig-than_trung[data-emotion='calm']{--byl:0;--byr:0;--br:0;--lid:0.0;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:0.9;--gx:0px}
