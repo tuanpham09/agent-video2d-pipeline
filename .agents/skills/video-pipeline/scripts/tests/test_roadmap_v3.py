@@ -222,15 +222,32 @@ def test_hand_over() -> None:
             for sh in s["shots"]:
                 if sh["id"] == "SH008":
                     sh["beats"].append({"line_id": sh["beats"][0]["line_id"], "t": 2.4, "do": "đưa mâm", "physical": physical,
-                                        "hand_over": {"prop": "mam_tre", "from": "me", "to": "host", "dur": 0.9}})
+                                        "hand_over": {"prop": "mam_tre", "from": "me", "to": "host", "dur": 1.4, "held": True}})
 
         write_min_project(d, add_ho)
         out_dir = Path(td) / "video"
         code, out = run([str(SCRIPTS / "build_video.py"), "--project", str(d), "--shots", "SH008", "--out", str(out_dir)])
         ok("hand_over dựng được", code == 0, out[-300:])
         html = (out_dir / "compositions" / "SH008.html").read_text(encoding="utf-8")
-        ok("đạo cụ được tween tới tay người nhận (hai đoạn: nhấc rồi chuyển)",
-           len(__import__("re").findall(r'tl\.to\("#SH008-p\d+", \{attr: \{x: [-\d.]+, y: [-\d.]+\}, duration: [\d.]+, ease: "power1.inOut"\}, 2\.[47]\d\)', html)) == 2)
+        import re as _re
+        ptw = _re.findall(r'tl\.to\("#SH008-p\d+-pos", \{attr: \{x: [-\d.]+, y: [-\d.]+\}, duration: [\d.]+, ease: "none"\}', html)
+        ok("hand_over IK: đạo cụ được lấy mẫu theo bàn tay (>= 20 mẫu 1/24 s)", len(ptw) >= 20, str(len(ptw)))
+        ok("hand_over IK: cả hai tay được tween --ik-* và thả (clearProps)",
+           html.count('"--ik-ul"') + html.count('"--ik-ur"') >= 40 and html.count("clearProps") >= 2)
+
+    with tempfile.TemporaryDirectory() as td:
+        d = Path(td) / "p"
+        d.mkdir()
+
+        def add_far(s):
+            add_ho(s)
+            for sh in s["shots"]:
+                if sh["id"] == "SH008":
+                    sh["beats"][-1]["hand_over"].pop("held")
+
+        write_min_project(d, add_far)
+        code, out = run([str(SCRIPTS / "build_video.py"), "--project", str(d), "--shots", "SH008", "--out", str(Path(td) / "v")])
+        ok("hand_over: đạo cụ ngoài tầm tay người cho (không held) -> báo lỗi rõ", code != 0 and "xa quá tầm" in out, out[-300:])
 
     with tempfile.TemporaryDirectory() as td:
         d = Path(td) / "p"

@@ -60,3 +60,9 @@
 - Chạy: `test_roadmap_v3.py` (mục IK, tất cả qua); build SH008 bản thử trong /tmp + `hyperframes snapshot`.
 - Ảnh đã XEM: `.agents/skills/video-pipeline/references/review/ik-reach-sh008-contact.jpg` — thấy host và me giơ tay chạm nhau, khuỷu gập xuống/ra ngoài, hết hold thì tay về đúng pose cũ (clasp / chỉ tay). Lỗi đã sửa: ban đầu chọn nghiệm khuỷu hất lên cao (tay vắt lên mặt) → sửa tiêu chí chọn khuỷu thấp.
 - Chưa kiểm: bàn tay chạm đúng pixel đạo cụ thật; `hand_over` bằng IK; render mp4; `hyperframes check`; rig không phải host/me.
+
+### 2026-11-25 — hand_over bằng IK, đạo cụ bám bàn tay (bước a)
+- `hand_over` viết lại: IK + lấy mẫu FK 1/24 s; thêm `held`; đạo cụ vẽ trên nhân vật. **Sửa lỗi nền**: tween vị trí đạo cụ nhắm nhầm `<g>` (không có x/y) → đạo cụ chưa từng di chuyển; nay có `id="<pid>-pos"` trên `<svg>` ngoài. Test cũ chỉ kiểm chuỗi nên không bắt được.
+- Test `test_roadmap_v3.py` qua (mẫu ≥20, tween --ik-*, báo lỗi đạo cụ ngoài tầm).
+- Ảnh đã XEM: `.agents/skills/video-pipeline/references/review/ik-handover-sh008-contact.jpg` — mâm tre theo tay me, tới điểm gặp, host nhận và mang về tay nghỉ; hai tay thả về pose cũ. Lỗi thấy: lần đầu mâm đứng yên trên sàn (bug nhắm nhầm `<g>`) → sửa; bàn tay chồng lên giữa mâm chứ chưa nắm mép.
+- Chưa kiểm: SFX khớp thời điểm trao, render mp4, `hyperframes check`, shotlist thật (chưa dùng hand_over), nhân vật khác ngoài host/me.

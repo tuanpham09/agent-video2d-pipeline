@@ -89,4 +89,12 @@ Tay không còn chỉ nhảy giữa các góc pose cố định: beat `reach` ch
 ```
 - `to`: `{"prop":key}` | `{"char":id,"hand":"l|r"}` | `{"x","y"}` (toạ độ cảnh) | `{"rel":[dx,dy]}` (px rig, tính từ vai). `side` mặc định = phía đích.
 - Cơ chế: rig đọc `--ik-ul|fl|ur|fr` (CSS var, rơi về góc pose khi không đặt); generator tween các biến này, hết `hold` thì tween về góc pose rồi `clearProps`.
-- Giới hạn đã biết: chỉ stance stand|sit, view front (kneel/lie/3-4 lệch trục); đích quá tầm >25 px → generator báo lỗi; đích sát vai (<40 px) khuỷu mơ hồ; `hand_over` CHƯA dùng IK (đạo cụ vẫn trượt thẳng); đạo cụ chưa tự "dính" vào tay khi tay di chuyển.
+- Giới hạn đã biết: chỉ stance stand|sit, view front (kneel/lie/3-4 lệch trục); đích quá tầm >25 px → generator báo lỗi; đích sát vai (<40 px) khuỷu mơ hồ; đạo cụ không tự "dính" vào tay trong beat `reach` (chỉ `hand_over` mới mang đạo cụ).
+
+### `hand_over` bằng IK (đạo cụ bám bàn tay)
+`{"hand_over":{"prop":"mam_tre","from":"me","to":"host","dur":1.4,"held":true}}` + `physical:true` + SFX (R6.1).
+Người cho với tới đạo cụ → mang tới điểm gặp (giữa hai vai) → người nhận với tới → người cho thả, người nhận mang đạo cụ về tay nghỉ.
+Generator lấy mẫu FK bàn tay mỗi 1/24 s và tween đạo cụ theo đúng vị trí đó. Đạo cụ luôn thẳng đứng (phần tử cảnh); được vẽ TRÊN nhân vật.
+- `held:true`: đạo cụ đã ở trong tay người cho (bắt đầu từ bàn tay nghỉ). Không có → đạo cụ phải nằm trong tầm tay người cho, nếu không generator báo lỗi (đưa nhân vật lại gần bằng `move`).
+- Sửa lỗi cũ: tween x,y trước đây nhắm `<g data-state>` (không có x/y) nên đạo cụ không hề di chuyển; nay nhắm `<svg id="<pid>-pos">`.
+- Chưa có: điểm nắm (grip) riêng của đạo cụ — hiện tâm đạo cụ trùng tâm bàn tay.

@@ -69,8 +69,9 @@ def strip_prolog(svg: str) -> str:
     return re.sub(r"<\?xml[^>]*\?>\s*", "", svg).strip()
 
 
-def place_svg(svg: str, x: float, y: float, w: float, h: float) -> str:
-    return svg.replace("<svg ", f'<svg x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}" ', 1)
+def place_svg(svg: str, x: float, y: float, w: float, h: float, sid: str | None = None) -> str:
+    idattr = f'id="{sid}" ' if sid else ""
+    return svg.replace("<svg ", f'<svg {idattr}x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}" ', 1)
 
 
 def set_attr_on_tag(tag: str, name: str, value: str) -> str:
@@ -142,7 +143,9 @@ class Stage:
         svg = strip_prolog((self.ctx.proj / "assets" / "props" / f"{bp['lib']}.svg").read_text(encoding="utf-8"))
         svg = prefix_ids(svg, f"{pid}-")
         svg, tid = tag_with_attr(svg, "data-state", pid, spec["state"])
-        self.parts.append((y, 0, place_svg(svg, x - w * k / 2, y - h * k, w * k, h * k)))
+        # đạo cụ được trao tay/cầm phải nằm TRÊN nhân vật (không bị thân người che khi bay theo tay)
+        carried = any(isinstance(bb.get("hand_over"), dict) and bb["hand_over"].get("prop") == key for bb in self.shot.get("beats", []))
+        self.parts.append((1e9 if carried else y, 0, place_svg(svg, x - w * k / 2, y - h * k, w * k, h * k, f"{pid}-pos")))
         self.props[key] = {"x": x, "y": y, "k": k, "x0": x - w * k / 2, "y0": y - h * k, "w": w, "h": h, "slots": e.get("slots", {})}
         self.prop_ids[key] = tid
 
@@ -173,8 +176,25 @@ class Stage:
         s = c["s"]
         return c["x"] - 260 * s + vx * s, c["y"] - 580 * s + 462 * s
 
-    def hand_over_js(self, b: dict, t: float) -> list[str]:
-        """Đạo cụ chuyển tay (R11.5): nhấc từ vị trí hiện tại lên tay người cho, rồi chuyển sang tay người nhận. Cần physical=true (SFX, R6.1)."""
+    def _arm_geom(self, cid: str, side: str, t: float, tracks):
+        """(vai trong toạ độ rig, gốc rig trong toạ độ cảnh, tỉ lệ)."""
+        c = self.chars[cid]
+        piv = jload(self.ctx.proj / "assets" / "rig" / f"{cid}.rig.json")["pivots"][f"arm-{side}"]
+        s_ = c["s"]
+        return (float(piv.split("px")[0]), 318.0), (tracks[cid].x_at(t) - 260 * s_, c["y"] - 580 * s_), s_
+
+    def _base_angles(self, cid: str, side: str, t: float, beats) -> tuple[float, float]:
+        pose = "idle"
+        for tb, bb in beats:
+            if tb <= t and cid in (bb.get("set") or {}) and "pose" in (bb["set"][cid] or {}):
+                pose = bb["set"][cid]["pose"]
+        return POSES.get(pose, POSES["idle"])[0 if side == "l" else 1]
+
+    def hand_over_js(self, b: dict, t: float, tracks, beats) -> list[str]:
+        """Đạo cụ chuyển tay (R11.5) bằng IK + lấy mẫu: người cho với tới đạo cụ → mang tới điểm gặp M → người nhận với tới M
+        → người cho thả tay về pose, người nhận mang đạo cụ về pose. Đạo cụ bám đúng vị trí BÀN TAY (FK) ở mỗi mẫu 1/24 s,
+        nên không trôi lơ lửng. Đạo cụ là phần tử cảnh nên luôn thẳng đứng (không cần xoay bù); `tilt` (độ) nếu muốn nghiêng khi cầm.
+        Cần physical=true (SFX, R6.1). Chỉ stance stand|sit nhìn chính diện (xem ik.py)."""
         ho = b["hand_over"]
         key, g, r = ho.get("prop"), ho.get("from"), ho.get("to")
         if not b.get("physical"):
@@ -183,24 +203,89 @@ class Stage:
             raise ValueError(f"{self.sid}: hand_over prop '{key}' không có trong shot")
         if g not in self.chars or r not in self.chars or g == r:
             raise ValueError(f"{self.sid}: hand_over cần from/to là hai nhân vật khác nhau trong shot")
-        side_g = "l" if self.chars[r]["x"] > self.chars[g]["x"] else "r"  # tay phía người nhận
-        side_r = "r" if side_g == "l" else "l"
-        p, pid = self.props[key], self.prop_ids[key]
+        gx, rx_ = tracks[g].x_at(t), tracks[r].x_at(t)
+        sg = "l" if rx_ > gx else "r"                      # tay phía người nhận
+        sr = "r" if sg == "l" else "l"
+        p, pid = self.props[key], self.prop_ids[key] + "-pos"   # tween x,y phải nhắm <svg> ngoài (có x/y), không phải <g data-state> bên trong
         half_w, half_h = p["w"] * p["k"] / 2, p["h"] * p["k"] / 2
+        d = float(ho.get("dur", 1.4))
+        FPS = 24.0
+        # --- hình học hai tay
+        (shg, og, sg_s), (shr, orr, sr_s) = self._arm_geom(g, sg, t, tracks), self._arm_geom(r, sr, t, tracks)
+        to_rig = lambda P, o, k: ((P[0] - o[0]) / k, (P[1] - o[1]) / k)       # noqa: E731
+        to_scene = lambda q, o, k: (o[0] + q[0] * k, o[1] + q[1] * k)           # noqa: E731
+        bg, br = self._base_angles(g, sg, t, beats), self._base_angles(r, sr, t, beats)
+        held = bool(ho.get("held"))                          # đạo cụ đã nằm trong tay người cho (beat trước đã cầm): bắt đầu từ bàn tay nghỉ
+        P0 = to_scene(ik.fk(shg, bg[0], bg[1])[1], og, sg_s) if held else (p["x"], p["y"] - half_h)   # tâm đạo cụ lúc đầu
+        shg_s, shr_s = to_scene(shg, og, sg_s), to_scene(shr, orr, sr_s)
+        M = ((shg_s[0] + shr_s[0]) / 2, (shg_s[1] + shr_s[1]) / 2 + 30 * min(sg_s, sr_s))   # điểm gặp: giữa hai vai, thấp hơn vai chút
+        reach_g, reach_r = (ik.L1 + ik.L2) * sg_s, (ik.L1 + ik.L2) * sr_s
+        for name, tgt, sh_s, R in (("người cho tới đạo cụ", P0, shg_s, reach_g), ("người cho tới điểm gặp", M, shg_s, reach_g), ("người nhận tới điểm gặp", M, shr_s, reach_r)):
+            if math.hypot(tgt[0] - sh_s[0], tgt[1] - sh_s[1]) > R + 25:
+                raise ValueError(f"{self.sid}: hand_over {name} xa quá tầm tay — đưa hai nhân vật lại gần (move), hoặc thêm \"held\": true nếu đạo cụ đã ở trong tay người cho")
+        ug, fg = (bg if held else ik.solve_arm(shg, to_rig(P0, og, sg_s), sg)[:2])
+        ugm, fgm, _ = ik.solve_arm(shg, to_rig(M, og, sg_s), sg)
+        urm, frm, _ = ik.solve_arm(shr, to_rig(M, orr, sr_s), sr)
+        ease = lambda a: a * a * (3 - 2 * a)                                  # noqa: E731
+        lerp = lambda a, b_, k: a + (b_ - a) * k                              # noqa: E731
+        t1, t2, t3, t4 = 0.30 * d, 0.65 * d, 0.80 * d, d                    # với tới | mang tới M | giữ | thả về
+        sel_g, sel_r = f"#{self.chars[g]['id']}", f"#{self.chars[r]['id']}"
+        vg, vr = (f"--ik-u{sg}", f"--ik-f{sg}"), (f"--ik-u{sr}", f"--ik-f{sr}")
 
-        def top_left(xy):  # gốc của đạo cụ là góc trên-trái; đặt tâm đạo cụ vào tay
-            return xy[0] - half_w, xy[1] - half_h
+        def giver(u):  # góc (up, fore) của người cho tại thời điểm u (s kể từ đầu beat)
+            if u <= t1:
+                k = ease(u / t1)
+                return lerp(bg[0], ug, k), lerp(bg[1], fg, k)
+            if u <= t2:                                                      # IK của điểm đích thay vì nội suy góc: tay đi gần đường thẳng
+                k = ease((u - t1) / (t2 - t1))
+                Q = (lerp(P0[0], M[0], k), lerp(P0[1], M[1], k))
+                a_, b2, _ = ik.solve_arm(shg, to_rig(Q, og, sg_s), sg)
+                return a_, b2
+            if u <= t3:
+                return ugm, fgm
+            k = ease((u - t3) / (t4 - t3))
+            return lerp(ugm, bg[0], k), lerp(fgm, bg[1], k)
 
-        d = float(ho.get("dur", 0.9))
-        d1 = d * 0.4
-        gx, gy = top_left(self.hand_pos(g, side_g))
-        rx, ry = top_left(self.hand_pos(r, side_r))
-        p["x0"], p["y0"] = rx, ry
-        p["x"], p["y"] = rx + half_w, ry + half_h
-        return [
-            f'tl.to("#{pid}", {{attr: {{x: {gx:.1f}, y: {gy:.1f}}}, duration: {d1:.2f}, ease: "power1.inOut"}}, {t:.2f});',
-            f'tl.to("#{pid}", {{attr: {{x: {rx:.1f}, y: {ry:.1f}}}, duration: {d - d1:.2f}, ease: "power1.inOut"}}, {t + d1:.2f});',
-        ]
+        def recv(u):
+            if u <= t1:
+                return br
+            if u <= t2:
+                k = ease((u - t1) / (t2 - t1))
+                return lerp(br[0], urm, k), lerp(br[1], frm, k)
+            if u <= t3:
+                return urm, frm
+            k = ease((u - t3) / (t4 - t3))
+            return lerp(urm, br[0], k), lerp(frm, br[1], k)
+
+        def hand_scene(sh, o, k, ang):
+            return to_scene(ik.fk(sh, ang[0], ang[1])[1], o, k)
+
+        out = ([f'tl.set("#{pid}", {{attr: {{x: {P0[0] - half_w:.1f}, y: {P0[1] - half_h:.1f}}}}}, {t:.2f});'] if held else []) + [
+               f'tl.set("{sel_g}", {{"{vg[0]}": {bg[0]}, "{vg[1]}": {bg[1]}}}, {t:.2f});',
+               f'tl.set("{sel_r}", {{"{vr[0]}": {br[0]}, "{vr[1]}": {br[1]}}}, {t:.2f});']
+        n = max(2, int(round(d * FPS)))
+        dt = d / n
+        end_xy = P0
+        for i in range(1, n + 1):
+            u = i * dt
+            ag, ar = giver(u), recv(u)
+            ts = t + (i - 1) * dt
+            out.append(f'tl.to("{sel_g}", {{"{vg[0]}": {ag[0]:.2f}, "{vg[1]}": {ag[1]:.2f}, duration: {dt:.3f}, ease: "none"}}, {ts:.3f});')
+            out.append(f'tl.to("{sel_r}", {{"{vr[0]}": {ar[0]:.2f}, "{vr[1]}": {ar[1]:.2f}, duration: {dt:.3f}, ease: "none"}}, {ts:.3f});')
+            if u <= t1:
+                c_xy = P0                                                    # đạo cụ chưa rời chỗ
+            elif u <= (t2 + t3) / 2:
+                c_xy = hand_scene(shg, og, sg_s, ag)                         # người cho đang cầm
+            else:
+                c_xy = hand_scene(shr, orr, sr_s, ar)                        # người nhận đã cầm
+            end_xy = c_xy
+            if u > t1 - 1e-9:
+                out.append(f'tl.to("#{pid}", {{attr: {{x: {c_xy[0] - half_w:.1f}, y: {c_xy[1] - half_h:.1f}}}, duration: {dt:.3f}, ease: "none"}}, {ts:.3f});')
+        out.append(f'tl.set("{sel_g}", {{clearProps: "{vg[0]},{vg[1]}"}}, {t + d + 0.01:.2f});')
+        out.append(f'tl.set("{sel_r}", {{clearProps: "{vr[0]},{vr[1]}"}}, {t + d + 0.01:.2f});')
+        p["x0"], p["y0"] = end_xy[0] - half_w, end_xy[1] - half_h
+        p["x"], p["y"] = end_xy[0], end_xy[1] + half_h
+        return out
 
     def reach_js(self, b: dict, t: float, tracks, beats) -> list[str]:
         """Beat `reach`: tay với tới điểm đích bằng IK 2 khúc (ik.py) thay vì góc pose cố định.
@@ -511,7 +596,7 @@ def build_shot_js(st: Stage, dur: float, abs0: float, ctx: Ctx) -> str:
             out.append(f'tl.set("#{c["id"]}", {{attr: {{"data-pose": "idle"}}}}, {t + d:.2f});')
             c["x"] = tgt["x"]  # bản ghi tĩnh dùng cho các bước sau (tracks giữ quỹ đạo chính xác)
         if b.get("hand_over"):
-            out.extend(st.hand_over_js(b, t))
+            out.extend(st.hand_over_js(b, t, tracks, beats))
         if b.get("reach"):
             out.extend(st.reach_js(b, t, tracks, beats))
         if b.get("look"):
