@@ -92,7 +92,7 @@ làm  →  render ra PNG  →  MỞ ẢNH XEM  →  so với mẫu vàng/checkli
 4. `build_video.py --project … [--until SHxxx]` → `hyperframes lint` → `hyperframes check --json` (`ok: true`) → `hyperframes snapshot --at <giữa mỗi shot>` → **mở contact sheet / từng frame xem** → sửa nguồn (shotlist/bible/library/generator) → dựng lại.
 5. Render nháp (`hyperframes render --quality draft`) để xem chuyển động; chỉ `--quality delivery` sau khi người dùng duyệt (R8.1).
 
-**Chuẩn viết shot** (đây là chỗ quyết định "diễn tự nhiên"):
+**Chuẩn viết shot** (đây là chỗ quyết định "diễn tự nhiên"). Thao tác chi tiết (`reach`, `hand_over`, `move`, macro, bảng tình huống → thao tác, lỗi hay gặp): [`shotlist-guide.md`](shotlist-guide.md).
 
 - **Mỗi câu thoại ngắn có ≥ 1 beat diễn** ở shot tương ứng (R5.1). Beat có `t` (giây, tính từ đầu shot), `do` (mô tả), `physical` (true nếu có tiếng động vật lý), và `set` (cái generator thực sự đổi): `{"<nhân_vật>": {"emotion":…, "pose":…, "gaze":…}, "light":"dark", "prop:<key>":"<state>"}`. **Beat không có `set` thì không ai thấy** — viết `set` cho mọi beat có thể nhìn thấy.
 - Diễn bằng **chuyển trạng thái đúng lúc lời nói**: ánh nhìn đổi trước khi nhắc tới vật; biểu cảm đổi ở từ then chốt; tay chỉ/với đúng chỗ câu nhắc. Đừng để mặt đứng yên suốt shot.

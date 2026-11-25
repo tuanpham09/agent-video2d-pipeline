@@ -105,6 +105,7 @@ tl.to("#mouth", {
   - *Khớp vai, cánh tay, cẳng chân:* dùng pivot trong `<id>.rig.json` (toạ độ viewBox của rig, `transform-box: view-box`) — **RULES.md R3.4 thay cho quy ước `0% 0%` cũ**. Rig chỉ được nhúng dưới dạng `<svg>` lồng nhau; không truyền px toạ độ cảnh vào `transformOrigin`.
 
 ### E. Cử động tay cầm nắm & Tương tác (Hand Actions):
+> Cập nhật: tay nay có IK 2 khúc (`reach`, `hand_over`, thân nghiêng, mắt theo đích, giới hạn khớp). Cách dùng và giới hạn: [`shotlist-guide.md`](shotlist-guide.md) mục 3.3–3.4; mô tả dưới đây là cơ chế pose cũ.
 * **Giã cối đồng bộ:** Cánh tay nâng lên hạ xuống (`rotation: 10` lên, `rotation: -12` đập chạm đáy cối) quanh pivot vai trong `rig.json`; chày là part `pestle` của prop `betel_mortar` (state `rest/raised/strike`), khớp chính xác từng mili-giây với tiếng gõ SFX cối đồng.
 * **Đếm khăn:** Bàn tay đưa ra gắp nếp khăn tang, nhấc nhẹ lên (`y: -30`) rồi đặt xuống nếp đếm mới kèm tiếng vải sột soạt.
 * **Chỉ tay:** Cánh tay vung ra chỉ về phía cửa hoặc góc tối khi giảng giải bí mật.

@@ -9,6 +9,7 @@
 | 1 | `RULES.md` (gốc repo) | Được làm gì, cấm gì. Có ID để dẫn chiếu. |
 | 2 | `.agents/skills/video-pipeline/references/workflow-v2.md` | Làm theo thứ tự nào, checklist gì, cổng nào, pass khi nào. |
 | 3 | `.agents/skills/video-pipeline/SKILL.md` | Lệnh nào, giai đoạn nào, chế độ nào. |
+| 3b | `.agents/skills/video-pipeline/references/shotlist-guide.md` | Viết shot/beat thế nào, nhân vật cử động bằng thao tác nào, thế nào là đạt chuẩn diễn xuất, lỗi hay gặp. |
 | 4 | `.agents/skills/video-pipeline/references/2d-animation-doctrine.md` | Kỹ thuật diễn xuất, rig, SFX, checklist HyperFrames. |
 | 5 | `library/README.md` | Chuẩn asset dùng chung, cách `use`/`promote`. |
 | 6 | `HANDOFF.md` | Việc đang dở, trạng thái thực tế của phiên trước. |
@@ -22,7 +23,7 @@
 | Nhân vật, bối cảnh, đạo cụ, `emotion_vocab` | `script/bible.json` | khai trùng lặp trong shotlist/HTML (R1.4) |
 | Shot, beat, SFX cue | `script/shotlist.json` | viết tay HTML cho từng shot (R1.6) |
 | Tên cue SFX → file, gain, độ dài cắt | `sfx/cues.json` | hard-code đường dẫn rải rác trong shotlist v2 |
-| Kế hoạch chuyển động đã tính (ops, footstep) | `projects/<slug>/video/demo/motion_plan.json` (do `build_video.py` sinh) | sửa tay file plan (R1.3) |
+| Kế hoạch chuyển động đã tính (ops, footstep) | `projects/<slug>/video/demo/motion_plan.json` (`check_motion.py` đọc file này; **`build_video.py` ở nhánh này chưa xuất nó** nên gate chưa chạy được) | sửa tay file plan (R1.3) |
 | Asset dùng chung (rig/prop/bg/palette) | `library/index.json` + `library/*` | sửa bản copy trong project (R2.3) |
 | Phiên bản asset đã khoá của project | `projects/<slug>/assets/LIBRARY.lock.json` | nâng cấp ngầm (R2.10) |
 | Trạng thái project, ngoại lệ luật | `projects/<slug>/PROJECT.md` | ghi trạng thái chỉ trong chat (R8.1) |
