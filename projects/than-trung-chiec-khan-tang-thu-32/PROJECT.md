@@ -66,3 +66,9 @@
 - Test `test_roadmap_v3.py` qua (mẫu ≥20, tween --ik-*, báo lỗi đạo cụ ngoài tầm).
 - Ảnh đã XEM: `.agents/skills/video-pipeline/references/review/ik-handover-sh008-contact.jpg` — mâm tre theo tay me, tới điểm gặp, host nhận và mang về tay nghỉ; hai tay thả về pose cũ. Lỗi thấy: lần đầu mâm đứng yên trên sàn (bug nhắm nhầm `<g>`) → sửa; bàn tay chồng lên giữa mâm chứ chưa nắm mép.
 - Chưa kiểm: SFX khớp thời điểm trao, render mp4, `hyperframes check`, shotlist thật (chưa dùng hand_over), nhân vật khác ngoài host/me.
+
+### 2026-11-25 — Thân nghiêng + mắt nhìn theo đạo cụ (bước b)
+- Rig: thêm nhóm `.upper` (xoay theo `--lean` quanh hông); build lại 5 rig. `ik.py`: `solve_arm_leaned`, `hand_world`, `lean_for`, `gaze_px`. `reach` và `hand_over` đặt `--lean`, `--gx/--gy` rồi `clearProps`.
+- Test `test_roadmap_v3.py` qua (IK có nghiêng trúng đích <1.5 px, --lean/--gx có trong HTML, rig có `.upper`); `library.py check`, `check_shots` S01, `check_rules --phase demo` sạch; build S01 + `hyperframes lint` sạch.
+- Ảnh đã XEM: `references/review/ik-lean-gaze-sh008.png` (me nghiêng về phía host, đồng tử hai người liếc xuống mâm, mâm ở giữa hai tay) và `references/review/rig-upper-lineup.png` (5 rig không đổi hình sau khi thêm `.upper`). Lỗi thấy: nghiêng 9° khá kín đáo; hai tay vẫn chồng lên giữa mâm chứ chưa nắm mép.
+- Chưa kiểm: render mp4, `hyperframes check`, SFX, kneel/3-4/lie với `.upper`, nhân vật ngoài host/me, shotlist thật.

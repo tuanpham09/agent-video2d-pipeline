@@ -98,3 +98,9 @@ Generator lấy mẫu FK bàn tay mỗi 1/24 s và tween đạo cụ theo đúng
 - `held:true`: đạo cụ đã ở trong tay người cho (bắt đầu từ bàn tay nghỉ). Không có → đạo cụ phải nằm trong tầm tay người cho, nếu không generator báo lỗi (đưa nhân vật lại gần bằng `move`).
 - Sửa lỗi cũ: tween x,y trước đây nhắm `<g data-state>` (không có x/y) nên đạo cụ không hề di chuyển; nay nhắm `<svg id="<pid>-pos">`.
 - Chưa có: điểm nắm (grip) riêng của đạo cụ — hiện tâm đạo cụ trùng tâm bàn tay.
+
+### Thân nghiêng và ánh mắt khi với tay (bước b)
+- Rig có nhóm `.upper` (thân+tay+đầu) xoay quanh hông theo `--lean` (độ). IK giải trong hệ của `.upper` đang nghiêng (`ik.solve_arm_leaned`) nên bàn tay vẫn trúng đích.
+- `reach`: `lean` = `"auto"` (mặc định, tối đa 9° về phía đích) | số độ | `false`; `gaze` = true (mặc định) | false — mắt liếc theo đích.
+- `hand_over`: thân cả hai nghiêng dần tới điểm gặp rồi thẳng lại; mắt cả hai theo đạo cụ (12 lần/giây). Tắt bằng `"lean": false` / `"gaze": false`.
+- Giới hạn: mắt chỉ liếc tối đa 5 px ngang / 4 px dọc (như `data-gaze`) — đầu không quay; nghiêng chỉ sang ngang (khung 2D chính diện không có chiều "về phía trước"); đầu nghiêng cùng thân.

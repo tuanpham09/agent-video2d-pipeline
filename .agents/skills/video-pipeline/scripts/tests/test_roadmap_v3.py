@@ -234,6 +234,10 @@ def test_hand_over() -> None:
         ok("hand_over IK: đạo cụ được lấy mẫu theo bàn tay (>= 20 mẫu 1/24 s)", len(ptw) >= 20, str(len(ptw)))
         ok("hand_over IK: cả hai tay được tween --ik-* và thả (clearProps)",
            html.count('"--ik-ul"') + html.count('"--ik-ur"') >= 40 and html.count("clearProps") >= 2)
+        ok("hand_over: thân nghiêng (--lean khác 0) và mắt liếc theo đạo cụ (--gx), thả sạch khi xong",
+           _re.search(r'"--lean": -?[1-9]\d*\.\d+', html) is not None and html.count('"--gx"') >= 10 and "--lean,--gx,--gy" in html)
+        ok("rig có nhóm .upper nghiêng theo --lean", 'class="upper"' in (d / "assets" / "rig" / "host.svg").read_text(encoding="utf-8")
+           and "--lean" in (d / "assets" / "rig" / "host.svg").read_text(encoding="utf-8"))
 
     with tempfile.TemporaryDirectory() as td:
         d = Path(td) / "p"
@@ -915,6 +919,14 @@ def test_ik_reach() -> None:
     ok("IK: FK(IK(T)) trúng đích (sai số < 1.5 px)", worst < 1.5, f"{worst:.2f}")
     ok("IK: đích dưới vai thì khuỷu không bị chọn nghiệm hất lên cao", high_elbow == 0, str(high_elbow))
     ok("IK: đích quá tầm -> reached=False", ik.solve_arm(sh, (sh[0] + 400, sh[1]), "l")[2] is False)
+    worst2 = 0.0
+    for lean in (-9, -4, 0, 5, 9):
+        for _ in range(50):
+            T = (sh[0] + random.uniform(-90, 90), sh[1] + random.uniform(-20, 110))
+            u, f, reached = ik.solve_arm_leaned(sh, T, "l", lean)
+            if reached:
+                worst2 = max(worst2, math.dist(ik.hand_world(sh, u, f, lean), T))
+    ok("IK có thân nghiêng: bàn tay (đã xoay theo thân) vẫn trúng đích (< 1.5 px)", worst2 < 1.5, f"{worst2:.2f}")
 
     def add_reach(to, side="l"):
         def m(s):

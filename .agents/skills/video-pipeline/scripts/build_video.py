@@ -210,10 +210,12 @@ class Stage:
         half_w, half_h = p["w"] * p["k"] / 2, p["h"] * p["k"] / 2
         d = float(ho.get("dur", 1.4))
         FPS = 24.0
-        # --- hình học hai tay
         (shg, og, sg_s), (shr, orr, sr_s) = self._arm_geom(g, sg, t, tracks), self._arm_geom(r, sr, t, tracks)
         to_rig = lambda P, o, k: ((P[0] - o[0]) / k, (P[1] - o[1]) / k)       # noqa: E731
         to_scene = lambda q, o, k: (o[0] + q[0] * k, o[1] + q[1] * k)           # noqa: E731
+        ease = lambda a: a * a * (3 - 2 * a)                                  # noqa: E731
+        lerp = lambda a, b_, k: a + (b_ - a) * k                              # noqa: E731
+        t1, t2, t3, t4 = 0.30 * d, 0.65 * d, 0.80 * d, d                    # với tới | mang tới M | giữ | thả về
         bg, br = self._base_angles(g, sg, t, beats), self._base_angles(r, sr, t, beats)
         held = bool(ho.get("held"))                          # đạo cụ đã nằm trong tay người cho (beat trước đã cầm): bắt đầu từ bàn tay nghỉ
         P0 = to_scene(ik.fk(shg, bg[0], bg[1])[1], og, sg_s) if held else (p["x"], p["y"] - half_h)   # tâm đạo cụ lúc đầu
@@ -223,12 +225,21 @@ class Stage:
         for name, tgt, sh_s, R in (("người cho tới đạo cụ", P0, shg_s, reach_g), ("người cho tới điểm gặp", M, shg_s, reach_g), ("người nhận tới điểm gặp", M, shr_s, reach_r)):
             if math.hypot(tgt[0] - sh_s[0], tgt[1] - sh_s[1]) > R + 25:
                 raise ValueError(f"{self.sid}: hand_over {name} xa quá tầm tay — đưa hai nhân vật lại gần (move), hoặc thêm \"held\": true nếu đạo cụ đã ở trong tay người cho")
-        ug, fg = (bg if held else ik.solve_arm(shg, to_rig(P0, og, sg_s), sg)[:2])
-        ugm, fgm, _ = ik.solve_arm(shg, to_rig(M, og, sg_s), sg)
-        urm, frm, _ = ik.solve_arm(shr, to_rig(M, orr, sr_s), sr)
-        ease = lambda a: a * a * (3 - 2 * a)                                  # noqa: E731
-        lerp = lambda a, b_, k: a + (b_ - a) * k                              # noqa: E731
-        t1, t2, t3, t4 = 0.30 * d, 0.65 * d, 0.80 * d, d                    # với tới | mang tới M | giữ | thả về
+        # --- thân nghiêng: tăng dần tới điểm gặp, giữ, rồi về thẳng; người nhận bắt đầu nghiêng khi bắt đầu với tới (t1)
+        lean_on = ho.get("lean", True) is not False
+        Lg = ik.lean_for(to_rig(M, og, sg_s), shg) if lean_on else 0.0
+        Lr = ik.lean_for(to_rig(M, orr, sr_s), shr) if lean_on else 0.0
+        def ramp(u, ta):                                                       # 0→1 (ta..t2), giữ tới t3, 1→0 (t3..t4)
+            if u <= ta:
+                return 0.0
+            if u <= t2:
+                return ease((u - ta) / (t2 - ta))
+            return 1.0 if u <= t3 else 1.0 - ease((u - t3) / (t4 - t3))
+        leang = lambda u: Lg * ramp(u, 0.0)                                   # noqa: E731
+        leanr = lambda u: Lr * ramp(u, t1)                                    # noqa: E731
+        ug, fg = (bg if held else ik.solve_arm_leaned(shg, to_rig(P0, og, sg_s), sg, leang(t1))[:2])
+        ugm, fgm, _ = ik.solve_arm_leaned(shg, to_rig(M, og, sg_s), sg, Lg)
+        urm, frm, _ = ik.solve_arm_leaned(shr, to_rig(M, orr, sr_s), sr, Lr)
         sel_g, sel_r = f"#{self.chars[g]['id']}", f"#{self.chars[r]['id']}"
         vg, vr = (f"--ik-u{sg}", f"--ik-f{sg}"), (f"--ik-u{sr}", f"--ik-f{sr}")
 
@@ -239,7 +250,7 @@ class Stage:
             if u <= t2:                                                      # IK của điểm đích thay vì nội suy góc: tay đi gần đường thẳng
                 k = ease((u - t1) / (t2 - t1))
                 Q = (lerp(P0[0], M[0], k), lerp(P0[1], M[1], k))
-                a_, b2, _ = ik.solve_arm(shg, to_rig(Q, og, sg_s), sg)
+                a_, b2, _ = ik.solve_arm_leaned(shg, to_rig(Q, og, sg_s), sg, leang(u))
                 return a_, b2
             if u <= t3:
                 return ugm, fgm
@@ -257,12 +268,17 @@ class Stage:
             k = ease((u - t3) / (t4 - t3))
             return lerp(urm, br[0], k), lerp(frm, br[1], k)
 
-        def hand_scene(sh, o, k, ang):
-            return to_scene(ik.fk(sh, ang[0], ang[1])[1], o, k)
+        def hand_scene(sh, o, k, ang, lean):                                  # bàn tay (cảnh) có tính thân nghiêng
+            return to_scene(ik.hand_world(sh, ang[0], ang[1], lean), o, k)
 
+        eye_g = to_scene(ik.EYE, og, sg_s)
+        eye_r = to_scene(ik.EYE, orr, sr_s)
+        gz = ho.get("gaze", True)
         out = ([f'tl.set("#{pid}", {{attr: {{x: {P0[0] - half_w:.1f}, y: {P0[1] - half_h:.1f}}}}}, {t:.2f});'] if held else []) + [
-               f'tl.set("{sel_g}", {{"{vg[0]}": {bg[0]}, "{vg[1]}": {bg[1]}}}, {t:.2f});',
-               f'tl.set("{sel_r}", {{"{vr[0]}": {br[0]}, "{vr[1]}": {br[1]}}}, {t:.2f});']
+               f'tl.set("{sel_g}", {{"{vg[0]}": {bg[0]}, "{vg[1]}": {bg[1]}, "--lean": 0}}, {t:.2f});',
+               f'tl.set("{sel_r}", {{"{vr[0]}": {br[0]}, "{vr[1]}": {br[1]}, "--lean": 0}}, {t:.2f});']
+        if gz:
+            out += [f'tl.set("{sel_g}", {{"--gx": "0px", "--gy": "0px"}}, {t:.2f});', f'tl.set("{sel_r}", {{"--gx": "0px", "--gy": "0px"}}, {t:.2f});']
         n = max(2, int(round(d * FPS)))
         dt = d / n
         end_xy = P0
@@ -270,19 +286,25 @@ class Stage:
             u = i * dt
             ag, ar = giver(u), recv(u)
             ts = t + (i - 1) * dt
-            out.append(f'tl.to("{sel_g}", {{"{vg[0]}": {ag[0]:.2f}, "{vg[1]}": {ag[1]:.2f}, duration: {dt:.3f}, ease: "none"}}, {ts:.3f});')
-            out.append(f'tl.to("{sel_r}", {{"{vr[0]}": {ar[0]:.2f}, "{vr[1]}": {ar[1]:.2f}, duration: {dt:.3f}, ease: "none"}}, {ts:.3f});')
+            out.append(f'tl.to("{sel_g}", {{"{vg[0]}": {ag[0]:.2f}, "{vg[1]}": {ag[1]:.2f}, "--lean": {leang(u):.2f}, duration: {dt:.3f}, ease: "none"}}, {ts:.3f});')
+            out.append(f'tl.to("{sel_r}", {{"{vr[0]}": {ar[0]:.2f}, "{vr[1]}": {ar[1]:.2f}, "--lean": {leanr(u):.2f}, duration: {dt:.3f}, ease: "none"}}, {ts:.3f});')
             if u <= t1:
                 c_xy = P0                                                    # đạo cụ chưa rời chỗ
             elif u <= (t2 + t3) / 2:
-                c_xy = hand_scene(shg, og, sg_s, ag)                         # người cho đang cầm
+                c_xy = hand_scene(shg, og, sg_s, ag, leang(u))               # người cho đang cầm
             else:
-                c_xy = hand_scene(shr, orr, sr_s, ar)                        # người nhận đã cầm
+                c_xy = hand_scene(shr, orr, sr_s, ar, leanr(u))              # người nhận đã cầm
             end_xy = c_xy
             if u > t1 - 1e-9:
                 out.append(f'tl.to("#{pid}", {{attr: {{x: {c_xy[0] - half_w:.1f}, y: {c_xy[1] - half_h:.1f}}}, duration: {dt:.3f}, ease: "none"}}, {ts:.3f});')
-        out.append(f'tl.set("{sel_g}", {{clearProps: "{vg[0]},{vg[1]}"}}, {t + d + 0.01:.2f});')
-        out.append(f'tl.set("{sel_r}", {{clearProps: "{vr[0]},{vr[1]}"}}, {t + d + 0.01:.2f});')
+            if gz and i % 2 == 0:                                            # mắt cả hai liếc theo đạo cụ (mẫu thưa hơn: 12 lần/giây)
+                for sel, eye, sc in ((sel_g, eye_g, sg_s), (sel_r, eye_r, sr_s)):
+                    gxp, gyp = ik.gaze_px(eye, c_xy, sc)
+                    out.append(f'tl.to("{sel}", {{"--gx": "{gxp}px", "--gy": "{gyp}px", duration: {2 * dt:.3f}, ease: "none"}}, {ts - dt:.3f});' if ts - dt >= t else
+                               f'tl.to("{sel}", {{"--gx": "{gxp}px", "--gy": "{gyp}px", duration: {dt:.3f}, ease: "none"}}, {ts:.3f});')
+        clr = ",--gx,--gy" if gz else ""
+        out.append(f'tl.set("{sel_g}", {{clearProps: "{vg[0]},{vg[1]},--lean{clr}"}}, {t + d + 0.01:.2f});')
+        out.append(f'tl.set("{sel_r}", {{clearProps: "{vr[0]},{vr[1]},--lean{clr}"}}, {t + d + 0.01:.2f});')
         p["x0"], p["y0"] = end_xy[0] - half_w, end_xy[1] - half_h
         p["x"], p["y"] = end_xy[0], end_xy[1] + half_h
         return out
@@ -316,8 +338,11 @@ class Stage:
             T = (sh[0] + float(to["rel"][0]), sh[1] + float(to["rel"][1]))
         else:
             T = ((X - (cx - 260 * s_)) / s_, (Y - (c["y"] - 580 * s_)) / s_)
-        up, fo, ok = ik.solve_arm(sh, T, side)
-        gap = math.hypot(T[0] - sh[0], T[1] - sh[1]) - (ik.L1 + ik.L2)
+        lean_opt = r.get("lean", "auto")                       # "auto" | số độ | false
+        lean = 0.0 if lean_opt in (False, 0) else (ik.lean_for(T, sh) if lean_opt == "auto" else float(lean_opt))
+        up, fo, ok = ik.solve_arm_leaned(sh, T, side, lean)
+        Tl = ik.rot_about(T, -lean)
+        gap = math.hypot(Tl[0] - sh[0], Tl[1] - sh[1]) - (ik.L1 + ik.L2)
         if not ok and gap > 25 * 1.0:
             raise ValueError(f"{self.sid}: reach {cid}.{side} đích xa quá tầm {gap:.0f}px (rig) — đưa nhân vật lại gần hoặc đổi đích")
         pose = "idle"
@@ -330,13 +355,21 @@ class Stage:
         d = float(r.get("dur", 0.5))
         hold = float(r.get("hold", 0.6))
         rd = float(r.get("release_dur", 0.4))
-        out = [
-            f'tl.set("{sel}", {{"{su}": {base[0]}, "{sf}": {base[1]}}}, {t:.2f});',
-            f'tl.to("{sel}", {{"{su}": {up}, "{sf}": {fo}, duration: {d:.2f}, ease: "power2.out"}}, {t:.2f});',
-        ]
         t_rel = t + d + hold
-        out.append(f'tl.to("{sel}", {{"{su}": {base[0]}, "{sf}": {base[1]}, duration: {rd:.2f}, ease: "power2.inOut"}}, {t_rel:.2f});')
-        out.append(f'tl.set("{sel}", {{clearProps: "{su},{sf}"}}, {t_rel + rd + 0.01:.2f});')
+        out = [
+            f'tl.set("{sel}", {{"{su}": {base[0]}, "{sf}": {base[1]}, "--lean": 0}}, {t:.2f});',
+            f'tl.to("{sel}", {{"{su}": {up}, "{sf}": {fo}, "--lean": {lean}, duration: {d:.2f}, ease: "power2.out"}}, {t:.2f});',
+            f'tl.to("{sel}", {{"{su}": {base[0]}, "{sf}": {base[1]}, "--lean": 0, duration: {rd:.2f}, ease: "power2.inOut"}}, {t_rel:.2f});',
+        ]
+        clear = f"{su},{sf},--lean"
+        if r.get("gaze", True):                                # mắt liếc theo đích (tắt bằng "gaze": false)
+            tgt = (X, Y) if X is not None else (cx - 260 * s_ + T[0] * s_, c["y"] - 580 * s_ + T[1] * s_)
+            gx, gy = ik.gaze_px((cx - 260 * s_ + ik.EYE[0] * s_, c["y"] - 580 * s_ + ik.EYE[1] * s_), tgt, s_)
+            out += [f'tl.set("{sel}", {{"--gx": "0px", "--gy": "0px"}}, {t:.2f});',
+                    f'tl.to("{sel}", {{"--gx": "{gx}px", "--gy": "{gy}px", duration: {min(d, 0.3):.2f}, ease: "power2.out"}}, {t:.2f});',
+                    f'tl.to("{sel}", {{"--gx": "0px", "--gy": "0px", duration: {rd:.2f}, ease: "power2.inOut"}}, {t_rel:.2f});']
+            clear += ",--gx,--gy"
+        out.append(f'tl.set("{sel}", {{clearProps: "{clear}"}}, {t_rel + rd + 0.01:.2f});')
         return out
 
     def focus_point(self) -> tuple[float, float]:

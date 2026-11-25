@@ -496,6 +496,8 @@ class Rig:
             f"{r}[data-stance='kneel'][data-view^='tq'] .kfoot,{r}[data-stance='lay'][data-view^='tq'] .kfoot{{display:none}}",  # váy trải sát đất, không tràn dưới sàn
             f"{r}[data-stance='kneel'] .body,{r}[data-stance='lay'] .body{{transform:translateY({KNEEL_DY}px)}}",
             # lạy: thân và tay dẹt lại (cúi rạp nhìn chính diện), đầu hạ xuống theo vai
+            # thân trên (thân+tay+đầu) nghiêng quanh hông theo --lean (độ, do generator đặt khi với tay; mặc định 0)
+            f"{r} .upper{{transform-box:view-box;transform-origin:{CX}px {HIP_Y}px;transform:rotate(calc(var(--lean,0) * 1deg))}}",
             f"{r} .trunk,{r} .arms{{transform-box:view-box;transform-origin:{CX}px 495px}}",
             f"{r}[data-stance='lay'] .trunk,{r}[data-stance='lay'] .arms{{transform:scaleY(.42)}}",
             f"{r}[data-stance='lay'] .headg{{transform:translateY(112px)}}",
@@ -574,8 +576,8 @@ class Rig:
             f'<g class="rig rig-{self.id}" {a}>'
             f'<ellipse class="floor-shadow" cx="{CX}" cy="578" rx="{self.body_w * 0.9:g}" ry="9" fill="#000" opacity="0.28"/>'
             f'<g class="scale" transform="translate({CX} {FLOOR}) scale({s:g}) translate({-CX} {-FLOOR})">'
-            f'<g class="view">{self.kfeet()}<g class="body">{self.legs()}{self.lap()}{self.kleg()}<g class="trunk">{self.torso()}</g>'
-            f'<g class="arms">{self.arm("r")}{self.arm("l")}</g><g class="headg">{self.head()}</g></g></g>'
+            f'<g class="view">{self.kfeet()}<g class="body">{self.legs()}{self.lap()}{self.kleg()}<g class="upper"><g class="trunk">{self.torso()}</g>'
+            f'<g class="arms">{self.arm("r")}{self.arm("l")}</g><g class="headg">{self.head()}</g></g></g></g>'
             f'</g></g>'
         )
 

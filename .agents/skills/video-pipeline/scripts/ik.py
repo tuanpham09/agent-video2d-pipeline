@@ -55,3 +55,40 @@ def solve_arm(shoulder, target, side: str = "l", l1: float = L1, l2: float = L2)
     t2 = _ang(shoulder[0] + dx - e[0], shoulder[1] + dy - e[1]) if reached else up
     fore = (t2 - up + 180) % 360 - 180
     return round(up, 2), round(fore, 2), reached
+
+
+HIP = (260.0, 470.0)        # tâm xoay thân trên (CX, HIP_Y của build_rig)
+EYE = (260.0, 215.0)        # tâm mắt trong toạ độ rig (build_rig: tâm nét mặt y=215)
+LEAN_MAX = 9.0              # độ nghiêng thân tối đa khi với tay
+
+
+def rot_about(pt, deg: float, c=HIP):
+    """Xoay điểm theo CSS rotate(deg) quanh c (y xuống: dương = thuận chiều kim đồng hồ, đỉnh thân đổ sang +x)."""
+    a = math.radians(deg)
+    dx, dy = pt[0] - c[0], pt[1] - c[1]
+    return (c[0] + dx * math.cos(a) - dy * math.sin(a), c[1] + dx * math.sin(a) + dy * math.cos(a))
+
+
+def lean_for(target, shoulder) -> float:
+    """Độ nghiêng thân (độ) khi đưa tay tới `target` (toạ độ rig, thế giới): nghiêng về phía đích theo độ lệch ngang."""
+    k = (target[0] - shoulder[0]) / (0.8 * (L1 + L2))
+    return round(LEAN_MAX * max(-1.0, min(1.0, k)), 2)
+
+
+def solve_arm_leaned(shoulder, target, side: str, lean: float):
+    """IK trong hệ của nhóm `.upper` đang nghiêng `lean` độ: đưa đích về hệ cục bộ rồi giải như thường.
+    Trả (up, fore, reached) — góc áp thẳng cho .arm/.fore vì chúng nằm trong .upper."""
+    return solve_arm(shoulder, rot_about(target, -lean), side)
+
+
+def hand_world(shoulder, up: float, fore: float, lean: float):
+    """Bàn tay (toạ độ rig thế giới) khi thân nghiêng `lean` độ."""
+    return rot_about(fk(shoulder, up, fore)[1], lean)
+
+
+def gaze_px(eye_xy, target_xy, scale: float):
+    """(gx, gy) px cho --gx/--gy: ánh mắt từ `eye_xy` tới `target_xy` (toạ độ cảnh). Biên độ như GAZE của rig (5 ngang, 4 dọc)."""
+    dx, dy = target_xy[0] - eye_xy[0], target_xy[1] - eye_xy[1]
+    d = math.hypot(dx, dy) or 1.0
+    k = min(1.0, d / (40 * scale))      # đích sát mắt thì liếc nhẹ, xa thì liếc hết cỡ
+    return round(5 * dx / d * k, 2), round(4 * dy / d * k, 2)
