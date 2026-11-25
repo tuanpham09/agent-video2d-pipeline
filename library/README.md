@@ -97,10 +97,15 @@ Người cho với tới đạo cụ → mang tới điểm gặp (giữa hai va
 Generator lấy mẫu FK bàn tay mỗi 1/24 s và tween đạo cụ theo đúng vị trí đó. Đạo cụ luôn thẳng đứng (phần tử cảnh); được vẽ TRÊN nhân vật.
 - `held:true`: đạo cụ đã ở trong tay người cho (bắt đầu từ bàn tay nghỉ). Không có → đạo cụ phải nằm trong tầm tay người cho, nếu không generator báo lỗi (đưa nhân vật lại gần bằng `move`).
 - Sửa lỗi cũ: tween x,y trước đây nhắm `<g data-state>` (không có x/y) nên đạo cụ không hề di chuyển; nay nhắm `<svg id="<pid>-pos">`.
-- Chưa có: điểm nắm (grip) riêng của đạo cụ — hiện tâm đạo cụ trùng tâm bàn tay.
 
 ### Thân nghiêng và ánh mắt khi với tay (bước b)
 - Rig có nhóm `.upper` (thân+tay+đầu) xoay quanh hông theo `--lean` (độ). IK giải trong hệ của `.upper` đang nghiêng (`ik.solve_arm_leaned`) nên bàn tay vẫn trúng đích.
 - `reach`: `lean` = `"auto"` (mặc định, tối đa 9° về phía đích) | số độ | `false`; `gaze` = true (mặc định) | false — mắt liếc theo đích.
 - `hand_over`: thân cả hai nghiêng dần tới điểm gặp rồi thẳng lại; mắt cả hai theo đạo cụ (12 lần/giây). Tắt bằng `"lean": false` / `"gaze": false`.
 - Giới hạn: mắt chỉ liếc tối đa 5 px ngang / 4 px dọc (như `data-gaze`) — đầu không quay; nghiêng chỉ sang ngang (khung 2D chính diện không có chiều "về phía trước"); đầu nghiêng cùng thân.
+
+### Giới hạn khớp và điểm nắm đạo cụ (bước c)
+- **Giới hạn khớp** (`ik.LIMITS`, độ, phía arm-l; arm-r đối xứng): vai −165..15, khuỷu −150..100 (rộng hơn mọi pose đã duyệt). IK bỏ nghiệm vi phạm giới hạn; không còn nghiệm hợp lệ → kẹp góc và bàn tay dừng ngắn đích, generator báo lỗi "trượt đích" (>25 px rig) thay vì bẻ khớp ngược.
+- Ghi đè theo beat: `"limits":{"up":[-85,4],"fore":[-50,0]}` trong `reach` / `hand_over` (ví dụ dải cầm đèn dầu).
+- **Điểm nắm** (`grip` trong `library/index.json`, chỉ THÊM — R2.3): `{"a":[fx,fy],"b":[fx,fy]}` là phân số 0..1 của hộp đạo cụ; a = mép trái, b = mép phải (b mặc định = a). `bamboo_tray`: a=(0.1,0.68), b=(0.9,0.68); `oil_lamp`: a=(0.5,0.85) (phần bầu dầu). Thiếu `grip` → nắm tâm.
+- `hand_over`: người cho cầm mép phía mình, người nhận cầm mép đối diện; điểm gặp được chọn để cả hai tay duỗi vừa phải (không gập sát ngực — vì giới hạn khớp chặn). `reach` tới `{"prop":…}` với tới điểm nắm a.

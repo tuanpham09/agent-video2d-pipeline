@@ -919,6 +919,22 @@ def test_ik_reach() -> None:
     ok("IK: FK(IK(T)) trúng đích (sai số < 1.5 px)", worst < 1.5, f"{worst:.2f}")
     ok("IK: đích dưới vai thì khuỷu không bị chọn nghiệm hất lên cao", high_elbow == 0, str(high_elbow))
     ok("IK: đích quá tầm -> reached=False", ik.solve_arm(sh, (sh[0] + 400, sh[1]), "l")[2] is False)
+    viol = 0
+    for side in "lr":
+        (ulo, uhi), (flo, fhi) = ik.side_limits(side)
+        for _ in range(300):
+            T = (sh[0] + random.uniform(-140, 140), sh[1] + random.uniform(-100, 150))
+            u, f, _r = ik.solve_arm(sh, T, side)
+            if not (ulo - 1e-6 <= u <= uhi + 1e-6 and flo - 1e-6 <= f <= fhi + 1e-6):
+                viol += 1
+    ok("IK: góc vai/khuỷu luôn nằm trong giới hạn khớp (cả hai tay)", viol == 0, str(viol))
+    lamp = {"up": (-85.0, 4.0), "fore": (-50.0, 0.0)}      # dải khớp cho cảnh cầm đèn dầu
+    u1, f1, r1 = ik.solve_arm(sh, (sh[0] + 60, sh[1] - 10), "l", limits=lamp)
+    ok("IK: dải khớp tuỳ biến được kẹp đúng (vai -85..4, khuỷu -50..0)", -85 <= u1 <= 4 and -50 <= f1 <= 0, f"{u1},{f1}")
+    ok("IK: đích không đạt được trong dải khớp -> reached=False (không bẻ khớp ngược)", r1 is False)
+    import json as _j
+    idx = {i["id"]: i for i in _j.loads((REPO / "library" / "index.json").read_text(encoding="utf-8"))["items"]}
+    ok("library: bamboo_tray có điểm nắm a/b, oil_lamp có a", {"a", "b"} <= set(idx["bamboo_tray"].get("grip", {})) and "a" in idx["oil_lamp"].get("grip", {}))
     worst2 = 0.0
     for lean in (-9, -4, 0, 5, 9):
         for _ in range(50):
@@ -951,7 +967,7 @@ def test_ik_reach() -> None:
         d.mkdir()
         write_min_project(d, add_reach({"rel": [400, 0]}))
         code, out = run([str(SCRIPTS / "build_video.py"), "--project", str(d), "--shots", "SH008", "--out", str(Path(td) / "o" / "p")])
-        ok("reach: đích quá tầm -> generator báo lỗi rõ", code != 0 and "xa quá tầm" in out, out[-300:])
+        ok("reach: đích quá tầm -> generator báo lỗi rõ", code != 0 and "trượt đích" in out, out[-300:])
         write_min_project(d.parent / "q", add_reach({"prop": "khong_co"}))
         code, out = run([str(SCRIPTS / "check_shots.py"), "--project", str(d.parent / "q"), "--scenes", "S01", "--repo", str(REPO)])
         ok("reach: prop không có trong shot bị E12", code == 1 and "reach.to.prop" in out, out[-300:])

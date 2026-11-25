@@ -72,3 +72,10 @@
 - Test `test_roadmap_v3.py` qua (IK có nghiêng trúng đích <1.5 px, --lean/--gx có trong HTML, rig có `.upper`); `library.py check`, `check_shots` S01, `check_rules --phase demo` sạch; build S01 + `hyperframes lint` sạch.
 - Ảnh đã XEM: `references/review/ik-lean-gaze-sh008.png` (me nghiêng về phía host, đồng tử hai người liếc xuống mâm, mâm ở giữa hai tay) và `references/review/rig-upper-lineup.png` (5 rig không đổi hình sau khi thêm `.upper`). Lỗi thấy: nghiêng 9° khá kín đáo; hai tay vẫn chồng lên giữa mâm chứ chưa nắm mép.
 - Chưa kiểm: render mp4, `hyperframes check`, SFX, kneel/3-4/lie với `.upper`, nhân vật ngoài host/me, shotlist thật.
+
+### 2026-11-25 — Giới hạn khớp + điểm nắm đạo cụ (bước c)
+- `ik.py`: `LIMITS`, `side_limits`, nghiệm vi phạm bị loại / kẹp; `build_video`: `_solve_checked` báo lỗi "trượt đích"; `limits` theo beat. `library/index.json`: thêm `grip` cho `bamboo_tray` (a,b) và `oil_lamp` (a) — chỉ thêm (R2.3). `hand_over`: bàn tay cầm mép đạo cụ, điểm gặp chọn để hai tay duỗi vừa phải.
+- Lỗi thấy khi chạy: với điểm nắm ở mép gần người cho, điểm gặp cũ (giữa hai vai) khiến tay người cho gập sát ngực, vượt giới hạn khuỷu (trượt 52 px) → đổi sang quét điểm gặp theo độ duỗi tay.
+- Test `test_roadmap_v3.py` TẤT CẢ QUA (giới hạn khớp cả hai tay, dải tuỳ biến, grip trong index); `library.py check` 0 lỗi.
+- Ảnh đã XEM: `.agents/skills/video-pipeline/references/review/ik-grip-sh008-contact.jpg` — người cho cầm mép phải mâm, host cầm mép trái, mâm ở giữa hai tay, hết beat hai tay về pose cũ; mâm dừng ở hông host sau khi nhận (hơi lơ lửng trước bụng).
+- Chưa kiểm: nắm đèn dầu thật (`oil_lamp`, vị trí grip a=(0.5,0.85) chỉ ước theo ảnh SVG, chưa thử trong cảnh), SFX, render mp4, `hyperframes check`, shotlist thật.

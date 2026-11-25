@@ -27,10 +27,26 @@ def fk(shoulder, up_deg: float, fore_rel_deg: float, l1: float = L1, l2: float =
     return e, h
 
 
-def solve_arm(shoulder, target, side: str = "l", l1: float = L1, l2: float = L2):
-    """-> (up_deg, fore_rel_deg, reached: bool). `reached`=False khi đích xa quá tầm (tay duỗi thẳng hướng về đích).
+# Giới hạn khớp mặc định (độ) — rộng hơn mọi pose đã duyệt trong build_rig.POSES (|up| tới 150°, |fore| tới 135°).
+# arm-l: vai âm = dang/giơ ra phía +x; arm-r đối xứng (đổi dấu). Ghi đè theo beat bằng "limits": {"up":[a,b],"fore":[a,b]} (độ, phía arm-l).
+LIMITS = {"up": (-165.0, 15.0), "fore": (-150.0, 100.0)}
 
-    Khuỷu luôn gập ra ngoài/xuống (tự nhiên): chọn nghiệm có khuỷu thấp hơn, hoà thì lệch ra phía vai của `side`.
+
+def side_limits(side: str, limits=None):
+    lim = limits or LIMITS
+    up, fo = lim["up"], lim["fore"]
+    return ((up[0], up[1]), (fo[0], fo[1])) if side == "l" else ((-up[1], -up[0]), (-fo[1], -fo[0]))
+
+
+def _wrap(a: float) -> float:
+    return (a + 180) % 360 - 180
+
+
+def solve_arm(shoulder, target, side: str = "l", l1: float = L1, l2: float = L2, limits=None):
+    """-> (up_deg, fore_rel_deg, reached: bool). `reached`=False khi đích xa quá tầm HOẶC mọi nghiệm đều vượt giới hạn khớp
+    (khi đó góc bị kẹp vào giới hạn: bàn tay dừng ở điểm gần nhất, không bẻ khớp ngược).
+
+    Hai nghiệm khuỷu: bỏ nghiệm vi phạm giới hạn khớp; còn cả hai thì chọn khuỷu thấp hơn, hoà thì lệch ra phía vai của `side`.
     """
     dx, dy = target[0] - shoulder[0], target[1] - shoulder[1]
     d = math.hypot(dx, dy)
@@ -41,19 +57,23 @@ def solve_arm(shoulder, target, side: str = "l", l1: float = L1, l2: float = L2)
     d = max(d, lo)
     tt = _ang(dx, dy)
     beta = math.degrees(math.acos(max(-1.0, min(1.0, (l1 * l1 + d * d - l2 * l2) / (2 * l1 * d)))))
-    best = None
+    (u_lo, u_hi), (f_lo, f_hi) = side_limits(side, limits)
+    cands = []
     for sgn in (1, -1):
-        up = tt + sgn * beta
-        e, h = fk(shoulder, up, 0.0, l1, l2)
-        # điểm phạt: khuỷu cao hơn vai là xấu; ưu tiên khuỷu thấp, rồi ra ngoài
+        up = _wrap(tt + sgn * beta)
+        e, _ = fk(shoulder, up, 0.0, l1, l2)
+        t2 = _ang(shoulder[0] + dx - e[0], shoulder[1] + dy - e[1]) if reached else up
+        fore = _wrap(t2 - up)
+        ok_lim = u_lo - 1e-6 <= up <= u_hi + 1e-6 and f_lo - 1e-6 <= fore <= f_hi + 1e-6
         out = (e[0] - shoulder[0]) * (1 if side == "l" else -1)   # arm-l nằm bên +x của thân (xem build_rig.shoulder)
-        score = (round(e[1]), out)   # y xuống: e[1] lớn = khuỷu thấp
-        if best is None or score > best[0]:
-            best = (score, up)
-    up = best[1]
-    e, _ = fk(shoulder, up, 0.0, l1, l2)
-    t2 = _ang(shoulder[0] + dx - e[0], shoulder[1] + dy - e[1]) if reached else up
-    fore = (t2 - up + 180) % 360 - 180
+        cands.append((ok_lim, round(e[1]), out, up, fore))       # y xuống: e[1] lớn = khuỷu thấp
+    feas = [c for c in cands if c[0]]
+    if feas:
+        _, _, _, up, fore = max(feas, key=lambda c: (c[1], c[2]))
+    else:                                                          # không nghiệm nào hợp lệ: kẹp nghiệm gần giới hạn nhất
+        reached = False
+        _, _, _, up, fore = max(cands, key=lambda c: (c[1], c[2]))
+        up, fore = min(max(up, u_lo), u_hi), min(max(fore, f_lo), f_hi)
     return round(up, 2), round(fore, 2), reached
 
 
@@ -75,10 +95,10 @@ def lean_for(target, shoulder) -> float:
     return round(LEAN_MAX * max(-1.0, min(1.0, k)), 2)
 
 
-def solve_arm_leaned(shoulder, target, side: str, lean: float):
+def solve_arm_leaned(shoulder, target, side: str, lean: float, limits=None):
     """IK trong hệ của nhóm `.upper` đang nghiêng `lean` độ: đưa đích về hệ cục bộ rồi giải như thường.
     Trả (up, fore, reached) — góc áp thẳng cho .arm/.fore vì chúng nằm trong .upper."""
-    return solve_arm(shoulder, rot_about(target, -lean), side)
+    return solve_arm(shoulder, rot_about(target, -lean), side, limits=limits)
 
 
 def hand_world(shoulder, up: float, fore: float, lean: float):

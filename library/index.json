@@ -67,7 +67,13 @@
         "smoke": "fill-box 50% 100%"
       },
       "version": 1,
-      "sha256": "bfe2bc00a50e9cdb258be76c222fb646414c4bdbcde7d6aeb4f68260393367b1"
+      "sha256": "bfe2bc00a50e9cdb258be76c222fb646414c4bdbcde7d6aeb4f68260393367b1",
+      "grip": {
+        "a": [
+          0.5,
+          0.85
+        ]
+      }
     },
     {
       "id": "incense_burner",
@@ -263,7 +269,17 @@
         "base"
       ],
       "version": 1,
-      "sha256": "2cb4fdc3b23baa042378111858713081e3e88427b8c859859cccc5ef8cf22c0f"
+      "sha256": "2cb4fdc3b23baa042378111858713081e3e88427b8c859859cccc5ef8cf22c0f",
+      "grip": {
+        "a": [
+          0.1,
+          0.68
+        ],
+        "b": [
+          0.9,
+          0.68
+        ]
+      }
     },
     {
       "id": "mourning_cloth",
