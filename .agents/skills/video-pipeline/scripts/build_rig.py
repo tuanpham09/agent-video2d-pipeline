@@ -64,7 +64,7 @@ NECK_Y = 275
 EMOTIONS = {
     "calm": dict(byl=0, byr=0, br=0, lid=0.0, ps=1.0, es=1.0, shade=0.0, tear=0, mouth="closed", mc=0.9, gx=0),
     "focused": dict(byl=2, byr=2, br=-7, lid=0.18, ps=1.0, es=1.0, shade=0.0, tear=0, mouth="closed", mc=0.15, gx=0),
-    "worried": dict(byl=-3, byr=-3, br=14, lid=0.08, ps=0.95, es=1.0, shade=0.0, tear=0, mouth="closed", mc=-0.9, gx=0),
+    "worried": dict(byl=-3, byr=-3, br=14, lid=0.0, ps=0.95, es=1.0, shade=0.0, tear=0, mouth="closed", mc=-0.9, gx=0),
     "afraid": dict(byl=-9, byr=-9, br=10, lid=0.0, ps=0.7, es=1.12, shade=0.0, tear=0, mouth="half", mc=0.0, gx=0),
     "shocked": dict(byl=-11, byr=-11, br=0, lid=0.0, ps=0.5, es=1.15, shade=0.0, tear=0, mouth="round", mc=0.0, gx=0),
     "dread": dict(byl=-2, byr=-2, br=8, lid=0.32, ps=0.7, es=1.0, shade=0.28, tear=0, mouth="closed", mc=-1.1, gx=0),
@@ -112,7 +112,7 @@ VIEWS = ("front", "tq-r", "tq-l")
 STANCES = ("stand", "sit", "kneel", "lay", "stagger", "tilt", "lie", "stagger-r", "tilt-r", "lie-r")  # "-r" = ngã về bên phải người xem (mặc định ngã về trái)
 KNEEL_DY = 74
 LIE_PIVOT_Y, LIE_DY = 340, 183  # nằm ngửa: quay -90° quanh giữa thân rồi hạ xuống sát đất
-VIEW_BODY_SX, VIEW_BODY_DX, VIEW_FEAT_DX, VIEW_HAIR_DX, VIEW_FAR_EYE = 0.88, 5, 13, 6, 0.72
+VIEW_BODY_SX, VIEW_BODY_DX, VIEW_FEAT_DX, VIEW_HAIR_DX, VIEW_FAR_EYE = 0.88, 5, 13, 0, 0.72
 VIEW_CHEEK_BACK = 19
 LEG_X = {"l": CX + 24, "r": CX - 24}  # tâm hông theo toạ độ viewBox
 

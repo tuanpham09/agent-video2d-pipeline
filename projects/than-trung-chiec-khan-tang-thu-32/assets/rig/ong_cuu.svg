@@ -38,14 +38,14 @@
 .rig-ong_cuu .feat,.rig-ong_cuu .hair-front,.rig-ong_cuu .bun-r,.rig-ong_cuu .bun-l{transform-box:view-box;transform-origin:260px 215px}
 .rig-ong_cuu[data-view='tq-r'] .view{transform:translateX(5px) scaleX(0.88)}
 .rig-ong_cuu[data-view='tq-r'] .feat{transform:translateX(13px)}
-.rig-ong_cuu[data-view='tq-r'] .hair-front{transform:translateX(6px)}
+.rig-ong_cuu[data-view='tq-r'] .hair-front{transform:translateX(0px)}
 .rig-ong_cuu[data-view='tq-r'] .bun-l{transform:scale(0.72)}
 .rig-ong_cuu[data-view='tq-r'] .chk-l,.rig-ong_cuu[data-view='tq-r'] .scar-l{transform:translateX(-19px)}
 .rig-ong_cuu[data-view='tq-r'] .eye-l{--exs:0.72}
 .rig-ong_cuu[data-view='tq-r'] .ear-l{display:none}
 .rig-ong_cuu[data-view='tq-l'] .view{transform:translateX(-5px) scaleX(0.88)}
 .rig-ong_cuu[data-view='tq-l'] .feat{transform:translateX(-13px)}
-.rig-ong_cuu[data-view='tq-l'] .hair-front{transform:translateX(-6px)}
+.rig-ong_cuu[data-view='tq-l'] .hair-front{transform:translateX(0px)}
 .rig-ong_cuu[data-view='tq-l'] .bun-r{transform:scale(0.72)}
 .rig-ong_cuu[data-view='tq-l'] .chk-r,.rig-ong_cuu[data-view='tq-l'] .scar-r{transform:translateX(19px)}
 .rig-ong_cuu[data-view='tq-l'] .eye-r{--exs:0.72}
@@ -63,7 +63,7 @@
 .rig-ong_cuu[data-emotion='calm'][data-mouth='auto'] .m-closed{display:inline}
 .rig-ong_cuu[data-emotion='focused']{--byl:2;--byr:2;--br:-7;--lid:0.18;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:0.15;--gx:0px}
 .rig-ong_cuu[data-emotion='focused'][data-mouth='auto'] .m-closed{display:inline}
-.rig-ong_cuu[data-emotion='worried']{--byl:-3;--byr:-3;--br:14;--lid:0.08;--ps:0.95;--es:1.0;--shade:0.0;--tear:0;--mc:-0.9;--gx:0px}
+.rig-ong_cuu[data-emotion='worried']{--byl:-3;--byr:-3;--br:14;--lid:0.0;--ps:0.95;--es:1.0;--shade:0.0;--tear:0;--mc:-0.9;--gx:0px}
 .rig-ong_cuu[data-emotion='worried'][data-mouth='auto'] .m-closed{display:inline}
 .rig-ong_cuu[data-emotion='afraid']{--byl:-9;--byr:-9;--br:10;--lid:0.0;--ps:0.7;--es:1.12;--shade:0.0;--tear:0;--mc:0.0;--gx:0px}
 .rig-ong_cuu[data-emotion='afraid'][data-mouth='auto'] .m-half{display:inline}

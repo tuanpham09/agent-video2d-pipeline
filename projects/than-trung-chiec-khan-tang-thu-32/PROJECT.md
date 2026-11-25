@@ -102,3 +102,9 @@
 - #15 quay 3/4: `VIEWS = front|tq-r|tq-l`; pose sheet có mục "GÓC NHÌN 3/4" (thân + mặt tq-r/tq-l, nhiều cảm xúc) và kneel/lay nhìn nghiêng; generator hỗ trợ `set.view` và `view: auto` (test auto-face qua). Hạn chế đã biết: lie/kneel nhìn nghiêng còn đơn giản.
 - #23 macro: `library/behaviors/behaviors.json` 23 macro, `behaviors.py check` 0 lỗi, `build_video.py` bung macro (`expand_shot`), schema có `macro`, test bung/SFX/E12 qua; shotlist S01 dùng 8 beat macro. B1 (thống kê beat) không có tài liệu riêng: số liệu tính lại hôm nay trên S01 = 26 beat (`line_id` 26, `set` 9, `macro` 8, `word` 4, `edge` 2).
 - Ảnh đã XEM: crop `assets/rig/sheets/host.png` (mục walk, góc 3/4, hành động quỳ/lạy/chạy/ngã). Chưa kiểm: chưa xem `walk-a`; chưa render mp4 có người đi; chưa kiểm macro trên shotlist S02+ (chưa có).
+
+### 2026-11-26 — #22 sửa 2 lỗi nhỏ của rig (áp cho mọi nhân vật)
+- Lỗi 1 (tq-l, host): chỏm tóc nhô ra ở mép trán trái do `VIEW_HAIR_DX=6` dịch tóc trước ra ngoài đầu (tóc sau không dịch). Sửa: `VIEW_HAIR_DX=0` trong `build_rig.py`.
+- Lỗi 2 (tq-r worried): hai vạch ink nhỏ trên mắt vì mí `lid=0.08` chỉ che gần hết viền mắt. Sửa: `worried.lid=0.0` (cảm xúc vẫn phân biệt bằng lông mày/miệng).
+- Build lại 11 rig, 0 tổ hợp tràn khung; test `test_roadmap_v3.py` qua; `check_rules --phase demo` 0 lỗi; `library.py check` 0 lỗi.
+- Ảnh đã XEM: crop `assets/rig/sheets/host.png` (tq-r calm, tq-r worried, tq-l calm, tq-l afraid) trước và sau khi sửa; trước thấy chỏm tóc và vạch mí, sau không còn. Chưa kiểm: chỉ xem 4 thẻ 3/4 của host, chưa xem lại mọi cảm xúc của 10 rig còn lại sau thay đổi tóc/mí; chưa kiểm với `sit`/kneel nhìn nghiêng.
