@@ -356,6 +356,11 @@ class Rig:
             # Chỏm tóc / đào lộn hột cho bé trai nhỏ dân gian Việt Nam
             out.append(f'<circle class="topknot" cx="{CX}" cy="138" r="17" fill="{hair}" stroke="{ink}" stroke-width="4.5"/>')
             out.append(f'<path d="M {CX - 6} 144 Q {CX} 156 {CX + 6} 144" stroke="{ink}" stroke-width="3" fill="none"/>')
+        elif hair_style == "bob" and not hat:
+            # Tóc ngang vai, không búi: đầu tròn, hai mảng tóc buông xuống cằm
+            out.append(f'<ellipse cx="{CX}" cy="205" rx="66" ry="70" fill="{hair}" stroke="{ink}" stroke-width="5"/>')
+            out.append(f'<path d="M {CX - 62} 215 Q {CX - 72} 262 {CX - 56} 290 L {CX - 40} 268 Z" fill="{hair}" stroke="{ink}" stroke-width="5" stroke-linejoin="round"/>')
+            out.append(f'<path d="M {CX + 62} 215 Q {CX + 72} 262 {CX + 56} 290 L {CX + 40} 268 Z" fill="{hair}" stroke="{ink}" stroke-width="5" stroke-linejoin="round"/>')
         elif hair_style == "long_tied" and not hat:
             # Tóc nữ trẻ: búi củ tỏi cao gọn gàng + tóc mai buông nhẹ
             out.append(f'<ellipse cx="{CX}" cy="205" rx="62" ry="66" fill="{hair}" stroke="{ink}" stroke-width="5"/>')
@@ -368,7 +373,7 @@ class Rig:
         # mặt
         out.append(f'<ellipse class="face" cx="{CX}" cy="215" rx="58" ry="62" fill="{skin}" stroke="{ink}" stroke-width="6"/>')
         # tóc trước
-        if hair_style in ("short", "bun", "pigtails", "long_tied") and not hat:
+        if hair_style in ("short", "bun", "pigtails", "long_tied", "bob") and not hat:
             out.append(
                 f'<path class="hair-front" d="M {CX - 60} 206 Q {CX - 64} 148 {CX} 146 Q {CX + 64} 148 {CX + 60} 206 '
                 f'Q {CX + 42} 176 {CX} 174 Q {CX - 42} 176 {CX - 60} 206 Z" fill="{hair}" stroke="{ink}" stroke-width="5" stroke-linejoin="round"/>')
@@ -418,7 +423,10 @@ class Rig:
         # râu
         if p.get("beard"):
             out.append(f'<path class="beard" d="M {CX - 26} 274 Q {CX} 322 {CX + 26} 274 Q {CX} 290 {CX - 26} 274 Z" '
-                       f'fill="{self.c("hair_white")}" stroke="{ink}" stroke-width="4" stroke-linejoin="round"/>')
+                       f'fill="{self.c(p.get("beard_color", "hair_white"))}" stroke="{ink}" stroke-width="4" stroke-linejoin="round"/>')
+        if p.get("mustache"):
+            out.append(f'<path class="mustache" d="M {CX - 22} 254 Q {CX - 10} 244 {CX} 252 Q {CX + 10} 244 {CX + 22} 254 Q {CX + 10} 258 {CX} 256 Q {CX - 10} 258 {CX - 22} 254 Z" '
+                       f'fill="{hair}" stroke="{ink}" stroke-width="3" stroke-linejoin="round"/>')
         # miệng
         mline = self.c("shadow_line" if sh else "ink")
         mfill = self.c("shadow_ink" if sh else "mouth_dark")

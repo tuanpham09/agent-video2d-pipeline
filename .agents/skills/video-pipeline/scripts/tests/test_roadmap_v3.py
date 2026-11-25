@@ -997,7 +997,7 @@ def test_library_suggest() -> None:
     ok("suggest: ông Cửu (84 tuổi) -> elder_m; bà nội -> elder_f; mẹ -> adult_f (không bị nhiễu bởi câu nhắc người khác)",
        ch["ong_cuu"]["archetype"][0]["id"] == "elder_m" and ch["ba_noi"]["archetype"][0]["id"] == "elder_f" and ch["me"]["archetype"][0]["id"] == "adult_f",
        str({k: ch[k]["archetype"][0]["id"] for k in ("ong_cuu", "ba_noi", "me")}))
-    ok("suggest: nhân vật chưa có rig (chu_hai) vẫn được gợi ý archetype", ch["chu_hai"]["archetype"][0]["id"] == "adult_m" and not ch["chu_hai"]["has_rig"])
+    ok("suggest: nhân vật chưa có rig (lam_that) vẫn được gợi ý archetype", ch["lam_that"]["archetype"][0]["id"] == "adult_m" and not ch["lam_that"]["has_rig"])
     cast = lib.load_cast()["cast"]
     ok("cast: 5 nhân vật đã dựng, đều có sheet và keywords", len(cast) >= 5 and all((lib.LIB / c["sheet"]).exists() and c["keywords"] for c in cast.values()))
     errs, _w, _n = lib.run_check()

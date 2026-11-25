@@ -116,3 +116,7 @@ Generator lấy mẫu FK bàn tay mỗi 1/24 s và tween đạo cụ theo đúng
 - Mọi đạo cụ, bối cảnh, archetype, outfit, cast có `keywords` (từ/cụm từ tiếng Việt hay gặp trong kịch bản) và `tags` để máy khớp.
 - `library.py suggest --project <slug>` | `--text "…"` [`--json`]: đếm từ khoá trong kịch bản rồi xếp hạng — bối cảnh THEO TỪNG CẢNH (★ = đã khai trong bible), đạo cụ toàn phim, cast/archetype/outfit cho từng nhân vật (tuổi + giới tính ghi trong bible thắng điểm từ khoá), và **THIẾU**: từ vựng trong `lexicon.json` có trong kịch bản nhưng chưa asset nào khớp → cân nhắc tạo mới (R2.4).
 - Giới hạn đã biết: chỉ khớp theo từ khoá (không hiểu ngữ cảnh); từ chung như "nhà", "tang", "ma" có trọng số thấp nhưng vẫn gây nhiễu — luôn xem lại trước khi gán `lib`. `lexicon.json` là danh sách do người viết nên chưa bao quát. Cast hiện chỉ gồm 5 nhân vật của một project (mới chứng minh khớp với chính project đó và với một đoạn văn thử).
+
+
+### Tham số rig thêm 2026-11-26
+`hair: "bob"` (tóc ngang vai), `mustache: true` (ria mép, màu tóc), `beard_color: <token>` (mặc định `hair_white`). Token mới: `hair_grey`, `brow_grey`.

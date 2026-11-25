@@ -239,6 +239,287 @@
         "char": "than_trung"
       },
       "design": "Bóng đen không có mặt thật, khăn tang trắng rách buộc đầu, mắt trắng đồng tử đỏ, miệng ngoác rộng (theo bản preview shot 8). Nguồn: Trùng 'không có mặt, soi vào đâu học mặt người đó'."
+    },
+    "nam_trung_nien_toc_muoi_tieu_do_tang": {
+      "name": "Bố",
+      "role": "Người đàn ông trung niên tóc muối tiêu, dáng chắc, mặc đồ tang (bố/trưởng bối)",
+      "age": "",
+      "gender": "nam",
+      "rig": {
+        "archetype": "adult_m",
+        "outfit": "mourning",
+        "hair_color": "hair_grey",
+        "brow_color": "brow_grey",
+        "wrinkles": 1,
+        "hunch": 0.15,
+        "body_w": 106
+      },
+      "voice_hint": "Hải Đăng",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 20
+      },
+      "tags": [
+        "nam",
+        "trung niên",
+        "tang",
+        "tóc bạc"
+      ],
+      "keywords": [
+        "bố",
+        "cha",
+        "ba",
+        "bác",
+        "trưởng bối",
+        "người lớn tuổi",
+        "đồ tang"
+      ],
+      "sheet": "sheets/cast/nam_trung_nien_toc_muoi_tieu_do_tang.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "bo"
+      },
+      "design": "Bố của Lâm (nguồn: 'Bố gọi tôi về', nhắn tin 4:45, cùng bác trưởng họ). Tuổi cụ thể không có trong nguồn: đề xuất thiết kế người trung niên, tóc muối tiêu, dáng chắc hơn Lâm để không na ná; đồ tang áo xô vì có mặt ở đám."
+    },
+    "nam_rau_ao_thuong": {
+      "name": "Chú Hai",
+      "role": "Người đàn ông có râu cằm, áo thường (xuất hiện qua cuộc gọi video, không ở đám tang)",
+      "age": "",
+      "gender": "nam",
+      "rig": {
+        "archetype": "adult_m",
+        "outfit": "plain_light",
+        "beard": true,
+        "wrinkles": 1,
+        "beard_color": "hair_black"
+      },
+      "voice_hint": "Hải Đăng",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 9
+      },
+      "tags": [
+        "nam",
+        "người lớn",
+        "râu",
+        "áo thường"
+      ],
+      "keywords": [
+        "chú",
+        "cậu",
+        "anh",
+        "gọi video",
+        "ở xa",
+        "râu"
+      ],
+      "sheet": "sheets/cast/nam_rau_ao_thuong.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "chu_hai"
+      },
+      "design": "Chú Hai: xuất hiện qua cuộc gọi video ở Đức (bible); tuổi không có trong nguồn. Đề xuất thiết kế: người lớn, râu cằm, áo thường (không ở đám tang), khác Bố vì không cùng cảnh nhưng vẫn nhận ra bằng râu."
+    },
+    "nam_gay_ria_do_tang": {
+      "name": "Chú Út",
+      "role": "Người đàn ông gầy, có ria mép, mặc đồ tang",
+      "age": "",
+      "gender": "nam",
+      "rig": {
+        "archetype": "adult_m",
+        "outfit": "mourning",
+        "body_w": 90,
+        "scale": 1.02,
+        "mustache": true
+      },
+      "voice_hint": "Xuân Vĩnh",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 65
+      },
+      "tags": [
+        "nam",
+        "người lớn",
+        "ria mép",
+        "tang"
+      ],
+      "keywords": [
+        "chú",
+        "chú út",
+        "em trai bố",
+        "ria",
+        "đồ tang",
+        "gầy"
+      ],
+      "sheet": "sheets/cast/nam_gay_ria_do_tang.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "chu_ut"
+      },
+      "design": "Chú Út: em của Bố, có vợ (thím út) và con gái Na 5 tuổi, mất sau 3 ngày (nguồn). Đề xuất thiết kế: nam người lớn dáng gầy hơn Bố và Lâm, tóc đen, đồ tang áo xô."
+    },
+    "co_gai_tre_buoi_toc_do_tang": {
+      "name": "Em gái Ngân",
+      "role": "Cô gái trẻ búi tóc, mặc đồ tang",
+      "age": "",
+      "gender": "nữ",
+      "rig": {
+        "archetype": "young_adult_f",
+        "outfit": "mourning"
+      },
+      "voice_hint": "Trúc Ly",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 70
+      },
+      "tags": [
+        "nữ",
+        "thiếu nữ",
+        "trẻ",
+        "tang"
+      ],
+      "keywords": [
+        "em gái",
+        "cô gái",
+        "thức canh",
+        "chạy vào buồng",
+        "đồ tang"
+      ],
+      "sheet": "sheets/cast/co_gai_tre_buoi_toc_do_tang.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "ngan"
+      },
+      "design": "Em gái của Lâm, thức canh đêm trong rạp (nguồn); tuổi không có trong nguồn nên chọn khung thiếu nữ/cô gái trẻ (đề xuất thiết kế), đồ tang áo xô."
+    },
+    "be_gai_5_tuoi_do_tang": {
+      "name": "Bé Na",
+      "role": "Bé gái 5 tuổi, tóc hai búi, đội khăn trắng bé xíu",
+      "age": "5",
+      "gender": "nữ",
+      "rig": {
+        "archetype": "child_f",
+        "outfit": "mourning"
+      },
+      "voice_hint": "Trúc Ly",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 21
+      },
+      "tags": [
+        "nữ",
+        "trẻ em",
+        "bé",
+        "tang"
+      ],
+      "keywords": [
+        "bé",
+        "bé gái",
+        "con gái chú",
+        "em bé",
+        "khăn trắng bé xíu",
+        "5 tuổi"
+      ],
+      "sheet": "sheets/cast/be_gai_5_tuoi_do_tang.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "be_na"
+      },
+      "design": "Con gái chú Út, 5 tuổi (nguồn); ngồi trong lòng thím, đội khăn trắng bé xíu (nguồn) nên dùng đồ tang + khăn tang. Khung bé gái, đầu to."
+    },
+    "co_gai_toc_ngang_ao_thuong": {
+      "name": "Vy",
+      "role": "Cô gái trẻ tóc ngang vai, áo thường (người yêu ở thành phố, hiện qua điện thoại)",
+      "age": "",
+      "gender": "nữ",
+      "rig": {
+        "archetype": "young_adult_f",
+        "outfit": "plain_light",
+        "hair": "bob"
+      },
+      "voice_hint": "Trúc Ly",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 19
+      },
+      "tags": [
+        "nữ",
+        "trẻ",
+        "áo thường",
+        "thành phố"
+      ],
+      "keywords": [
+        "người yêu",
+        "bạn gái",
+        "cô gái",
+        "gọi điện",
+        "sài gòn"
+      ],
+      "sheet": "sheets/cast/co_gai_toc_ngang_ao_thuong.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "vy"
+      },
+      "design": "Người yêu của Lâm ở Sài Gòn, chỉ xuất hiện qua điện thoại (nguồn). Tuổi không có trong nguồn: đề xuất thiết kế cô gái trẻ, áo thường, không đồ tang (ở Sài Gòn), khác Ngân ở trang phục."
     }
   }
 }

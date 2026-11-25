@@ -162,42 +162,168 @@
       "id": "bo",
       "name": "Bố",
       "voice": "Hải Đăng",
-      "rig": null,
-      "status": "vai phụ (1 line): chưa dựng rig, dùng lại khung người trưởng thành khi cần"
+      "rig": {
+        "file": "assets/rig/bo.svg",
+        "archetype": "adult_m",
+        "outfit": "mourning",
+        "hair_color": "hair_grey",
+        "brow_color": "brow_grey",
+        "wrinkles": 1,
+        "hunch": 0.15,
+        "body_w": 106
+      },
+      "design": "Bố của Lâm (nguồn: 'Bố gọi tôi về', nhắn tin 4:45, cùng bác trưởng họ). Tuổi cụ thể không có trong nguồn: đề xuất thiết kế người trung niên, tóc muối tiêu, dáng chắc hơn Lâm để không na ná; đồ tang áo xô vì có mặt ở đám.",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 20
+      },
+      "status": "vai phụ (1 line): đã dựng rig (đề xuất thiết kế)"
     },
     {
       "id": "chu_hai",
       "name": "Chú Hai",
       "voice": "Hải Đăng",
-      "rig": null,
+      "rig": {
+        "file": "assets/rig/chu_hai.svg",
+        "archetype": "adult_m",
+        "outfit": "plain_light",
+        "beard": true,
+        "wrinkles": 1,
+        "beard_color": "hair_black"
+      },
+      "design": "Chú Hai: xuất hiện qua cuộc gọi video ở Đức (bible); tuổi không có trong nguồn. Đề xuất thiết kế: người lớn, râu cằm, áo thường (không ở đám tang), khác Bố vì không cùng cảnh nhưng vẫn nhận ra bằng râu.",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 9
+      },
       "status": "vai phụ (2 line): xuất hiện qua cuộc gọi video ở Đức; chung giọng với Bố, không chung cảnh"
     },
     {
       "id": "chu_ut",
       "name": "Chú Út",
       "voice": "Xuân Vĩnh",
-      "rig": null,
+      "rig": {
+        "file": "assets/rig/chu_ut.svg",
+        "archetype": "adult_m",
+        "outfit": "mourning",
+        "body_w": 90,
+        "scale": 1.02,
+        "mustache": true
+      },
+      "design": "Chú Út: em của Bố, có vợ (thím út) và con gái Na 5 tuổi, mất sau 3 ngày (nguồn). Đề xuất thiết kế: nam người lớn dáng gầy hơn Bố và Lâm, tóc đen, đồ tang áo xô.",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 65
+      },
       "status": "vai phụ (1 line); mất sau 3 ngày"
     },
     {
       "id": "ngan",
       "name": "Em gái Ngân",
       "voice": "Trúc Ly",
-      "rig": null,
+      "rig": {
+        "file": "assets/rig/ngan.svg",
+        "archetype": "young_adult_f",
+        "outfit": "mourning"
+      },
+      "design": "Em gái của Lâm, thức canh đêm trong rạp (nguồn); tuổi không có trong nguồn nên chọn khung thiếu nữ/cô gái trẻ (đề xuất thiết kế), đồ tang áo xô.",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 70
+      },
       "status": "vai phụ (2 line)"
     },
     {
       "id": "be_na",
       "name": "Bé Na",
       "voice": "Trúc Ly",
-      "rig": null,
-      "status": "vai phụ (1 line): cần khung dáng trẻ em"
+      "rig": {
+        "file": "assets/rig/be_na.svg",
+        "archetype": "child_f",
+        "outfit": "mourning"
+      },
+      "design": "Con gái chú Út, 5 tuổi (nguồn); ngồi trong lòng thím, đội khăn trắng bé xíu (nguồn) nên dùng đồ tang + khăn tang. Khung bé gái, đầu to.",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 21
+      },
+      "status": "vai phụ (1 line): khung dáng trẻ em"
     },
     {
       "id": "vy",
       "name": "Vy",
       "voice": "Trúc Ly",
-      "rig": null,
+      "rig": {
+        "file": "assets/rig/vy.svg",
+        "archetype": "young_adult_f",
+        "outfit": "plain_light",
+        "hair": "bob"
+      },
+      "design": "Người yêu của Lâm ở Sài Gòn, chỉ xuất hiện qua điện thoại (nguồn). Tuổi không có trong nguồn: đề xuất thiết kế cô gái trẻ, áo thường, không đồ tang (ở Sài Gòn), khác Ngân ở trang phục.",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 19
+      },
       "status": "vai phụ (2 line, người yêu của Lâm): chung giọng với Ngân và Bé Na, không chung cảnh"
     },
     {
