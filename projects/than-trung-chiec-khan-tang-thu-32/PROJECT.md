@@ -116,3 +116,7 @@
 - Phát hiện: `check_motion.py` (commit d2dfe12) đọc `motion_plan.json` mà `build_video.py` ở nhánh này KHÔNG xuất → gate chưa chạy được; `doc-map.md` đã sửa dòng đó cho đúng. Chưa kiểm: không biết `build_video.py` ở máy của bạn có xuất file này không.
 - Đề xuất sửa luật (CHỜ NGƯỜI DÙNG, R0.3): R11.5 đang ghi "generator chưa có thao tác `hand_over`" — nay đã có (`hand_over`, IK, đạo cụ bám tay, SFX bắt buộc theo R6.1). Đề xuất đổi thành: "Khi đạo cụ chuyển tay, dùng beat `hand_over` + SFX nếu là vật lý (R6.1); `check_shots` kiểm `hand_over` nhắc đúng nhân vật/đạo cụ trong shot (E12)." Agent không tự sửa `RULES.md`.
 - Chưa kiểm: video_demo/ được dựng lại (đổi theo rig mới) nhưng chưa render mp4; guide chưa có agent khác đọc thử để xem có làm theo được không.
+
+### 2026-11-26 — 👤 Người dùng duyệt đề xuất sửa R11.5
+- Người dùng: "duyệt đề xuất sửa R11.5" (phiên 2026-11-26), sau khi agent nêu đề xuất theo R0.3. Đã sửa `RULES.md` R11.5: dùng beat `hand_over` kèm SFX nếu là vật lý; `check_shots` kiểm nhân vật/đạo cụ có mặt (E12) và SFX (E6). Số phiên bản luật giữ nguyên 2 (chỉ sửa chữ, project đang ghi `Luật áp dụng: RULES.md v2`).
+- Đã kiểm: `check_rules --phase demo` chạy lại (xem dưới). Chưa kiểm: `hand_over` chưa dùng trong shotlist thật, nên luật mới chưa được gate bắt trên video thật.
