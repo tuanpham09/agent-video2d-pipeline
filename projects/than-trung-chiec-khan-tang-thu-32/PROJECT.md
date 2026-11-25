@@ -96,3 +96,9 @@
 ### 2026-11-26 — 👤 Người dùng duyệt pose sheet 6 nhân vật phụ
 - Người dùng: "ok duyệt" (phiên 2026-11-26) cho pose sheet `bo`, `chu_hai`, `chu_ut`, `ngan`, `be_na`, `vy` (R3.7). Phạm vi duyệt là các ảnh mình đã trình ở trên; phần chưa xem hết (pose/stance/gaze) vẫn là "chưa kiểm" của mình.
 - Việc tiếp: ghép thử 11 nhân vật vào cảnh thật (rạp đám tang, gian thờ) để kiểm tỉ lệ/vị trí đứng, hoặc đưa `reach`/`hand_over` (đèn dầu) vào shotlist; chờ người dùng chọn.
+
+### 2026-11-26 — Rà và đóng todo #14, #15, #23
+- #14 walk: `build_rig.POSES/LEG_POSES` có `walk-a`/`walk-b`; pose sheet `host.png` có hàng walk (xem `walk-b`: hai chân ngược pha). Generator có `move.gait`; test "chạy: move có gait=run" qua.
+- #15 quay 3/4: `VIEWS = front|tq-r|tq-l`; pose sheet có mục "GÓC NHÌN 3/4" (thân + mặt tq-r/tq-l, nhiều cảm xúc) và kneel/lay nhìn nghiêng; generator hỗ trợ `set.view` và `view: auto` (test auto-face qua). Hạn chế đã biết: lie/kneel nhìn nghiêng còn đơn giản.
+- #23 macro: `library/behaviors/behaviors.json` 23 macro, `behaviors.py check` 0 lỗi, `build_video.py` bung macro (`expand_shot`), schema có `macro`, test bung/SFX/E12 qua; shotlist S01 dùng 8 beat macro. B1 (thống kê beat) không có tài liệu riêng: số liệu tính lại hôm nay trên S01 = 26 beat (`line_id` 26, `set` 9, `macro` 8, `word` 4, `edge` 2).
+- Ảnh đã XEM: crop `assets/rig/sheets/host.png` (mục walk, góc 3/4, hành động quỳ/lạy/chạy/ngã). Chưa kiểm: chưa xem `walk-a`; chưa render mp4 có người đi; chưa kiểm macro trên shotlist S02+ (chưa có).
