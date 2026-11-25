@@ -92,3 +92,7 @@
 - `build_rig.py` → 11 rig, 0 tổ hợp tràn khung. `library.py cast-add` ×6 → cast 11 mục; `library.py check` 0 lỗi; `test_roadmap_v3.py` TẤT CẢ QUA (đổi ca test suggest sang `lam_that` vì `chu_hai` đã có rig); `check_rules --phase demo` 0 lỗi, 5 cảnh báo cũ; `check_sync` OK; `check_shots` 401 lỗi đều là "S02+ chưa có shot" (đã có từ trước, không có lỗi loại khác).
 - Ảnh đã XEM: `assets/rig/sheets/lineup.png` (11 nhân vật), `bo.png`, `be_na.png`, và hàng cảm xúc calm/focused/worried của `chu_ut`, `vy`, `chu_hai`. Lỗi thấy và đã sửa: lần build đầu Bố/Chú Út/Lâm và Ngân/Vy/Mẹ có silhouette gần giống nhau → thêm tóc muối tiêu + thân rộng (Bố), ria mép (Chú Út), râu đen (Chú Hai), tóc bob (Vy); xem lại lineup thấy tách được. Một "vòng cung nổi trên đầu" trong ảnh crop hoá ra là lỗi cắt ảnh của mình, không phải lỗi rig.
 - Chưa kiểm: người dùng chưa duyệt pose sheet (R3.7); chỉ xem hàng cảm xúc, chưa xem hết pose/stance/gaze của 6 người; Chú Hai (áo `plain_light`) gần màu áo tang nên khác biệt chủ yếu nhờ khăn/râu; chưa ghép vào cảnh thật cạnh nhau; chưa thử `reach`/IK với bé Na (tay ngắn).
+
+### 2026-11-26 — 👤 Người dùng duyệt pose sheet 6 nhân vật phụ
+- Người dùng: "ok duyệt" (phiên 2026-11-26) cho pose sheet `bo`, `chu_hai`, `chu_ut`, `ngan`, `be_na`, `vy` (R3.7). Phạm vi duyệt là các ảnh mình đã trình ở trên; phần chưa xem hết (pose/stance/gaze) vẫn là "chưa kiểm" của mình.
+- Việc tiếp: ghép thử 11 nhân vật vào cảnh thật (rạp đám tang, gian thờ) để kiểm tỉ lệ/vị trí đứng, hoặc đưa `reach`/`hand_over` (đèn dầu) vào shotlist; chờ người dùng chọn.
