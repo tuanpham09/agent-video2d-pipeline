@@ -34,7 +34,15 @@
         "smoke": "fill-box 50% 100%"
       },
       "version": 1,
-      "sha256": "23cd6544f7957156bac38e01007cfe4ae5be91605669ab907b9e6abcafd1ace1"
+      "sha256": "23cd6544f7957156bac38e01007cfe4ae5be91605669ab907b9e6abcafd1ace1",
+      "keywords": [
+        "nến",
+        "ngọn nến",
+        "đôi nến",
+        "thắp nến",
+        "ánh nến",
+        "chân đèn đồng"
+      ]
     },
     {
       "id": "oil_lamp",
@@ -73,7 +81,15 @@
           0.5,
           0.85
         ]
-      }
+      },
+      "keywords": [
+        "đèn dầu",
+        "cây đèn dầu",
+        "đèn bão",
+        "ngọn đèn",
+        "bóng đèn thuỷ tinh",
+        "soi đèn"
+      ]
     },
     {
       "id": "incense_burner",
@@ -103,7 +119,16 @@
         "smoke": "fill-box 50% 100%"
       },
       "version": 1,
-      "sha256": "94bf2711597dddf735491ed1fd350dceef32588b89976a98f49457531f438566"
+      "sha256": "94bf2711597dddf735491ed1fd350dceef32588b89976a98f49457531f438566",
+      "keywords": [
+        "bát hương",
+        "nhang",
+        "hương",
+        "khói hương",
+        "thắp hương",
+        "nén nhang",
+        "khói trầm"
+      ]
     },
     {
       "id": "ancestral_altar",
@@ -150,7 +175,17 @@
         }
       },
       "version": 1,
-      "sha256": "ee6f9421f621bba5fe2ec74af4ae530101d20975579e3d2cc901265d171a7231"
+      "sha256": "ee6f9421f621bba5fe2ec74af4ae530101d20975579e3d2cc901265d171a7231",
+      "keywords": [
+        "bàn thờ",
+        "tủ thờ",
+        "di ảnh",
+        "ảnh thờ",
+        "ban thờ",
+        "thờ cúng",
+        "linh vị",
+        "bàn thờ tang"
+      ]
     },
     {
       "id": "clay_jar",
@@ -182,7 +217,16 @@
         "cloth": "110px 96px (view-box)"
       },
       "version": 1,
-      "sha256": "e8ec616e16d2a811b17a49ffd3df75ef9fb03f983190c787ac72d41c9c089274"
+      "sha256": "e8ec616e16d2a811b17a49ffd3df75ef9fb03f983190c787ac72d41c9c089274",
+      "keywords": [
+        "hũ",
+        "hũ sành",
+        "vại",
+        "bình sành",
+        "bịt vải đỏ",
+        "hũ nhốt",
+        "chum"
+      ]
     },
     {
       "id": "betel_mortar",
@@ -213,7 +257,15 @@
         "pestle": "150px 250px (view-box) — xoay quanh đáy chày; đồng bộ SFX cối đồng"
       },
       "version": 1,
-      "sha256": "920f73cd9455fe492df6cbf34371ac92f65b38bd2252c5077ac5cefea268c4b1"
+      "sha256": "920f73cd9455fe492df6cbf34371ac92f65b38bd2252c5077ac5cefea268c4b1",
+      "keywords": [
+        "cối giã trầu",
+        "giã trầu",
+        "cối đồng",
+        "chày",
+        "trầu cau",
+        "têm trầu"
+      ]
     },
     {
       "id": "bamboo_bed",
@@ -241,7 +293,17 @@
         "base"
       ],
       "version": 1,
-      "sha256": "e6938f4414249b64c0713e10211078c27d8432609b6d40202132521c4eb7bdcb"
+      "sha256": "e6938f4414249b64c0713e10211078c27d8432609b6d40202132521c4eb7bdcb",
+      "keywords": [
+        "chõng",
+        "chõng tre",
+        "giường",
+        "phản",
+        "ngủ",
+        "nằm",
+        "giường tre",
+        "nệm chiếu"
+      ]
     },
     {
       "id": "bamboo_tray",
@@ -279,7 +341,16 @@
           0.9,
           0.68
         ]
-      }
+      },
+      "keywords": [
+        "mâm",
+        "mâm tre",
+        "khay",
+        "mâm cúng",
+        "đựng khăn",
+        "đồ cúng",
+        "mâm cơm"
+      ]
     },
     {
       "id": "mourning_cloth",
@@ -308,7 +379,18 @@
         "base"
       ],
       "version": 1,
-      "sha256": "5ed9728bfadac00f995b5c5cec6333de9ed116996a8a077627d794c36ad7eb73"
+      "sha256": "5ed9728bfadac00f995b5c5cec6333de9ed116996a8a077627d794c36ad7eb73",
+      "keywords": [
+        "khăn tang",
+        "khăn xô",
+        "xô trắng",
+        "vải tang",
+        "đồ tang",
+        "khăn trắng",
+        "chít khăn",
+        "đồ xô",
+        "khăn"
+      ]
     },
     {
       "id": "smartphone",
@@ -339,7 +421,17 @@
         "glow": "fill-box 50% 50%"
       },
       "version": 1,
-      "sha256": "a29aaeca7604b2fbfad023ed753f8733e95d1cb01723bdb07406d93806c9de69"
+      "sha256": "a29aaeca7604b2fbfad023ed753f8733e95d1cb01723bdb07406d93806c9de69",
+      "keywords": [
+        "điện thoại",
+        "cuộc gọi",
+        "gọi video",
+        "video call",
+        "gọi điện",
+        "màn hình điện thoại",
+        "tin nhắn",
+        "zalo"
+      ]
     },
     {
       "id": "house_altar_room",
@@ -412,7 +504,19 @@
         "base"
       ],
       "version": 1,
-      "sha256": "200d4eb7055dca06c8c0ecbc83b393571baf57f80d90f17ece954dd3ae7181c6"
+      "sha256": "200d4eb7055dca06c8c0ecbc83b393571baf57f80d90f17ece954dd3ae7181c6",
+      "keywords": [
+        "gian thờ",
+        "bàn thờ",
+        "nhà tang",
+        "gian nhà",
+        "nhà có tang",
+        "đám tang trong nhà",
+        "hậu sự",
+        "phòng thờ",
+        "trong nhà",
+        "vách gỗ"
+      ]
     },
     {
       "id": "village_yard_night",
@@ -485,7 +589,18 @@
         "base"
       ],
       "version": 1,
-      "sha256": "301064b6bee46759a0341618712c7a1cc39f9fb6bd63ea668a88dfbbd7ac249e"
+      "sha256": "301064b6bee46759a0341618712c7a1cc39f9fb6bd63ea668a88dfbbd7ac249e",
+      "keywords": [
+        "sân",
+        "sân đất",
+        "sân nhà",
+        "vườn chuối",
+        "bờ rào",
+        "sân đêm",
+        "mái lá",
+        "ngoài sân",
+        "hàng rào tre"
+      ]
     },
     {
       "id": "veranda_night",
@@ -558,7 +673,15 @@
         "base"
       ],
       "version": 1,
-      "sha256": "3bcae407b968ff88263759ff9ce4996adcefc9691b0c4531f04c7ee0cd6251a7"
+      "sha256": "3bcae407b968ff88263759ff9ce4996adcefc9691b0c4531f04c7ee0cd6251a7",
+      "keywords": [
+        "hiên",
+        "hiên nhà",
+        "thềm",
+        "hành lang",
+        "ngoài hiên",
+        "bậc thềm"
+      ]
     },
     {
       "id": "nghia_dia",
@@ -623,7 +746,19 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 3,
-      "sha256": "0c1a4f37b5ec7958fe45361f3057ae0d9675a8a7fcc8ad14ec39a7bf963117f0"
+      "sha256": "0c1a4f37b5ec7958fe45361f3057ae0d9675a8a7fcc8ad14ec39a7bf963117f0",
+      "keywords": [
+        "nghĩa địa",
+        "mồ",
+        "mả",
+        "nấm mồ",
+        "bãi tha ma",
+        "nghĩa trang",
+        "mộ",
+        "bia mộ",
+        "chôn cất",
+        "huyệt"
+      ]
     },
     {
       "id": "toan_canh_lang",
@@ -688,7 +823,17 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 4,
-      "sha256": "34df2e9faacfe8b541c1241fc5d2802f54509a11efc486c12951a74c2b14031c"
+      "sha256": "34df2e9faacfe8b541c1241fc5d2802f54509a11efc486c12951a74c2b14031c",
+      "keywords": [
+        "làng",
+        "toàn cảnh làng",
+        "xóm",
+        "thôn",
+        "làng quê",
+        "cả làng",
+        "đầu làng",
+        "ven sông"
+      ]
     },
     {
       "id": "gian_tho_dem",
@@ -754,7 +899,17 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 3,
-      "sha256": "9c42b38723ec4dc7eb4db9f244e33257c6d792071c31f454e3fc350afd83ae3e"
+      "sha256": "9c42b38723ec4dc7eb4db9f244e33257c6d792071c31f454e3fc350afd83ae3e",
+      "keywords": [
+        "gian thờ đêm",
+        "gian thờ",
+        "bàn thờ",
+        "thắp nến",
+        "đêm trong nhà thờ",
+        "linh cữu",
+        "quan tài",
+        "áo quan"
+      ]
     },
     {
       "id": "bo_song",
@@ -819,7 +974,16 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 3,
-      "sha256": "31a7efb31bcfd93fb29383d7d195382fafc714de9dd43eac6eeb95bf623f04d1"
+      "sha256": "31a7efb31bcfd93fb29383d7d195382fafc714de9dd43eac6eeb95bf623f04d1",
+      "keywords": [
+        "bờ sông",
+        "bến",
+        "bến đò",
+        "ven sông",
+        "sông luộc",
+        "bến nước",
+        "mép nước"
+      ]
     },
     {
       "id": "gieng_lang",
@@ -884,7 +1048,15 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 4,
-      "sha256": "4eca9a7583871f5dfef73d19c2b6a220cddbcff24a02f0da8d51a755188866b3"
+      "sha256": "4eca9a7583871f5dfef73d19c2b6a220cddbcff24a02f0da8d51a755188866b3",
+      "keywords": [
+        "giếng",
+        "giếng làng",
+        "giếng nước",
+        "gàu",
+        "múc nước",
+        "đáy giếng"
+      ]
     },
     {
       "id": "bui_tre_chuoi",
@@ -950,7 +1122,16 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 4,
-      "sha256": "a906e7e713fa115a0c99e0f0263edf38d5c731268db27405131e58bb8a1c975d"
+      "sha256": "a906e7e713fa115a0c99e0f0263edf38d5c731268db27405131e58bb8a1c975d",
+      "keywords": [
+        "bụi tre",
+        "bụi chuối",
+        "rặng chuối",
+        "rặng tre",
+        "lùm cây",
+        "vườn chuối",
+        "tre"
+      ]
     },
     {
       "id": "truong_bo_hoang",
@@ -1015,7 +1196,15 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 4,
-      "sha256": "6bf836371a206115d8a617736c936bb269b943348c369354a9018c221ff77be0"
+      "sha256": "6bf836371a206115d8a617736c936bb269b943348c369354a9018c221ff77be0",
+      "keywords": [
+        "trường",
+        "trường học",
+        "lớp học",
+        "trường bỏ hoang",
+        "phòng học",
+        "sân trường"
+      ]
     },
     {
       "id": "nha_hoang",
@@ -1080,7 +1269,14 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 4,
-      "sha256": "23073e1c647c32bd3b494e6b59f009621d9ef899388ef0117c116dcf9607068f"
+      "sha256": "23073e1c647c32bd3b494e6b59f009621d9ef899388ef0117c116dcf9607068f",
+      "keywords": [
+        "nhà hoang",
+        "nhà bỏ hoang",
+        "căn nhà bỏ không",
+        "nhà trống",
+        "nhà hoang phế"
+      ]
     },
     {
       "id": "canh_dong_lua",
@@ -1145,7 +1341,16 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 4,
-      "sha256": "820fea4fc72cab739144b8b09d307c6895ac432217b9545af8b5fc6f29cab17d"
+      "sha256": "820fea4fc72cab739144b8b09d307c6895ac432217b9545af8b5fc6f29cab17d",
+      "keywords": [
+        "đồng lúa",
+        "cánh đồng",
+        "ruộng",
+        "bờ ruộng",
+        "lúa",
+        "đồng ruộng",
+        "gặt"
+      ]
     },
     {
       "id": "rap_dam_tang",
@@ -1210,7 +1415,17 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 3,
-      "sha256": "345da547aa2317541f70216a9207b1690770ae188c5ee67fe76ec28857c8cb60"
+      "sha256": "345da547aa2317541f70216a9207b1690770ae188c5ee67fe76ec28857c8cb60",
+      "keywords": [
+        "rạp",
+        "rạp đám tang",
+        "đám tang",
+        "lễ tang",
+        "phúng viếng",
+        "đưa tang",
+        "rạp tang",
+        "điếu"
+      ]
     },
     {
       "id": "nui",
@@ -1275,7 +1490,16 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 3,
-      "sha256": "b33ad9673bb5c0e97ad53695caeaa6473cb5a9551f717c25ad118c9ebacf1c60"
+      "sha256": "b33ad9673bb5c0e97ad53695caeaa6473cb5a9551f717c25ad118c9ebacf1c60",
+      "keywords": [
+        "núi",
+        "rừng",
+        "đồi",
+        "sườn núi",
+        "đỉnh núi",
+        "khe núi",
+        "trên núi"
+      ]
     },
     {
       "id": "chua",
@@ -1340,7 +1564,16 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 3,
-      "sha256": "47105d3954c51a0b4dc93fef8202789d897a6012ac6789e26977ce17a58b7e7c"
+      "sha256": "47105d3954c51a0b4dc93fef8202789d897a6012ac6789e26977ce17a58b7e7c",
+      "keywords": [
+        "chùa",
+        "sư",
+        "thầy chùa",
+        "tượng phật",
+        "tụng kinh",
+        "chuông chùa",
+        "cửa phật"
+      ]
     },
     {
       "id": "nha_ve_sinh",
@@ -1405,7 +1638,15 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 4,
-      "sha256": "2e22a49f19a6eb46b447a8c20b7707d881e41383704a8061c1b5544ebe56c025"
+      "sha256": "2e22a49f19a6eb46b447a8c20b7707d881e41383704a8061c1b5544ebe56c025",
+      "keywords": [
+        "nhà vệ sinh",
+        "nhà xí",
+        "wc",
+        "toilet",
+        "sân sau",
+        "nhà tắm"
+      ]
     },
     {
       "id": "mieu_dinh",
@@ -1470,7 +1711,15 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 3,
-      "sha256": "8ae276ba4f5060fc374f336e374e52507c5efc70834c68761efb144a40bbb28d"
+      "sha256": "8ae276ba4f5060fc374f336e374e52507c5efc70834c68761efb144a40bbb28d",
+      "keywords": [
+        "miếu",
+        "đình",
+        "đình làng",
+        "miếu thờ",
+        "thành hoàng",
+        "am thờ"
+      ]
     },
     {
       "id": "song",
@@ -1536,7 +1785,17 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 3,
-      "sha256": "227b8665155641b88c95b1fb923e623fad42d23dd1f2bb23b2167d1f41f70a09"
+      "sha256": "227b8665155641b88c95b1fb923e623fad42d23dd1f2bb23b2167d1f41f70a09",
+      "keywords": [
+        "sông",
+        "con sông",
+        "dòng sông",
+        "thuyền",
+        "chiếc thuyền",
+        "mặt nước",
+        "đò",
+        "bến thuyền"
+      ]
     },
     {
       "id": "cay_da",
@@ -1602,7 +1861,14 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 4,
-      "sha256": "193a31554f7186c531307f8057c79761f014c8ab2af40643d67abbb0252f1c81"
+      "sha256": "193a31554f7186c531307f8057c79761f014c8ab2af40643d67abbb0252f1c81",
+      "keywords": [
+        "cây đa",
+        "gốc đa",
+        "đa đầu làng",
+        "rễ đa",
+        "bóng đa"
+      ]
     },
     {
       "id": "san_nha",
@@ -1667,7 +1933,14 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 4,
-      "sha256": "8c89650aac64b879636c11994c7087b32e1ab5989ffc64b46adeacf843e7526b"
+      "sha256": "8c89650aac64b879636c11994c7087b32e1ab5989ffc64b46adeacf843e7526b",
+      "keywords": [
+        "sân nhà",
+        "sân gạch",
+        "giữa sân",
+        "trước nhà",
+        "sân trước"
+      ]
     },
     {
       "id": "nha_bep",
@@ -1732,7 +2005,17 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 3,
-      "sha256": "1e9ca91c074b74de4e6140aa7935b7bea81f02281eb28639557e691b6e1ba04a"
+      "sha256": "1e9ca91c074b74de4e6140aa7935b7bea81f02281eb28639557e691b6e1ba04a",
+      "keywords": [
+        "bếp",
+        "nhà bếp",
+        "củi",
+        "nấu",
+        "bếp củi",
+        "gian bếp",
+        "bếp lửa",
+        "nấu ăn"
+      ]
     },
     {
       "id": "phong_ngu",
@@ -1797,7 +2080,15 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 3,
-      "sha256": "0aedbbda269cde9f411749ee1a5426af3db92a35c1c5ca67a8c76eb6672e42d5"
+      "sha256": "0aedbbda269cde9f411749ee1a5426af3db92a35c1c5ca67a8c76eb6672e42d5",
+      "keywords": [
+        "phòng ngủ",
+        "buồng",
+        "giường ngủ",
+        "trong buồng",
+        "đi ngủ",
+        "buồng ngủ"
+      ]
     },
     {
       "id": "phong_khach",
@@ -1862,7 +2153,15 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 3,
-      "sha256": "1e9e02b278e98871e5a87079f9bdcb2c6c7aa269f6b22f2ecd9eda78444e71e2"
+      "sha256": "1e9e02b278e98871e5a87079f9bdcb2c6c7aa269f6b22f2ecd9eda78444e71e2",
+      "keywords": [
+        "phòng khách",
+        "bộ bàn ghế",
+        "phòng ngoài",
+        "tiếp khách",
+        "ghế sofa",
+        "bàn trà"
+      ]
     },
     {
       "id": "nha_co_nha_tho_ho",
@@ -1928,7 +2227,16 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 3,
-      "sha256": "d7c3611b336e4bd30d570238bf96f578bb69a6425b961b950d62544dbf7daa21"
+      "sha256": "d7c3611b336e4bd30d570238bf96f578bb69a6425b961b950d62544dbf7daa21",
+      "keywords": [
+        "nhà cổ",
+        "nhà thờ họ",
+        "từ đường",
+        "nhà thờ",
+        "tổ đường",
+        "dòng họ",
+        "nhà gỗ cổ"
+      ]
     },
     {
       "id": "nha_cap_bon",
@@ -1993,7 +2301,14 @@
       "origin": "build_bg",
       "anchors_reviewed": true,
       "version": 4,
-      "sha256": "e876318d8e0dc4ad1fbbd79ade32ab143ad2afde22a0215f4cd3b267ca5fb988"
+      "sha256": "e876318d8e0dc4ad1fbbd79ade32ab143ad2afde22a0215f4cd3b267ca5fb988",
+      "keywords": [
+        "nhà cấp bốn",
+        "nhà mái ngói",
+        "ngôi nhà nhỏ",
+        "nhà tranh",
+        "nhà nghèo"
+      ]
     }
   ]
 }

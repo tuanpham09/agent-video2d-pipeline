@@ -217,6 +217,21 @@ def run_check() -> tuple[list[str], list[str], int]:
                 for k, val in v["params"].items():
                     if isinstance(val, str) and k in ("robe", "sleeve", "pants", "sash", "skin", "hair_color", "brow_color") and val not in base:
                         errs.append(f"rigs/archetypes.json {table}.{name}.{k}: token '{val}' không có trong palette")
+    cast = load_cast().get("cast", {})
+    if arch.exists():
+        for cid, c in cast.items():
+            rg = c.get("rig", {})
+            if rg.get("archetype") not in cat["archetypes"]:
+                errs.append(f"rigs/cast.json {cid}: archetype '{rg.get('archetype')}' không có")
+            if rg.get("outfit") and rg["outfit"] not in cat["outfits"]:
+                errs.append(f"rigs/cast.json {cid}: outfit '{rg['outfit']}' không có")
+            if not (LIB / c.get("sheet", "_")).exists():
+                errs.append(f"rigs/cast.json {cid}: thiếu pose sheet {c.get('sheet')} (R2.7/R10.4)")
+            if not c.get("keywords"):
+                errs.append(f"rigs/cast.json {cid}: thiếu keywords (agent không tra được)")
+    for e in idx["items"]:
+        if not e.get("keywords"):
+            warns.append(f"{e['id']}: chưa có keywords — `suggest` sẽ chỉ khớp theo tag/mô tả")
     return errs, warns, len(idx["items"])
 
 
@@ -261,14 +276,18 @@ def cmd_list(args) -> int:
         st = e.get("states") or e.get("light_states") or []
         rows.append((e["kind"], e["id"], f"v{e.get('version', '?')}", ",".join(st), ",".join(e.get("tags", [])), e["description"]))
     cat = json.loads((LIB / "rigs" / "archetypes.json").read_text(encoding="utf-8"))
-    if args.kind in (None, "archetype"):
-        for k, v in cat["archetypes"].items():
-            if not args.tag or args.tag == "rig":
-                rows.append(("archetype", k, "", "", "rig", v["description"]))
-    if args.kind in (None, "outfit"):
-        for k, v in cat["outfits"].items():
-            if not args.tag or args.tag == "rig":
-                rows.append(("outfit", k, "", "", "rig", v["description"]))
+    for kind, table in (("archetype", "archetypes"), ("outfit", "outfits")):
+        if args.kind in (None, kind):
+            for k, v in cat[table].items():
+                tags = ["rig"] + v.get("tags", [])
+                if not args.tag or args.tag in tags:
+                    rows.append((kind, k, "", "", ",".join(tags), v["description"]))
+    if args.kind in (None, "cast"):
+        for k, v in load_cast()["cast"].items():
+            tags = ["cast", "rig"] + v.get("tags", [])
+            if not args.tag or args.tag in tags:
+                rg = v["rig"]
+                rows.append(("cast", k, "", "", ",".join(tags), f"{v.get('role', '')} [{rg.get('archetype')}+{rg.get('outfit', '-')}; giọng gợi ý: {v.get('voice_hint')}; sheet: library/{v.get('sheet')}]"))
     if args.kind in (None, "palette"):
         for f in sorted((LIB / "palettes").glob("*.json")):
             d = json.loads(f.read_text(encoding="utf-8"))
@@ -294,6 +313,11 @@ def cmd_show(args) -> int:
         if args.id in cat[table]:
             print(json.dumps({table: {args.id: cat[table][args.id]}}, ensure_ascii=False, indent=2))
             return 0
+    cast = load_cast()["cast"]
+    if args.id in cast:
+        print(json.dumps({"cast": {args.id: cast[args.id]}}, ensure_ascii=False, indent=2))
+        print("sheet:", LIB / cast[args.id]["sheet"], "\nDán vào bible.characters[].rig:", json.dumps(cast[args.id]["rig"], ensure_ascii=False))
+        return 0
     print(f"Không có '{args.id}' trong library", file=sys.stderr)
     return 1
 
@@ -470,12 +494,224 @@ def cmd_promote(args) -> int:
     return 0
 
 
+# ---- cast (nhân vật đã dựng) + suggest ------------------------------------------
+
+CAST = LIB / "rigs" / "cast.json"
+
+
+def load_cast() -> dict:
+    if CAST.exists():
+        return json.loads(CAST.read_text(encoding="utf-8"))
+    return {"description": "Nhân vật ĐÃ DỰNG & ĐÃ DUYỆT dùng lại được: rig = archetype + outfit + tham số ghi đè (dán thẳng vào bible). Thêm bằng `library.py cast-add`.", "cast": {}}
+
+
+def cmd_cast_add(args) -> int:
+    proj = REPO / "projects" / args.project
+    bible = json.loads((proj / "script" / "bible.json").read_text(encoding="utf-8"))
+    ch = next((c for c in bible["characters"] if c["id"] == args.char), None)
+    if not ch or not ch.get("rig"):
+        print(f"LỖI: nhân vật '{args.char}' không có rig trong bible của {args.project}", file=sys.stderr)
+        return 1
+    sheet = proj / "assets" / "rig" / "sheets" / f"{args.char}.png"
+    if not sheet.exists():
+        print(f"LỖI: chưa có pose sheet {sheet} (R10.4) — chạy build_rig.py và duyệt trước", file=sys.stderr)
+        return 1
+    cat = json.loads((LIB / "rigs" / "archetypes.json").read_text(encoding="utf-8"))
+    rig = {k: v for k, v in ch["rig"].items() if k != "file"}
+    if rig.get("archetype") not in cat["archetypes"] or (rig.get("outfit") and rig["outfit"] not in cat["outfits"]):
+        print("LỖI: archetype/outfit của rig không có trong library/rigs/archetypes.json", file=sys.stderr)
+        return 1
+    cast = load_cast()
+    if args.id in cast["cast"] and not args.force:
+        print(f"LỖI: cast '{args.id}' đã có (R2.3: không đổi tên/xoá; dùng --force để cập nhật mô tả)", file=sys.stderr)
+        return 1
+    (LIB / "sheets" / "cast").mkdir(parents=True, exist_ok=True)
+    dst = LIB / "sheets" / "cast" / f"{args.id}.png"
+    dst.write_bytes(sheet.read_bytes())
+    cast["cast"][args.id] = {
+        "name": ch.get("name", args.char), "role": args.role, "age": args.age, "gender": args.gender,
+        "rig": rig, "voice_hint": ch.get("voice"), "mouth_shapes": ch.get("mouth_shapes"), "idle": ch.get("idle"),
+        "tags": [t for t in args.tags.split(",") if t], "keywords": [t for t in args.keywords.split(",") if t],
+        "sheet": f"sheets/cast/{args.id}.png", "source": {"project": args.project, "char": args.char},
+        "design": ch.get("design", ""),
+    }
+    CAST.write_text(json.dumps(cast, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(f"đã thêm cast '{args.id}' ← {args.project}:{args.char}; sheet → library/{cast['cast'][args.id]['sheet']}")
+    return 0
+
+
+# ---- suggest --------------------------------------------------------------------
+
+import math  # noqa: E402
+import re  # noqa: E402
+import unicodedata  # noqa: E402
+
+GENERIC_TAGS = {"bg-gen", "exterior", "interior", "vn-rural", "horror", "thiết lập", "toàn cảnh", "modern", "tool", "sfx-sync", "lighting", "furniture", "container", "ritual", "communication", "bedroom", "altar", "funeral"}
+
+
+def _nfc(s: str) -> str:
+    return unicodedata.normalize("NFC", s).lower()
+
+
+def _count(text: str, kw: str) -> int:
+    return len(re.findall(r"(?<!\w)" + re.escape(_nfc(kw)) + r"(?!\w)", text))
+
+
+def _kw_of(entry: dict) -> list[tuple[str, float]]:
+    """Từ khoá của một mục kèm trọng số: keywords (1.0), tags đặc thù (0.5), tên gọi đầu mô tả (1.5)."""
+    out: dict[str, float] = {}
+    for k in entry.get("keywords", []):
+        out[_nfc(k)] = max(out.get(_nfc(k), 0), 1.0)
+    for t in entry.get("tags", []):
+        if t not in GENERIC_TAGS and len(t) > 1:
+            out[_nfc(t)] = max(out.get(_nfc(t), 0), 0.3)
+    head = re.split(r"[:(,/]", entry.get("description", ""))[0].strip()
+    if head and len(head) > 2:
+        out[_nfc(head)] = max(out.get(_nfc(head), 0), 1.5)
+    return list(out.items())
+
+
+def _rank(items: list[dict], text: str, top: int) -> list[dict]:
+    """Xếp hạng mục theo số lần từ khoá xuất hiện; từ khoá dùng chung nhiều mục bị giảm trọng số (1/df)."""
+    df: dict[str, int] = {}
+    kws = {}
+    for e in items:
+        kws[e["id"]] = _kw_of(e)
+        for k, _ in kws[e["id"]]:
+            df[k] = df.get(k, 0) + 1
+    res = []
+    for e in items:
+        score, hits = 0.0, []
+        for k, w in kws[e["id"]]:
+            c = _count(text, k)
+            if c:
+                nw = 1 + 0.5 * (len(k.split()) - 1)
+                score += min(c, 4) * w * nw / df[k]
+                hits.append(f"{k}×{c}")
+        if score > 0:
+            res.append({"id": e["id"], "score": round(score, 2), "hits": hits})
+    res.sort(key=lambda r: -r["score"])
+    return res[:top]
+
+
+def _age_bucket(text: str) -> str | None:
+    m = re.search(r"(\d{1,3})\s*tuổi", text)
+    if not m:
+        return None
+    a = int(m.group(1))
+    return "child" if a <= 10 else "teen" if a <= 17 else "young_adult" if a <= 29 else "adult" if a <= 59 else "elder"
+
+
+def _gender(text: str) -> str | None:
+    t = _nfc(text)
+    f = sum(_count(t, w) for w in ("mẹ", "bà", "cô", "chị", "dì", "nữ", "bé gái", "thiếu nữ", "vợ", "con gái"))
+    m = sum(_count(t, w) for w in ("ông", "anh", "chú", "bố", "cha", "nam", "bé trai", "chồng", "con trai", "thầy"))
+    return "nữ" if f > m else "nam" if m > f else None
+
+
+def build_suggest(text_scenes: dict[str, str], bible: dict | None, top: int) -> dict:
+    idx = load_index()["items"]
+    props = [e for e in idx if e["kind"] == "prop"]
+    locs = [e for e in idx if e["kind"] == "location"]
+    cat = json.loads((LIB / "rigs" / "archetypes.json").read_text(encoding="utf-8"))
+    cast = load_cast()["cast"]
+    full = "\n".join(text_scenes.values())
+    declared_p = {p.get("lib") for p in (bible or {}).get("props", [])}
+    declared_l = {p.get("lib") for p in (bible or {}).get("locations", [])}
+    out: dict = {"scenes": {}, "props": [], "characters": [], "missing": []}
+    for sid, txt in text_scenes.items():
+        out["scenes"][sid] = [dict(r, in_bible=r["id"] in declared_l) for r in _rank(locs, txt, top)]
+    for r in _rank(props, full, 12):
+        sc = [sid for sid, txt in text_scenes.items() if any(_count(txt, h.rsplit("×", 1)[0]) for h in r["hits"])]
+        out["props"].append(dict(r, in_bible=r["id"] in declared_p, scenes=sc[:8], n_scenes=len(sc)))
+    arch = [dict(id=k, description=v["description"], tags=v.get("tags", []), keywords=v.get("keywords", [])) for k, v in cat["archetypes"].items()]
+    outf = [dict(id=k, description=v["description"], tags=v.get("tags", []), keywords=v.get("keywords", [])) for k, v in cat["outfits"].items()]
+    cast_items = [dict(id=k, description=v.get("role", ""), tags=v.get("tags", []), keywords=v.get("keywords", [])) for k, v in cast.items()]
+    for ch in (bible or {}).get("characters", []):
+        # chỉ dùng mô tả CỦA nhân vật: bỏ câu nhắc người khác ("chung giọng với Bà nội…") và nhân đôi tên để át nhiễu
+        sents = [x for x in re.split(r"(?<=[.;])\s+", str(ch.get("design", ""))) if not re.search(r"chung giọng|không được cùng|không chung cảnh", x, re.I)]
+        t = _nfc(" ".join([str(ch.get("name", ""))] * 2 + sents + [str(ch.get("status", "")), str(ch.get("role", ""))]))
+        age, gen = _age_bucket(t), _gender(t)
+        a_rank = _rank(arch, t, 3)
+        if age and gen:                                           # tuổi + giới tính nói rõ trong bible thắng điểm từ khoá
+            want = {"child": "child", "teen": "teen", "young_adult": "young_adult", "adult": "adult", "elder": "elder"}[age]
+            want = f"{want}_{'f' if gen == 'nữ' else 'm'}" if want not in ("child", "teen") else (want if gen == "nam" else want + "_f")
+            if want in cat["archetypes"]:
+                a_rank = [{"id": want, "score": 99, "hits": [f"{age} tuổi/{gen}"]}] + [r for r in a_rank if r["id"] != want][:2]
+        out["characters"].append({
+            "id": ch["id"], "name": ch.get("name"), "has_rig": bool(ch.get("rig")), "age": age, "gender": gen,
+            "cast": _rank(cast_items, t, 2), "archetype": a_rank, "outfit": _rank(outf, t, 2),
+        })
+    if not bible:                                              # chỉ có văn bản tự do: xếp hạng cast/archetype/outfit theo toàn văn
+        out["people"] = {"cast": _rank(cast_items, full, 5), "archetype": _rank(arch, full, 6), "outfit": _rank(outf, full, 4)}
+    lex = json.loads((LIB / "lexicon.json").read_text(encoding="utf-8"))["objects"] if (LIB / "lexicon.json").exists() else []
+    covered = [k for e in props + locs for k, _ in _kw_of(e)]
+    for term in lex:
+        n = _count(full, term)
+        if not n:
+            continue
+        t = _nfc(term)
+        if any(t == k or (len(k) >= 4 and k in t) or (len(t) >= 4 and t in k) for k in covered):
+            continue
+        out["missing"].append({"term": term, "count": n, "scenes": [sid for sid, txt in text_scenes.items() if _count(txt, term)][:6]})
+    out["missing"].sort(key=lambda r: -r["count"])
+    return out
+
+
+def cmd_suggest(args) -> int:
+    bible = None
+    if args.project:
+        proj = REPO / "projects" / args.project
+        script = json.loads((proj / "script" / "script.json").read_text(encoding="utf-8"))
+        bp = proj / "script" / "bible.json"
+        bible = json.loads(bp.read_text(encoding="utf-8")) if bp.exists() else None
+        scenes = {}
+        for sc in script["scenes"]:
+            scenes[sc["id"]] = _nfc(" ".join([sc.get("title", ""), sc.get("goal", ""), sc.get("visual", "")] + [l["text"] for l in sc.get("lines", [])]))
+    elif args.text:
+        scenes = {"TEXT": _nfc(args.text)}
+    else:
+        print("LỖI: cần --project <slug> hoặc --text \"…\"", file=sys.stderr)
+        return 2
+    res = build_suggest(scenes, bible, args.top if args.project else max(args.top, 6))
+    if args.json:
+        print(json.dumps(res, ensure_ascii=False, indent=2))
+        return 0
+    print("== BỐI CẢNH theo cảnh (★ = đã khai trong bible)")
+    for sid, rs in res["scenes"].items():
+        print(f"  {sid}: " + ("; ".join(f"{'★' if r['in_bible'] else ''}{r['id']} ({r['score']}: {', '.join(r['hits'][:4])})" for r in rs) or "— không khớp bối cảnh nào → xem mục THIẾU / tạo mới"))
+    print("== ĐẠO CỤ (★ = đã khai trong bible)")
+    for r in res["props"]:
+        print(f"  {'★' if r['in_bible'] else ' '}{r['id']:<16} {r['score']:>5}  {', '.join(r['hits'][:5])}  [{r['n_scenes']} cảnh: {','.join(r['scenes'][:5])}]")
+    print("== NHÂN VẬT")
+    if "people" in res:
+        for k, rs in res["people"].items():
+            print(f"  {k:<10} " + ("; ".join(f"{r['id']} ({r['score']}: {', '.join(r['hits'][:3])})" for r in rs) or "—"))
+    for c in res["characters"]:
+        cs = "; ".join(f"cast:{r['id']}({r['score']})" for r in c["cast"]) or "cast: —"
+        print(f"  {c['id']:<10} {'[có rig]' if c['has_rig'] else '[chưa rig]'} tuổi={c['age']} giới={c['gender']}  {cs}")
+        print(f"             archetype: {', '.join(f'{r['id']}({r['score']})' for r in c['archetype'])}   outfit: {', '.join(f'{r['id']}({r['score']})' for r in c['outfit']) or '—'}")
+    print("== THIẾU trong library (từ vựng có trong kịch bản nhưng không có asset nào khớp → cân nhắc tạo mới, R2.4)")
+    for r in res["missing"][:25]:
+        print(f"  {r['term']:<16} ×{r['count']}  ({','.join(r['scenes'])})")
+    if not res["missing"]:
+        print("  — không phát hiện")
+    print("Gợi ý chỉ theo từ khoá: người/agent xem lại trước khi gán `lib` vào bible.")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="Quản lý library/ dùng chung.")
     ap.add_argument("--root", default="projects", help="thư mục chứa project")
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("list"); p.add_argument("--kind"); p.add_argument("--tag"); p.add_argument("--json", action="store_true"); p.set_defaults(f=cmd_list)
     p = sub.add_parser("show"); p.add_argument("id"); p.set_defaults(f=cmd_show)
+    p = sub.add_parser("suggest", help="gợi ý asset có sẵn hợp kịch bản + liệt kê thứ còn thiếu")
+    p.add_argument("--project"); p.add_argument("--text"); p.add_argument("--top", type=int, default=3); p.add_argument("--json", action="store_true"); p.set_defaults(f=cmd_suggest)
+    p = sub.add_parser("cast-add", help="đưa nhân vật đã dựng của một project vào library/rigs/cast.json")
+    p.add_argument("--project", required=True); p.add_argument("--char", required=True); p.add_argument("--id", required=True)
+    p.add_argument("--role", default=""); p.add_argument("--age", default=""); p.add_argument("--gender", default="")
+    p.add_argument("--tags", default=""); p.add_argument("--keywords", default=""); p.add_argument("--force", action="store_true"); p.set_defaults(f=cmd_cast_add)
     sub.add_parser("check").set_defaults(f=cmd_check)
     sub.add_parser("reindex").set_defaults(f=cmd_reindex)
     sub.add_parser("sheet").set_defaults(f=cmd_sheet)

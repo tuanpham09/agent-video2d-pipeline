@@ -79,3 +79,9 @@
 - Test `test_roadmap_v3.py` TẤT CẢ QUA (giới hạn khớp cả hai tay, dải tuỳ biến, grip trong index); `library.py check` 0 lỗi.
 - Ảnh đã XEM: `.agents/skills/video-pipeline/references/review/ik-grip-sh008-contact.jpg` — người cho cầm mép phải mâm, host cầm mép trái, mâm ở giữa hai tay, hết beat hai tay về pose cũ; mâm dừng ở hông host sau khi nhận (hơi lơ lửng trước bụng).
 - Chưa kiểm: nắm đèn dầu thật (`oil_lamp`, vị trí grip a=(0.5,0.85) chỉ ước theo ảnh SVG, chưa thử trong cảnh), SFX, render mp4, `hyperframes check`, shotlist thật.
+
+### 2026-11-25 — Chỉ mục rig + `library.py suggest`
+- Thêm `keywords`/`tags` cho 10 đạo cụ, 25 bối cảnh, 11 archetype, 9 outfit; `library/rigs/cast.json` (5 nhân vật đã dựng: host, ông Cửu, mẹ, bà nội, thần trùng) + `library/sheets/cast/*.png` + `cast-lineup.png`; `library/lexicon.json`. Lệnh mới: `cast-add`, `suggest`; `list --kind cast`, `--tag` lọc được archetype/outfit/cast; `check` kiểm cast (archetype/outfit/sheet/keywords).
+- Test `test_roadmap_v3.py` TẤT CẢ QUA (9 ca mới). Thử `suggest --text` với truyện KHÁC (cô gái, bà cụ, nghĩa địa, bờ sông…): gợi ý đúng 4 bối cảnh, 3 đạo cụ, cast bà cụ + bóng ma, archetype `young_adult_f`, và báo THIẾU `gương`, `búp bê`.
+- Ảnh đã XEM: `library/sheets/cast/thay_cung_ong_gia.png` (pose sheet ông Cửu đủ biểu cảm/pose/góc nhìn/hành động; ảnh rất dài 3072×9768) và `library/sheets/cast-lineup.png` (5 nhân vật). Lỗi thấy khi chạy: ban đầu "mẹ" bị gợi ý `elder_f` vì câu "Chung giọng… với Bà nội" → lọc câu nhắc người khác; "tang" làm rạp đám tang vượt gian thờ ở S01 → hạ trọng số tag.
+- Chưa kiểm: `suggest` trên kịch bản thứ hai thật (mới thử một đoạn văn); chất lượng với kịch bản dài hơn/khác thể loại; cast chưa có nhân vật trẻ em/thiếu niên (archetype có nhưng chưa dựng+duyệt).

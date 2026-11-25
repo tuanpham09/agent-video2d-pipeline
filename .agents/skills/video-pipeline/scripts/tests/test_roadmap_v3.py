@@ -973,6 +973,37 @@ def test_ik_reach() -> None:
         ok("reach: prop không có trong shot bị E12", code == 1 and "reach.to.prop" in out, out[-300:])
 
 
+def test_library_suggest() -> None:
+    print("library: cast + suggest")
+    sys.path.insert(0, str(SCRIPTS))
+    import library as lib
+    txt = ("Đêm khuya, cô gái trẻ cầm đèn dầu đi qua nghĩa địa rồi ra bờ sông. Một bà cụ ngồi dưới cây đa, tay cầm chiếc gương "
+           "và cái búp bê. Con ma hiện ra sau bụi tre. Cô chạy về nhà cấp bốn, thắp nhang trên bàn thờ.")
+    r = lib.build_suggest({"TEXT": lib._nfc(txt)}, None, 6)
+    locs = [x["id"] for x in r["scenes"]["TEXT"]]
+    ok("suggest: văn bản mới -> bối cảnh nghĩa địa, bờ sông, cây đa, nhà cấp bốn", {"nghia_dia", "bo_song", "cay_da", "nha_cap_bon"} <= set(locs), str(locs))
+    ok("suggest: đạo cụ đèn dầu, nhang, bàn thờ", {"oil_lamp", "incense_burner", "ancestral_altar"} <= {x["id"] for x in r["props"]})
+    miss = {x["term"] for x in r["missing"]}
+    ok("suggest: phát hiện đồ CHƯA có trong library (gương, búp bê)", {"gương", "búp bê"} <= miss, str(miss))
+    ok("suggest: gợi ý cast bà cụ + bóng ma, archetype cô gái trẻ",
+       {"ba_cu_nau_song", "bong_den_mat_trang"} <= {x["id"] for x in r["people"]["cast"]} and r["people"]["archetype"][0]["id"] == "young_adult_f", str(r["people"]))
+    proj = REPO / "projects" / "than-trung-chiec-khan-tang-thu-32"
+    sc = json.loads((proj / "script" / "script.json").read_text(encoding="utf-8"))["scenes"]
+    texts = {x["id"]: lib._nfc(" ".join([x.get("title", ""), x.get("goal", ""), x.get("visual", "")] + [l["text"] for l in x["lines"]])) for x in sc}
+    bible = json.loads((proj / "script" / "bible.json").read_text(encoding="utf-8"))
+    r2 = lib.build_suggest(texts, bible, 3)
+    ok("suggest S01: gian thờ nằm trong top 3 bối cảnh", "house_altar_room" in [x["id"] for x in r2["scenes"]["S01"]])
+    ch = {c["id"]: c for c in r2["characters"]}
+    ok("suggest: ông Cửu (84 tuổi) -> elder_m; bà nội -> elder_f; mẹ -> adult_f (không bị nhiễu bởi câu nhắc người khác)",
+       ch["ong_cuu"]["archetype"][0]["id"] == "elder_m" and ch["ba_noi"]["archetype"][0]["id"] == "elder_f" and ch["me"]["archetype"][0]["id"] == "adult_f",
+       str({k: ch[k]["archetype"][0]["id"] for k in ("ong_cuu", "ba_noi", "me")}))
+    ok("suggest: nhân vật chưa có rig (chu_hai) vẫn được gợi ý archetype", ch["chu_hai"]["archetype"][0]["id"] == "adult_m" and not ch["chu_hai"]["has_rig"])
+    cast = lib.load_cast()["cast"]
+    ok("cast: 5 nhân vật đã dựng, đều có sheet và keywords", len(cast) >= 5 and all((lib.LIB / c["sheet"]).exists() and c["keywords"] for c in cast.values()))
+    errs, _w, _n = lib.run_check()
+    ok("library check (kể cả cast/keywords) 0 lỗi", not errs, str(errs[:2]))
+
+
 def main() -> int:
     test_timing_lib()
     test_check_shots()
@@ -982,6 +1013,7 @@ def main() -> int:
     test_actions()
     test_combos_autoface()
     test_ik_reach()
+    test_library_suggest()
     test_schemas()
     test_check_audio()
     test_check_sync()

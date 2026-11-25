@@ -162,7 +162,7 @@ Script này **chỉ đo lời**. "Đổi tên + đổi từ nhưng giữ nguyên
 
 Thứ tự bắt buộc:
 
-1. **Tra thư viện (R2.1).** `library.py list [--kind prop|location|archetype|outfit] [--tag ...]`, `library.py show <id>`. Xem `library/sheets/props.png`, `locations.png` để chọn bằng mắt.
+1. **Tra thư viện (R2.1).** Bắt đầu bằng `library.py suggest --project <slug>` (hoặc `--text "…"`): gợi ý bối cảnh theo cảnh, đạo cụ, cast/archetype/outfit cho từng nhân vật và danh sách đồ còn THIẾU (cần tạo mới, R2.4). Sau đó tra chi tiết: `library.py list [--kind prop|location|archetype|outfit|cast] [--tag ...]`, `library.py show <id>`. Xem `library/sheets/props.png`, `locations.png` để chọn bằng mắt.
 2. **Gán vào bible.** Nhân vật: `rig.archetype` + `rig.outfit` (+ ghi đè rời). Bối cảnh/đạo cụ: trường `lib` = id trong library, `states`/`light_states` ⊆ trạng thái của asset.
 3. **Chốt phiên bản (R2.2).** `library.py use --project <slug> <id>...` → chép vào `assets/props|bg/` kèm palette đã nhúng, ghi `assets/LIBRARY.lock.json`.
 4. **Dựng rig.** `build_rig.py --bible ... --out projects/<slug>/assets/rig` → `<id>.svg`, `<id>.rig.json` (pivot, trạng thái), `sheets/<id>.png`, `sheets/lineup.png`; tự kiểm tràn khung và token màu lạ.

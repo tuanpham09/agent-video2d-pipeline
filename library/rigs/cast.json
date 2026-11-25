@@ -1,0 +1,244 @@
+{
+  "description": "Nhân vật ĐÃ DỰNG & ĐÃ DUYỆT dùng lại được: rig = archetype + outfit + tham số ghi đè (dán thẳng vào bible). Thêm bằng `library.py cast-add`.",
+  "cast": {
+    "nam_tre_do_tang": {
+      "name": "Đỗ Văn Lâm (Người kể)",
+      "role": "Người kể chuyện/nhân vật chính nam 30 tuổi mặc đồ tang, có sẹo lông mày",
+      "age": "31",
+      "gender": "nam",
+      "rig": {
+        "archetype": "adult_m",
+        "outfit": "mourning",
+        "scar": "l"
+      },
+      "voice_hint": "Đức Trí",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.6,
+        "blink_s": [
+          2.5,
+          5.5
+        ],
+        "seed": 31
+      },
+      "tags": [
+        "nam",
+        "trưởng thành",
+        "tang",
+        "người kể"
+      ],
+      "keywords": [
+        "người kể",
+        "anh",
+        "tôi",
+        "kỹ sư",
+        "con trai",
+        "đồ tang",
+        "sẹo",
+        "nam chính",
+        "trưởng nam"
+      ],
+      "sheet": "sheets/cast/nam_tre_do_tang.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "host"
+      },
+      "design": "31 tuổi, kỹ sư cầu đường ở Sài Gòn (nguồn). Tóc đen ngắn; sẹo nhỏ trên lông mày trái (nguồn: sẹo trên lông mày, bên trái là chọn thiết kế); đồ tang áo xô trắng ngà (đề xuất thiết kế); khăn tang có thể tháo (prop khan_xo)."
+    },
+    "thay_cung_ong_gia": {
+      "name": "Ông Cửu (Thầy nhốt trùng)",
+      "role": "Ông già thầy cúng/thầy pháp: khăn xếp, áo the, râu dê, mắt đục",
+      "age": "84",
+      "gender": "nam",
+      "rig": {
+        "archetype": "elder_m",
+        "outfit": "ao_the_indigo",
+        "beard": true,
+        "cloudy_eye": "l"
+      },
+      "voice_hint": "Thiền Tâm Đức",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.0,
+        "blink_s": [
+          3.0,
+          6.5
+        ],
+        "seed": 84
+      },
+      "tags": [
+        "nam",
+        "già",
+        "thầy cúng",
+        "truyền thống"
+      ],
+      "keywords": [
+        "thầy cúng",
+        "thầy mo",
+        "ông cụ",
+        "thầy pháp",
+        "khăn xếp",
+        "áo the",
+        "râu dê",
+        "ông già",
+        "ông cửu",
+        "thầy"
+      ],
+      "sheet": "sheets/cast/thay_cung_ong_gia.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "ong_cuu"
+      },
+      "design": "84 tuổi, mắt trái đục (nguồn). Khăn xếp đen, râu dê bạc, áo the thâm (đề xuất thiết kế). Prop đi kèm: hũ sành bịt vải đỏ."
+    },
+    "nu_trung_nien_do_tang": {
+      "name": "Người Mẹ",
+      "role": "Người phụ nữ trung niên mặc đồ tang, tóc búi",
+      "age": "trung niên",
+      "gender": "nữ",
+      "rig": {
+        "archetype": "adult_f",
+        "outfit": "mourning"
+      },
+      "voice_hint": "Kim Thanh",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.4,
+        "blink_s": [
+          2.5,
+          5.0
+        ],
+        "seed": 52
+      },
+      "tags": [
+        "nữ",
+        "trung niên",
+        "tang"
+      ],
+      "keywords": [
+        "mẹ",
+        "má",
+        "người mẹ",
+        "vợ",
+        "bà mẹ",
+        "phụ nữ trung niên",
+        "đồ tang"
+      ],
+      "sheet": "sheets/cast/nu_trung_nien_do_tang.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "me"
+      },
+      "design": "Trung niên (tuổi cụ thể chưa có trong nguồn). Tóc đen búi, đồ tang áo xô, khăn tang (đề xuất thiết kế). Chung giọng Kim Thanh với Bà nội: hai người không được cùng nói trong một cảnh."
+    },
+    "ba_cu_nau_song": {
+      "name": "Bà nội",
+      "role": "Bà cụ lưng còng, tóc bạc búi, áo nâu sồng (nhà quê)",
+      "age": "89",
+      "gender": "nữ",
+      "rig": {
+        "archetype": "elder_f",
+        "outfit": "nau_song"
+      },
+      "voice_hint": "Kim Thanh",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 2.8,
+        "blink_s": [
+          3.0,
+          6.0
+        ],
+        "seed": 89
+      },
+      "tags": [
+        "nữ",
+        "già",
+        "nông thôn"
+      ],
+      "keywords": [
+        "bà nội",
+        "bà cụ",
+        "bà ngoại",
+        "bà già",
+        "cụ bà",
+        "bà",
+        "giã trầu",
+        "lưng còng"
+      ],
+      "sheet": "sheets/cast/ba_cu_nau_song.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "ba_noi"
+      },
+      "design": "89 tuổi (nguồn: bà cụ 89 tuổi giã trầu), lưng còng, tóc bạc búi, áo nâu sồng (theo preview đã có). Prop đi kèm: cối giã trầu. Đã mất lúc 3:40 chiều: xuất hiện qua cuộc gọi video / hồi tưởng / hình bóng."
+    },
+    "bong_den_mat_trang": {
+      "name": "Thần Trùng",
+      "role": "Bóng đen không mặt, mắt trắng đồng tử đỏ, khăn tang rách (ma/thần trùng)",
+      "age": "",
+      "gender": "",
+      "rig": {
+        "archetype": "spirit_shadow"
+      },
+      "voice_hint": "Thiện Minh",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 4.5,
+        "blink_s": [
+          4.0,
+          9.0
+        ],
+        "seed": 666
+      },
+      "tags": [
+        "ma",
+        "bóng đen",
+        "siêu nhiên",
+        "kinh dị"
+      ],
+      "keywords": [
+        "ma",
+        "bóng ma",
+        "bóng đen",
+        "hồn",
+        "oan hồn",
+        "quỷ",
+        "thần trùng",
+        "trùng",
+        "âm hồn",
+        "con ma"
+      ],
+      "sheet": "sheets/cast/bong_den_mat_trang.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "than_trung"
+      },
+      "design": "Bóng đen không có mặt thật, khăn tang trắng rách buộc đầu, mắt trắng đồng tử đỏ, miệng ngoác rộng (theo bản preview shot 8). Nguồn: Trùng 'không có mặt, soi vào đâu học mặt người đó'."
+    }
+  }
+}

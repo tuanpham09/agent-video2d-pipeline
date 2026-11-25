@@ -19,7 +19,8 @@ Công cụ: `.agents/skills/video-pipeline/scripts/library.py` (`list`, `show`, 
 
 | Loại | id |
 | --- | --- |
-| Archetype | `adult_m`, `adult_f`, `elder_m`, `elder_f`, `teen`, `child`, `spirit_shadow` |
+| Archetype | `adult_m`, `adult_f`, `young_adult_m`, `young_adult_f`, `elder_m`, `elder_f`, `teen`, `teen_f`, `child`, `child_f`, `spirit_shadow` |
+| Cast (nhân vật đã dựng) | `nam_tre_do_tang`, `thay_cung_ong_gia`, `nu_trung_nien_do_tang`, `ba_cu_nau_song`, `bong_den_mat_trang` (xem `sheets/cast-lineup.png`, từng pose sheet ở `sheets/cast/`) |
 | Outfit | `mourning`, `ao_the_indigo`, `nau_song`, `plain_light` |
 | Đạo cụ | `candle`, `oil_lamp`, `incense_burner`, `ancestral_altar`, `clay_jar`, `betel_mortar`, `bamboo_bed`, `bamboo_tray`, `mourning_cloth`, `smartphone` |
 | Bối cảnh (vẽ tay) | `house_altar_room`, `village_yard_night`, `veranda_night` |
@@ -109,3 +110,9 @@ Generator lấy mẫu FK bàn tay mỗi 1/24 s và tween đạo cụ theo đúng
 - Ghi đè theo beat: `"limits":{"up":[-85,4],"fore":[-50,0]}` trong `reach` / `hand_over` (ví dụ dải cầm đèn dầu).
 - **Điểm nắm** (`grip` trong `library/index.json`, chỉ THÊM — R2.3): `{"a":[fx,fy],"b":[fx,fy]}` là phân số 0..1 của hộp đạo cụ; a = mép trái, b = mép phải (b mặc định = a). `bamboo_tray`: a=(0.1,0.68), b=(0.9,0.68); `oil_lamp`: a=(0.5,0.85) (phần bầu dầu). Thiếu `grip` → nắm tâm.
 - `hand_over`: người cho cầm mép phía mình, người nhận cầm mép đối diện; điểm gặp được chọn để cả hai tay duỗi vừa phải (không gập sát ngực — vì giới hạn khớp chặn). `reach` tới `{"prop":…}` với tới điểm nắm a.
+
+## Tra cứu nhanh: `suggest` và cast
+- `rigs/cast.json`: **nhân vật đã dựng và đã duyệt** (rig = archetype + outfit + tham số ghi đè, giọng gợi ý, pose sheet `sheets/cast/<id>.png`, `keywords`, `tags`). `library.py list --kind cast`, `show <id>` (in sẵn đoạn `rig` để dán vào bible). Thêm bằng `cast-add` (cần pose sheet, R10.4). Chỉ thêm, không đổi tên (R2.3).
+- Mọi đạo cụ, bối cảnh, archetype, outfit, cast có `keywords` (từ/cụm từ tiếng Việt hay gặp trong kịch bản) và `tags` để máy khớp.
+- `library.py suggest --project <slug>` | `--text "…"` [`--json`]: đếm từ khoá trong kịch bản rồi xếp hạng — bối cảnh THEO TỪNG CẢNH (★ = đã khai trong bible), đạo cụ toàn phim, cast/archetype/outfit cho từng nhân vật (tuổi + giới tính ghi trong bible thắng điểm từ khoá), và **THIẾU**: từ vựng trong `lexicon.json` có trong kịch bản nhưng chưa asset nào khớp → cân nhắc tạo mới (R2.4).
+- Giới hạn đã biết: chỉ khớp theo từ khoá (không hiểu ngữ cảnh); từ chung như "nhà", "tang", "ma" có trọng số thấp nhưng vẫn gây nhiễu — luôn xem lại trước khi gán `lib`. `lexicon.json` là danh sách do người viết nên chưa bao quát. Cast hiện chỉ gồm 5 nhân vật của một project (mới chứng minh khớp với chính project đó và với một đoạn văn thử).

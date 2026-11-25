@@ -70,8 +70,11 @@ Rig, đạo cụ, bối cảnh, palette làm một lần, dùng cho mọi projec
 L=.agents/skills/video-pipeline/scripts/library.py
 python $L list                          # tất cả: archetype, outfit, prop, location, palette
 python $L list --kind prop --tag altar  # lọc
+python $L list --kind cast               # nhân vật ĐÃ DỰNG + ĐÃ DUYỆT (kèm pose sheet, giọng gợi ý): dán rig vào bible
+python $L suggest --project <slug>       # gợi ý asset có sẵn hợp kịch bản + đồ còn thiếu (hoặc --text "…")
 python $L show candle                   # trạng thái, slot, pivot, scale gợi ý
 python $L use --project <slug> candle ancestral_altar house_altar_room   # chép có khoá phiên bản
+python $L cast-add --project <slug> --char <id> --id <cast_id> --role "…" --tags a,b --keywords x,y   # đưa nhân vật đã duyệt vào kho
 python $L check                         # phải 0 lỗi trước khi commit library/
 python $L sheet                         # render library/sheets/*.png để duyệt bằng mắt
 python $L promote --project <slug> --kind prop --id <id> --file assets/props/<id>.svg --states a,b --tags x,y --desc "..."
