@@ -115,8 +115,9 @@ Hai lỗi gặp khi thử, đừng lặp lại:
 
 ## 7. Chưa kiểm / chưa có (nói thẳng)
 
-- **[chưa kiểm]** `smartphone`, `clay_jar`, `betel_mortar`, `bamboo_bed`, `ancestral_altar` (`covered`/`blank`) chỉ xem ở `library/sheets/props.png`; chưa đặt vào shot thật hay render mp4 để xem nhịp đổi state.
-- **[chưa kiểm]** `hand_over` mâm khăn/đèn dầu trong video thật; điểm nắm `oil_lamp` chỉ ước lượng từ hình.
+- **[đã kiểm trong mp4 draft 2026-11-26, 46 s, khung trích từ chính file mp4]** `smartphone` (`off → ringing → call`, đặt ở `stand:R` trên sàn; glow đổi rõ, nhân vật quay sang nhìn), `candle` (`lit → low → out` có khói), `reach` tới nến, `hand_over` mâm tre giữa hai người (xem `shotlist-guide.md` mục 3.4 về hai cách dùng đúng). Điện thoại nằm sàn nên nhân vật **không thể "bắt máy" bằng tay** (reach tới sàn trượt đích): chỉ diễn bằng nét mặt + state.
+- **[chưa kiểm]** `clay_jar`, `betel_mortar`, `bamboo_bed`, `ancestral_altar` (`covered`/`blank`) chỉ xem ở `library/sheets/props.png`; chưa đặt vào shot thật hay render. `hand_over` đèn dầu chưa thử; điểm nắm `oil_lamp` chỉ ước lượng từ hình.
+- **[chưa kiểm]** giọng đọc: bản dựng thử không có `audio/voiceover.wav` (file sinh, không commit) nên video chỉ có SFX; khớp SFX với hình ±0,15 s mới được kiểm bằng gate, chưa nghe.
 - Không có chuyển mờ giữa các state, không có tween di chuyển đạo cụ (trừ `hand_over`); đạo cụ muốn "bay"/"rơi" cần mở rộng generator (R10.6), không vá riêng một video.
 - `reach` chỉ với tới đích ở độ cao tay khi người đứng/ngồi nhìn thẳng (xem `shotlist-guide.md` mục 3.3, 7).
 - `check_motion.py` chỉ kiểm thao tác tường minh từ beat (xem `shotlist-guide.md` mục 7), không thấy hiệu ứng đổi state đạo cụ ngoài việc đếm là "beat vật lý có prop".

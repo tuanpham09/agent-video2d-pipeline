@@ -81,6 +81,11 @@ Ví dụ `visual` đủ 5 thành phần (S01_L07 của project mẫu, viết g�
 ```
 Cần `sfx` cạnh beat (R6.1, R11.5). `held: true` khi đạo cụ đã nằm trong tay người cho; nếu không, đạo cụ phải nằm trong tầm tay.
 
+**Đã dựng và render thử (2026-11-26, mp4 draft): hand_over chạy đúng khi dùng đúng cách.** Hai cách dùng đúng:
+- **Người cho đã cầm từ đầu shot:** đặt beat `hand_over` ở `t ≈ 0.02` với `held: true`. Generator đặt đạo cụ vào bàn tay nghỉ của người cho **ngay tại `t` của beat**; nếu beat ở giữa shot mà đạo cụ đang nằm sàn thì mâm sẽ **nhảy** từ sàn lên tay (đã gặp: mâm `stand:L` dưới sàn, `held: true` ở 2,9 s → nhảy). Chưa có cơ chế "cầm sẵn" tới giữa shot.
+- **Đạo cụ nằm trong tầm tay, `held: false`:** đặt đạo cụ ở độ cao tay trong tầm giữa hai người; không có mặt phẳng đỡ nên mâm sẽ **lơ lửng** trước khi được cầm. Chạy `check_shots` (E14) để dò chỗ đặt: nó báo "trượt đích N px"/"xa quá tầm tay" cho tới khi `dx`/`dy` hợp lệ.
+Kết quả quan sát trong video: người cho giơ mâm, hai tay gặp nhau ở giữa (khoảng 0,8 s), người nhận cầm mâm về tư thế nghỉ; người cho thả tay rồi với nến. Ví dụ beat đúng: `{"line_id":"S01_L07","t":0.02,"physical":true,"do":"mẹ đưa mâm cho Lâm","hand_over":{"prop":"mam_tre","from":"me","to":"host","dur":1.3,"held":true}}` + `sfx` `foley-wood-touch` tại 0,05 s; để người cho dùng tay còn lại với nến sau khi hand_over kết thúc (đừng chồng `reach` lên `hand_over` cùng tay).
+
 ### 3.5 Macro thường dùng
 `nghe_gat` (người nghe gật) · `giat_minh` · `so_hai` · `lo_lang` · `nhin_sang` · `chap_tay` · `chi_tay` · `ha_tay` · `di_toi` · `chay_toi` · `quy_xuong` · `quy_lay` · `dung_day` · `om_dau` · `ngat` · `cau_xin` · `vai_chao` · `trao_do`. Danh sách đầy đủ và tham số: `python .agents/skills/video-pipeline/scripts/behaviors.py list`. Thêm macro mới chỉ được **thêm**, không đổi tên/xoá.
 

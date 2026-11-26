@@ -13,7 +13,7 @@ Dùng:
   python ... --project projects/<slug> --shot SH008 --at 0.5,1.3,2.0                          # tự chọn mốc (giây trong shot)
   python ... --project projects/<slug> --shot SH008 --out /tmp/preview_sh008
 
-Ra: <out>/preview/<shot>_contact.jpg (ảnh ghép) + <out>/preview/<shot>_frames/*.png + <out>/preview/<shot>_legend.txt
+Ra: <out>/preview/<shot>_contact.jpg (ảnh ghép; nhiều khung thì _contact_1.jpg, _contact_2.jpg…) + <out>/preview/<shot>_frames/*.png + <out>/preview/<shot>_legend.txt
 (mốc ↔ mô tả beat). Lệnh in đường dẫn; agent phải mở ảnh xem rồi mới báo xong (R10.2). Không thay cho gate.
 Chưa kiểm: video/âm thanh thật (chỉ khung hình tĩnh, không phát chuyển động).
 """
@@ -111,7 +111,7 @@ def main() -> int:
         ["npx", "-y", HYPERFRAMES, "snapshot", "--at", ",".join(str(t) for t, _ in times)],
         cwd=out, env=env, capture_output=True, text=True, encoding="utf-8")
     text = snap.stdout + snap.stderr
-    m = re.search(r"(\S+/snapshots/[0-9a-f-]+)/contact-sheet\.jpg", text)
+    m = re.search(r"(\S+/snapshots/[0-9a-f-]+)/contact-sheet(?:-\d+)?\.jpg", text)
     if snap.returncode not in (0, 2) or not m:  # mã 2 = chỉ cảnh báo proxy trong môi trường cloud
         print(text.strip()[-1500:], file=sys.stderr)
         print("✗ hyperframes snapshot không ra ảnh", file=sys.stderr)
@@ -123,15 +123,20 @@ def main() -> int:
     frames.mkdir(parents=True, exist_ok=True)
     for p in snap_dir.glob("frame-*.png"):
         shutil.copy2(p, frames / p.name)
-    contact = prev / f"{args.shot}_contact.jpg"
-    shutil.copy2(snap_dir / "contact-sheet.jpg", contact)
+    sheets = sorted(snap_dir.glob("contact-sheet*.jpg"))  # nhiều khung → hyperframes tách contact-sheet-1.jpg, -2.jpg…
+    contacts = []
+    for i, sp in enumerate(sheets, 1):
+        dst = prev / (f"{args.shot}_contact.jpg" if len(sheets) == 1 else f"{args.shot}_contact_{i}.jpg")
+        shutil.copy2(sp, dst)
+        contacts.append(dst)
     legend = prev / f"{args.shot}_legend.txt"
     legend.write_text("\n".join(f"{i + 1}. {t:g}s — {lb}" for i, (t, lb) in enumerate(times)) + "\n", encoding="utf-8")
 
     print(f"shot {args.shot}: dài {dur:.2f}s, chụp {len(times)} khung")
     for i, (t, lb) in enumerate(times):
         print(f"  {i + 1}. {t:g}s — {lb}")
-    print(f"ẢNH GHÉP : {contact}")
+    for c in contacts:
+        print(f"ẢNH GHÉP : {c}")
     print(f"KHUNG LẺ : {frames}")
     print("→ MỞ ẢNH GHÉP XEM trước khi báo xong (R10.2); ghi vào báo cáo: 'Ảnh đã XEM: <đường dẫn> — thấy gì, lỗi đã sửa'.")
     return 0
