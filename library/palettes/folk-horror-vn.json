@@ -21,6 +21,17 @@
     "shadow_ink": "#000000",
     "shadow_eye": "#ffffff",
     "shadow_pupil": "#d01010",
-    "shadow_line": "#e8e4db"
+    "shadow_line": "#e8e4db",
+    "skin_ghost": "#bfc4c0",
+    "skin_drowned": "#8fa59a",
+    "hair_wet": "#141c1f",
+    "robe_ghost_white": "#d9d6cc",
+    "robe_ghost_grey": "#aeb0a8",
+    "robe_algae": "#3a4a3c",
+    "robe_algae_dark": "#27342c",
+    "algae": "#4f7a45",
+    "algae_dark": "#243a22",
+    "non_la": "#d8bf84",
+    "non_la_dark": "#9a8250"
   }
 }

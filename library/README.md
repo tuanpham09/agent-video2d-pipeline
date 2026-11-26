@@ -120,3 +120,9 @@ Generator lấy mẫu FK bàn tay mỗi 1/24 s và tween đạo cụ theo đúng
 
 ### Tham số rig thêm 2026-11-26
 `hair: "bob"` (tóc ngang vai), `mustache: true` (ria mép, màu tóc), `beard_color: <token>` (mặc định `hair_white`). Token mới: `hair_grey`, `brow_grey`.
+
+### Nhân vật chung (cast generic) 2026-11-26
+12 nhân vật dùng cho nhiều phim, nguồn ở `library/rigs/cast_src/bible.json` (không thuộc project nào): ma nữ áo trắng, ma da, hồn nam đồ tang, ma trẻ em, dân làng nam/nữ đội nón lá, ông lão, thanh niên, cô gái, bé trai, thiếu niên, thiếu nữ.
+- Dựng lại: `build_rig.py --bible library/rigs/cast_src/bible.json --out library/rigs/cast_src/build` (thư mục `build/` bị gitignore), xem pose sheet, rồi `library.py cast-add --src library --char <id> --id <id> --role ... --tags "a,b" --keywords "x,y"`.
+- Tham số rig mới: `hair: "long_loose"` (tóc xõa dài), `hair_over_face: true` (tóc rủ che nửa mặt), `weeds: true` (rong rêu bám tóc, token `algae`/`algae_dark`), `hat: "non-la"` (nón lá, token `non_la`/`non_la_dark`). Archetype `ghost_woman`, `ghost_drowned`; outfit `ao_trang_ma`, `rach_ma_da`, `nong_dan_non_la`, `ba_ba_non_la`. Token da/áo ma mới ở `palettes/folk-horror-vn.json`.
+- Ảnh tổng: `library/sheets/cast-lineup-generic.png`. Tuổi/vai là đề xuất thiết kế, chưa phải nguồn kịch bản.

@@ -318,6 +318,78 @@
         "âm hồn",
         "con ma"
       ]
+    },
+    "ghost_woman": {
+      "description": "Ma nữ áo trắng: da xám nhợt, tóc đen xõa dài rủ che nửa mặt, một mắt đục",
+      "params": {
+        "scale": 0.92,
+        "body_w": 88,
+        "hunch": 0,
+        "skin": "skin_ghost",
+        "hair": "long_loose",
+        "hair_color": "hair_black",
+        "wrinkles": 0,
+        "hair_over_face": true,
+        "cloudy_eye": "l"
+      },
+      "tags": [
+        "ma",
+        "nữ",
+        "siêu nhiên",
+        "kinh dị",
+        "oan hồn"
+      ],
+      "keywords": [
+        "ma nữ",
+        "nữ quỷ",
+        "ma áo trắng",
+        "cô gái áo trắng",
+        "bóng người đàn bà",
+        "hồn ma",
+        "oan hồn",
+        "tóc xõa",
+        "tóc dài che mặt",
+        "con ma",
+        "hồn",
+        "hồn ma nữ"
+      ]
+    },
+    "ghost_drowned": {
+      "description": "Ma da (người chết đuối): da xám xanh, tóc ướt rủ bám rong rêu, một mắt đục",
+      "params": {
+        "scale": 0.92,
+        "body_w": 88,
+        "hunch": 0.25,
+        "skin": "skin_drowned",
+        "hair": "long_loose",
+        "hair_color": "hair_wet",
+        "wrinkles": 1,
+        "brow_color": "hair_wet",
+        "weeds": true,
+        "hair_over_face": true,
+        "cloudy_eye": "r"
+      },
+      "tags": [
+        "ma",
+        "nước",
+        "siêu nhiên",
+        "kinh dị",
+        "chết đuối"
+      ],
+      "keywords": [
+        "ma da",
+        "ma nước",
+        "ma sông",
+        "ma giếng",
+        "người chết đuối",
+        "hồn chết đuối",
+        "chết đuối",
+        "dưới nước",
+        "rong rêu",
+        "con ma da",
+        "ma dưới sông",
+        "ma dưới giếng"
+      ]
     }
   },
   "outfits": {
@@ -508,6 +580,92 @@
         "người cày",
         "bác nông dân",
         "áo vải rêu"
+      ]
+    },
+    "ao_trang_ma": {
+      "description": "Áo dài trắng ngà cũ, xám ở tay (ma nữ, hồn)",
+      "params": {
+        "robe": "robe_ghost_white",
+        "sleeve": "robe_ghost_grey",
+        "pants": "robe_ghost_white"
+      },
+      "tags": [
+        "ma",
+        "siêu nhiên",
+        "áo trắng"
+      ],
+      "keywords": [
+        "áo trắng",
+        "áo dài trắng",
+        "váy trắng",
+        "đồ trắng",
+        "áo liệm"
+      ]
+    },
+    "rach_ma_da": {
+      "description": "Vải rách xanh rêu thấm nước (ma da, người chết đuối)",
+      "params": {
+        "robe": "robe_algae",
+        "sleeve": "robe_algae_dark",
+        "pants": "robe_algae_dark"
+      },
+      "tags": [
+        "ma",
+        "nước",
+        "rách"
+      ],
+      "keywords": [
+        "áo rách",
+        "vải rách",
+        "ướt sũng",
+        "quần áo ướt",
+        "rêu bám"
+      ]
+    },
+    "nong_dan_non_la": {
+      "description": "Áo vải rêu tối + nón lá (dân làng, nông dân đi đồng)",
+      "params": {
+        "robe": "robe_moss",
+        "sleeve": "robe_moss_dark",
+        "pants": "robe_brown_dark",
+        "hat": "non-la"
+      },
+      "tags": [
+        "nông thôn",
+        "nông dân",
+        "nón lá"
+      ],
+      "keywords": [
+        "nón lá",
+        "đội nón",
+        "nông dân",
+        "người đi đồng",
+        "dân làng",
+        "đi cấy",
+        "đi chợ"
+      ]
+    },
+    "ba_ba_non_la": {
+      "description": "Áo bà ba đỏ gạch + nón lá (phụ nữ làng)",
+      "params": {
+        "robe": "robe_brick",
+        "sleeve": "robe_brick_dark",
+        "pants": "robe_brown_dark",
+        "sash": "robe_brown",
+        "hat": "non-la"
+      },
+      "tags": [
+        "nữ",
+        "nông thôn",
+        "nón lá"
+      ],
+      "keywords": [
+        "nón lá",
+        "đội nón",
+        "áo bà ba",
+        "phụ nữ làng",
+        "đi chợ",
+        "gánh"
       ]
     }
   }

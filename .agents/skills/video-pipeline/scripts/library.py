@@ -506,13 +506,23 @@ def load_cast() -> dict:
 
 
 def cmd_cast_add(args) -> int:
-    proj = REPO / "projects" / args.project
-    bible = json.loads((proj / "script" / "bible.json").read_text(encoding="utf-8"))
+    if args.src == "library":  # nhân vật chung dựng sẵn ở library/rigs/cast_src (không thuộc project nào)
+        src_dir = LIB / "rigs" / "cast_src"
+        bible = json.loads((src_dir / "bible.json").read_text(encoding="utf-8"))
+        sheet = src_dir / "build" / "sheets" / f"{args.char}.png"
+        origin = {"library": "cast_src", "char": args.char}
+    else:
+        if not args.project:
+            print("LỖI: cần --project (hoặc --src library)", file=sys.stderr)
+            return 1
+        proj = REPO / "projects" / args.project
+        bible = json.loads((proj / "script" / "bible.json").read_text(encoding="utf-8"))
+        sheet = proj / "assets" / "rig" / "sheets" / f"{args.char}.png"
+        origin = {"project": args.project, "char": args.char}
     ch = next((c for c in bible["characters"] if c["id"] == args.char), None)
     if not ch or not ch.get("rig"):
-        print(f"LỖI: nhân vật '{args.char}' không có rig trong bible của {args.project}", file=sys.stderr)
+        print(f"LỖI: nhân vật '{args.char}' không có rig trong bible nguồn", file=sys.stderr)
         return 1
-    sheet = proj / "assets" / "rig" / "sheets" / f"{args.char}.png"
     if not sheet.exists():
         print(f"LỖI: chưa có pose sheet {sheet} (R10.4) — chạy build_rig.py và duyệt trước", file=sys.stderr)
         return 1
@@ -532,11 +542,11 @@ def cmd_cast_add(args) -> int:
         "name": ch.get("name", args.char), "role": args.role, "age": args.age, "gender": args.gender,
         "rig": rig, "voice_hint": ch.get("voice"), "mouth_shapes": ch.get("mouth_shapes"), "idle": ch.get("idle"),
         "tags": [t for t in args.tags.split(",") if t], "keywords": [t for t in args.keywords.split(",") if t],
-        "sheet": f"sheets/cast/{args.id}.png", "source": {"project": args.project, "char": args.char},
+        "sheet": f"sheets/cast/{args.id}.png", "source": origin,
         "design": ch.get("design", ""),
     }
     CAST.write_text(json.dumps(cast, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"đã thêm cast '{args.id}' ← {args.project}:{args.char}; sheet → library/{cast['cast'][args.id]['sheet']}")
+    print(f"đã thêm cast '{args.id}' ← {args.project or 'library'}:{args.char}; sheet → library/{cast['cast'][args.id]['sheet']}")
     return 0
 
 
@@ -709,7 +719,7 @@ def main() -> int:
     p = sub.add_parser("suggest", help="gợi ý asset có sẵn hợp kịch bản + liệt kê thứ còn thiếu")
     p.add_argument("--project"); p.add_argument("--text"); p.add_argument("--top", type=int, default=3); p.add_argument("--json", action="store_true"); p.set_defaults(f=cmd_suggest)
     p = sub.add_parser("cast-add", help="đưa nhân vật đã dựng của một project vào library/rigs/cast.json")
-    p.add_argument("--project", required=True); p.add_argument("--char", required=True); p.add_argument("--id", required=True)
+    p.add_argument("--project"); p.add_argument("--src", choices=["project", "library"], default="project"); p.add_argument("--char", required=True); p.add_argument("--id", required=True)
     p.add_argument("--role", default=""); p.add_argument("--age", default=""); p.add_argument("--gender", default="")
     p.add_argument("--tags", default=""); p.add_argument("--keywords", default=""); p.add_argument("--force", action="store_true"); p.set_defaults(f=cmd_cast_add)
     sub.add_parser("check").set_defaults(f=cmd_check)

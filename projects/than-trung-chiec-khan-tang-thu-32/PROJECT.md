@@ -125,3 +125,9 @@
 - Người dùng (phiên 2026-11-26) duyệt đề xuất thêm `reach`/`hand_over` vào R11.1 cùng các bước đi kèm. Đã sửa: `RULES.md` R11.1 (+ dòng Lịch sử, giữ phiên bản luật 2); mô tả E7 và thông báo lỗi E7 trong `check_shots.py`.
 - Kiểm: bản sao shotlist trong scratchpad, SH008 chỉ có `hand_over` me→host → E7 không báo lỗi; `hand_over` me→me → E7 báo host không có hành vi. `check_shots` vẫn 401 lỗi cũ (S02+ chưa có shot), `check_rules --phase demo` 0 lỗi, `test_roadmap_v3` qua.
 - Chưa kiểm: `reach`/`hand_over` vẫn chưa có trong shotlist thật.
+
+### 2026-11-26 — Nhân vật chung cho kho (todo #26, theo yêu cầu "ma da, ma, dân làng…")
+- Dựng 12 nhân vật chung ở `library/rigs/cast_src/` (ma nữ, ma da, hồn nam, ma trẻ em, 6 dân làng các lứa tuổi + 2 nón lá), thêm archetype/outfit/token/tham số rig (add-only, R2.3), `cast-add --src library`, đăng ký vào `library/rigs/cast.json` (nay 23 mục). Lý do tạo mới: kho chưa có ma da/ma nữ/dân làng nón lá.
+- Ảnh đã XEM: `library/rigs/cast_src/build/sheets/lineup.png` (12 nhân vật phân biệt được bằng bóng dáng và màu; ma tóc che mặt, ma da có rong rêu), pose sheet ma_da, ma_nu_ao_trang (đã sửa: một mắt đục), ma_tre_em, dan_lang_nam_non_la; lỗi đã sửa: ma nữ `cloudy_eye` đổi sang mắt hiển thị, rong rêu mảnh hơn.
+- Kiểm: `build_rig` 0 tổ hợp tràn khung; `library.py check` 0 lỗi; `test_roadmap_v3` qua; `check_rules --phase demo` 0 lỗi; `suggest` bắt đúng ma da/dân làng/ông lão theo từ khoá.
+- Chưa kiểm: hon_nam_do_tang, ong_lao_lang, thanh_nien_lang, co_gai_lang, be_trai_lang, thieu_nien_lang, thieu_nu_lang chỉ xem ở ảnh lineup, chưa xem từng pose sheet; chưa ghép vào cảnh thật; pose sheet của 12 nhân vật mới **chờ người dùng duyệt** (R3.7).

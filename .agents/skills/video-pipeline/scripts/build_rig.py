@@ -361,6 +361,12 @@ class Rig:
             out.append(f'<ellipse cx="{CX}" cy="205" rx="66" ry="70" fill="{hair}" stroke="{ink}" stroke-width="5"/>')
             out.append(f'<path d="M {CX - 62} 215 Q {CX - 72} 262 {CX - 56} 290 L {CX - 40} 268 Z" fill="{hair}" stroke="{ink}" stroke-width="5" stroke-linejoin="round"/>')
             out.append(f'<path d="M {CX + 62} 215 Q {CX + 72} 262 {CX + 56} 290 L {CX + 40} 268 Z" fill="{hair}" stroke="{ink}" stroke-width="5" stroke-linejoin="round"/>')
+        elif hair_style == "long_loose" and not hat:
+            # Tóc xõa dài buông qua vai (ma nữ, ma da, thiếu nữ để tóc xõa)
+            out.append(f'<ellipse cx="{CX}" cy="205" rx="66" ry="70" fill="{hair}" stroke="{ink}" stroke-width="5"/>')
+            for sg in (-1, 1):
+                out.append(f'<path class="hair-long hair-long-{"r" if sg < 0 else "l"}" d="M {CX + sg * 58} 196 Q {CX + sg * 90} 270 {CX + sg * 74} 346 '
+                           f'L {CX + sg * 40} 338 Q {CX + sg * 50} 272 {CX + sg * 44} 232 Z" fill="{hair}" stroke="{ink}" stroke-width="5" stroke-linejoin="round"/>')
         elif hair_style == "long_tied" and not hat:
             # Tóc nữ trẻ: búi củ tỏi cao gọn gàng + tóc mai buông nhẹ
             out.append(f'<ellipse cx="{CX}" cy="205" rx="62" ry="66" fill="{hair}" stroke="{ink}" stroke-width="5"/>')
@@ -373,7 +379,7 @@ class Rig:
         # mặt
         out.append(f'<ellipse class="face" cx="{CX}" cy="215" rx="58" ry="62" fill="{skin}" stroke="{ink}" stroke-width="6"/>')
         # tóc trước
-        if hair_style in ("short", "bun", "pigtails", "long_tied", "bob") and not hat:
+        if hair_style in ("short", "bun", "pigtails", "long_tied", "bob", "long_loose") and not hat:
             out.append(
                 f'<path class="hair-front" d="M {CX - 60} 206 Q {CX - 64} 148 {CX} 146 Q {CX + 64} 148 {CX + 60} 206 '
                 f'Q {CX + 42} 176 {CX} 174 Q {CX - 42} 176 {CX - 60} 206 Z" fill="{hair}" stroke="{ink}" stroke-width="5" stroke-linejoin="round"/>')
@@ -442,7 +448,26 @@ class Rig:
         # bóng tối phủ cả mặt (sau mắt/mày/miệng để mí mắt không nổi sáng hơn da)
         out.append(f'<ellipse class="shade" cx="{CX}" cy="215" rx="58" ry="62" fill="#000"/>')
         out.append("</g>")
+        if p.get("hair_over_face") and hair_style == "long_loose" and not hat:
+            # Mảng tóc rủ che nửa mặt (mắt phía người xem bên phải bị che)
+            out.append(f'<path class="hair-curtain" d="M {CX + 2} 168 Q {CX + 62} 172 {CX + 60} 242 Q {CX + 58} 266 {CX + 46} 278 '
+                       f'Q {CX + 34} 238 {CX + 2} 212 Z" fill="{hair}" stroke="{ink}" stroke-width="5" stroke-linejoin="round"/>')
+        if p.get("weeds"):
+            wc, wd = self.c("algae"), self.c("algae_dark")
+            for d in (f"M {CX - 48} 164 Q {CX - 70} 214 {CX - 58} 268", f"M {CX + 26} 150 Q {CX + 58} 196 {CX + 50} 246",
+                      f"M {CX - 8} 146 Q {CX - 20} 166 {CX - 14} 182"):
+                out.append(f'<path class="weed" d="{d}" stroke="{wd}" stroke-width="9" stroke-linecap="round" fill="none"/>'
+                           f'<path class="weed" d="{d}" stroke="{wc}" stroke-width="5" stroke-linecap="round" fill="none"/>')
         # mũ / khăn
+        if hat == "non-la":
+            nc, nd = self.c("non_la"), self.c("non_la_dark")
+            out.append(
+                f'<g class="hat">'
+                f'<path d="M {CX - 106} 190 Q {CX - 62} 150 {CX} 92 Q {CX + 62} 150 {CX + 106} 190 Q {CX} 206 {CX - 106} 190 Z" fill="{nc}" stroke="{ink}" stroke-width="5" stroke-linejoin="round"/>'
+                f'<path d="M {CX} 96 L {CX - 70} 192 M {CX} 96 L {CX - 36} 198 M {CX} 96 L {CX + 36} 198 M {CX} 96 L {CX + 70} 192" stroke="{nd}" stroke-width="3" fill="none" opacity="0.8"/>'
+                f'<path d="M {CX - 84} 188 Q {CX} 208 {CX + 84} 188" stroke="{nd}" stroke-width="4" fill="none"/>'
+                f'<path d="M {CX - 70} 192 Q {CX - 62} 250 {CX - 44} 282 M {CX + 70} 192 Q {CX + 62} 250 {CX + 44} 282" stroke="{ink}" stroke-width="4" fill="none"/>'
+                f'</g>')
         if hat == "khan-xep":
             hc = self.c("robe_indigo_dark")
             out.append(

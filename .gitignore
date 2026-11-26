@@ -94,3 +94,6 @@ desktop.ini
 *.sublime-workspace
 projects/**
 sfx/**
+
+# Nhân vật chung của library: file dựng (rig svg, sheet) sinh lại được từ library/rigs/cast_src/bible.json
+library/rigs/cast_src/build/
