@@ -49,6 +49,25 @@
           5.6
         ],
         "seed": 101
+      },
+      "cast": {
+        "role": "ma nữ áo trắng",
+        "age": "",
+        "gender": "nữ",
+        "tags": [
+          "ma",
+          "horror",
+          "generic",
+          "female"
+        ],
+        "keywords": [
+          "ma nữ",
+          "ma",
+          "hồn",
+          "áo trắng",
+          "tóc xõa",
+          "oan hồn"
+        ]
       }
     },
     {
@@ -74,6 +93,24 @@
           5.6
         ],
         "seed": 102
+      },
+      "cast": {
+        "role": "ma da (chết đuối)",
+        "age": "",
+        "gender": "",
+        "tags": [
+          "ma",
+          "horror",
+          "generic",
+          "water"
+        ],
+        "keywords": [
+          "ma da",
+          "chết đuối",
+          "sông",
+          "rong rêu",
+          "ao hồ"
+        ]
       }
     },
     {
@@ -102,6 +139,25 @@
           5.6
         ],
         "seed": 103
+      },
+      "cast": {
+        "role": "hồn nam đồ tang",
+        "age": "",
+        "gender": "nam",
+        "tags": [
+          "ma",
+          "horror",
+          "generic",
+          "male",
+          "funeral"
+        ],
+        "keywords": [
+          "hồn",
+          "ma nam",
+          "đồ tang",
+          "khăn tang",
+          "người chết"
+        ]
       }
     },
     {
@@ -129,6 +185,23 @@
           5.6
         ],
         "seed": 104
+      },
+      "cast": {
+        "role": "ma trẻ em",
+        "age": "trẻ nhỏ",
+        "gender": "",
+        "tags": [
+          "ma",
+          "horror",
+          "generic",
+          "child"
+        ],
+        "keywords": [
+          "ma trẻ em",
+          "hồn trẻ",
+          "đứa trẻ",
+          "ma con nít"
+        ]
       }
     },
     {
@@ -155,6 +228,23 @@
           5.6
         ],
         "seed": 105
+      },
+      "cast": {
+        "role": "dân làng nam đội nón lá",
+        "age": "trung niên",
+        "gender": "nam",
+        "tags": [
+          "villager",
+          "generic",
+          "male"
+        ],
+        "keywords": [
+          "dân làng",
+          "nông dân",
+          "nón lá",
+          "đàn ông",
+          "người làng"
+        ]
       }
     },
     {
@@ -180,6 +270,23 @@
           5.6
         ],
         "seed": 106
+      },
+      "cast": {
+        "role": "dân làng nữ đội nón lá",
+        "age": "trung niên",
+        "gender": "nữ",
+        "tags": [
+          "villager",
+          "generic",
+          "female"
+        ],
+        "keywords": [
+          "dân làng",
+          "nón lá",
+          "phụ nữ",
+          "bà ba",
+          "người làng"
+        ]
       }
     },
     {
@@ -206,6 +313,24 @@
           5.6
         ],
         "seed": 107
+      },
+      "cast": {
+        "role": "ông lão trong làng",
+        "age": "già",
+        "gender": "nam",
+        "tags": [
+          "villager",
+          "generic",
+          "elder",
+          "male"
+        ],
+        "keywords": [
+          "ông lão",
+          "cụ ông",
+          "già làng",
+          "người già",
+          "trưởng làng"
+        ]
       }
     },
     {
@@ -231,6 +356,22 @@
           5.6
         ],
         "seed": 108
+      },
+      "cast": {
+        "role": "thanh niên làng",
+        "age": "thanh niên",
+        "gender": "nam",
+        "tags": [
+          "villager",
+          "generic",
+          "male",
+          "young"
+        ],
+        "keywords": [
+          "thanh niên",
+          "trai làng",
+          "người làng"
+        ]
       }
     },
     {
@@ -256,6 +397,23 @@
           5.6
         ],
         "seed": 109
+      },
+      "cast": {
+        "role": "cô gái làng",
+        "age": "thanh niên",
+        "gender": "nữ",
+        "tags": [
+          "villager",
+          "generic",
+          "female",
+          "young"
+        ],
+        "keywords": [
+          "cô gái",
+          "thiếu nữ",
+          "gái làng",
+          "người làng"
+        ]
       }
     },
     {
@@ -281,6 +439,23 @@
           5.6
         ],
         "seed": 110
+      },
+      "cast": {
+        "role": "bé trai làng",
+        "age": "trẻ nhỏ",
+        "gender": "nam",
+        "tags": [
+          "villager",
+          "generic",
+          "male",
+          "child"
+        ],
+        "keywords": [
+          "bé trai",
+          "trẻ con",
+          "con nít",
+          "cậu bé"
+        ]
       }
     },
     {
@@ -306,6 +481,23 @@
           5.6
         ],
         "seed": 111
+      },
+      "cast": {
+        "role": "thiếu niên nam làng",
+        "age": "thiếu niên",
+        "gender": "nam",
+        "tags": [
+          "villager",
+          "generic",
+          "male",
+          "teen"
+        ],
+        "keywords": [
+          "thiếu niên",
+          "cậu bé",
+          "học trò",
+          "nam sinh"
+        ]
       }
     },
     {
@@ -331,6 +523,23 @@
           5.6
         ],
         "seed": 112
+      },
+      "cast": {
+        "role": "thiếu nữ làng",
+        "age": "thiếu niên",
+        "gender": "nữ",
+        "tags": [
+          "villager",
+          "generic",
+          "female",
+          "teen"
+        ],
+        "keywords": [
+          "thiếu nữ",
+          "cô bé",
+          "học trò",
+          "nữ sinh"
+        ]
       }
     }
   ],

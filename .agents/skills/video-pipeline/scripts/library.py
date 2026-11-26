@@ -506,6 +506,23 @@ def load_cast() -> dict:
 
 
 def cmd_cast_add(args) -> int:
+    if getattr(args, "all", False):  # đăng ký/làm mới hàng loạt nhân vật chung từ library/rigs/cast_src/bible.json
+        if args.src != "library":
+            print("LỖI: --all chỉ dùng với --src library", file=sys.stderr)
+            return 1
+        import argparse as _ap
+        bible = json.loads((LIB / "rigs" / "cast_src" / "bible.json").read_text(encoding="utf-8"))
+        rc = 0
+        for ch in bible["characters"]:
+            meta = ch.get("cast") or {}
+            sub = _ap.Namespace(src="library", project=None, char=ch["id"], id=ch["id"], all=False, force=args.force,
+                                role=meta.get("role", ""), age=meta.get("age", ""), gender=meta.get("gender", ""),
+                                tags=",".join(meta.get("tags", [])), keywords=",".join(meta.get("keywords", [])))
+            rc |= cmd_cast_add(sub)
+        return rc
+    if not args.char or not args.id:
+        print("LỖI: cần --char và --id (hoặc --src library --all)", file=sys.stderr)
+        return 1
     if args.src == "library":  # nhân vật chung dựng sẵn ở library/rigs/cast_src (không thuộc project nào)
         src_dir = LIB / "rigs" / "cast_src"
         bible = json.loads((src_dir / "bible.json").read_text(encoding="utf-8"))
@@ -547,6 +564,91 @@ def cmd_cast_add(args) -> int:
     }
     CAST.write_text(json.dumps(cast, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"đã thêm cast '{args.id}' ← {args.project or 'library'}:{args.char}; sheet → library/{cast['cast'][args.id]['sheet']}")
+    return 0
+
+
+def _cast_build_dir(cast: dict, out: Path, only: list[str] | None = None, sheets: bool = False) -> dict:
+    """Dựng rig của các cast từ THAM SỐ trong cast.json (không cần project). Trả {id: sha256 của svg}."""
+    import hashlib
+    import subprocess
+    base = json.loads((LIB / "rigs" / "cast_src" / "bible.json").read_text(encoding="utf-8"))
+    chars = [{"id": cid, "name": e.get("name", cid), "voice": e.get("voice_hint"), "rig": e["rig"],
+              "mouth_shapes": e.get("mouth_shapes") or ["closed", "half", "open", "round"], "idle": e.get("idle") or {}}
+             for cid, e in cast["cast"].items() if not only or cid in only]
+    out.mkdir(parents=True, exist_ok=True)
+    (out / "bible.json").write_text(json.dumps({k: base[k] for k in ("meta", "emotion_vocab", "style", "pivots_note", "locations", "props") if k in base} | {"characters": chars}, ensure_ascii=False), encoding="utf-8")
+    cmd = [sys.executable, str(Path(__file__).resolve().parent / "build_rig.py"), "--bible", str(out / "bible.json"), "--out", str(out / "rig"), "--no-check"]
+    if not sheets:
+        cmd.append("--no-sheet")
+    r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8")
+    if r.returncode != 0:
+        raise RuntimeError((r.stdout + r.stderr).strip()[-800:])
+    return {c["id"]: hashlib.sha256((out / "rig" / f"{c['id']}.svg").read_bytes()).hexdigest() for c in chars}
+
+
+def cmd_cast_verify(args) -> int:
+    """So rig dựng lại từ tham số cast với mẫu vàng (library/rigs/golden.json). Đổi build_rig/archetype/token có thể làm đổi mọi nhân vật —
+    lệnh này chỉ ra nhân vật nào đổi; xem ảnh so sánh rồi mới `--update`."""
+    import tempfile
+    cast = load_cast()
+    gp = LIB / "rigs" / "golden.json"
+    tmp = Path(tempfile.mkdtemp(prefix="cast_verify_"))
+    now = _cast_build_dir(cast, tmp / "all")
+    if args.update:
+        gp.write_text(json.dumps({"_doc": "sha256 của rig SVG dựng từ tham số cast (library.py cast-verify). Cập nhật bằng --update SAU KHI đã xem ảnh so sánh.", "rigs": dict(sorted(now.items()))}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+        print(f"đã ghi {gp.relative_to(REPO)} ({len(now)} nhân vật)")
+        return 0
+    if not gp.exists():
+        print("LỖI: chưa có library/rigs/golden.json — chạy `cast-verify --update` lần đầu (sau khi xem pose sheet)", file=sys.stderr)
+        return 1
+    gold = json.loads(gp.read_text(encoding="utf-8"))["rigs"]
+    changed = sorted(c for c in now if c in gold and now[c] != gold[c])
+    new = sorted(c for c in now if c not in gold)
+    gone = sorted(c for c in gold if c not in now)
+    for c in new:
+        print(f"  MỚI   {c}: chưa có trong golden (chạy --update sau khi duyệt)")
+    for c in gone:
+        print(f"  MẤT   {c}: có trong golden nhưng không còn trong cast.json (R2.3: không xoá)")
+    if changed:
+        try:
+            _cast_build_dir(cast, tmp / "chg", only=changed, sheets=True)
+            from PIL import Image
+            outd = Path(args.out) if args.out else tmp / "compare"
+            outd.mkdir(parents=True, exist_ok=True)
+            for c in changed:
+                old_p, new_p = LIB / "sheets" / "cast" / f"{c}.png", tmp / "chg" / "rig" / "sheets" / f"{c}.png"
+                if old_p.exists() and new_p.exists():
+                    a, b = Image.open(old_p).convert("RGB"), Image.open(new_p).convert("RGB")
+                    h = min(a.height, b.height, 2400)
+                    a, b = a.crop((0, 0, a.width, h)), b.crop((0, 0, b.width, h))
+                    sheet = Image.new("RGB", (a.width + b.width + 20, h), (20, 20, 20))
+                    sheet.paste(a, (0, 0)); sheet.paste(b, (a.width + 20, 0))
+                    sheet.save(outd / f"{c}_cu_vs_moi.png")
+            print(f"  ảnh so sánh (trái = pose sheet đã duyệt, phải = dựng lại): {outd}")
+        except Exception as exc:  # noqa: BLE001
+            print(f"  (không dựng được ảnh so sánh: {exc})")
+    for c in changed:
+        print(f"  ĐỔI   {c}: rig dựng lại khác mẫu vàng")
+    ok = not (changed or new or gone)
+    print(f"cast-verify: {len(now)} nhân vật, {len(changed)} đổi, {len(new)} mới, {len(gone)} mất" + (" → KHỚP" if ok else " → xem ảnh so sánh; cố ý thì chạy --update"))
+    return 0 if ok else 1
+
+
+def cmd_cast_build(args) -> int:
+    import subprocess
+    src, out = LIB / "rigs" / "cast_src", LIB / "rigs" / "cast_src" / "build"
+    r = subprocess.run([sys.executable, str(Path(__file__).resolve().parent / "build_rig.py"), "--bible", str(src / "bible.json"), "--out", str(out)],
+                       capture_output=True, text=True, encoding="utf-8")
+    tail = (r.stdout + r.stderr).strip().splitlines()[-6:]
+    print("\n".join(tail))
+    if r.returncode != 0:
+        print("LỖI: build_rig thất bại (R3.8: phải 0 tổ hợp tràn khung)", file=sys.stderr)
+        return 1
+    lineup = out / "sheets" / "lineup.png"
+    if lineup.exists():
+        (LIB / "sheets").mkdir(parents=True, exist_ok=True)
+        (LIB / "sheets" / "cast-lineup-generic.png").write_bytes(lineup.read_bytes())
+    print(f"đã dựng lại → {out} ; ảnh tổng → library/sheets/cast-lineup-generic.png. Mở ảnh xem (R10.2), rồi `cast-add --src library --all --force` để cập nhật kho.")
     return 0
 
 
@@ -719,9 +821,13 @@ def main() -> int:
     p = sub.add_parser("suggest", help="gợi ý asset có sẵn hợp kịch bản + liệt kê thứ còn thiếu")
     p.add_argument("--project"); p.add_argument("--text"); p.add_argument("--top", type=int, default=3); p.add_argument("--json", action="store_true"); p.set_defaults(f=cmd_suggest)
     p = sub.add_parser("cast-add", help="đưa nhân vật đã dựng của một project vào library/rigs/cast.json")
-    p.add_argument("--project"); p.add_argument("--src", choices=["project", "library"], default="project"); p.add_argument("--char", required=True); p.add_argument("--id", required=True)
+    p.add_argument("--project"); p.add_argument("--src", choices=["project", "library"], default="project"); p.add_argument("--char"); p.add_argument("--id")
     p.add_argument("--role", default=""); p.add_argument("--age", default=""); p.add_argument("--gender", default="")
-    p.add_argument("--tags", default=""); p.add_argument("--keywords", default=""); p.add_argument("--force", action="store_true"); p.set_defaults(f=cmd_cast_add)
+    p.add_argument("--tags", default=""); p.add_argument("--keywords", default=""); p.add_argument("--force", action="store_true")
+    p.add_argument("--all", action="store_true", help="với --src library: đăng ký/làm mới mọi nhân vật trong cast_src/bible.json (dùng mục `cast` của từng nhân vật)"); p.set_defaults(f=cmd_cast_add)
+    p = sub.add_parser("cast-verify", help="so rig dựng lại từ tham số cast với mẫu vàng (golden); báo nhân vật nào đổi + ảnh so sánh")
+    p.add_argument("--update", action="store_true", help="ghi lại golden (sau khi đã xem ảnh so sánh)"); p.add_argument("--out", help="thư mục ảnh so sánh"); p.set_defaults(f=cmd_cast_verify)
+    sub.add_parser("cast-build", help="dựng lại rig + pose sheet nhóm nhân vật chung (library/rigs/cast_src) rồi cập nhật ảnh tổng").set_defaults(f=cmd_cast_build)
     sub.add_parser("check").set_defaults(f=cmd_check)
     sub.add_parser("reindex").set_defaults(f=cmd_reindex)
     sub.add_parser("sheet").set_defaults(f=cmd_sheet)

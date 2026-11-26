@@ -75,6 +75,8 @@ python $L suggest --project <slug>       # gợi ý asset có sẵn hợp kịch
 python $L show candle                   # trạng thái, slot, pivot, scale gợi ý
 python $L use --project <slug> candle ancestral_altar house_altar_room   # chép có khoá phiên bản
 python $L cast-add --project <slug> --char <id> --id <cast_id> --role "…" --tags a,b --keywords x,y   # đưa nhân vật đã duyệt vào kho
+python $L cast-build                     # dựng lại rig + pose sheet nhóm nhân vật chung (library/rigs/cast_src) → xem ảnh → cast-add --src library --all --force
+python $L cast-verify                    # sau khi đổi build_rig/archetype/token: so rig dựng lại với mẫu vàng; ĐỔI → xem ảnh so sánh, cố ý thì --update
 python $L check                         # phải 0 lỗi trước khi commit library/
 python $L sheet                         # render library/sheets/*.png để duyệt bằng mắt
 python $L promote --project <slug> --kind prop --id <id> --file assets/props/<id>.svg --states a,b --tags x,y --desc "..."

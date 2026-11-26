@@ -145,3 +145,9 @@
 - **2 `motion_plan.json` v2 + `check_motion.py` viết lại**: gate cũ đòi schema (ops/footstep/gesture) của generator đời trước, generator hiện tại không có; chọn xuất plan v2 từ beat thật và viết lại gate cho khớp (M1–M3, M5–M7). Bỏ kiểm footstep và "đứng chết" vì không có dữ liệu thật. Thử: shot thử OK; `reach` hold 6 s bị báo "vượt hết shot — bị cắt"; dựng cả 13 shot demo ra scratchpad: OK (17 thao tác/46 s, 4 cỡ cảnh).
 - Ảnh đã XEM: contact sheet `preview_shot` của SH008 thử (8 khung: tay với tới nến phải, nến lit→low→out có khói, chị đổi sang afraid). Lỗi thấy: không.
 - Chưa kiểm: chưa chạy `preview_shot` trên shot không có beat; ngưỡng mật độ 3 thao tác/10 s của M7 là con số mình chọn (cảnh báo, không phải luật); `substitute` SFX chưa nghe thử; chưa render mp4; chưa chạy `hyperframes check` trên nhánh này.
+
+### 2026-11-26 — Ý 6 và ý 5 (todo #32, #33, theo "Làm tiếp ý 5 6 7")
+- **Ý 6**: `library.py cast-build` (dựng lại nhóm cast chung + ảnh tổng) và `cast-add --src library --all [--force]` (đăng ký/làm mới hàng loạt từ mục `cast` trong `cast_src/bible.json`). Thử: chạy `--all --force` lặp lại, `cast.json` và sheet không đổi byte nào; `library.py check` 0 lỗi.
+- **Ý 5**: `library.py cast-verify` + `library/rigs/golden.json` (23 nhân vật). Ghi golden, chạy hai lần đều KHỚP (dựng ổn định). Thử đổi hằng `VIEW_HAIR_DX` 0→6 trong build_rig: 23/23 báo ĐỔI và xuất ảnh so sánh; trả lại: KHỚP. Lưu ý: lần thử đầu của mình dùng sed sai dòng nên không đổi gì (báo KHỚP là kết quả không có giá trị); đã làm lại đúng ở lần sau.
+- Ảnh đã XEM: `…/scratchpad/cmp_view.png` (ảnh so sánh ma_da, hàng biểu cảm: trái mẫu cũ, phải bản dựng lại; khác biệt tóc nhỏ nhìn thấy được ở góc trước; tiêu đề bản phải thiếu dòng mô tả thiết kế — lỗi nhỏ đã ghi vào README).
+- Chưa kiểm: golden chỉ so SVG, không so ảnh render; chưa thử `cast-verify` khi đổi archetype hoặc token màu.

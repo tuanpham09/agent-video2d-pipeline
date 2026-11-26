@@ -129,3 +129,7 @@ Generator lấy mẫu FK bàn tay mỗi 1/24 s và tween đạo cụ theo đúng
 
 ### SFX mặc định của đạo cụ 2026-11-26
 Mỗi đạo cụ trong `index.json` có `sfx`: `{"substitute": bool, "touch": "sfx/…", "state": {"<state>": "sfx/…"}}`. `check_shots` (E6) dùng làm gợi ý khi beat vật lý thiếu SFX. `substitute: true` = âm gần nhất trong kho (chưa có tiếng diêm/gốm vỡ…); báo cáo phải nói rõ. Thêm đạo cụ mới thì khai `sfx` khi `promote` (thêm `--meta` hoặc sửa index rồi `reindex`).
+
+### Dựng nhóm cast chung và giữ mẫu vàng 2026-11-26
+- `library.py cast-build`: dựng lại rig + pose sheet từ `library/rigs/cast_src/bible.json` (0 tràn khung, R3.8) và cập nhật `library/sheets/cast-lineup-generic.png`. Mỗi nhân vật có mục `cast` (role, age, gender, tags, keywords) trong bible đó; `cast-add --src library --all [--force]` đăng ký/làm mới cả nhóm, chạy lặp lại không đổi gì.
+- `library.py cast-verify`: dựng lại rig của mọi cast từ tham số trong `cast.json` và so sha256 với `library/rigs/golden.json`. Đổi `build_rig.py`/archetype/token dùng chung thường làm đổi nhiều nhân vật cùng lúc; lệnh báo nhân vật nào đổi và xuất ảnh so sánh (trái = pose sheet đã duyệt, phải = dựng lại). Xem ảnh; cố ý thì `cast-verify --update`. Đã thử: đổi một hằng số tóc ở góc nghiêng → 23/23 báo ĐỔI; trả lại → KHỚP. Golden chỉ phát hiện rig SVG đổi, không đánh giá đẹp/xấu. Ảnh so sánh chưa có phần mô tả thiết kế ở tiêu đề (bible tạm không có `design`).
