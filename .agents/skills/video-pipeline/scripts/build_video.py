@@ -448,11 +448,11 @@ class Stage:
 
 
 class Ctx:
-    def __init__(self, proj: Path):
+    def __init__(self, proj: Path, shotlist: Path | None = None):
         self.proj = proj
         self.manifest = jload(proj / "audio" / "manifest.json")
         self.bible = jload(proj / "script" / "bible.json")
-        self.shotlist = jload(proj / "script" / "shotlist.json")
+        self.shotlist = jload(shotlist or proj / "script" / "shotlist.json")
         self.idx = {e["id"]: e for e in L.load_index()["items"]}
         self.lock = jload(proj / "assets" / "LIBRARY.lock.json") if (proj / "assets" / "LIBRARY.lock.json").exists() else {"items": {}}
         self.bible_loc = {l["id"]: l for l in self.bible["locations"]}
@@ -715,18 +715,61 @@ def wav_seconds(p: Path) -> float | None:
         return None
 
 
+def motion_plan_entry(shot: dict, dur: float, a0: float, ctx: Ctx) -> dict:
+    """Kế hoạch chuyển động của một shot (cho check_motion.py): các thao tác tường minh của từng nhân vật, tính từ beat đã bung macro.
+    Chỉ ghi cái generator THỰC SỰ dựng từ beat: move/reach/hand_over có độ dài; set/look/react là sự kiện tức thời (dur 0).
+    Không gồm hơi thở/chớp mắt/nghe-gật tự động (generator tự thêm)."""
+    from timing_lib import beat_time
+    chars = {c["id"]: {"id": c["id"], "ops": []} for c in shot.get("characters", [])}
+    phys = []
+    for b in shot.get("beats", []):
+        t = round(beat_time(b, ctx.lines, a0), 3)
+        acts = []  # (char, kind, dur)
+        if isinstance(b.get("move"), dict):
+            acts.append((b["move"].get("char"), "move", float(b["move"].get("dur", 1.2))))
+        if isinstance(b.get("reach"), dict):
+            r = b["reach"]
+            acts.append((r.get("char"), "reach", float(r.get("dur", 0.6)) + float(r.get("hold", 0.0))))
+        if isinstance(b.get("hand_over"), dict):
+            h = b["hand_over"]
+            d = float(h.get("dur", 1.0))
+            acts += [(h.get("from"), "hand_over", d), (h.get("to"), "hand_over", d)]
+        if isinstance(b.get("look"), dict):
+            acts.append((b["look"].get("char"), "look", 0.0))
+        if isinstance(b.get("react"), dict):
+            acts.append((b["react"].get("char"), "react", 0.0))
+        for k, v in (b.get("set") or {}).items():
+            if k != "light" and not k.startswith("prop:") and isinstance(v, dict):
+                acts.append((k, "set", 0.0))
+        prop_set = [k[5:] for k in (b.get("set") or {}) if k.startswith("prop:")]
+        for cid, kind, d in acts:
+            if cid in chars:
+                chars[cid]["ops"].append({"kind": kind, "at": t, "dur": round(d, 3)})
+        if b.get("physical"):
+            tgt = next((cid for cid, _k, _d in acts if cid in chars), None)
+            phys.append({"t": t, "do": (b.get("do") or "")[:60], "target": tgt, "prop": prop_set[0] if prop_set else None})
+    for c in chars.values():
+        mv = [o for o in c["ops"] if o["kind"] == "move"]
+        if mv:
+            c["path"] = {"t0": mv[0]["at"], "t1": round(max(o["at"] + o["dur"] for o in mv), 3)}
+    return {"shot": shot["id"], "duration": round(dur, 3), "size": shot.get("size"), "kind": shot.get("kind"),
+            "characters": list(chars.values()), "physical_beats": phys,
+            "prop_changes": sum(1 for b in shot.get("beats", []) for k in (b.get("set") or {}) if k.startswith("prop:"))}
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--project", type=Path, required=True)
     ap.add_argument("--out", type=Path)
     ap.add_argument("--until", help="dựng các shot từ đầu tới shot này (gồm cả nó)")
     ap.add_argument("--shots", help="id shot cách nhau dấu phẩy")
+    ap.add_argument("--shotlist", type=Path, help="dùng shotlist khác (thử biến thể mà không sửa/ copy project); mặc định script/shotlist.json")
     ap.add_argument("--scenes", help="chỉ các scene này")
     args = ap.parse_args()
 
     proj = args.project.resolve()
     out = (args.out or proj / "video_demo").resolve()
-    ctx = Ctx(proj)
+    ctx = Ctx(proj, args.shotlist.resolve() if args.shotlist else None)
     shots = ctx.shotlist["shots"]
     if args.shots:
         want = set(args.shots.split(","))
@@ -769,10 +812,12 @@ def main() -> int:
             shutil.copy2(src, out / name)
 
     hosts, audios, sfx_n = [], [], 0
+    plan_shots: list[dict] = []
     for i, (s, (a0, _), end) in enumerate(zip(shots, wins, ends)):
         start, dur = a0 - t0, end - a0
         s = expand_shot(s, ctx.lines, a0)  # bung macro hành vi (library/behaviors) → beat thường + SFX
         st = Stage(s, ctx)
+        plan_shots.append(motion_plan_entry(s, dur, a0, ctx))
         (out / "compositions" / f"{s['id']}.html").write_text(shot_html(st, dur, a0, ctx, pal_css), encoding="utf-8")
         hosts.append(f'    <div id="{s["id"]}" class="clip" data-composition-id="{s["id"]}" data-composition-src="compositions/{s["id"]}.html" '
                      f'data-start="{start:.3f}" data-duration="{dur:.3f}" data-track-index="1" data-track-kind="graphics" '
@@ -822,6 +867,7 @@ def main() -> int:
 </html>
 """
     (out / "index.html").write_text(index, encoding="utf-8")
+    (out / "motion_plan.json").write_text(json.dumps({"version": 2, "duration": round(total, 3), "shots": plan_shots}, ensure_ascii=False, indent=1), encoding="utf-8")  # cho check_motion.py
     print(json.dumps({"status": "ok", "out": str(out), "shots": len(shots), "duration_s": round(total, 3),
                       "t0": round(t0, 3), "sfx": sfx_n, "voice": voice.exists(), "warnings": ctx.warn}, ensure_ascii=False, indent=2))
     return 0

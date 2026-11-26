@@ -117,7 +117,7 @@ Cần `sfx` cạnh beat (R6.1, R11.5). `held: true` khi đạo cụ đã nằm t
 - Hoạt hình sống, không slide tĩnh [R5.4]: thở, chớp mắt, đảo mắt, miệng (rig tự lo). Đừng để mặt đứng yên cả shot.
 - Cảm xúc phải **nhìn khác nhau ở cỡ nhỏ**; đừng đổi hai cảm xúc gần giống ở hai beat sát nhau.
 - Chuyển ánh sáng theo cảm xúc: `warm` bình thường, `dark` căng, `red_flash` sốc, `dawn` giải toả.
-- **Số đo gợi ý** (từ `check_motion.py`, xem mục 7): không nhân vật nào đứng chết quá ~0,6 s; ≥ 4 cử chỉ mỗi 10 s; ≥ 3 cỡ cảnh khác nhau trong cả đoạn. Đây là ngưỡng cảnh báo của gate đó, **không** phải luật.
+- **Số đo gợi ý** (từ `check_motion.py`): ≥ 3 thao tác tường minh mỗi 10 s (chưa tính hơi thở/chớp/gật tự động); ≥ 3 cỡ cảnh khác nhau trong cả đoạn. Đây là ngưỡng cảnh báo của gate đó, **không** phải luật.
 
 ---
 
@@ -145,7 +145,7 @@ Cần `sfx` cạnh beat (R6.1, R11.5). `held: true` khi đạo cụ đã nằm t
 - `reach`/`hand_over` chỉ cho `stand`/`sit` nhìn chính diện; kneel/lie/3-4 chưa hỗ trợ. Đầu không quay, mắt chỉ liếc tối đa 5 px ngang, 4 px dọc. Thân chỉ nghiêng sang ngang.
 - `reach`, `hand_over` mới **thử trên snapshot**, chưa dùng trong shotlist thật, chưa render mp4; điểm nắm của `oil_lamp` chỉ ước lượng từ hình.
 - Chưa có SFX bước chân/chạy tự động cho `move`.
-- **`check_motion.py` chưa chạy được ở nhánh này:** nó đọc `motion_plan.json` mà `build_video.py` hiện không xuất. Không báo "qua gate chuyển động" khi chưa có file đó.
+- **`check_motion.py` (version 2) chỉ kiểm thao tác tường minh** lấy từ beat (move/reach/hand_over có độ dài; set/look/react tức thời): thao tác vượt hết shot (bị cắt), beat vật lý không có hành động thật, người trong shot ≥ 2 nhân vật không có thao tác. Nó **không** thấy hơi thở/chớp mắt/gật tự động, không kiểm SFX bước chân (generator chưa tự thêm), không đánh giá độ mượt. Chạy sau `build_video.py` ra `video_demo/motion_plan.json`.
 - `quy_xuong`/`lie` nhìn nghiêng còn đơn giản.
 - Cast mới có 11 nhân vật của một project; chưa dựng nhân vật thiếu niên.
 
@@ -155,7 +155,9 @@ Cần `sfx` cạnh beat (R6.1, R11.5). `held: true` khi đạo cụ đã nằm t
 
 ```bash
 P=projects/<slug>
-python .agents/skills/video-pipeline/scripts/check_shots.py --project $P            # mọi lỗi E*
+python .agents/skills/video-pipeline/scripts/check_shots.py --project $P            # mọi lỗi E* (E14: reach/hand_over với tới đích; E6 kèm gợi ý SFX đạo cụ)
+# thử một shot (hoặc biến thể shotlist) và XEM ảnh: ra contact sheet theo mốc beat
+python .agents/skills/video-pipeline/scripts/preview_shot.py --project $P --shot SH0xx [--shotlist biến_thể.json]
 python .agents/skills/video-pipeline/scripts/check_sync.py  --project $P
 python .agents/skills/video-pipeline/scripts/build_video.py --project $P --until SH0xx
 cd $P/video_demo && npx -y hyperframes@0.9.82 snapshot --at <giây giữa shot> ...    # rồi MỞ ẢNH XEM

@@ -42,7 +42,15 @@
         "thắp nến",
         "ánh nến",
         "chân đèn đồng"
-      ]
+      ],
+      "sfx": {
+        "substitute": true,
+        "touch": "sfx/ambience/foley/foley-glass-touch.wav",
+        "state": {
+          "low": "sfx/ambience/foley/foley-paper-touch.wav",
+          "out": "sfx/ambience/everyday-props/props-drip.wav"
+        }
+      }
     },
     {
       "id": "oil_lamp",
@@ -89,7 +97,15 @@
         "ngọn đèn",
         "bóng đèn thuỷ tinh",
         "soi đèn"
-      ]
+      ],
+      "sfx": {
+        "substitute": true,
+        "touch": "sfx/ambience/foley/foley-glass-touch.wav",
+        "state": {
+          "low": "sfx/ambience/foley/foley-paper-touch.wav",
+          "out": "sfx/ambience/everyday-props/props-drip.wav"
+        }
+      }
     },
     {
       "id": "incense_burner",
@@ -128,7 +144,14 @@
         "thắp hương",
         "nén nhang",
         "khói trầm"
-      ]
+      ],
+      "sfx": {
+        "substitute": true,
+        "touch": "sfx/ambience/foley/foley-wood-touch.wav",
+        "state": {
+          "spent": "sfx/ambience/foley/foley-paper-touch.wav"
+        }
+      }
     },
     {
       "id": "ancestral_altar",
@@ -185,7 +208,15 @@
         "thờ cúng",
         "linh vị",
         "bàn thờ tang"
-      ]
+      ],
+      "sfx": {
+        "substitute": true,
+        "touch": "sfx/ambience/foley/foley-wood-touch.wav",
+        "state": {
+          "covered": "sfx/ambience/foley/foley-fabric-slide.wav",
+          "blank": "sfx/impacts_hits/impacts/impact-deep-soft.wav"
+        }
+      }
     },
     {
       "id": "clay_jar",
@@ -226,7 +257,15 @@
         "bịt vải đỏ",
         "hũ nhốt",
         "chum"
-      ]
+      ],
+      "sfx": {
+        "substitute": true,
+        "touch": "sfx/ambience/foley/foley-wood-touch.wav",
+        "state": {
+          "open": "sfx/ambience/foley/foley-fabric-touch.wav",
+          "cracked": "sfx/impacts_hits/impacts/impact-medium-hard.wav"
+        }
+      }
     },
     {
       "id": "betel_mortar",
@@ -265,7 +304,15 @@
         "chày",
         "trầu cau",
         "têm trầu"
-      ]
+      ],
+      "sfx": {
+        "substitute": true,
+        "touch": "sfx/ambience/foley/foley-wood-touch.wav",
+        "state": {
+          "raised": "sfx/ambience/foley/foley-wood-touch.wav",
+          "strike": "sfx/impacts_hits/impacts/impact-light-firm.wav"
+        }
+      }
     },
     {
       "id": "bamboo_bed",
@@ -303,7 +350,15 @@
         "nằm",
         "giường tre",
         "nệm chiếu"
-      ]
+      ],
+      "sfx": {
+        "substitute": true,
+        "touch": "sfx/ambience/foley/foley-wood-touch.wav",
+        "state": {
+          "mat": "sfx/ambience/foley/foley-fabric-slide.wav",
+          "blanket": "sfx/ambience/foley/foley-fabric-slide.wav"
+        }
+      }
     },
     {
       "id": "bamboo_tray",
@@ -350,7 +405,15 @@
         "đựng khăn",
         "đồ cúng",
         "mâm cơm"
-      ]
+      ],
+      "sfx": {
+        "substitute": true,
+        "touch": "sfx/ambience/foley/foley-wood-touch.wav",
+        "state": {
+          "cloths": "sfx/ambience/foley/foley-fabric-touch.wav",
+          "scattered": "sfx/impacts_hits/impacts/impact-light-soft.wav"
+        }
+      }
     },
     {
       "id": "mourning_cloth",
@@ -390,7 +453,15 @@
         "chít khăn",
         "đồ xô",
         "khăn"
-      ]
+      ],
+      "sfx": {
+        "substitute": true,
+        "touch": "sfx/ambience/foley/foley-fabric-touch.wav",
+        "state": {
+          "spread": "sfx/ambience/foley/foley-fabric-slide.wav",
+          "torn": "sfx/ambience/foley/foley-paper-slide.wav"
+        }
+      }
     },
     {
       "id": "smartphone",
@@ -431,7 +502,16 @@
         "màn hình điện thoại",
         "tin nhắn",
         "zalo"
-      ]
+      ],
+      "sfx": {
+        "substitute": false,
+        "touch": "sfx/ui_clicks/phone/phone-vibrate-hand.wav",
+        "state": {
+          "ringing": "sfx/ui_clicks/phone/phone-ring-modern.wav",
+          "call": "sfx/ui_clicks/phone/phone-keypad.wav",
+          "ended": "sfx/ui_clicks/phone/phone-keypad.wav"
+        }
+      }
     },
     {
       "id": "house_altar_room",

@@ -24,7 +24,7 @@
 | Nhân vật, bối cảnh, đạo cụ, `emotion_vocab` | `script/bible.json` | khai trùng lặp trong shotlist/HTML (R1.4) |
 | Shot, beat, SFX cue | `script/shotlist.json` | viết tay HTML cho từng shot (R1.6) |
 | Tên cue SFX → file, gain, độ dài cắt | `sfx/cues.json` | hard-code đường dẫn rải rác trong shotlist v2 |
-| Kế hoạch chuyển động đã tính (ops, footstep) | `projects/<slug>/video/demo/motion_plan.json` (`check_motion.py` đọc file này; **`build_video.py` ở nhánh này chưa xuất nó** nên gate chưa chạy được) | sửa tay file plan (R1.3) |
+| Kế hoạch chuyển động đã tính (thao tác tường minh từ beat: move/reach/hand_over/set/look/react) | `projects/<slug>/video_demo/motion_plan.json` (version 2; `build_video.py` xuất cạnh `index.html`, `check_motion.py` đọc) | sửa tay file plan (R1.3) |
 | Asset dùng chung (rig/prop/bg/palette) | `library/index.json` + `library/*` | sửa bản copy trong project (R2.3) |
 | Phiên bản asset đã khoá của project | `projects/<slug>/assets/LIBRARY.lock.json` | nâng cấp ngầm (R2.10) |
 | Trạng thái project, ngoại lệ luật | `projects/<slug>/PROJECT.md` | ghi trạng thái chỉ trong chat (R8.1) |

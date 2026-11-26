@@ -126,3 +126,6 @@ Generator lấy mẫu FK bàn tay mỗi 1/24 s và tween đạo cụ theo đúng
 - Dựng lại: `build_rig.py --bible library/rigs/cast_src/bible.json --out library/rigs/cast_src/build` (thư mục `build/` bị gitignore), xem pose sheet, rồi `library.py cast-add --src library --char <id> --id <id> --role ... --tags "a,b" --keywords "x,y"`.
 - Tham số rig mới: `hair: "long_loose"` (tóc xõa dài), `hair_over_face: true` (tóc rủ che nửa mặt), `weeds: true` (rong rêu bám tóc, token `algae`/`algae_dark`), `hat: "non-la"` (nón lá, token `non_la`/`non_la_dark`). Archetype `ghost_woman`, `ghost_drowned`; outfit `ao_trang_ma`, `rach_ma_da`, `nong_dan_non_la`, `ba_ba_non_la`. Token da/áo ma mới ở `palettes/folk-horror-vn.json`.
 - Ảnh tổng: `library/sheets/cast-lineup-generic.png`. Tuổi/vai là đề xuất thiết kế, chưa phải nguồn kịch bản.
+
+### SFX mặc định của đạo cụ 2026-11-26
+Mỗi đạo cụ trong `index.json` có `sfx`: `{"substitute": bool, "touch": "sfx/…", "state": {"<state>": "sfx/…"}}`. `check_shots` (E6) dùng làm gợi ý khi beat vật lý thiếu SFX. `substitute: true` = âm gần nhất trong kho (chưa có tiếng diêm/gốm vỡ…); báo cáo phải nói rõ. Thêm đạo cụ mới thì khai `sfx` khi `promote` (thêm `--meta` hoặc sửa index rồi `reindex`).

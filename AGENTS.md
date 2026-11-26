@@ -121,6 +121,10 @@ cd projects/<slug>/video && npx hyperframes lint && npx hyperframes check --json
 python .agents/skills/video-pipeline/scripts/check_rules.py --project projects/<slug> [--phase demo|full|final]
 python .agents/skills/video-pipeline/scripts/check_shots.py --project projects/<slug>
 python .agents/skills/video-pipeline/scripts/check_sync.py --project projects/<slug>
+python .agents/skills/video-pipeline/scripts/check_motion.py --project projects/<slug>    # sau build_video.py (đọc video_demo/motion_plan.json)
+
+# xem nhanh một shot (hoặc biến thể shotlist --shotlist f.json): dựng + chụp mốc beat + contact sheet → MỞ ẢNH XEM
+python .agents/skills/video-pipeline/scripts/preview_shot.py --project projects/<slug> --shot SH0xx
 
 # 8. render
 cd projects/<slug>/video && npx hyperframes render --quality delivery -o ../output/final.mp4

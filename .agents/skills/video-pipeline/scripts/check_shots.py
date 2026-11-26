@@ -15,6 +15,7 @@ Kiểm:
   E4  nhân vật nói phải xuất hiện trong shot, mouth=true
   E5  location / nhân vật / đạo cụ / trạng thái đạo cụ / cảm xúc / ánh sáng phải có trong bible
   E6  beat physical=true phải có SFX cue trong ±0.15 s; file SFX phải tồn tại
+      (thiếu SFX của beat đổi state/chạm đạo cụ → thông báo kèm gợi ý từ `sfx` của đạo cụ trong library/index.json)
       (`synth:<tên>` = file đã render ở audio/sfx/<tên>.wav); t của beat/SFX tính từ đầu shot, phải nằm trong shot
   E7  shot có ≥2 nhân vật: MỖI nhân vật có ≥1 hành vi tường minh (beat set/move/look/react/reach/hand_over; hand_over tính cả người cho lẫn người nhận) — người nói cũng vậy.
       Người nghe/người nói tự động (quay mắt, gật) do generator thêm, không thay được beat tường minh (R11.1).
@@ -27,6 +28,7 @@ Kiểm:
       cũng là lỗi vì generator sẽ crash.
   E12 beat (và macro đã bung) chỉ nhắc nhân vật/đạo cụ có mặt trong shot; thư viện macro hợp lệ
   E13 giá trị set (kể cả view) nằm trong rig.json; move.gait walk|run
+  E14 `reach`/`hand_over` phải với tới đích: chạy chính bộ giải IK của build_video (không cần build); báo "trượt đích N px" kèm gợi ý đổi `at`/`move` lại gần.
   E11 (Opt round 3, mục 6) `focus` phải trỏ tới thứ có thật trong shot: nhân vật trong
       shot, `prop:<id>` đạo cụ trong shot, hoặc `slot:<tên>` slot của bối cảnh (library).
       Thiếu tiền tố `prop:` (bug SH006 demo #3) hoặc trỏ tới thứ không có trong shot là
@@ -77,6 +79,31 @@ def check_sfx_src(src: str, repo: Path, proj: Path) -> str | None:
         if (base / src).is_file():
             return None
     return f"file SFX không tồn tại: {src}"
+
+
+def _sfx_hint(shot: dict, beat: dict, t: float, bible_props: dict, index_items: dict) -> str:
+    """Gợi ý SFX mặc định của đạo cụ (library/index.json `sfx`) cho beat vật lý thiếu SFX. Chỉ gợi ý, không tự thêm."""
+    def lib_sfx(key: str) -> dict | None:
+        for p in shot.get("props", []):
+            if (p.get("key") or p.get("id")) == key:
+                lib = (bible_props.get(p.get("id")) or {}).get("lib")
+                return (index_items.get(lib) or {}).get("sfx") if isinstance(lib, str) else None
+        return None
+    src, note = None, ""
+    for k, state in (beat.get("set") or {}).items():
+        if k.startswith("prop:") and isinstance(state, str):
+            m = lib_sfx(k[5:])
+            if m and state in m.get("state", {}):
+                src, note = m["state"][state], m.get("substitute")
+                break
+    if src is None:
+        target = ((beat.get("reach") or {}).get("to") or {}).get("prop") or (beat.get("hand_over") or {}).get("prop")
+        m = lib_sfx(target) if target else None
+        if m and m.get("touch"):
+            src, note = m["touch"], m.get("substitute")
+    if src is None:
+        return ""
+    return f" — gợi ý: {{\"t\": {t:g}, \"src\": \"{src}\"}}" + (" (âm thay thế, ghi rõ trong báo cáo)" if note else "")
 
 
 def load(path: Path) -> dict:
@@ -322,13 +349,14 @@ def main() -> int:
     ap.add_argument("--max-shot", type=float, default=6.0)
     ap.add_argument("--min-shot", type=float, default=1.0)
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--shotlist", type=Path, help="kiểm shotlist khác thay vì script/shotlist.json (thử biến thể)")
     args = ap.parse_args()
 
     proj = args.project
     manifest = load(proj / "audio" / "manifest.json")
     script = load(proj / "script" / "script.json")
     bible = load(proj / "script" / "bible.json")
-    shotlist = load(proj / "script" / "shotlist.json")
+    shotlist = load(args.shotlist or proj / "script" / "shotlist.json")
 
     only = {x.strip() for x in args.scenes.split(",") if x.strip()} if args.scenes else None
     if args.scenes is not None and not only:
@@ -490,6 +518,21 @@ def main() -> int:
             for r in refs:
                 if r not in cids:
                     errors.append(f"{sid}: beat{tag} nhắc nhân vật '{r}' không có trong shot (E12)")
+        # --- E14: reach/hand_over phải với tới đích (dùng đúng bộ giải IK của generator; không cần build)
+        if any(("reach" in b or "hand_over" in b) for b in shot.get("beats", [])):
+            try:
+                if "_bv_ctx" not in globals():
+                    import build_video as _bv
+                    globals()["_bv"], globals()["_bv_ctx"] = _bv, _bv.Ctx(proj, args.shotlist.resolve() if args.shotlist else None)
+                _st = globals()["_bv"].Stage(shot, globals()["_bv_ctx"])
+                globals()["_bv"].shot_html(_st, dur, abs0, globals()["_bv_ctx"], "")  # dựng thử trong bộ nhớ, không ghi file
+            except ValueError as exc:
+                if "trượt đích" in str(exc) or "tầm" in str(exc):
+                    errors.append(f"{sid}: {exc} (E14)")
+                else:
+                    warnings.append(f"{sid}: E14 không kiểm được reach/hand_over — {exc}")
+            except Exception as exc:  # noqa: BLE001 — thiếu rig/asset: các gate E9/E10/E12 đã báo riêng
+                warnings.append(f"{sid}: E14 bỏ qua ({type(exc).__name__}: {exc})")
         # --- E13: giá trị trạng thái (pose/stance/gaze/view/emotion) phải có trong <id>.rig.json (R3.3); move.gait ∈ walk|run
         for b in shot.get("beats", []):
             tag = f" (macro {b['from_macro']})" if b.get("from_macro") else ""
@@ -573,7 +616,8 @@ def main() -> int:
                 errors.append(f"{sid}: beat hand_over phải có physical=true (R6.1/R11.5)")
             if b.get("physical"):
                 if not any(abs(float(s.get("t", 0.0)) - t) <= SFX_TOLERANCE for s in sfx):
-                    errors.append(f"{sid}: beat vật lý '{b.get('do', '')[:40]}' (t={t}) chưa có SFX trong ±{SFX_TOLERANCE}s")
+                    errors.append(f"{sid}: beat vật lý '{b.get('do', '')[:40]}' (t={t}) chưa có SFX trong ±{SFX_TOLERANCE}s"
+                                  + _sfx_hint(shot, b, t, props, index_items))
         shot_chars = shot.get("characters", []) or []
         if len(shot_chars) >= 2:
             explicit = set()

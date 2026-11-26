@@ -81,6 +81,8 @@ Có sẵn (`sfx/`, tra danh sách đầy đủ ở `sfx/catalog.json`):
 
 **Không có** (đã tìm theo từ khoá): tiếng quẹt diêm/thổi nến/lửa, tiếng gốm vỡ, tiếng đồ gỗ nặng đổ. Dùng âm gần nhất và **ghi rõ trong báo cáo** đó là âm thay thế; không giả vờ đúng loại. Cần âm thật → báo người dùng.
 
+**SFX mặc định theo đạo cụ:** mỗi đạo cụ trong `library/index.json` có trường `sfx` (`touch` = âm chạm khi `reach`/`hand_over`; `state.<tên>` = âm khi đổi sang state đó; `substitute: true` = âm thay thế, không đúng loại). Khi beat vật lý thiếu SFX, `check_shots` (E6) in sẵn dòng gợi ý `{"t": …, "src": "sfx/…"}` để dán vào `sfx[]`; **không tự thêm**, agent vẫn chọn/duyệt và ghi âm thay thế vào báo cáo.
+
 ---
 
 ## 6. Ví dụ đã chạy thật [đã kiểm: 2026-11-26]
@@ -117,7 +119,7 @@ Hai lỗi gặp khi thử, đừng lặp lại:
 - **[chưa kiểm]** `hand_over` mâm khăn/đèn dầu trong video thật; điểm nắm `oil_lamp` chỉ ước lượng từ hình.
 - Không có chuyển mờ giữa các state, không có tween di chuyển đạo cụ (trừ `hand_over`); đạo cụ muốn "bay"/"rơi" cần mở rộng generator (R10.6), không vá riêng một video.
 - `reach` chỉ với tới đích ở độ cao tay khi người đứng/ngồi nhìn thẳng (xem `shotlist-guide.md` mục 3.3, 7).
-- `check_motion.py` chưa chạy được ở nhánh này (cần `motion_plan.json`).
+- `check_motion.py` chỉ kiểm thao tác tường minh từ beat (xem `shotlist-guide.md` mục 7), không thấy hiệu ứng đổi state đạo cụ ngoài việc đếm là "beat vật lý có prop".
 - Chưa có đạo cụ cho: lửa/diêm, bát cơm cúng, hương nhang cầm tay, cuốc/xẻng, quan tài, dây/chuỗi. Cần thì tạo theo `craft-playbook.md` mục 3 rồi `promote`.
 
 ---
@@ -126,5 +128,5 @@ Hai lỗi gặp khi thử, đừng lặp lại:
 
 1. `library.py suggest` / `list --kind prop` → chọn đạo cụ, khai vào bible (`lib`) và `props[]` của shot, mỗi đạo cụ có anchor/slot.
 2. Viết beat: mỗi lần đổi state hoặc chạm đạo cụ là một beat có `set`/`reach`/`macro`, `physical: true` nếu có tiếng, kèm `sfx`.
-3. `check_shots.py` (E6, E10, E11, E12) → `build_video.py --shots <id>` → snapshot tại các mốc **trước/trong/sau** mỗi lần đổi state → **mở ảnh xem**.
+3. `check_shots.py` (E6, E10, E11, E12, E14) → `preview_shot.py --shot <id>` (dựng + chụp mốc beat, gồm cả mốc ngay sau beat vật lý) → **mở contact sheet xem**.
 4. Báo cáo theo `craft-playbook.md` mục 8, có "Ảnh đã XEM" và "Chưa kiểm".
