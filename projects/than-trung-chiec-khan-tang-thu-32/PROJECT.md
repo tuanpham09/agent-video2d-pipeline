@@ -120,3 +120,8 @@
 ### 2026-11-26 — 👤 Người dùng duyệt đề xuất sửa R11.5
 - Người dùng: "duyệt đề xuất sửa R11.5" (phiên 2026-11-26), sau khi agent nêu đề xuất theo R0.3. Đã sửa `RULES.md` R11.5: dùng beat `hand_over` kèm SFX nếu là vật lý; `check_shots` kiểm nhân vật/đạo cụ có mặt (E12) và SFX (E6). Số phiên bản luật giữ nguyên 2 (chỉ sửa chữ, project đang ghi `Luật áp dụng: RULES.md v2`).
 - Đã kiểm: `check_rules --phase demo` chạy lại (xem dưới). Chưa kiểm: `hand_over` chưa dùng trong shotlist thật, nên luật mới chưa được gate bắt trên video thật.
+
+### 2026-11-26 — 👤 Người dùng duyệt đề xuất sửa R11.1 ("Sửa tất cả")
+- Người dùng (phiên 2026-11-26) duyệt đề xuất thêm `reach`/`hand_over` vào R11.1 cùng các bước đi kèm. Đã sửa: `RULES.md` R11.1 (+ dòng Lịch sử, giữ phiên bản luật 2); mô tả E7 và thông báo lỗi E7 trong `check_shots.py`.
+- Kiểm: bản sao shotlist trong scratchpad, SH008 chỉ có `hand_over` me→host → E7 không báo lỗi; `hand_over` me→me → E7 báo host không có hành vi. `check_shots` vẫn 401 lỗi cũ (S02+ chưa có shot), `check_rules --phase demo` 0 lỗi, `test_roadmap_v3` qua.
+- Chưa kiểm: `reach`/`hand_over` vẫn chưa có trong shotlist thật.

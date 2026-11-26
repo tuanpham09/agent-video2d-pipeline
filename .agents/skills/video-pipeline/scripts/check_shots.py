@@ -16,7 +16,7 @@ Kiểm:
   E5  location / nhân vật / đạo cụ / trạng thái đạo cụ / cảm xúc / ánh sáng phải có trong bible
   E6  beat physical=true phải có SFX cue trong ±0.15 s; file SFX phải tồn tại
       (`synth:<tên>` = file đã render ở audio/sfx/<tên>.wav); t của beat/SFX tính từ đầu shot, phải nằm trong shot
-  E7  shot có ≥2 nhân vật: MỖI nhân vật có ≥1 hành vi tường minh (beat set/move/look/react) — người nói cũng vậy.
+  E7  shot có ≥2 nhân vật: MỖI nhân vật có ≥1 hành vi tường minh (beat set/move/look/react/reach/hand_over; hand_over tính cả người cho lẫn người nhận) — người nói cũng vậy.
       Người nghe/người nói tự động (quay mắt, gật) do generator thêm, không thay được beat tường minh (R11.1).
   E8  beat theo từ (`word`) phải trỏ tới từ có thật trong line; `move.to` phải là anchor L/C/R; react.preset ∈ {nod, flinch}.
   E9  pose/emotion/stance/gaze mà shotlist dùng (characters[] và beat `set`) phải tồn tại
@@ -586,7 +586,7 @@ def main() -> int:
                     explicit |= {b["hand_over"].get("from"), b["hand_over"].get("to")}
             for c in shot_chars:
                 if c.get("id") not in explicit:
-                    errors.append(f"{sid}: shot nhiều người nhưng {c.get('id')} không có hành vi tường minh (beat set/move/look/react) — "
+                    errors.append(f"{sid}: shot nhiều người nhưng {c.get('id')} không có hành vi tường minh (beat set/move/look/react/reach/hand_over) — "
                                   f"thêm beat cho nhân vật này (E7/R11.1)")
         for s in sfx:
             st_ = float(s.get("t", 0.0))

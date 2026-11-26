@@ -2,7 +2,7 @@
 
 **Phiên bản luật: 2**
 
-> Lịch sử: **v2** (2026-11-22) — thêm R10 (tay nghề), R11 (tương tác nhân vật), R12 (giọng đọc). Nâng phiên bản theo chỉ thị rõ ràng của người dùng trong phiên (R0.2, ghi ở *Ngoại lệ* của `PROJECT.md`). **v1** — R0–R9. Sửa chữ R11.5 (2026-11-26) theo duyệt rõ ràng của người dùng: `hand_over` đã có trong generator; không đổi số phiên bản luật.
+> Lịch sử: **v2** (2026-11-22) — thêm R10 (tay nghề), R11 (tương tác nhân vật), R12 (giọng đọc). Nâng phiên bản theo chỉ thị rõ ràng của người dùng trong phiên (R0.2, ghi ở *Ngoại lệ* của `PROJECT.md`). **v1** — R0–R9. Sửa chữ R11.5 và R11.1 (2026-11-26) theo duyệt rõ ràng của người dùng: `hand_over`/`reach` đã có trong generator; không đổi số phiên bản luật.
 
 Mọi agent (mọi skill, subagent, phiên làm việc) phải đọc file này **trước khi làm bất cứ việc gì** trong repo.
 Skill, workflow, `PROJECT.md`, ghi chú, memory mà mâu thuẫn với file này thì **file này thắng**.
@@ -109,7 +109,7 @@ Chi tiết từng bước, mẫu vàng, checklist mắt, lỗi đã biết: [`.a
 
 ## R11. Tương tác nhân vật — bắt buộc khi có từ hai nhân vật trở lên trong một shot
 
-- **R11.1** Shot có ≥ 2 nhân vật: **mỗi nhân vật** có ít nhất một hành vi tường minh (beat `set`/`move`/`look`/`react`), kể cả người nói. Shot chỉ một người nói còn người kia đứng im là không đạt (gate `check_shots` E7).
+- **R11.1** Shot có ≥ 2 nhân vật: **mỗi nhân vật** có ít nhất một hành vi tường minh (beat `set`/`move`/`look`/`react`/`reach`/`hand_over`), kể cả người nói. Với `hand_over`, cả người cho lẫn người nhận đều được tính. Shot chỉ một người nói còn người kia đứng im là không đạt (gate `check_shots` E7).
 - **R11.2** Người nói hướng về người nghe khi nói; người nghe phản ứng ở điểm ngắt câu (gật). Generator tự thêm các phản ứng này; beat tường minh luôn ghi đè mặc định.
 - **R11.3** Đổi vị trí trong cùng cảnh chỉ bằng `move` (đi có thời gian, không nhảy tức thời). Đổi cảnh/cắt shot là ngoại lệ hợp lệ.
 - **R11.4** Giữ trục hai người: trong cùng cảnh, nhân vật ở bên nào giữ bên đó trừ khi có `move` rõ ràng.
