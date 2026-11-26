@@ -1,6 +1,6 @@
 # Hướng dẫn viết shot và diễn xuất nhân vật (cho agent dựng video)
 
-> Đạo cụ (danh mục state/slot, đổi state, SFX, tương tác người↔đạo cụ): xem [`props-and-interaction-guide.md`](props-and-interaction-guide.md).
+> Đạo cụ (danh mục state/slot, đổi state, SFX, tương tác người↔đạo cụ): xem [`props-and-interaction-guide.md`](props-and-interaction-guide.md). SFX, hiệu ứng, góc quay: [`sfx-effects-camera-guide.md`](sfx-effects-camera-guide.md).
 
 Đọc sau `RULES.md` và `craft-playbook.md`. File này trả lời ba câu: **một shot được mô tả thế nào, nhân vật phải cử động thế nào, và thế nào là đạt chuẩn.**
 Mọi ví dụ JSON dưới đây đã được chạy qua `check_shots.py` trên project mẫu `than-trung-chiec-khan-tang-thu-32` (xem mục 9). Luật gốc ở `RULES.md`; file này không nới luật.

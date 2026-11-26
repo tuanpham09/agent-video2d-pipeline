@@ -131,3 +131,5 @@ Hai lỗi gặp khi thử, đừng lặp lại:
 2. Viết beat: mỗi lần đổi state hoặc chạm đạo cụ là một beat có `set`/`reach`/`macro`, `physical: true` nếu có tiếng, kèm `sfx`.
 3. `check_shots.py` (E6, E10, E11, E12, E14) → `preview_shot.py --shot <id>` (dựng + chụp mốc beat, gồm cả mốc ngay sau beat vật lý) → **mở contact sheet xem**.
 4. Báo cáo theo `craft-playbook.md` mục 8, có "Ảnh đã XEM" và "Chưa kiểm".
+
+SFX, hiệu ứng, góc quay: xem [`sfx-effects-camera-guide.md`](sfx-effects-camera-guide.md).
