@@ -131,3 +131,9 @@
 - Ảnh đã XEM: `library/rigs/cast_src/build/sheets/lineup.png` (12 nhân vật phân biệt được bằng bóng dáng và màu; ma tóc che mặt, ma da có rong rêu), pose sheet ma_da, ma_nu_ao_trang (đã sửa: một mắt đục), ma_tre_em, dan_lang_nam_non_la; lỗi đã sửa: ma nữ `cloudy_eye` đổi sang mắt hiển thị, rong rêu mảnh hơn.
 - Kiểm: `build_rig` 0 tổ hợp tràn khung; `library.py check` 0 lỗi; `test_roadmap_v3` qua; `check_rules --phase demo` 0 lỗi; `suggest` bắt đúng ma da/dân làng/ông lão theo từ khoá.
 - Chưa kiểm: hon_nam_do_tang, ong_lao_lang, thanh_nien_lang, co_gai_lang, be_trai_lang, thieu_nien_lang, thieu_nu_lang chỉ xem ở ảnh lineup, chưa xem từng pose sheet; chưa ghép vào cảnh thật; pose sheet của 12 nhân vật mới **chờ người dùng duyệt** (R3.7).
+
+### 2026-11-26 — Hướng dẫn đạo cụ và tương tác (todo #27, theo yêu cầu "Có làm đi")
+- Viết `references/props-and-interaction-guide.md` (danh mục 10 đạo cụ lấy từ `library/index.json`, cách đổi state, bảng việc↔thao tác↔SFX, SFX có/thiếu, ví dụ, giới hạn); thêm con trỏ ở `doc-map.md` (3c), `shotlist-guide.md`, `craft-playbook.md`.
+- Kiểm ví dụ: bản sao SH008 trong scratchpad (me tại `L` với tay `nen-r`, nến `lit→low→out`, 3 SFX): `check_shots` không báo lỗi shot đó, `build_video --shots SH008` dựng được. Lỗi gặp khi thử và đã ghi vào hướng dẫn: beat vật lý đổi state thiếu SFX → E6; `reach` nến trượt đích 166 px (me ở C) / 444 px (me ở R).
+- Ảnh đã XEM: `library/sheets/props.png` (mọi state của 10 đạo cụ), contact sheet snapshot SH008 thử ở 0,5/1,3/2,0/3,0/4,2 s (không commit): tay với tới nến, lửa nhỏ lại ở `low`, `out` có khói; chị đổi sang `afraid`.
+- Chưa kiểm: `smartphone`, `clay_jar`, `betel_mortar`, `bamboo_bed`, `ancestral_altar` `covered`/`blank` chưa đặt vào shot thật; `hand_over` đạo cụ thật chưa render mp4; chưa có SFX quẹt diêm/thổi nến/gốm vỡ (đã ghi trong hướng dẫn).

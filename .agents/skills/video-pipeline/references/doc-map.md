@@ -10,6 +10,7 @@
 | 2 | `.agents/skills/video-pipeline/references/workflow-v2.md` | Làm theo thứ tự nào, checklist gì, cổng nào, pass khi nào. |
 | 3 | `.agents/skills/video-pipeline/SKILL.md` | Lệnh nào, giai đoạn nào, chế độ nào. |
 | 3b | `.agents/skills/video-pipeline/references/shotlist-guide.md` | Viết shot/beat thế nào, nhân vật cử động bằng thao tác nào, thế nào là đạt chuẩn diễn xuất, lỗi hay gặp. |
+| 3c | `.agents/skills/video-pipeline/references/props-and-interaction-guide.md` | Dùng đạo cụ trong shot: danh mục 10 đạo cụ (state/slot), đổi state, tương tác người↔đạo cụ, SFX có/thiếu, ví dụ đã chạy, giới hạn |
 | 4 | `.agents/skills/video-pipeline/references/2d-animation-doctrine.md` | Kỹ thuật diễn xuất, rig, SFX, checklist HyperFrames. |
 | 5 | `library/README.md` | Chuẩn asset dùng chung, cách `use`/`promote`. |
 | 6 | `HANDOFF.md` | Việc đang dở, trạng thái thực tế của phiên trước. |
