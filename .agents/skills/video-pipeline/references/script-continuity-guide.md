@@ -1,6 +1,6 @@
 # Hướng dẫn viết kịch bản có bối cảnh, hành trình và logic liền mạch
 
-Dành cho agent viết hoặc viết lại `script/script.json` (chế độ A, B, C). Máy kiểm: `scripts/check_script_logic.py` (mã SL1–SL11). Bổ sung cho `script-rewrite/SKILL.md` §3.1 (mô tả `visual`) và `script-schema.md`. Chưa thêm luật mới vào `RULES.md` (R0.3); đề xuất luật nằm ở §9, chờ người dùng duyệt.
+Dành cho agent viết hoặc viết lại `script/script.json` (chế độ A, B, C). Máy kiểm: `scripts/check_script_logic.py` (mã SL1–SL11). Bổ sung cho `script-rewrite/SKILL.md` §3.1 (mô tả `visual`) và `script-schema.md`. Luật tương ứng là R13 trong `RULES.md` v3 (§9).
 
 ## 1. Vấn đề cần giải quyết
 
@@ -132,8 +132,4 @@ Việc gate tìm ra khi chạy thử (không phải do mình soi bằng mắt):
 
 - **Chưa kiểm**: S09–S20 chưa gán `setting`; chưa chạy quy trình này từ đầu cho một kịch bản mới (chế độ C); chưa đo xem agent khác (Codex, OpenCode) làm theo có ra kịch bản tốt hơn không.
 - **Chưa làm**: sinh beat/`shotlist` từ `staging`; nhân vật theo dõi trang phục/vết thương/cảm xúc qua cảnh; lối đi nhiều bước (`connects` mới kiểm kề 1 bước, đi qua 2 chỗ phải khai `link_note`); kiểm bằng LLM về mâu thuẫn trong lời thoại.
-- **Đề xuất luật** (agent không tự sửa `RULES.md`, R0.3), chờ người dùng duyệt:
-  - **R13.1** Kịch bản có `setting` (location, int_ext, time) cho mọi cảnh trước khi chạy TTS; địa điểm lấy từ `bible.locations`.
-  - **R13.2** Nhân vật đổi địa điểm giữa hai cảnh phải khai `from`; di chuyển giữa các địa điểm đi theo `connects` hoặc có `link_note`.
-  - **R13.3** Hồi tưởng/điện thoại/giấc mơ khai `frame` đúng; mốc `story_time` không đi lùi trong dòng present.
-  - **R13.4** `check_script_logic.py --strict` phải 0 lỗi trước TTS và trước cổng demo/full; công cụ kiểm bổ sung vào bảng "Luật → công cụ kiểm".
+- **Luật**: người dùng đã cho phép sửa luật (2026-11-27); nội dung đã vào `RULES.md` v3 thành R13.1–R13.5 (RULES.md là bản chính, guide này không lặp lại).

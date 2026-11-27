@@ -1,8 +1,8 @@
 # RULES — luật chung của repo (cấp cao nhất)
 
-**Phiên bản luật: 2**
+**Phiên bản luật: 3**
 
-> Lịch sử: **v2** (2026-11-22) — thêm R10 (tay nghề), R11 (tương tác nhân vật), R12 (giọng đọc). Nâng phiên bản theo chỉ thị rõ ràng của người dùng trong phiên (R0.2, ghi ở *Ngoại lệ* của `PROJECT.md`). **v1** — R0–R9. Sửa chữ R11.5 và R11.1 (2026-11-26) theo duyệt rõ ràng của người dùng: `hand_over`/`reach` đã có trong generator; không đổi số phiên bản luật.
+> Lịch sử: **v3** (2026-11-27) — thêm R13 (kịch bản có bối cảnh và logic liền mạch). Nâng phiên bản theo chỉ thị rõ ràng của người dùng trong phiên ("Sửa RULE nếu cần thiết", R0.2, ghi ở *Ngoại lệ* của `PROJECT.md`). **v2** (2026-11-22) — thêm R10 (tay nghề), R11 (tương tác nhân vật), R12 (giọng đọc). Nâng phiên bản theo chỉ thị rõ ràng của người dùng trong phiên (R0.2, ghi ở *Ngoại lệ* của `PROJECT.md`). **v1** — R0–R9. Sửa chữ R11.5 và R11.1 (2026-11-26) theo duyệt rõ ràng của người dùng: `hand_over`/`reach` đã có trong generator; không đổi số phiên bản luật.
 
 Mọi agent (mọi skill, subagent, phiên làm việc) phải đọc file này **trước khi làm bất cứ việc gì** trong repo.
 Skill, workflow, `PROJECT.md`, ghi chú, memory mà mâu thuẫn với file này thì **file này thắng**.
@@ -124,6 +124,18 @@ Chi tiết từng bước, mẫu vàng, checklist mắt, lỗi đã biết: [`.a
 
 ---
 
+## R13. Kịch bản: bối cảnh, hành trình, logic liền mạch — bắt buộc khi viết hoặc viết lại `script.json`
+
+Chi tiết, mô hình dữ liệu, quy trình, ví dụ: [`.agents/skills/video-pipeline/references/script-continuity-guide.md`](.agents/skills/video-pipeline/references/script-continuity-guide.md).
+
+- **R13.1** Mọi cảnh có `setting` (`location` lấy từ `bible.locations`, `int_ext` khớp `kind` của địa điểm, `time`, `frame`, `link`), `cast` (ai có mặt) và, khi có hành động đổi vị trí/đạo cụ, `staging`. Bối cảnh chưa có trong library thì khai `pending` + lý do trong bible (R2.1), không đặt tên tại chỗ.
+- **R13.2** Nhân vật đổi địa điểm giữa hai cảnh phải khai `from` (đi từ đâu tới đâu); đi giữa các địa điểm theo `bible.locations[].connects`, hoặc có `link_note` giải thích khoảng giữa.
+- **R13.3** Hồi tưởng, điện thoại, giấc mơ, cắt chen khai `frame` đúng; mốc `story_time` không đi lùi trong dòng `present`; người nói (không phải narrator) phải có trong `cast` của cảnh.
+- **R13.4** Đạo cụ chỉ đổi người cầm bằng `give`/`take`/`put` và chỉ đổi trạng thái trong `states` của bible; `shot.location` phải khớp địa điểm của kịch bản (cutaway/insert là ngoại lệ có cảnh báo).
+- **R13.5** `check_script_logic.py --strict` phải 0 lỗi trước khi chốt kịch bản và chạy TTS (R1.5) và trước cổng demo/full. Bố trí/mốc giờ không có trong nguồn thì ghi `note: đề xuất`, không coi là sự thật của nguồn (R7.1).
+
+---
+
 ## Luật → công cụ kiểm
 
 | Luật | Công cụ |
@@ -141,3 +153,4 @@ Chi tiết từng bước, mẫu vàng, checklist mắt, lỗi đã biết: [`.a
 | R11.1 | `check_shots.py` E7 |
 | R12.2 | `timing_lib.py` + `check_shots.py` E8 (beat theo từ) |
 | R12.1, R12.3 | `check_audio.py` (voice-sync) |
+| R13.1–R13.5 | `check_script_logic.py` (SL1–SL11; `--strict` khi chốt), `check_shots.py` (E5), `gates.py`; phần đọc hiểu do người duyệt |
