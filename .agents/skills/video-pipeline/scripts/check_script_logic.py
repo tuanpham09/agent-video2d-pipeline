@@ -101,6 +101,14 @@ class Gate:
     def connected(self, a: str, b: str) -> bool:
         return a == b or b in self.adj.get(a, set())
 
+    def reach(self, a: str, b: str, steps: int) -> bool:
+        """b đi tới được từ a trong ≤ steps bước theo bible.connects."""
+        seen, frontier = {a}, {a}
+        for _ in range(steps):
+            frontier = {n for f in frontier for n in self.adj.get(f, ())} - seen
+            seen |= frontier
+        return b in seen
+
     # ---------- một cảnh ----------
     def scene(self, sc: dict) -> None:
         sid = sc["id"]
@@ -156,14 +164,24 @@ class Gate:
                 self.err("SL5", sid, f"setting.moves.after '{m.get('after')}' không phải line của cảnh")
             elif m.get("to") not in self.locs:
                 self.err("SL5", sid, f"setting.moves.to '{m.get('to')}' không có trong bible.locations")
+        cur_st = stm
         for lid in lids:
             self.eff_loc[lid] = cur
             m = mv.get(lid)
             if m and m.get("to") in self.locs:
-                if not self.connected(cur, m["to"]):
-                    self.err("SL3", sid, f"moves: {cur} → {m['to']} không nối kề (bible.connects)")
+                mst = parse_st(m.get("story_time"))
+                if m.get("story_time") and mst is None:
+                    self.err("SL7", sid, f"moves.story_time '{m.get('story_time')}' sai dạng 'N<ngày> HH:MM'")
+                if mst is not None and cur_st is not None and mst < cur_st:
+                    self.err("SL7", sid, f"moves.story_time {m['story_time']} nhỏ hơn mốc đang chạy của cảnh")
+                skip = mst is not None and cur_st is not None and mst - cur_st >= 30  # đã trôi ≥ 30 phút: coi như đã đi hết đường
+                routed = bool(m.get("via")) and self.reach(cur, m["to"], 3)  # khai `via` (đi qua đâu) và đường có thật ≤ 3 bước
+                if not skip and not routed and not self.connected(cur, m["to"]):
+                    self.err("SL3", sid, f"moves: {cur} → {m['to']} không nối kề (bible.connects); khai `via` nếu đi qua địa điểm khác (≤ 3 bước), hoặc moves.story_time cách mốc trước ≥ 30 phút")
+                if mst is not None:
+                    cur_st = mst
                 cur = m["to"]
-        end_loc = cur
+        end_loc, end_st = cur, cur_st
 
         is_present = frame == "present"
         saved = (dict(self.hold), dict(self.pstate), dict(self.pos))  # cảnh ngoài hiện tại: kiểm staging nhưng không đổi thế giới
@@ -250,7 +268,10 @@ class Gate:
                 else:
                     last_i = order[aft]
                     loc_now = self.eff_loc.get(aft, loc_now)
-            if who not in phys:
+            if who == "_env" and do != "set_state":
+                self.err("SL5", sid, "who '_env' (hiện tượng không do nhân vật nào) chỉ dùng với set_state")
+                continue
+            if who not in phys and who != "_env":
                 self.err("SL5", sid, f"staging {do}: who '{who}' không có trong cast (physical)")
                 continue
             acted.add(who)
@@ -317,7 +338,7 @@ class Gate:
         for cid in phys:
             if cid not in gone:
                 self.pos[cid] = end_loc
-        self.last_present = {"scene": sid, "end_loc": end_loc, "st": stm, "story_time": st.get("story_time"), "cast": set(phys)}
+        self.last_present = {"scene": sid, "end_loc": end_loc, "st": end_st, "story_time": st.get("story_time"), "cast": set(phys)}
 
     # ---------- heuristics ----------
     def heuristics(self, sid: str, lines: list[dict]) -> None:

@@ -11,7 +11,7 @@ Trước đây một cảnh chỉ có `visual` (đoạn văn tự do) và `lines
 - đạo cụ đang ở trạng thái nào và ai làm nó đổi;
 - giờ trong truyện có đi xuôi không (hồi tưởng, nhảy thời gian).
 
-Ví dụ thật trong `than-trung-chiec-khan-tang-thu-32` (đo ngày 2026-11-27 trên S01–S08): S04 "bay chuyến tối rồi thuê xe về quê" không nói Lâm ở đâu trước đó; S05 nhảy từ ngoài sân vào gian thờ giữa chừng (câu "Vào thắp hương cho bà xong") mà `visual` chỉ ghi một cảnh; S03 là cuộc gọi video nhưng bà nội và mẹ ở đâu không ghi; S02 hồi tưởng nhưng chưa đánh dấu là hồi tưởng. Đây là nguồn gốc của shot "đúng từng câu mà sai tổng thể".
+Ví dụ thật trong `than-trung-chiec-khan-tang-thu-32` (đo ngày 2026-11-27 trên S01–S08, sau đó S09–S20): S04 "bay chuyến tối rồi thuê xe về quê" không nói Lâm ở đâu trước đó; S05 nhảy từ ngoài sân vào gian thờ giữa chừng (câu "Vào thắp hương cho bà xong") mà `visual` chỉ ghi một cảnh; S03 là cuộc gọi video nhưng bà nội và mẹ ở đâu không ghi; S02 hồi tưởng nhưng chưa đánh dấu là hồi tưởng. Đây là nguồn gốc của shot "đúng từng câu mà sai tổng thể".
 
 ## 2. Học từ đâu (đã đọc, nêu đúng phần dùng)
 
@@ -109,7 +109,7 @@ Không kiểm được (cần người đọc): lời thoại có mâu thuẫn v
 
 Dòng thời gian suy ra từ chính lời kể: bà nội mất 15:40 chiều ngày 1 (S04_L03), cuộc gọi video "gần ba giờ" cùng chiều (S03_L04), Lâm bay tối rồi "gần nửa đêm" tới đầu làng (S04_L06), ông Cửu đến "lúc gà gáy" (S06_L01), "sáng hôm ấy" ra rạp (S08_L01). Gán: S03 `N1 14:50`, S04 `N1 23:30` (`link: travel`, `link_note` lấy từ S04_L05, Lâm `from: loc_cong_truong`), S05 `N1 23:50`, S06 `N2 05:00`, S07 `N2 05:30`, S08 `N2 08:00`. Các mốc ngày/giờ là **đề xuất bám lời kể**, không phải số liệu của nguồn.
 
-Bố trí không có trong lời kể (ví dụ bố mẹ ở gian thờ trong S06–S07, lối đi sân → rạp, `loc_duong_que` dùng `toan_canh_lang`) đã ghi `note: đề xuất` để người dùng sửa. S09–S20 chưa gán `setting`: gate báo cảnh báo, `--strict` sẽ báo lỗi cho đến khi làm.
+Bố trí không có trong lời kể (ví dụ bố mẹ ở gian thờ trong S06–S07, lối đi sân → rạp, `loc_duong_que` dùng `toan_canh_lang`) đã ghi `note: đề xuất` để người dùng sửa. S09–S20 đã gán sau đó (2026-11-27): thêm 5 địa điểm (`loc_buong_ngu`, `loc_buong_ba`, `loc_bep`, `loc_dong` có `lib`; `loc_chua_kho` pending), dùng `moves` có `story_time`/`via` cho cảnh dài (S10, S12, S13, S16, S17) và actor `_env` (chỉ `set_state`) cho hiện tượng không có người làm (nến tắt, cối giã tự chuyển). Khi gán, gate bắt thêm: thiếu `cast.from` (S12–S14, S17, S18) và sai người trao hũ (S14, S15) — đã sửa. Gợi ý: S13 nên tách thành vài cảnh.
 
 Việc gate tìm ra khi chạy thử (không phải do mình soi bằng mắt):
 - thứ tự `staging` của chính mình viết ngược line (S03, S06) → SL5, đã sửa;
@@ -126,10 +126,10 @@ Việc gate tìm ra khi chạy thử (không phải do mình soi bằng mắt):
 
 ## 8. Kiểm thử đã chạy
 
-`python .agents/skills/video-pipeline/scripts/tests/test_script_logic.py`: kịch bản mini 2 cảnh; bản đúng phải sạch; 20 biến thể hỏng, mỗi biến thể phải bị bắt đúng mã (SL1–SL8, SL10, SL11; SL9 chưa có ca test), kèm 2 ca "không được báo oan" (exit rồi sang cảnh sau không cần `from`; hồi tưởng chen giữa không làm hỏng liên tục). Kết quả khi viết: qua hết. Chạy trên project thật: `check_script_logic.py --project projects/than-trung-chiec-khan-tang-thu-32`: 0 lỗi, 5 cảnh báo (liệt kê ở §6) với 8/20 cảnh có `setting`.
+`python .agents/skills/video-pipeline/scripts/tests/test_script_logic.py`: kịch bản mini 2 cảnh; bản đúng phải sạch; 20 biến thể hỏng, mỗi biến thể phải bị bắt đúng mã (SL1–SL8, SL10, SL11; SL9 chưa có ca test), kèm 2 ca "không được báo oan" (exit rồi sang cảnh sau không cần `from`; hồi tưởng chen giữa không làm hỏng liên tục). Kết quả khi viết: qua hết. Chạy trên project thật: `check_script_logic.py --project projects/than-trung-chiec-khan-tang-thu-32`: 0 lỗi, 5 cảnh báo (liệt kê ở §6) với 20/20 cảnh có `setting`; `--strict`: 0 lỗi, 6 cảnh báo SL10 (heuristic) + 1 SL11 (S01 SH006).
 
 ## 9. Chưa làm và đề xuất
 
-- **Chưa kiểm**: S09–S20 chưa gán `setting`; chưa chạy quy trình này từ đầu cho một kịch bản mới (chế độ C); chưa đo xem agent khác (Codex, OpenCode) làm theo có ra kịch bản tốt hơn không.
+- **Chưa kiểm**: chưa chạy quy trình này từ đầu cho một kịch bản mới (chế độ C); chưa đo xem agent khác (Codex, OpenCode) làm theo có ra kịch bản tốt hơn không.
 - **Chưa làm**: sinh beat/`shotlist` từ `staging`; nhân vật theo dõi trang phục/vết thương/cảm xúc qua cảnh; lối đi nhiều bước (`connects` mới kiểm kề 1 bước, đi qua 2 chỗ phải khai `link_note`); kiểm bằng LLM về mâu thuẫn trong lời thoại.
 - **Luật**: người dùng đã cho phép sửa luật (2026-11-27); nội dung đã vào `RULES.md` v3 thành R13.1–R13.5 (RULES.md là bản chính, guide này không lặp lại).

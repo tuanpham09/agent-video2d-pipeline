@@ -355,6 +355,18 @@
         {
           "to": "loc_hien_nha",
           "via": "cửa hông"
+        },
+        {
+          "to": "loc_rap_tang",
+          "via": "cửa chính ra rạp"
+        },
+        {
+          "to": "loc_buong_ngu",
+          "via": "cửa buồng"
+        },
+        {
+          "to": "loc_buong_ba",
+          "via": "cửa buồng bà"
         }
       ]
     },
@@ -382,6 +394,10 @@
         {
           "to": "loc_duong_que",
           "via": "ngõ"
+        },
+        {
+          "to": "loc_dong",
+          "via": "đường làng"
         }
       ]
     },
@@ -396,7 +412,13 @@
         "dawn"
       ],
       "note": "đề xuất: bà nội giã trầu, chõng tre",
-      "kind": "ext"
+      "kind": "ext",
+      "connects": [
+        {
+          "to": "loc_bep",
+          "via": "cửa bếp"
+        }
+      ]
     },
     {
       "id": "loc_rap_tang",
@@ -432,6 +454,65 @@
         "dawn"
       ],
       "note": "Lâm ở công trường khi gọi video"
+    },
+    {
+      "id": "loc_buong_ngu",
+      "lib": "phong_ngu",
+      "kind": "int",
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "note": "đề xuất: buồng ngủ của Lâm (S09), cũng dùng làm phòng chú Út ốm (S13)"
+    },
+    {
+      "id": "loc_buong_ba",
+      "lib": "phong_ngu",
+      "kind": "int",
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "note": "đề xuất: buồng của bà nội, nơi giã trầu và nhốt trùng (S11, S14, S15)"
+    },
+    {
+      "id": "loc_bep",
+      "lib": "nha_bep",
+      "kind": "int",
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "note": "đề xuất: bếp nhà (S16–S17)"
+    },
+    {
+      "id": "loc_dong",
+      "lib": "canh_dong_lua",
+      "kind": "ext",
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "note": "đề xuất: cánh đồng/bãi chôn khi đưa tang (S13)"
+    },
+    {
+      "id": "loc_chua_kho",
+      "pending": "library chưa có gian kho đặt hũ sau chùa (S17, S20); cần tạo theo chuẩn bg_lib rồi promote",
+      "kind": "int",
+      "light_states": [
+        "warm",
+        "dark",
+        "dawn"
+      ],
+      "note": "gian kho mái thấp, tối và mát (theo S17_L12)"
     }
   ],
   "props": [

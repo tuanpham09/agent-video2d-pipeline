@@ -175,3 +175,10 @@
 - Phát hiện cần người dùng quyết (chưa sửa): S07_L07–L10 là lời ông Cửu nhưng gán `host`; S08_L21 "Ông Cửu nói…" do chính ông Cửu đọc; S02 cần nhân vật Lâm nhỏ chưa có trong bible; S03 cần bối cảnh công trường chưa có trong library; mốc `story_time` là đề xuất bám lời kể.
 - Ảnh đã XEM: không có (thay đổi dữ liệu và công cụ, không dựng hình).
 - Chưa kiểm: S09–S20 chưa gán setting; chưa chạy quy trình từ đầu cho kịch bản mới (chế độ C); chưa đo agent khác làm theo có tốt hơn không; chưa sinh beat/shotlist từ staging; luật R13 mới là đề xuất, chưa vào RULES.md; SL9 chưa có ca test; chưa chạy `hyperframes check` (không đụng phần dựng hình).
+
+### 2026-11-27 — Gán setting/cast/staging cho S09–S20
+- Bible: thêm `loc_buong_ngu`, `loc_buong_ba` (lib phong_ngu), `loc_bep` (nha_bep), `loc_dong` (canh_dong_lua), `loc_chua_kho` (pending: library chưa có gian kho; cần tạo theo bg_lib). `library.py use` phong_ngu, nha_bep, canh_dong_lua. Lý do tạo mới: không có sẵn bối cảnh tương ứng.
+- Script: S09–S20 có `setting/cast/staging`; mốc giờ, bố trí, người trao hũ ở S14 ghi `note: đề xuất`.
+- Lệnh: `check_script_logic.py --strict`: OK, 0 lỗi (còn cảnh báo SL10 ở S07, S08, S12, S18 và SL11 S01 SH006); `test_script_logic.py`: OK; `check_rules` demo: 0 lỗi; `--phase full`: 2 lỗi (loc_cong_truong, loc_chua_kho pending); `library.py check`: 0 lỗi.
+- Cần người dùng quyết: người nói ở S07_L07–L10, S12_L27, S18_L07/L21 (lời ông Cửu nhưng gán narrator); S13 nên tách; gương, di ảnh chưa có prop trong bible; hai địa điểm pending.
+- Ảnh đã XEM: không có (dữ liệu, không dựng hình). Chưa kiểm: beat/shotlist chưa sinh từ staging; hyperframes không chạy.

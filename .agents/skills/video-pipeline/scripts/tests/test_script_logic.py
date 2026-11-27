@@ -92,6 +92,13 @@ def main() -> int:
     expect("giờ không hợp time (cảnh báo)", run(lambda s: S(s, 0)["setting"].update(story_time="N1 12:00")), "SL7", "warn")
     expect("shot lệch địa điểm", _shot_mismatch(), "SL11")
     expect("flashback không làm đổi thế giới", _flashback_ok(), None)
+    expect("moves không kề, chưa trôi thời gian", run(lambda s: S(s, 1)["setting"].update(moves=[{"after": "S02_L01", "to": "xa"}])), "SL3")
+    expect("moves không kề nhưng đã trôi ≥ 30 phút", run(lambda s: S(s, 1)["setting"].update(moves=[{"after": "S02_L01", "to": "xa", "story_time": "N1 23:00"}])), None)
+    expect("moves có via đi 2 bước", run(lambda s: S(s, 0)["setting"].update(moves=[{"after": "S01_L01", "to": "ngo", "via": "ra cửa rồi ra cổng"}])), None)
+    expect("moves 2 bước thiếu via", run(lambda s: S(s, 0)["setting"].update(moves=[{"after": "S01_L01", "to": "ngo"}])), "SL3")
+    expect("_env set_state hợp lệ", run(lambda s: S(s, 0)["staging"].insert(0, {"after": "S01_L01", "who": "_env", "do": "set_state", "prop": "den", "state": "out"})), None)
+    expect("_env làm việc khác set_state", run(lambda s: S(s, 0)["staging"].insert(0, {"after": "S01_L01", "who": "_env", "do": "move"})), "SL5")
+    expect("moves.story_time đi lùi", run(lambda s: S(s, 1)["setting"].update(moves=[{"after": "S02_L01", "to": "ngo", "story_time": "N1 20:00"}])), "SL7")
     expect("tên gõ lặp ký tự (cảnh báo)", run(lambda s: S(s, 0)["lines"][0].update(text="Anh Lâmm đến")), "SL10", "warn")
     print("OK" if not FAILS else f"FAIL: {len(FAILS)} ca ({', '.join(FAILS)})")
     return 0 if not FAILS else 1

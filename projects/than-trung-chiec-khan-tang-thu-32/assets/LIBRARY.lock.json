@@ -89,6 +89,24 @@
       "version": 4,
       "sha256": "34df2e9faacfe8b541c1241fc5d2802f54509a11efc486c12951a74c2b14031c",
       "file": "assets/bg/toan_canh_lang.svg"
+    },
+    "phong_ngu": {
+      "kind": "location",
+      "version": 3,
+      "sha256": "0aedbbda269cde9f411749ee1a5426af3db92a35c1c5ca67a8c76eb6672e42d5",
+      "file": "assets/bg/phong_ngu.svg"
+    },
+    "nha_bep": {
+      "kind": "location",
+      "version": 3,
+      "sha256": "1e9ca91c074b74de4e6140aa7935b7bea81f02281eb28639557e691b6e1ba04a",
+      "file": "assets/bg/nha_bep.svg"
+    },
+    "canh_dong_lua": {
+      "kind": "location",
+      "version": 4,
+      "sha256": "820fea4fc72cab739144b8b09d307c6895ac432217b9545af8b5fc6f29cab17d",
+      "file": "assets/bg/canh_dong_lua.svg"
     }
   },
   "palette_ref": [

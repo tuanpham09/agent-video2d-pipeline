@@ -1410,6 +1410,64 @@
           "text": "Chú hai tôi ở bên Đức không về kịp, chú nhờ tôi gọi video để chú được nhìn bà lần cuối.",
           "pause_after": 0.28
         }
+      ],
+      "setting": {
+        "location": "loc_buong_ngu",
+        "int_ext": "int",
+        "time": "night",
+        "story_time": "N3 03:00",
+        "frame": "present",
+        "link": "cut",
+        "link_note": "hết lễ ban ngày, Lâm về buồng ngủ; đêm ấy đến lượt Ngân thức canh (S09_L01)",
+        "moves": [
+          {
+            "after": "S09_L03",
+            "to": "loc_rap_tang",
+            "via": "ra gian thờ rồi ra rạp",
+            "note": "Lâm chạy ra rạp theo lời Ngân (S09_L04)"
+          }
+        ]
+      },
+      "cast": [
+        {
+          "id": "host",
+          "from": "loc_rap_tang",
+          "stance": "sit",
+          "note": "đang ngủ, bị lay dậy"
+        },
+        {
+          "id": "ngan",
+          "start": false,
+          "stance": "stand"
+        }
+      ],
+      "staging": [
+        {
+          "after": "S09_L01",
+          "who": "ngan",
+          "do": "enter",
+          "from": "loc_gian_tho",
+          "via": "cửa buồng",
+          "note": "chạy vào buồng lay Lâm"
+        },
+        {
+          "after": "S09_L02",
+          "who": "host",
+          "do": "react",
+          "note": "giật mình tỉnh"
+        },
+        {
+          "after": "S09_L03",
+          "who": "ngan",
+          "do": "react",
+          "note": "mặt trắng bệch"
+        },
+        {
+          "after": "S09_L05",
+          "who": "host",
+          "do": "look",
+          "note": "nhìn cái ghế đầu hàng còn hơi ấm"
+        }
       ]
     },
     {
@@ -1557,6 +1615,94 @@
           "text": "Nhưng muộn rồi, tôi biết là muộn rồi.",
           "pause_after": 0.28
         }
+      ],
+      "setting": {
+        "location": "loc_gian_tho",
+        "int_ext": "int",
+        "time": "day",
+        "story_time": "N3 10:00",
+        "frame": "present",
+        "link": "cut",
+        "note": "đề xuất: giờ gọi video không có trong lời kể; đoạn 'Tối ấy' (S10_L11) bump mốc sang tối cùng ngày",
+        "moves": [
+          {
+            "after": "S10_L10",
+            "to": "loc_gian_tho",
+            "story_time": "N3 22:00",
+            "note": "'Tối ấy' mở lại các clip (S10_L11)"
+          }
+        ]
+      },
+      "cast": [
+        {
+          "id": "host",
+          "from": "loc_rap_tang",
+          "stance": "stand",
+          "holding": [
+            "dien_thoai"
+          ]
+        },
+        {
+          "id": "chu_hai",
+          "presence": "remote",
+          "note": "ở Đức, hiện qua video"
+        },
+        {
+          "id": "ong_cuu",
+          "start": false,
+          "stance": "stand"
+        }
+      ],
+      "staging": [
+        {
+          "after": "S10_L03",
+          "who": "host",
+          "do": "set_state",
+          "prop": "dien_thoai",
+          "state": "call"
+        },
+        {
+          "after": "S10_L09",
+          "who": "host",
+          "do": "look",
+          "note": "quay lại sau lưng, chỉ có tường vôi và gương trùm vải"
+        },
+        {
+          "after": "S10_L18",
+          "who": "ong_cuu",
+          "do": "enter",
+          "from": "loc_san_dem",
+          "via": "cửa chính"
+        },
+        {
+          "after": "S10_L19",
+          "who": "host",
+          "do": "give",
+          "prop": "dien_thoai",
+          "to": "ong_cuu",
+          "note": "mang điện thoại cho ông xem"
+        },
+        {
+          "after": "S10_L20",
+          "who": "ong_cuu",
+          "do": "put",
+          "prop": "dien_thoai",
+          "note": "giật lấy úp xuống chiếu"
+        },
+        {
+          "after": "S10_L20",
+          "who": "_env",
+          "do": "set_state",
+          "prop": "dien_thoai",
+          "state": "ended"
+        },
+        {
+          "after": "S10_L22",
+          "who": "host",
+          "do": "take",
+          "prop": "dien_thoai",
+          "note": "cất vào đáy ba lô theo lời ông"
+        }
       ]
     },
     {
@@ -1649,6 +1795,45 @@
           "speaker": "host",
           "text": "Tối hôm ấy là lễ tế, tôi là đích tôn quỳ đầu hàng con cháu suốt gần một tiếng.",
           "pause_after": 0.28
+        }
+      ],
+      "setting": {
+        "location": "loc_buong_ba",
+        "int_ext": "int",
+        "time": "night",
+        "story_time": "N4 02:00",
+        "frame": "present",
+        "link": "cut",
+        "link_note": "đêm sau, thức canh linh cữu rồi ra sau nhà rửa mặt (S11_L01–L02)"
+      },
+      "cast": [
+        {
+          "id": "host",
+          "from": "loc_gian_tho",
+          "stance": "stand",
+          "at": "ngoài cửa buồng"
+        }
+      ],
+      "staging": [
+        {
+          "after": "S11_L03",
+          "who": "host",
+          "do": "look",
+          "note": "nghe tiếng giã trầu từ buồng bà"
+        },
+        {
+          "after": "S11_L07",
+          "who": "host",
+          "do": "react",
+          "note": "chân như cắm xuống đất"
+        },
+        {
+          "after": "S11_L09",
+          "who": "host",
+          "do": "exit",
+          "to": "loc_gian_tho",
+          "via": "cửa buồng bà",
+          "note": "chạy về gian thờ, quỳ cạnh bố"
         }
       ]
     },
@@ -1862,6 +2047,86 @@
           "speaker": "ong_cuu",
           "text": "Mai đưa tang, mày bưng ảnh bà đi đầu, ai gọi gì cũng không được ngoái lại, nghe chưa?",
           "pause_after": 0.28
+        }
+      ],
+      "setting": {
+        "location": "loc_rap_tang",
+        "int_ext": "ext",
+        "time": "night",
+        "story_time": "N4 19:30",
+        "frame": "present",
+        "link": "cut",
+        "note": "đề xuất: lễ tế diễn ở rạp, bàn thờ đặt ở rìa rạp; theo S11_L13 và S12_L05/L08",
+        "moves": [
+          {
+            "after": "S12_L22",
+            "to": "loc_gian_tho",
+            "via": "vào nhà",
+            "story_time": "N4 23:30",
+            "note": "đêm ấy Lâm xem ảnh (S12_L23a); ông Cửu có mặt (S12_L29)"
+          }
+        ]
+      },
+      "cast": [
+        {
+          "id": "host",
+          "from": "loc_gian_tho",
+          "stance": "kneel"
+        },
+        {
+          "id": "bo",
+          "stance": "stand",
+          "from": "loc_gian_tho"
+        },
+        {
+          "id": "ong_cuu",
+          "stance": "stand",
+          "from": "loc_gian_tho"
+        }
+      ],
+      "staging": [
+        {
+          "after": "S12_L02",
+          "who": "host",
+          "do": "gesture",
+          "note": "loạng choạng ngã vào giá nến"
+        },
+        {
+          "after": "S12_L03",
+          "who": "bo",
+          "do": "move",
+          "to": "bàn thờ",
+          "note": "lao lên dập lửa"
+        },
+        {
+          "after": "S12_L05",
+          "who": "ong_cuu",
+          "do": "gesture",
+          "note": "bát nước rơi xuống nền gạch"
+        },
+        {
+          "after": "S12_L15",
+          "who": "host",
+          "do": "react",
+          "note": "ấm lạ lùng, tưởng đứng ở hai chỗ"
+        },
+        {
+          "after": "S12_L16",
+          "who": "bo",
+          "do": "gesture",
+          "note": "ôm Lâm khóc"
+        },
+        {
+          "after": "S12_L18",
+          "who": "ong_cuu",
+          "do": "gesture",
+          "note": "lặng lẽ nhặt mảnh bát vỡ"
+        },
+        {
+          "after": "S12_L29",
+          "who": "ong_cuu",
+          "do": "look",
+          "note": "xem ảnh trong điện thoại"
         }
       ]
     },
@@ -2130,6 +2395,137 @@
           "text": "Ông nhìn sang tôi, tôi biết ông đang nghĩ gì.",
           "pause_after": 0.28
         }
+      ],
+      "setting": {
+        "location": "loc_san_dem",
+        "int_ext": "ext",
+        "time": "dawn",
+        "story_time": "N5 05:00",
+        "frame": "present",
+        "link": "cut",
+        "note": "cảnh dài nhiều ngày; nên cân nhắc tách thành S13a (ra đồng), S13b (chú Út ốm), S13c (rạp dựng lại) khi đổi id; hiện dùng moves có story_time. Mốc 'ba hôm sau' tính từ ngày đưa tang (đề xuất)",
+        "moves": [
+          {
+            "after": "S13_L04",
+            "to": "loc_dong",
+            "via": "đường làng ra đồng"
+          },
+          {
+            "after": "S13_L25",
+            "to": "loc_gian_tho",
+            "via": "về nhà",
+            "story_time": "N5 09:00"
+          },
+          {
+            "after": "S13_L29",
+            "to": "loc_buong_ngu",
+            "story_time": "N5 20:00",
+            "note": "đề xuất: phòng chú Út ốm"
+          },
+          {
+            "after": "S13_L32",
+            "to": "loc_buong_ngu",
+            "story_time": "N6 23:00",
+            "note": "đêm thứ hai Lâm trông chú (S13_L33)"
+          },
+          {
+            "after": "S13_L37",
+            "to": "loc_buong_ngu",
+            "story_time": "N8 03:00",
+            "note": "chú Út mất, ba hôm sau ngày đưa tang (S13_L38)"
+          },
+          {
+            "after": "S13_L38",
+            "to": "loc_rap_tang",
+            "via": "ra sân",
+            "story_time": "N8 10:00",
+            "note": "dựng lại rạp (S13_L39)"
+          },
+          {
+            "after": "S13_L41",
+            "to": "loc_hien_nha",
+            "story_time": "N8 11:00",
+            "note": "ông Cửu ngồi ngoài hiên (S13_L42)"
+          }
+        ]
+      },
+      "cast": [
+        {
+          "id": "host",
+          "from": "loc_gian_tho",
+          "stance": "stand",
+          "holding": [
+            "mam_tre"
+          ]
+        },
+        {
+          "id": "bo",
+          "stance": "stand",
+          "from": "loc_gian_tho"
+        },
+        {
+          "id": "chu_ut",
+          "stance": "stand"
+        },
+        {
+          "id": "ong_cuu",
+          "stance": "stand",
+          "from": "loc_gian_tho"
+        },
+        {
+          "id": "ba_noi",
+          "presence": "voice",
+          "note": "giọng giả của Trùng gọi Út (S13_L16)"
+        },
+        {
+          "id": "than_trung",
+          "presence": "voice",
+          "note": "giọng nhái Lâm gọi sau lưng"
+        }
+      ],
+      "staging": [
+        {
+          "after": "S13_L02",
+          "who": "host",
+          "do": "gesture",
+          "note": "ôm di ảnh bà vào ngực (di ảnh chưa có prop trong bible)"
+        },
+        {
+          "after": "S13_L08",
+          "who": "host",
+          "do": "react",
+          "note": "suýt quay lại"
+        },
+        {
+          "after": "S13_L18",
+          "who": "bo",
+          "do": "gesture",
+          "note": "quát lên"
+        },
+        {
+          "after": "S13_L19",
+          "who": "chu_ut",
+          "do": "look",
+          "note": "ngoái lại đáp 'dạ'"
+        },
+        {
+          "after": "S13_L22",
+          "who": "ong_cuu",
+          "do": "gesture",
+          "note": "rắc gạo muối quanh huyệt, đặt bùa lên nắp linh cữu"
+        },
+        {
+          "after": "S13_L35",
+          "who": "chu_ut",
+          "do": "react",
+          "note": "mở mắt, nhìn qua vai Lâm"
+        },
+        {
+          "after": "S13_L36",
+          "who": "host",
+          "do": "look",
+          "note": "quay lại sau lưng, chỉ có tấm rèm cửa"
+        }
       ]
     },
     {
@@ -2276,6 +2672,115 @@
           "speaker": "host",
           "text": "Gió lùa qua, mép vải tuột xuống một góc, chỉ một góc bằng bàn tay nhưng đủ.",
           "pause_after": 0.28
+        }
+      ],
+      "setting": {
+        "location": "loc_buong_ba",
+        "int_ext": "int",
+        "time": "night",
+        "story_time": "N8 23:30",
+        "frame": "present",
+        "link": "cut",
+        "link_note": "đêm thứ bảy sau ngày bà mất (S14_L01); từ hiên ông Cửu bày lễ trong buồng bà",
+        "moves": [
+          {
+            "after": "S14_L09",
+            "to": "loc_buong_ba",
+            "story_time": "N9 00:00",
+            "note": "gần nửa đêm (S14_L10)"
+          }
+        ]
+      },
+      "cast": [
+        {
+          "id": "host",
+          "from": "loc_hien_nha",
+          "stance": "sit",
+          "at": "trong vòng gạo muối"
+        },
+        {
+          "id": "ong_cuu",
+          "stance": "stand",
+          "at": "góc buồng",
+          "from": "loc_hien_nha",
+          "holding": [
+            "hu_sanh"
+          ]
+        },
+        {
+          "id": "me",
+          "stance": "sit",
+          "at": "ngoài cửa buồng",
+          "from": "loc_rap_tang"
+        }
+      ],
+      "staging": [
+        {
+          "after": "S14_L01",
+          "who": "ong_cuu",
+          "do": "give",
+          "prop": "hu_sanh",
+          "to": "host",
+          "note": "đề xuất: ông trao hũ cho Lâm trước khi bày lễ"
+        },
+        {
+          "after": "S14_L02a",
+          "who": "ong_cuu",
+          "do": "set_state",
+          "prop": "nen",
+          "state": "lit",
+          "note": "thắp một ngọn nến, đặt gương trùm vải (gương chưa có prop trong bible)"
+        },
+        {
+          "after": "S14_L06",
+          "who": "ong_cuu",
+          "do": "gesture",
+          "note": "dặn: phải là tay mày"
+        },
+        {
+          "after": "S14_L08",
+          "who": "me",
+          "do": "gesture",
+          "note": "tay chắp trước ngực"
+        },
+        {
+          "after": "S14_L11",
+          "who": "_env",
+          "do": "set_state",
+          "prop": "coi_giau_trau",
+          "state": "raised"
+        },
+        {
+          "after": "S14_L12",
+          "who": "_env",
+          "do": "set_state",
+          "prop": "coi_giau_trau",
+          "state": "strike"
+        },
+        {
+          "after": "S14_L13",
+          "who": "_env",
+          "do": "set_state",
+          "prop": "coi_giau_trau",
+          "state": "rest"
+        },
+        {
+          "after": "S14_L17",
+          "who": "ong_cuu",
+          "do": "gesture",
+          "note": "thì thầm: đừng nhìn xuống chân"
+        },
+        {
+          "after": "S14_L20",
+          "who": "host",
+          "do": "look",
+          "note": "nhìn thẳng vào gương trùm vải"
+        },
+        {
+          "after": "S14_L21",
+          "who": "host",
+          "do": "react",
+          "note": "mép vải tuột xuống một góc"
         }
       ]
     },
@@ -2436,6 +2941,121 @@
           "text": "Đêm ấy, lần đầu tiên sau bảy ngày tôi ngủ một mạch đến trưa.",
           "pause_after": 0.28
         }
+      ],
+      "setting": {
+        "location": "loc_buong_ba",
+        "int_ext": "int",
+        "time": "night",
+        "story_time": "N9 00:10",
+        "frame": "present",
+        "link": "continuous",
+        "moves": [
+          {
+            "after": "S15_L21",
+            "to": "loc_buong_ba",
+            "story_time": "N9 04:30",
+            "note": "rạng sáng (S15_L22)"
+          },
+          {
+            "after": "S15_L24",
+            "to": "loc_buong_ba",
+            "story_time": "N9 12:00",
+            "note": "ngủ một mạch đến trưa (S15_L25)"
+          }
+        ]
+      },
+      "cast": [
+        {
+          "id": "host",
+          "stance": "sit",
+          "holding": [
+            "hu_sanh"
+          ]
+        },
+        {
+          "id": "ong_cuu",
+          "stance": "stand"
+        },
+        {
+          "id": "me",
+          "stance": "sit",
+          "at": "ngoài cửa buồng"
+        },
+        {
+          "id": "than_trung",
+          "presence": "voice",
+          "note": "hiện trong góc gương, đặt tay lên vai Lâm"
+        },
+        {
+          "id": "lam_that",
+          "presence": "voice",
+          "note": "tiếng gào bị nhốt trong hũ"
+        }
+      ],
+      "staging": [
+        {
+          "after": "S15_L07",
+          "who": "host",
+          "do": "gesture",
+          "note": "tay run, hũ va xuống nền gạch"
+        },
+        {
+          "after": "S15_L08",
+          "who": "ong_cuu",
+          "do": "gesture",
+          "note": "quát bảo úp hũ"
+        },
+        {
+          "after": "S15_L09",
+          "who": "host",
+          "do": "set_state",
+          "prop": "hu_sanh",
+          "state": "sealed",
+          "note": "quay phắt lại úp hũ lên Trùng"
+        },
+        {
+          "after": "S15_L10",
+          "who": "_env",
+          "do": "set_state",
+          "prop": "nen",
+          "state": "out",
+          "note": "ngọn nến tắt phụt"
+        },
+        {
+          "after": "S15_L14",
+          "who": "me",
+          "do": "move",
+          "to": "trong buồng",
+          "note": "lao vào buồng"
+        },
+        {
+          "after": "S15_L15",
+          "who": "ong_cuu",
+          "do": "gesture",
+          "note": "chặn mẹ, giữ chặt vai"
+        },
+        {
+          "after": "S15_L18",
+          "who": "me",
+          "do": "react",
+          "note": "khuỵu xuống, cắn vào tay để không thưa"
+        },
+        {
+          "after": "S15_L22",
+          "who": "host",
+          "do": "give",
+          "prop": "hu_sanh",
+          "note": "Lâm trao hũ cho ông Cửu mang về chùa",
+          "to": "ong_cuu"
+        },
+        {
+          "after": "S15_L22",
+          "who": "ong_cuu",
+          "do": "exit",
+          "to": "loc_gian_tho",
+          "via": "cửa buồng bà",
+          "note": "đi ra ngõ (hướng chùa)"
+        }
       ]
     },
     {
@@ -2577,6 +3197,103 @@
           "text": "Mẹ không nói gì, cúi xuống nhặt rau rồi đi vào bếp.",
           "pause_after": 0.28
         }
+      ],
+      "setting": {
+        "location": "loc_hien_nha",
+        "int_ext": "ext",
+        "time": "day",
+        "story_time": "N12 08:00",
+        "frame": "present",
+        "link": "cut",
+        "link_note": "Lâm xin nghỉ không lương đến hết 49 ngày và ở lại nhà (S16_L02)",
+        "moves": [
+          {
+            "after": "S16_L17",
+            "to": "loc_hien_nha",
+            "story_time": "N20 17:00",
+            "note": "đề xuất: 'một chiều' (S16_L18), ngày cụ thể không có trong lời kể"
+          }
+        ]
+      },
+      "cast": [
+        {
+          "id": "host",
+          "from": "loc_buong_ba",
+          "stance": "sit",
+          "holding": [
+            "dien_thoai"
+          ]
+        },
+        {
+          "id": "vy",
+          "presence": "remote",
+          "note": "gọi điện từ Sài Gòn"
+        },
+        {
+          "id": "me",
+          "start": false,
+          "stance": "stand"
+        }
+      ],
+      "staging": [
+        {
+          "after": "S16_L06",
+          "who": "host",
+          "do": "react",
+          "note": "điện thoại không nhận diện được mặt"
+        },
+        {
+          "after": "S16_L11",
+          "who": "host",
+          "do": "set_state",
+          "prop": "dien_thoai",
+          "state": "call"
+        },
+        {
+          "after": "S16_L14",
+          "who": "host",
+          "do": "set_state",
+          "prop": "dien_thoai",
+          "state": "ended"
+        },
+        {
+          "after": "S16_L18",
+          "who": "host",
+          "do": "take",
+          "prop": "coi_giau_trau",
+          "note": "lấy cối đồng của bà ra bậc cửa"
+        },
+        {
+          "after": "S16_L18",
+          "who": "host",
+          "do": "set_state",
+          "prop": "coi_giau_trau",
+          "state": "raised"
+        },
+        {
+          "after": "S16_L19",
+          "who": "host",
+          "do": "set_state",
+          "prop": "coi_giau_trau",
+          "state": "strike",
+          "note": "tay tự biết nhịp giã"
+        },
+        {
+          "after": "S16_L20",
+          "who": "me",
+          "do": "enter",
+          "from": "loc_san_dem",
+          "via": "sân",
+          "note": "rổ rau rơi xuống sân"
+        },
+        {
+          "after": "S16_L22",
+          "who": "me",
+          "do": "exit",
+          "to": "loc_bep",
+          "via": "cửa bếp",
+          "note": "nhặt rau rồi đi vào bếp"
+        }
       ]
     },
     {
@@ -2699,6 +3416,79 @@
           "speaker": "host",
           "text": "nó học được nhịp giã trầu của bà cũng phải thôi.",
           "pause_after": 0.3
+        }
+      ],
+      "setting": {
+        "location": "loc_bep",
+        "int_ext": "int",
+        "time": "night",
+        "story_time": "N20 20:00",
+        "frame": "present",
+        "link": "cut",
+        "moves": [
+          {
+            "after": "S17_L10",
+            "to": "loc_chua_kho",
+            "via": "đi lên chùa",
+            "story_time": "N42 09:00",
+            "note": "ngày bốn mươi hai theo bố lên chùa (S17_L11)"
+          }
+        ],
+        "link_note": "đề xuất: bé Na rời rạp tang, đi qua hiên vào bếp ăn tối cùng Lâm"
+      },
+      "cast": [
+        {
+          "id": "host",
+          "from": "loc_hien_nha",
+          "stance": "sit"
+        },
+        {
+          "id": "be_na",
+          "stance": "stand",
+          "at": "cửa bếp",
+          "from": "loc_hien_nha"
+        },
+        {
+          "id": "me",
+          "stance": "sit"
+        }
+      ],
+      "staging": [
+        {
+          "after": "S17_L02",
+          "who": "be_na",
+          "do": "look",
+          "note": "nhìn xuống chân Lâm, hỏi sao không có bóng"
+        },
+        {
+          "after": "S17_L04",
+          "who": "host",
+          "do": "gesture",
+          "note": "cười, xoa đầu bé Na"
+        },
+        {
+          "after": "S17_L07",
+          "who": "host",
+          "do": "gesture",
+          "note": "cố ăn hết bát cơm cá kho"
+        },
+        {
+          "after": "S17_L10",
+          "who": "me",
+          "do": "gesture",
+          "note": "gắp thêm cá cho con"
+        },
+        {
+          "after": "S17_L15",
+          "who": "host",
+          "do": "gesture",
+          "note": "cúi xuống áp tai vào thân hũ"
+        },
+        {
+          "after": "S17_L17",
+          "who": "host",
+          "do": "react",
+          "note": "lùi lại, suýt ngã"
         }
       ]
     },
@@ -2913,6 +3703,79 @@
           "text": "Còn mày mà bỏ cái tên ấy ra thì mày lại thành trùng, lại đi tìm một đám tang khác.",
           "pause_after": 0.28
         }
+      ],
+      "setting": {
+        "location": "loc_gian_tho",
+        "int_ext": "int",
+        "time": "day",
+        "story_time": "N49 09:00",
+        "frame": "present",
+        "link": "cut",
+        "link_note": "một tuần sau chuyến lên chùa, Lâm đã về nhà (S17→S18)",
+        "note": "đề xuất: giờ trong ngày không có trong lời kể"
+      },
+      "cast": [
+        {
+          "id": "host",
+          "from": "loc_chua_kho",
+          "stance": "sit"
+        },
+        {
+          "id": "ong_cuu",
+          "start": false,
+          "stance": "stand"
+        },
+        {
+          "id": "me",
+          "stance": "sit",
+          "from": "loc_chua_kho"
+        }
+      ],
+      "staging": [
+        {
+          "after": "S18_L02",
+          "who": "ong_cuu",
+          "do": "enter",
+          "from": "loc_san_dem",
+          "via": "cửa chính",
+          "note": "ông Cửu lại đến"
+        },
+        {
+          "after": "S18_L08",
+          "who": "ong_cuu",
+          "do": "gesture",
+          "note": "mở lớp vải, dựng tấm gương trước mặt Lâm (gương chưa có prop trong bible)"
+        },
+        {
+          "after": "S18_L10",
+          "who": "host",
+          "do": "look",
+          "note": "nhìn vào gương"
+        },
+        {
+          "after": "S18_L15",
+          "who": "host",
+          "do": "gesture",
+          "note": "giơ tay chạm khăn xô trên đầu"
+        },
+        {
+          "after": "S18_L17",
+          "who": "me",
+          "do": "react",
+          "note": "vẫn nhắm mắt, không dám nhìn gương"
+        },
+        {
+          "after": "S18_L25",
+          "who": "ong_cuu",
+          "do": "gesture",
+          "note": "cúi đầu"
+        },
+        {
+          "after": "S18_L27",
+          "who": "ong_cuu",
+          "do": "look",
+          "note": "ngẩng lên nhìn thẳng Lâm"
+        }
       ]
     },
     {
@@ -3066,6 +3929,56 @@
           "text": "Trên giấy ghi Đỗ Văn Lâm.",
           "pause_after": 0.28
         }
+      ],
+      "setting": {
+        "location": "loc_gian_tho",
+        "int_ext": "int",
+        "time": "day",
+        "story_time": "N49 10:00",
+        "frame": "present",
+        "link": "continuous"
+      },
+      "cast": [
+        {
+          "id": "host",
+          "stance": "sit"
+        },
+        {
+          "id": "ong_cuu",
+          "stance": "stand"
+        },
+        {
+          "id": "me",
+          "stance": "sit"
+        }
+      ],
+      "staging": [
+        {
+          "after": "S19_L10",
+          "who": "host",
+          "do": "gesture",
+          "note": "hỏi ông về việc mở hũ"
+        },
+        {
+          "after": "S19_L12",
+          "who": "me",
+          "do": "react",
+          "note": "mở mắt"
+        },
+        {
+          "after": "S19_L16",
+          "who": "me",
+          "do": "gesture",
+          "note": "đặt bàn tay lên tay Lâm"
+        },
+        {
+          "after": "S19_L20",
+          "who": "ong_cuu",
+          "do": "exit",
+          "to": "loc_san_dem",
+          "via": "cửa chính",
+          "note": "đứng dậy, rời đi, để lại giấy đỏ"
+        }
       ]
     },
     {
@@ -3170,6 +4083,39 @@
           "speaker": "host",
           "text": "Tôi tên là Lâm.",
           "pause_after": 0.28
+        }
+      ],
+      "setting": {
+        "location": "loc_chua_kho",
+        "int_ext": "int",
+        "time": "night",
+        "frame": "cutaway",
+        "link": "cut",
+        "note": "đoạn kết kể từ 'bây giờ', ngoài dòng thời gian; mốc ngày không có trong lời kể nên không khai story_time"
+      },
+      "cast": [
+        {
+          "id": "host",
+          "stance": "stand",
+          "holding": [
+            "dien_thoai"
+          ]
+        }
+      ],
+      "staging": [
+        {
+          "after": "S20_L05",
+          "who": "host",
+          "do": "gesture",
+          "note": "gõ lại đúng nhịp lên thân hũ"
+        },
+        {
+          "after": "S20_L12",
+          "who": "host",
+          "do": "set_state",
+          "prop": "dien_thoai",
+          "state": "off",
+          "note": "màn hình tối thành mặt kính đen"
         }
       ]
     }
