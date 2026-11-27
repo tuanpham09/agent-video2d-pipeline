@@ -345,7 +345,18 @@
         "red_flash",
         "dawn"
       ],
-      "note": "đề xuất: cảnh chính (bàn thờ, hũ, khăn tang)"
+      "note": "đề xuất: cảnh chính (bàn thờ, hũ, khăn tang)",
+      "kind": "int",
+      "connects": [
+        {
+          "to": "loc_san_dem",
+          "via": "cửa chính"
+        },
+        {
+          "to": "loc_hien_nha",
+          "via": "cửa hông"
+        }
+      ]
     },
     {
       "id": "loc_san_dem",
@@ -357,7 +368,22 @@
         "red_flash",
         "dawn"
       ],
-      "note": "đề xuất: cảnh ngoài, vườn chuối"
+      "note": "đề xuất: cảnh ngoài, vườn chuối",
+      "kind": "ext",
+      "connects": [
+        {
+          "to": "loc_hien_nha",
+          "via": "bậc thềm"
+        },
+        {
+          "to": "loc_rap_tang",
+          "via": "rạp dựng giữa sân"
+        },
+        {
+          "to": "loc_duong_que",
+          "via": "ngõ"
+        }
+      ]
     },
     {
       "id": "loc_hien_nha",
@@ -369,7 +395,43 @@
         "red_flash",
         "dawn"
       ],
-      "note": "đề xuất: bà nội giã trầu, chõng tre"
+      "note": "đề xuất: bà nội giã trầu, chõng tre",
+      "kind": "ext"
+    },
+    {
+      "id": "loc_rap_tang",
+      "lib": "rap_dam_tang",
+      "kind": "ext",
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "note": "đề xuất: rạp tang dựng trong sân (S08)"
+    },
+    {
+      "id": "loc_duong_que",
+      "lib": "toan_canh_lang",
+      "kind": "ext",
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "note": "đề xuất: ngõ/đầu làng ban đêm (S04); tra library chưa thấy cảnh đường quê riêng, toan_canh_lang là gần nhất"
+    },
+    {
+      "id": "loc_cong_truong",
+      "pending": "library chưa có bối cảnh công trường/lán tôn (S03); cần tạo theo chuẩn bg_lib rồi promote",
+      "kind": "ext",
+      "light_states": [
+        "warm",
+        "dark",
+        "dawn"
+      ],
+      "note": "Lâm ở công trường khi gọi video"
     }
   ],
   "props": [

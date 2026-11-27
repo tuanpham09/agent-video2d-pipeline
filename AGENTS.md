@@ -53,6 +53,8 @@ Gọi skill **`/video-pipeline`** cho mọi yêu cầu làm video. Skill đó gi
 - A/B: QA nguồn → viết lại chống reup (`originality_check.py`). C: xác nhận ý hiểu → thể loại/nhân vật/bối cảnh → đề cương → kịch bản 10–30 phút (`--speed 1.3`).
 - Cả ba: demo 30–40 s → người dùng duyệt → mới làm full. Không sang giai đoạn sau khi gate chưa pass; cập nhật `PROJECT.md` sau mỗi gate.
 
+Viết/viết lại kịch bản: mỗi cảnh phải có `setting` (trong/ngoài, địa điểm, giờ), `cast`, `staging` (đi từ đâu tới đâu, ai cầm gì) theo [`.agents/skills/video-pipeline/references/script-continuity-guide.md`](.agents/skills/video-pipeline/references/script-continuity-guide.md); gate `check_script_logic.py --strict` trước TTS. Đề xuất luật R13 trong guide đang chờ người dùng duyệt (R0.3).
+
 Chuỗi skill:
 
 1. `/baoyu-youtube-transcript` — lấy transcript, metadata, cover.
@@ -121,6 +123,7 @@ cd projects/<slug>/video && npx hyperframes lint && npx hyperframes check --json
 
 # 7. các gate (đều phải sạch)
 python .agents/skills/video-pipeline/scripts/check_rules.py --project projects/<slug> [--phase demo|full|final]
+python .agents/skills/video-pipeline/scripts/check_script_logic.py --project projects/<slug> [--strict]   # logic kịch bản: setting/cast/staging, đi từ đâu tới đâu (trước TTS; --strict khi chốt kịch bản)
 python .agents/skills/video-pipeline/scripts/check_shots.py --project projects/<slug>
 python .agents/skills/video-pipeline/scripts/check_sync.py --project projects/<slug>
 python .agents/skills/video-pipeline/scripts/check_motion.py --project projects/<slug>    # sau build_video.py (đọc video_demo/motion_plan.json)

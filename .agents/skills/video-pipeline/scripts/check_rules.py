@@ -134,6 +134,11 @@ def check_project(proj: Path, phase: str, fix: bool) -> tuple[list[str], list[st
                     errs.append(f"R2.4: {kind} {iid} là project-only nhưng thiếu 'reason'")
                 continue
             ref = item.get("lib")
+            if not ref and item.get("pending"):
+                # bối cảnh/đạo cụ kịch bản cần nhưng library chưa có: cho qua demo, chặn từ full (phải tạo theo chuẩn + promote)
+                (errs if phase in ("full", "final") else warns).append(
+                    f"R2.1: {kind} {iid} đang `pending` ({item['pending']}); tạo theo chuẩn library rồi gán lib/promote trước giai đoạn full")
+                continue
             if not ref:
                 errs.append(f"R2.1: {kind} {iid} không có 'lib' (id trong library) và không phải project-only — tra `library.py list` rồi gán, hoặc tạo mới theo chuẩn + promote")
                 continue

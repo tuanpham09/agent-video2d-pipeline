@@ -77,11 +77,23 @@
       "version": 1,
       "sha256": "a29aaeca7604b2fbfad023ed753f8733e95d1cb01723bdb07406d93806c9de69",
       "file": "assets/props/smartphone.svg"
+    },
+    "rap_dam_tang": {
+      "kind": "location",
+      "version": 3,
+      "sha256": "345da547aa2317541f70216a9207b1690770ae188c5ee67fe76ec28857c8cb60",
+      "file": "assets/bg/rap_dam_tang.svg"
+    },
+    "toan_canh_lang": {
+      "kind": "location",
+      "version": 4,
+      "sha256": "34df2e9faacfe8b541c1241fc5d2802f54509a11efc486c12951a74c2b14031c",
+      "file": "assets/bg/toan_canh_lang.svg"
     }
   },
   "palette_ref": [
     "base",
     "folk-horror-vn"
   ],
-  "palette_sha": "ec0a4388f6529d8de52d4dc37973f2d735a1649b8d9e8e33a231c0b86e8b0192"
+  "palette_sha": "eae6952ae170493f29099aab1618f902cf9e068bf2d6b89e0a87cb79b1804612"
 }

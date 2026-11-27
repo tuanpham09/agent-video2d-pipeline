@@ -80,8 +80,7 @@
       "items": {
         "type": "object",
         "required": [
-          "id",
-          "lib"
+          "id"
         ],
         "properties": {
           "id": {
@@ -105,8 +104,60 @@
           },
           "reason": {
             "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "int",
+              "ext"
+            ],
+            "description": "trong nhà / ngoài trời; script.setting.int_ext phải khớp"
+          },
+          "connects": {
+            "type": "array",
+            "description": "địa điểm kề nhau (đi bộ được): dùng cho enter/exit/continuous",
+            "items": {
+              "type": "object",
+              "required": [
+                "to"
+              ],
+              "properties": {
+                "to": {
+                  "type": "string"
+                },
+                "via": {
+                  "type": "string"
+                },
+                "oneway": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "pending": {
+            "type": "string",
+            "description": "lý do chưa có bối cảnh trong library; thay cho lib cho tới khi tạo + promote"
+          },
+          "note": {
+            "type": "string"
           }
-        }
+        },
+        "anyOf": [
+          {
+            "required": [
+              "lib"
+            ]
+          },
+          {
+            "required": [
+              "pending"
+            ]
+          },
+          {
+            "required": [
+              "scope"
+            ]
+          }
+        ]
       }
     },
     "props": {

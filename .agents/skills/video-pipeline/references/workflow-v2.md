@@ -201,6 +201,11 @@ Quy ước (đã kiểm bằng cách ghép thử một cảnh: bối cảnh + b�
 - [ ] Giọng: nhân vật xuất hiện chung một cảnh phải khác giọng; vai phụ chỉ dùng chung giọng khi không bao giờ cùng cảnh.
 - [ ] `emotion_vocab` thay cho "31 sắc thái" (không dẫn chiếu `claude-animation-base`).
 
+### C1b. Logic kịch bản (gate trước TTS và trước shotlist)
+- [ ] Mỗi cảnh có `setting`, `cast`, `staging` theo [`script-continuity-guide.md`](script-continuity-guide.md): địa điểm từ bible, `kind` trong/ngoài, `connects` giữa các địa điểm, `from` cho nhân vật đổi chỗ, `frame` cho hồi tưởng/điện thoại.
+- [ ] `python .agents/skills/video-pipeline/scripts/check_script_logic.py --project projects/<slug> --strict` → 0 lỗi (demo chỉ bắt buộc với các cảnh nằm trong demo: thêm `--scenes S01,...`). `gates.py` đã gồm gate này (demo: cảnh thiếu setting chỉ cảnh báo; `--phase full`: `--strict`).
+- [ ] Cảnh báo SL10 (lời nhân vật gán nhầm người, tên gõ lệch) phải được đọc và xử lý hoặc giải thích trong `PROJECT.md`.
+
 ### C2. Shotlist (`script/shotlist.json`) — mỗi câu thoại một beat diễn
 
 ```json

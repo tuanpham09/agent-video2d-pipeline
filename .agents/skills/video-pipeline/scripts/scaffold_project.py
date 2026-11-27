@@ -69,6 +69,7 @@ PHASE_SOURCE = """\
 ## Giai đoạn B — Viết lại chống reup
 - [ ] `script/rewrite_plan.md` + `script/diff_matrix.md`
 - [ ] `script/script.md` + `script/script.json`
+- [ ] Mỗi cảnh có `setting`/`cast`/`staging`; `check_script_logic.py --strict` = 0 lỗi (references/script-continuity-guide.md)
 - [ ] `originality_check.py` = OK
 - [ ] 👤 Duyệt script + packaging
 """
@@ -80,6 +81,7 @@ PHASE_IDEA = """\
 - [ ] I3 `script/outline.md` — đề cương, thời lượng mục tiêu 👤
 - [ ] I4 kiểm tra ý tưởng gốc (không dùng tác phẩm có bản quyền)
 - [ ] I5 `script/script.md` + `script/script.json` — đo thời lượng bằng `--dry-run` 👤
+- [ ] I5b mỗi cảnh có `setting`/`cast`/`staging`; `check_script_logic.py --strict` = 0 lỗi (references/script-continuity-guide.md)
 """
 
 PROJECT_MD = """# {title}

@@ -144,6 +144,191 @@
                 }
               }
             }
+          },
+          "setting": {
+            "type": "object",
+            "required": [
+              "location",
+              "int_ext",
+              "time"
+            ],
+            "description": "đầu cảnh kiểu scene heading: INT/EXT, địa điểm (bible.locations), thời gian; xem references/script-continuity-guide.md",
+            "properties": {
+              "location": {
+                "type": "string"
+              },
+              "int_ext": {
+                "enum": [
+                  "int",
+                  "ext"
+                ]
+              },
+              "time": {
+                "enum": [
+                  "day",
+                  "night",
+                  "dawn",
+                  "dusk"
+                ]
+              },
+              "story_time": {
+                "type": "string",
+                "pattern": "^[A-Za-z]*\\s*\\d+\\s+\\d{1,2}:\\d{2}$",
+                "description": "mốc trong truyện, vd 'N1 15:00'"
+              },
+              "frame": {
+                "enum": [
+                  "present",
+                  "flashback",
+                  "dream",
+                  "phone",
+                  "cutaway"
+                ],
+                "default": "present"
+              },
+              "link": {
+                "enum": [
+                  "continuous",
+                  "later",
+                  "cut",
+                  "travel"
+                ],
+                "default": "cut",
+                "description": "quan hệ với cảnh present liền trước"
+              },
+              "link_note": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              },
+              "moves": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "after",
+                    "to"
+                  ],
+                  "properties": {
+                    "after": {
+                      "type": "string"
+                    },
+                    "to": {
+                      "type": "string"
+                    },
+                    "via": {
+                      "type": "string"
+                    },
+                    "note": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "cast": {
+            "type": "array",
+            "description": "ai có mặt trong cảnh (narrator không cần)",
+            "items": {
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "presence": {
+                  "enum": [
+                    "physical",
+                    "remote",
+                    "voice"
+                  ],
+                  "default": "physical"
+                },
+                "start": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "from": {
+                  "type": "string",
+                  "description": "địa điểm (bible) nhân vật đến từ, bắt buộc khi đổi chỗ so với cảnh trước"
+                },
+                "at": {
+                  "type": "string"
+                },
+                "stance": {
+                  "type": "string"
+                },
+                "holding": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "role_note": {
+                  "type": "string"
+                },
+                "note": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "staging": {
+            "type": "array",
+            "description": "hành động có hệ quả logic, theo thứ tự line",
+            "items": {
+              "type": "object",
+              "required": [
+                "who",
+                "do"
+              ],
+              "properties": {
+                "after": {
+                  "type": "string"
+                },
+                "who": {
+                  "type": "string"
+                },
+                "do": {
+                  "enum": [
+                    "enter",
+                    "exit",
+                    "move",
+                    "sit",
+                    "stand",
+                    "take",
+                    "give",
+                    "put",
+                    "set_state",
+                    "look",
+                    "react",
+                    "gesture"
+                  ]
+                },
+                "from": {
+                  "type": "string"
+                },
+                "to": {
+                  "type": "string"
+                },
+                "via": {
+                  "type": "string"
+                },
+                "prop": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string"
+                },
+                "note": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }

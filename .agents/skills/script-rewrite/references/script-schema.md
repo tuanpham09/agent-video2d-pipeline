@@ -84,6 +84,12 @@ File này là hợp đồng giữa bước viết kịch bản và bước đọ
 | `pause_after` | – | khoảng lặng sau scene (giây), mặc định 0.35 |
 | `lines` | ✓ | ≥ 1 line |
 
+| `setting` | ✓* | `{location, int_ext, time, story_time?, frame?, link?, link_note?, moves?}` — đầu cảnh kiểu scene heading |
+| `cast` | ✓* | ai có mặt: `{id, presence?, start?, from?, at?, stance?, holding?}` |
+| `staging` | – | hành động có hệ quả logic: `{after, who, do, from?, to?, via?, prop?, state?}` |
+
+\* bắt buộc trước khi chốt kịch bản/TTS (gate `check_script_logic.py --strict`); `build_voiceover.py` bỏ qua các trường này. Chi tiết, ví dụ, mã lỗi: [`video-pipeline/references/script-continuity-guide.md`](../../video-pipeline/references/script-continuity-guide.md).
+
 #### Quy chuẩn trường `visual` (Bắt buộc 5 thành phần):
 Mỗi `visual` phải là chuỗi mô tả rõ ràng (hoặc object JSON gồm các khóa):
 - **`environment` (Quang cảnh):** Chất liệu tường/sàn, ô cửa mở ra đâu, các đạo cụ có mặt (bàn thờ, nến, cối, giường, bếp lửa...).

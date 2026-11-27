@@ -68,6 +68,16 @@ Dùng `/long-form-youtube` cho khung chuẩn. Rút gọn áp dụng ở đây:
 - **Số và tên riêng**: xem `references/vietnamese-style.md` để viết sao cho TTS đọc đúng.
 - **Câu hỏi tu từ** dùng có liều lượng; mỗi scene 1 câu là đủ.
 
+## 3.0. Bối cảnh, hành trình, logic liền mạch (BẮT BUỘC, làm trước 3.1)
+
+Mỗi cảnh phải có `setting` (địa điểm của bible, trong/ngoài, thời gian, `frame`, `link` với cảnh trước), `cast` (ai có mặt, đến từ đâu) và `staging` (ai vào/ra/đưa/cầm/đổi trạng thái đạo cụ, theo thứ tự câu). Nhân vật đổi chỗ giữa hai cảnh phải khai `from` (đi từ đâu tới đâu); địa điểm nối nhau theo `bible.locations[].connects`. Hồi tưởng, điện thoại, giấc mơ khai `frame` đúng. Làm đúng quy trình trong [`video-pipeline/references/script-continuity-guide.md`](../video-pipeline/references/script-continuity-guide.md) (mô hình dữ liệu, các bước, ví dụ than-trung, mã lỗi SL1–SL11), rồi chạy:
+
+```bash
+python .agents/skills/video-pipeline/scripts/check_script_logic.py --project projects/<slug> [--strict]
+```
+
+`--strict` (cảnh thiếu `setting` là lỗi) phải 0 lỗi trước khi chốt kịch bản và chạy TTS. Trường `visual` (3.1) mô tả hình; `setting/cast/staging` là dữ liệu máy đọc được, hai bên không được mâu thuẫn.
+
 ## 3.1. Mô tả quang cảnh & thị giác (Bắt buộc cho HyperFrames dựng mượt)
 
 **Tuyệt đối không ghi chung chung** kiểu "cảnh đêm rạp tang hiu hắt" hay "người mẹ lo âu". Để bộ phận dựng video (HyperFrames + SVG vector) tạo được chuyển động chân thực, mượt mà và nhịp điệu dồn dập, gay cấn, kịch bản phải tuân thủ 2 nguyên tắc thiết kế:
