@@ -1,0 +1,35 @@
+name: gates
+on:
+  pull_request:
+  push:
+    branches: [main, claude/**]
+
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Cú pháp mọi script Python
+        run: |
+          find .agents -name '*.py' -not -path '*/node_modules/*' -print0 | xargs -0 python -m py_compile
+      - name: Library hợp lệ (R2.9)
+        run: python .agents/skills/video-pipeline/scripts/library.py check
+      - name: Bối cảnh sinh bằng code đồng bộ với library
+        run: |
+          python .agents/skills/video-pipeline/scripts/build_bg.py --no-sheet
+          python .agents/skills/video-pipeline/scripts/import_bg.py
+          git diff --exit-code -- library/ || (echo "library/ lệch nguồn bg_lib: chạy build_bg.py + import_bg.py rồi commit" && exit 1)
+      - name: Rig + kiểm tràn khung (project mẫu)
+        run: |
+          python .agents/skills/video-pipeline/scripts/build_rig.py \
+            --bible projects/than-trung-chiec-khan-tang-thu-32/script/bible.json \
+            --out "$RUNNER_TEMP/rig" --script projects/than-trung-chiec-khan-tang-thu-32/script/script.json --no-sheet
+      - name: Gate luật cho mọi project (giai đoạn demo)
+        run: |
+          for p in projects/*/; do
+            [ -f "$p/script/bible.json" ] || { echo "bỏ qua $p (chưa có bible)"; continue; }
+            python .agents/skills/video-pipeline/scripts/check_rules.py --project "$p" --phase demo
+          done

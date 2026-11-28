@@ -1,0 +1,672 @@
+{
+  "description": "Khuôn người + bộ trang phục dùng lại cho mọi project. Bible: rig = {archetype, outfit, ...ghi đè}. Thứ tự gộp: archetype → outfit → khoá ghi đè trong bible. Màu là TOKEN trong library/palettes.",
+  "archetypes": {
+    "adult_m": {
+      "description": "Nam trưởng thành, tóc ngắn đen",
+      "params": {
+        "scale": 1.0,
+        "body_w": 100,
+        "hunch": 0,
+        "skin": "skin",
+        "hair": "short",
+        "hair_color": "hair_black",
+        "wrinkles": 0
+      },
+      "tags": [
+        "nam",
+        "trưởng thành",
+        "người lớn"
+      ],
+      "keywords": [
+        "anh",
+        "chú",
+        "bố",
+        "cha",
+        "ba",
+        "đàn ông",
+        "người đàn ông",
+        "chồng",
+        "kỹ sư",
+        "thợ",
+        "chủ nhà",
+        "con trai",
+        "tôi",
+        "trai"
+      ]
+    },
+    "adult_f": {
+      "description": "Nữ trung niên, tóc đen búi",
+      "params": {
+        "scale": 0.95,
+        "body_w": 96,
+        "hunch": 0.1,
+        "skin": "skin",
+        "hair": "bun",
+        "hair_color": "hair_black",
+        "wrinkles": 1
+      },
+      "tags": [
+        "nữ",
+        "trung niên",
+        "người lớn"
+      ],
+      "keywords": [
+        "mẹ",
+        "má",
+        "cô",
+        "dì",
+        "thím",
+        "mợ",
+        "bà mẹ",
+        "đàn bà",
+        "người phụ nữ",
+        "vợ",
+        "chị",
+        "trung niên"
+      ]
+    },
+    "young_adult_m": {
+      "description": "Thanh niên trẻ (nam): dáng thẳng, tóc ngắn gọn gàng",
+      "params": {
+        "scale": 0.98,
+        "body_w": 96,
+        "hunch": 0,
+        "skin": "skin",
+        "hair": "short",
+        "hair_color": "hair_black",
+        "wrinkles": 0
+      },
+      "tags": [
+        "nam",
+        "thanh niên",
+        "trẻ"
+      ],
+      "keywords": [
+        "thanh niên",
+        "chàng trai",
+        "cậu",
+        "anh chàng",
+        "sinh viên nam",
+        "trai trẻ"
+      ]
+    },
+    "young_adult_f": {
+      "description": "Thiếu nữ / cô gái trẻ: vóc dáng mảnh mai, tóc dài buông hoặc cột",
+      "params": {
+        "scale": 0.92,
+        "body_w": 88,
+        "hunch": 0,
+        "skin": "skin",
+        "hair": "long_tied",
+        "hair_color": "hair_black",
+        "wrinkles": 0
+      },
+      "tags": [
+        "nữ",
+        "thiếu nữ",
+        "trẻ"
+      ],
+      "keywords": [
+        "cô gái",
+        "thiếu nữ",
+        "cô ấy",
+        "cô bé",
+        "cô dâu",
+        "sinh viên nữ",
+        "gái trẻ",
+        "em gái"
+      ]
+    },
+    "elder_m": {
+      "description": "Ông già, hơi còng, đầu trọc, mày bạc, nhiều nếp nhăn",
+      "params": {
+        "scale": 0.93,
+        "body_w": 96,
+        "hunch": 0.5,
+        "skin": "skin_old",
+        "hair": "none",
+        "hair_color": "hair_white",
+        "brow_color": "brow_white",
+        "wrinkles": 2
+      },
+      "tags": [
+        "nam",
+        "già",
+        "cao tuổi"
+      ],
+      "keywords": [
+        "ông",
+        "cụ ông",
+        "ông già",
+        "ông cụ",
+        "thầy cúng",
+        "thầy mo",
+        "thầy",
+        "cụ",
+        "lão",
+        "ông nội",
+        "ông ngoại",
+        "bác già"
+      ]
+    },
+    "elder_f": {
+      "description": "Bà già, còng lưng, tóc bạc búi",
+      "params": {
+        "scale": 0.86,
+        "body_w": 92,
+        "hunch": 0.9,
+        "skin": "skin_old",
+        "hair": "bun",
+        "hair_color": "hair_white",
+        "brow_color": "brow_white",
+        "wrinkles": 2
+      },
+      "tags": [
+        "nữ",
+        "già",
+        "cao tuổi"
+      ],
+      "keywords": [
+        "bà",
+        "cụ bà",
+        "bà cụ",
+        "bà nội",
+        "bà ngoại",
+        "bà già",
+        "mụ",
+        "cụ"
+      ]
+    },
+    "teen": {
+      "description": "Thiếu niên (nam): nhỏ hơn người lớn, đầu hơi to",
+      "params": {
+        "scale": 0.82,
+        "body_w": 84,
+        "hunch": 0,
+        "head_scale": 1.12,
+        "skin": "skin",
+        "hair": "short",
+        "hair_color": "hair_black",
+        "wrinkles": 0
+      },
+      "tags": [
+        "nam",
+        "thiếu niên"
+      ],
+      "keywords": [
+        "thiếu niên",
+        "cậu bé",
+        "học sinh",
+        "cậu học trò",
+        "thằng bé",
+        "em trai",
+        "nam sinh"
+      ]
+    },
+    "teen_f": {
+      "description": "Thiếu nữ tuổi teen: tóc hai bím, dáng mảnh",
+      "params": {
+        "scale": 0.8,
+        "body_w": 80,
+        "hunch": 0,
+        "head_scale": 1.12,
+        "skin": "skin",
+        "hair": "pigtails",
+        "hair_color": "hair_black",
+        "wrinkles": 0
+      },
+      "tags": [
+        "nữ",
+        "thiếu niên"
+      ],
+      "keywords": [
+        "nữ sinh",
+        "em gái",
+        "cô học trò",
+        "thiếu nữ",
+        "cô bé học sinh",
+        "con bé"
+      ]
+    },
+    "child": {
+      "description": "Bé trai / trẻ nhỏ: thân bé, chỏm tóc đào lộn hột dân gian hoặc tóc ngắn, kiềng bạc",
+      "params": {
+        "scale": 0.62,
+        "body_w": 74,
+        "hunch": 0,
+        "head_scale": 1.32,
+        "skin": "skin",
+        "hair": "topknot",
+        "hair_color": "hair_black",
+        "necklace": "silver_lock",
+        "wrinkles": 0
+      },
+      "tags": [
+        "nam",
+        "trẻ em",
+        "bé"
+      ],
+      "keywords": [
+        "bé trai",
+        "đứa trẻ",
+        "thằng bé",
+        "em bé",
+        "trẻ con",
+        "con trai nhỏ",
+        "cu cậu",
+        "bé"
+      ]
+    },
+    "child_f": {
+      "description": "Bé gái: thân bé, đầu to, tóc búi hai bên (bím củ tỏi)",
+      "params": {
+        "scale": 0.6,
+        "body_w": 72,
+        "hunch": 0,
+        "head_scale": 1.34,
+        "skin": "skin",
+        "hair": "pigtails",
+        "hair_color": "hair_black",
+        "wrinkles": 0
+      },
+      "tags": [
+        "nữ",
+        "trẻ em",
+        "bé"
+      ],
+      "keywords": [
+        "bé gái",
+        "con bé",
+        "đứa bé gái",
+        "em bé gái",
+        "cô bé",
+        "bé"
+      ]
+    },
+    "spirit_shadow": {
+      "description": "Bóng đen không mặt thật, mắt trắng đồng tử đỏ, miệng ngoác (khăn rách buộc đầu)",
+      "params": {
+        "scale": 1.12,
+        "body_w": 130,
+        "hunch": 0,
+        "shadow": true,
+        "hair": "none",
+        "robe": "shadow_body",
+        "sleeve": "shadow_body",
+        "pants": "shadow_body",
+        "headband": true,
+        "khan_default": "on"
+      },
+      "tags": [
+        "ma",
+        "bóng đen",
+        "siêu nhiên",
+        "kinh dị"
+      ],
+      "keywords": [
+        "ma",
+        "bóng ma",
+        "bóng đen",
+        "hồn",
+        "oan hồn",
+        "quỷ",
+        "hồn ma",
+        "bóng",
+        "linh hồn",
+        "thần trùng",
+        "trùng",
+        "âm hồn",
+        "con ma"
+      ]
+    },
+    "ghost_woman": {
+      "description": "Ma nữ áo trắng: da xám nhợt, tóc đen xõa dài rủ che nửa mặt, một mắt đục",
+      "params": {
+        "scale": 0.92,
+        "body_w": 88,
+        "hunch": 0,
+        "skin": "skin_ghost",
+        "hair": "long_loose",
+        "hair_color": "hair_black",
+        "wrinkles": 0,
+        "hair_over_face": true,
+        "cloudy_eye": "l"
+      },
+      "tags": [
+        "ma",
+        "nữ",
+        "siêu nhiên",
+        "kinh dị",
+        "oan hồn"
+      ],
+      "keywords": [
+        "ma nữ",
+        "nữ quỷ",
+        "ma áo trắng",
+        "cô gái áo trắng",
+        "bóng người đàn bà",
+        "hồn ma",
+        "oan hồn",
+        "tóc xõa",
+        "tóc dài che mặt",
+        "con ma",
+        "hồn",
+        "hồn ma nữ"
+      ]
+    },
+    "ghost_drowned": {
+      "description": "Ma da (người chết đuối): da xám xanh, tóc ướt rủ bám rong rêu, một mắt đục",
+      "params": {
+        "scale": 0.92,
+        "body_w": 88,
+        "hunch": 0.25,
+        "skin": "skin_drowned",
+        "hair": "long_loose",
+        "hair_color": "hair_wet",
+        "wrinkles": 1,
+        "brow_color": "hair_wet",
+        "weeds": true,
+        "hair_over_face": true,
+        "cloudy_eye": "r"
+      },
+      "tags": [
+        "ma",
+        "nước",
+        "siêu nhiên",
+        "kinh dị",
+        "chết đuối"
+      ],
+      "keywords": [
+        "ma da",
+        "ma nước",
+        "ma sông",
+        "ma giếng",
+        "người chết đuối",
+        "hồn chết đuối",
+        "chết đuối",
+        "dưới nước",
+        "rong rêu",
+        "con ma da",
+        "ma dưới sông",
+        "ma dưới giếng"
+      ]
+    }
+  },
+  "outfits": {
+    "mourning": {
+      "description": "Đồ tang áo xô trắng ngà + khăn tang trên đầu (khăn là prop có thể tháo: khan_default)",
+      "params": {
+        "robe": "robe_mourning",
+        "sleeve": "robe_mourning_dark",
+        "pants": "robe_mourning_dark",
+        "headband": true,
+        "khan_default": "on"
+      },
+      "tags": [
+        "tang",
+        "đen trắng",
+        "nghi lễ"
+      ],
+      "keywords": [
+        "đồ tang",
+        "áo tang",
+        "khăn tang",
+        "có tang",
+        "chịu tang",
+        "xô trắng",
+        "đám tang",
+        "áo xô",
+        "để tang"
+      ]
+    },
+    "ao_the_indigo": {
+      "description": "Áo the thâm, khăn xếp, thắt lưng nâu (người lớn tuổi, thầy cúng, người làng)",
+      "params": {
+        "robe": "robe_indigo",
+        "sleeve": "robe_indigo_dark",
+        "pants": "robe_indigo_dark",
+        "sash": "robe_brown",
+        "hat": "khan-xep"
+      },
+      "tags": [
+        "truyền thống",
+        "người lớn tuổi",
+        "thầy cúng"
+      ],
+      "keywords": [
+        "áo the",
+        "khăn xếp",
+        "thầy cúng",
+        "thầy mo",
+        "cụ đồ",
+        "ông đồ",
+        "áo dài thâm",
+        "khăn đóng",
+        "thầy"
+      ]
+    },
+    "nau_song": {
+      "description": "Áo nâu sồng giản dị (người nông thôn)",
+      "params": {
+        "robe": "robe_brown",
+        "sleeve": "robe_brown_dark",
+        "pants": "robe_brown_dark"
+      },
+      "tags": [
+        "nông thôn",
+        "giản dị"
+      ],
+      "keywords": [
+        "áo nâu",
+        "nâu sồng",
+        "bà cụ nhà quê",
+        "người nông dân",
+        "quê",
+        "nhà quê",
+        "bà lão"
+      ]
+    },
+    "plain_light": {
+      "description": "Áo vải sáng trung tính (người thường, hồi tưởng)",
+      "params": {
+        "robe": "cloth_white",
+        "sleeve": "cloth_grey",
+        "pants": "cloth_grey"
+      },
+      "tags": [
+        "thường",
+        "hồi tưởng"
+      ],
+      "keywords": [
+        "áo trắng",
+        "hồi tưởng",
+        "ngày thường",
+        "áo thường",
+        "người thường"
+      ]
+    },
+    "ao_ba_ba_brick": {
+      "description": "Áo bà ba màu đỏ gạch cổ truyền (thiếu nữ, phụ nữ trẻ)",
+      "params": {
+        "robe": "robe_brick",
+        "sleeve": "robe_brick_dark",
+        "pants": "robe_brown_dark",
+        "sash": "robe_brown"
+      },
+      "tags": [
+        "nữ",
+        "thiếu nữ",
+        "truyền thống"
+      ],
+      "keywords": [
+        "áo bà ba",
+        "áo đỏ gạch",
+        "cô gái quê",
+        "thiếu nữ",
+        "cô dâu",
+        "áo cánh"
+      ]
+    },
+    "ao_ba_ba_cyan": {
+      "description": "Áo bà ba / cánh màu lam xám (thanh niên, thiếu niên)",
+      "params": {
+        "robe": "robe_cyan",
+        "sleeve": "robe_cyan_dark",
+        "pants": "cloth_grey"
+      },
+      "tags": [
+        "nam",
+        "thanh niên"
+      ],
+      "keywords": [
+        "áo bà ba",
+        "áo lam",
+        "thanh niên",
+        "áo xanh lam",
+        "thiếu niên"
+      ]
+    },
+    "ao_tre_em_yellow": {
+      "description": "Áo cánh trẻ em màu vàng đất ấm áp",
+      "params": {
+        "robe": "robe_yellow",
+        "sleeve": "robe_yellow_dark",
+        "pants": "cloth_grey"
+      },
+      "tags": [
+        "trẻ em"
+      ],
+      "keywords": [
+        "áo vàng",
+        "bé",
+        "em bé",
+        "trẻ con",
+        "đứa trẻ"
+      ]
+    },
+    "ao_tre_em_red": {
+      "description": "Áo cánh / yếm trẻ em màu đỏ mận dân gian",
+      "params": {
+        "robe": "cloth_red",
+        "sleeve": "cloth_red_dark",
+        "pants": "cloth_white"
+      },
+      "tags": [
+        "trẻ em"
+      ],
+      "keywords": [
+        "áo đỏ",
+        "yếm",
+        "bé",
+        "em bé gái",
+        "trẻ con"
+      ]
+    },
+    "ao_nong_dan_moss": {
+      "description": "Áo vải màu rêu tối đậm chất đồng quê",
+      "params": {
+        "robe": "robe_moss",
+        "sleeve": "robe_moss_dark",
+        "pants": "robe_brown_dark"
+      },
+      "tags": [
+        "nông thôn",
+        "nông dân"
+      ],
+      "keywords": [
+        "nông dân",
+        "áo rêu",
+        "người làm ruộng",
+        "người cày",
+        "bác nông dân",
+        "áo vải rêu"
+      ]
+    },
+    "ao_trang_ma": {
+      "description": "Áo dài trắng ngà cũ, xám ở tay (ma nữ, hồn)",
+      "params": {
+        "robe": "robe_ghost_white",
+        "sleeve": "robe_ghost_grey",
+        "pants": "robe_ghost_white"
+      },
+      "tags": [
+        "ma",
+        "siêu nhiên",
+        "áo trắng"
+      ],
+      "keywords": [
+        "áo trắng",
+        "áo dài trắng",
+        "váy trắng",
+        "đồ trắng",
+        "áo liệm"
+      ]
+    },
+    "rach_ma_da": {
+      "description": "Vải rách xanh rêu thấm nước (ma da, người chết đuối)",
+      "params": {
+        "robe": "robe_algae",
+        "sleeve": "robe_algae_dark",
+        "pants": "robe_algae_dark"
+      },
+      "tags": [
+        "ma",
+        "nước",
+        "rách"
+      ],
+      "keywords": [
+        "áo rách",
+        "vải rách",
+        "ướt sũng",
+        "quần áo ướt",
+        "rêu bám"
+      ]
+    },
+    "nong_dan_non_la": {
+      "description": "Áo vải rêu tối + nón lá (dân làng, nông dân đi đồng)",
+      "params": {
+        "robe": "robe_moss",
+        "sleeve": "robe_moss_dark",
+        "pants": "robe_brown_dark",
+        "hat": "non-la"
+      },
+      "tags": [
+        "nông thôn",
+        "nông dân",
+        "nón lá"
+      ],
+      "keywords": [
+        "nón lá",
+        "đội nón",
+        "nông dân",
+        "người đi đồng",
+        "dân làng",
+        "đi cấy",
+        "đi chợ"
+      ]
+    },
+    "ba_ba_non_la": {
+      "description": "Áo bà ba đỏ gạch + nón lá (phụ nữ làng)",
+      "params": {
+        "robe": "robe_brick",
+        "sleeve": "robe_brick_dark",
+        "pants": "robe_brown_dark",
+        "sash": "robe_brown",
+        "hat": "non-la"
+      },
+      "tags": [
+        "nữ",
+        "nông thôn",
+        "nón lá"
+      ],
+      "keywords": [
+        "nón lá",
+        "đội nón",
+        "áo bà ba",
+        "phụ nữ làng",
+        "đi chợ",
+        "gánh"
+      ]
+    }
+  }
+}

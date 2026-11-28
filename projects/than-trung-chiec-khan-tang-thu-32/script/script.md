@@ -134,7 +134,7 @@
 - **Mục tiêu:** Thầy nhốt trùng 84 tuổi mắt trái đục và căn kho bí ẩn sau chùa
 - **Chỉ đạo hình ảnh:** Ông Cửu ôm bị cói chứa hũ sành bịt vải đỏ, trùm hết gương trong nhà
 
-> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửuu đến lúc gà gáy, ông tám mươi tư tuổi, lưng còng, mắt trái đục như hòn bi ve.
+> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửu đến lúc gà gáy, ông tám mươi tư tuổi, lưng còng, mắt trái đục như hòn bi ve.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Sau lưng ông có cái bị cói, trong bị là một
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** cái hũ sành nhỏ cỡ cái bát hương, miệng bịt vải đỏ.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Cả vùng tôi gọi ông là thầy nhốt trùng.
@@ -152,7 +152,7 @@
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Nó muốn làm người nhà, mà đã là người nhà thì phải chịu tang.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông hạ tay xuống, có khăn, có mặt, có tên, đủ ba thứ là nó thành người ấy.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Tôi hỏi, thế người thật thì đi đâu?
-> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửuu quay con mắt đục về phía tôi, nhìn rất lâu.
+> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửu quay con mắt đục về phía tôi, nhìn rất lâu.
 > **Ông Cửu (Thầy nhốt trùng) (Thiền Tâm Đức):** Đi với bà mày.
 
 ---
@@ -198,15 +198,15 @@
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Bé Na ngồi trong lòng thím út, không có ai lạ.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Nhưng có một cảm giác rất khó tả, như khi nhìn một bức ảnh đông người,
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** mắt cứ trượt qua đúng một chỗ mà không biết chỗ ấy là chỗ nào.
-> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửuu giơ tay lên, thôi đừng đếm nữa, đếm nhiều nó biết mình đang bị đếm.
+> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửu giơ tay lên, thôi đừng đếm nữa, đếm nhiều nó biết mình đang bị đếm.
 > **Ông Cửu (Thầy nhốt trùng) (Thiền Tâm Đức):** Rồi ông quay sang tôi, Đích tôn, khăn của mày đâu?
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Mẹ tôi kể chuyện cái khăn có chữ L.
-> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửuu nghe xong thì im lặng một lúc.
+> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửu nghe xong thì im lặng một lúc.
 > **Ông Cửu (Thầy nhốt trùng) (Thiền Tâm Đức):** Nó lấy khăn của mày rồi.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Tôi hỏi sao lại là khăn của tôi, cả nhà có ba mươi mốt cái khăn cơ mà.
-> **Ông Cửu (Thầy nhốt trùng) (Thiền Tâm Đức):** Ông Cửuu nói, vì mày là đứa về muộn nhất, chỗ của mày còn trống.
+> **Ông Cửu (Thầy nhốt trùng) (Thiền Tâm Đức):** Ông Cửu nói, vì mày là đứa về muộn nhất, chỗ của mày còn trống.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Mẹ tôi xé một tấm vải xô mới quấn lên đầu tôi, tay mẹ run quấn đi quấn lại mới xong.
-> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửuu dặn thêm, từ giờ đến lúc đưa tang đứa nào trong nhà
+> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửu dặn thêm, từ giờ đến lúc đưa tang đứa nào trong nhà
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** cũng không được gọi tên tôi, tôi cũng đừng soi vào bất cứ thứ gì.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Cả ngày hôm ấy người nhà gọi tôi là Đích Tôn,
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** bé Na gọi tôi là chú cả, nghe lạ tai nhưng tôi thấy cũng yên tâm.
@@ -225,7 +225,7 @@
 > **Em gái Ngân (Trúc Ly):** Em gọi mà không quay lại.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Tôi chạy ra, đen tị chập chờn, hàng ghế nhựa trống trơn.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Chỉ có cái ghế đầu hàng, chỗ của Đích Tôn, mặt ghế vẫn còn hơi ấm như vừa có người đứng dậy.
-> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Dưới chân ghế, vòng gạo muối ông Cửuu rắc quanh rạp
+> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Dưới chân ghế, vòng gạo muối ông Cửu rắc quanh rạp
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** bị gạt ra một vệt kéo dài thẳng về phía gian thờ.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Chú hai tôi ở bên Đức không về kịp, chú nhờ tôi gọi video để chú được nhìn bà lần cuối.
 
@@ -253,7 +253,7 @@
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Clip thứ ba, nó cúi xuống sát cạnh má tôi, không nhìn tôi.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Nó nhìn vào màn hình, nhìn vào cái mặt tôi đang hiện trong đó.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Như một đứa trẻ đang chép bài.
-> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Tôi mang điện thoại cho ông Cửuu xem, ông giật lấy úp xuống chiếu.
+> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Tôi mang điện thoại cho ông Cửu xem, ông giật lấy úp xuống chiếu.
 > **Ông Cửu (Thầy nhốt trùng) (Thiền Tâm Đức):** Cái này cũng là cái gương.
 > **Ông Cửu (Thầy nhốt trùng) (Thiền Tâm Đức):** Thằng ngu.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông bảo tôi tắt máy cất vào đáy ba lô, từ đấy đến hết tang không được mở ra.
@@ -290,7 +290,7 @@
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Vai tôi đập vào giá nến, một cây nến đổ, lửa bén vào mép vải phủ.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Bố tôi lao lên, trong lúc cuống bố hét to Lâm.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Cả rạp như đứng hình.
-> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Kèn đang thổi cũng dừng, ông Cửuu đang cầm bát nước, cái bát rơi xuống nền gạch.
+> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Kèn đang thổi cũng dừng, ông Cửu đang cầm bát nước, cái bát rơi xuống nền gạch.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Bố tôi đứng đó, hai tay vẫn dập lửa, miệng há ra.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Tôi biết bố muốn nuốt cái tên ấy lại.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Trong hàng khăn trắng dưới rạp có một cái đầu chậm rãi quay lại phía tôi.
@@ -304,7 +304,7 @@
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Rồi hết, tôi lại chỉ đứng ở đây cạnh bố.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Bố ôm lấy tôi, khóc.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Bố xin lỗi mãi.
-> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửuu lặng, lẽ nhặt mấy mảnh bát vỡ.
+> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửu lặng, lẽ nhặt mấy mảnh bát vỡ.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông không mắng ai.
 > **Ông Cửu (Thầy nhốt trùng) (Thiền Tâm Đức):** Thôi, nó đủ rồi.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Tôi hỏi đủ cái gì ạ?
@@ -316,7 +316,7 @@
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Mặt nó là mặt tôi.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Mắt tôi, mũi tôi, cái vết sẹo nhỏ trên lông mày tôi hồi bé ngã xe đạp.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Miệng nó mở to như đang hét lên một điều gì đó nhưng không ai trong ảnh quay lại nhìn nó cả.
-> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Tôi đưa ông Cửuu xem.
+> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Tôi đưa ông Cửu xem.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Lần này ông không mắng nữa.
 > **Ông Cửu (Thầy nhốt trùng) (Thiền Tâm Đức):** Nó học xong mặt mày rồi, giờ nó sẽ đòi chỗ của mày.
 > **Ông Cửu (Thầy nhốt trùng) (Thiền Tâm Đức):** Mai đưa tang, mày bưng ảnh bà đi đầu, ai gọi gì cũng không được ngoái lại, nghe chưa?
@@ -339,7 +339,7 @@
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Nó gọi bằng giọng tôi, gọi tên tôi như cái cách người ta gọi một đứa đi lạc.
 > **Thần Trùng (Thiện Minh):** Lâm ơi, đứng lại, đấy không phải chỗ của mày.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Tôi ôm chặt ảnh bà, cắn răng nhìn thẳng.
-> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửuu đã dặn rồi, nó sẽ giả giọng.
+> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửu đã dặn rồi, nó sẽ giả giọng.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Gần đến bãi, tiếng gọi đổi khác.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Lần này là giọng bà, khàn khàn, nhỏ nhẹ như ngày xưa bà gọi con cái về ăn cơm.
 > **Bà nội (Kim Thanh):** Út ơi, Út ơi, mẹ lạnh.
@@ -395,7 +395,7 @@
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** hai vòng, chậm, kéo lê như người đi chân trần trên nền gạch ướt.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Mỗi vòng lại gần thêm một chút.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Tôi nghe tiếng hạt gạo lạo xạo bị đẩy dạt vào trong.
-> **Ông Cửu (Thầy nhốt trùng) (Thiền Tâm Đức):** Ông Cửuu đứng ở góc buồng thì thầm, đừng nhìn xuống chân, nhìn vào gương.
+> **Ông Cửu (Thầy nhốt trùng) (Thiền Tâm Đức):** Ông Cửu đứng ở góc buồng thì thầm, đừng nhìn xuống chân, nhìn vào gương.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ngọn nến kêu xẻo một tiếng.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Cái gương trùm vải trước mặt tôi khẽ rung như có ai đang thở vào nó từ phía bên kia.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Tôi ngồi im, mắt nhìn thẳng vào cái gương trùm vải trước mặt.
@@ -554,7 +554,7 @@
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Mẹ mất bà rồi, mất chú út rồi, mất thằng Lâm rồi.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Mẹ không mở hũ nào nữa cả.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Từ giờ con là Lâm, ra ăn cơm đi con.
-> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửuu đứng dậy không nói thêm gì.
+> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Ông Cửu đứng dậy không nói thêm gì.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Trước khi đi, ông để lại trên chiếu một mảnh giấy
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** đỏ mới bảo bố tôi mang lên chùa dán đè lên hũ.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Trên giấy không còn ghi Đỗ Gia Trùng nữa.
@@ -566,7 +566,7 @@
 - **Mục tiêu:** Tiếng gõ cối trầu đối đáp trên chùa và lời nhắc người xem tắt màn hình
 - **Chỉ đạo hình ảnh:** Gian kho sau chùa tĩnh mịch, màn hình điện thoại từ từ tắt ngấm
 
-> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Tháng sau, ông Cửuu đi trong một giấc ngủ trưa, người ta bảo ông đi nhẹ lắm.
+> **Đỗ Văn Lâm (Người kể) (Đức Trí):** Tháng sau, ông Cửu đi trong một giấc ngủ trưa, người ta bảo ông đi nhẹ lắm.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Bây giờ tôi không ở Sài Gòn nữa, tôi về quê xin làm ở huyện, ở với bố mẹ và Ngân.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Vi chia tay tôi, bảo anh vẫn tốt, nhưng em không còn nhận ra anh.
 > **Đỗ Văn Lâm (Người kể) (Đức Trí):** Mẹ tôi vẫn kho cá. Thỉnh thoảng tôi lên chùa thăm hũ, một lúc bên trong lại gõ cạch cạch cạch cạch.

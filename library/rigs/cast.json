@@ -1,0 +1,1054 @@
+{
+  "description": "Nhân vật ĐÃ DỰNG & ĐÃ DUYỆT dùng lại được: rig = archetype + outfit + tham số ghi đè (dán thẳng vào bible). Thêm bằng `library.py cast-add`.",
+  "cast": {
+    "nam_tre_do_tang": {
+      "name": "Đỗ Văn Lâm (Người kể)",
+      "role": "Người kể chuyện/nhân vật chính nam 30 tuổi mặc đồ tang, có sẹo lông mày",
+      "age": "31",
+      "gender": "nam",
+      "rig": {
+        "archetype": "adult_m",
+        "outfit": "mourning",
+        "scar": "l"
+      },
+      "voice_hint": "Đức Trí",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.6,
+        "blink_s": [
+          2.5,
+          5.5
+        ],
+        "seed": 31
+      },
+      "tags": [
+        "nam",
+        "trưởng thành",
+        "tang",
+        "người kể"
+      ],
+      "keywords": [
+        "người kể",
+        "anh",
+        "tôi",
+        "kỹ sư",
+        "con trai",
+        "đồ tang",
+        "sẹo",
+        "nam chính",
+        "trưởng nam"
+      ],
+      "sheet": "sheets/cast/nam_tre_do_tang.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "host"
+      },
+      "design": "31 tuổi, kỹ sư cầu đường ở Sài Gòn (nguồn). Tóc đen ngắn; sẹo nhỏ trên lông mày trái (nguồn: sẹo trên lông mày, bên trái là chọn thiết kế); đồ tang áo xô trắng ngà (đề xuất thiết kế); khăn tang có thể tháo (prop khan_xo)."
+    },
+    "thay_cung_ong_gia": {
+      "name": "Ông Cửu (Thầy nhốt trùng)",
+      "role": "Ông già thầy cúng/thầy pháp: khăn xếp, áo the, râu dê, mắt đục",
+      "age": "84",
+      "gender": "nam",
+      "rig": {
+        "archetype": "elder_m",
+        "outfit": "ao_the_indigo",
+        "beard": true,
+        "cloudy_eye": "l"
+      },
+      "voice_hint": "Thiền Tâm Đức",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.0,
+        "blink_s": [
+          3.0,
+          6.5
+        ],
+        "seed": 84
+      },
+      "tags": [
+        "nam",
+        "già",
+        "thầy cúng",
+        "truyền thống"
+      ],
+      "keywords": [
+        "thầy cúng",
+        "thầy mo",
+        "ông cụ",
+        "thầy pháp",
+        "khăn xếp",
+        "áo the",
+        "râu dê",
+        "ông già",
+        "ông cửu",
+        "thầy"
+      ],
+      "sheet": "sheets/cast/thay_cung_ong_gia.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "ong_cuu"
+      },
+      "design": "84 tuổi, mắt trái đục (nguồn). Khăn xếp đen, râu dê bạc, áo the thâm (đề xuất thiết kế). Prop đi kèm: hũ sành bịt vải đỏ."
+    },
+    "nu_trung_nien_do_tang": {
+      "name": "Người Mẹ",
+      "role": "Người phụ nữ trung niên mặc đồ tang, tóc búi",
+      "age": "trung niên",
+      "gender": "nữ",
+      "rig": {
+        "archetype": "adult_f",
+        "outfit": "mourning"
+      },
+      "voice_hint": "Kim Thanh",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.4,
+        "blink_s": [
+          2.5,
+          5.0
+        ],
+        "seed": 52
+      },
+      "tags": [
+        "nữ",
+        "trung niên",
+        "tang"
+      ],
+      "keywords": [
+        "mẹ",
+        "má",
+        "người mẹ",
+        "vợ",
+        "bà mẹ",
+        "phụ nữ trung niên",
+        "đồ tang"
+      ],
+      "sheet": "sheets/cast/nu_trung_nien_do_tang.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "me"
+      },
+      "design": "Trung niên (tuổi cụ thể chưa có trong nguồn). Tóc đen búi, đồ tang áo xô, khăn tang (đề xuất thiết kế). Chung giọng Kim Thanh với Bà nội: hai người không được cùng nói trong một cảnh."
+    },
+    "ba_cu_nau_song": {
+      "name": "Bà nội",
+      "role": "Bà cụ lưng còng, tóc bạc búi, áo nâu sồng (nhà quê)",
+      "age": "89",
+      "gender": "nữ",
+      "rig": {
+        "archetype": "elder_f",
+        "outfit": "nau_song"
+      },
+      "voice_hint": "Kim Thanh",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 2.8,
+        "blink_s": [
+          3.0,
+          6.0
+        ],
+        "seed": 89
+      },
+      "tags": [
+        "nữ",
+        "già",
+        "nông thôn"
+      ],
+      "keywords": [
+        "bà nội",
+        "bà cụ",
+        "bà ngoại",
+        "bà già",
+        "cụ bà",
+        "bà",
+        "giã trầu",
+        "lưng còng"
+      ],
+      "sheet": "sheets/cast/ba_cu_nau_song.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "ba_noi"
+      },
+      "design": "89 tuổi (nguồn: bà cụ 89 tuổi giã trầu), lưng còng, tóc bạc búi, áo nâu sồng (theo preview đã có). Prop đi kèm: cối giã trầu. Đã mất lúc 3:40 chiều: xuất hiện qua cuộc gọi video / hồi tưởng / hình bóng."
+    },
+    "bong_den_mat_trang": {
+      "name": "Thần Trùng",
+      "role": "Bóng đen không mặt, mắt trắng đồng tử đỏ, khăn tang rách (ma/thần trùng)",
+      "age": "",
+      "gender": "",
+      "rig": {
+        "archetype": "spirit_shadow"
+      },
+      "voice_hint": "Thiện Minh",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 4.5,
+        "blink_s": [
+          4.0,
+          9.0
+        ],
+        "seed": 666
+      },
+      "tags": [
+        "ma",
+        "bóng đen",
+        "siêu nhiên",
+        "kinh dị"
+      ],
+      "keywords": [
+        "ma",
+        "bóng ma",
+        "bóng đen",
+        "hồn",
+        "oan hồn",
+        "quỷ",
+        "thần trùng",
+        "trùng",
+        "âm hồn",
+        "con ma"
+      ],
+      "sheet": "sheets/cast/bong_den_mat_trang.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "than_trung"
+      },
+      "design": "Bóng đen không có mặt thật, khăn tang trắng rách buộc đầu, mắt trắng đồng tử đỏ, miệng ngoác rộng (theo bản preview shot 8). Nguồn: Trùng 'không có mặt, soi vào đâu học mặt người đó'."
+    },
+    "nam_trung_nien_toc_muoi_tieu_do_tang": {
+      "name": "Bố",
+      "role": "Người đàn ông trung niên tóc muối tiêu, dáng chắc, mặc đồ tang (bố/trưởng bối)",
+      "age": "",
+      "gender": "nam",
+      "rig": {
+        "archetype": "adult_m",
+        "outfit": "mourning",
+        "hair_color": "hair_grey",
+        "brow_color": "brow_grey",
+        "wrinkles": 1,
+        "hunch": 0.15,
+        "body_w": 106
+      },
+      "voice_hint": "Hải Đăng",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 20
+      },
+      "tags": [
+        "nam",
+        "trung niên",
+        "tang",
+        "tóc bạc"
+      ],
+      "keywords": [
+        "bố",
+        "cha",
+        "ba",
+        "bác",
+        "trưởng bối",
+        "người lớn tuổi",
+        "đồ tang"
+      ],
+      "sheet": "sheets/cast/nam_trung_nien_toc_muoi_tieu_do_tang.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "bo"
+      },
+      "design": "Bố của Lâm (nguồn: 'Bố gọi tôi về', nhắn tin 4:45, cùng bác trưởng họ). Tuổi cụ thể không có trong nguồn: đề xuất thiết kế người trung niên, tóc muối tiêu, dáng chắc hơn Lâm để không na ná; đồ tang áo xô vì có mặt ở đám."
+    },
+    "nam_rau_ao_thuong": {
+      "name": "Chú Hai",
+      "role": "Người đàn ông có râu cằm, áo thường (xuất hiện qua cuộc gọi video, không ở đám tang)",
+      "age": "",
+      "gender": "nam",
+      "rig": {
+        "archetype": "adult_m",
+        "outfit": "plain_light",
+        "beard": true,
+        "wrinkles": 1,
+        "beard_color": "hair_black"
+      },
+      "voice_hint": "Hải Đăng",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 9
+      },
+      "tags": [
+        "nam",
+        "người lớn",
+        "râu",
+        "áo thường"
+      ],
+      "keywords": [
+        "chú",
+        "cậu",
+        "anh",
+        "gọi video",
+        "ở xa",
+        "râu"
+      ],
+      "sheet": "sheets/cast/nam_rau_ao_thuong.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "chu_hai"
+      },
+      "design": "Chú Hai: xuất hiện qua cuộc gọi video ở Đức (bible); tuổi không có trong nguồn. Đề xuất thiết kế: người lớn, râu cằm, áo thường (không ở đám tang), khác Bố vì không cùng cảnh nhưng vẫn nhận ra bằng râu."
+    },
+    "nam_gay_ria_do_tang": {
+      "name": "Chú Út",
+      "role": "Người đàn ông gầy, có ria mép, mặc đồ tang",
+      "age": "",
+      "gender": "nam",
+      "rig": {
+        "archetype": "adult_m",
+        "outfit": "mourning",
+        "body_w": 90,
+        "scale": 1.02,
+        "mustache": true
+      },
+      "voice_hint": "Xuân Vĩnh",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 65
+      },
+      "tags": [
+        "nam",
+        "người lớn",
+        "ria mép",
+        "tang"
+      ],
+      "keywords": [
+        "chú",
+        "chú út",
+        "em trai bố",
+        "ria",
+        "đồ tang",
+        "gầy"
+      ],
+      "sheet": "sheets/cast/nam_gay_ria_do_tang.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "chu_ut"
+      },
+      "design": "Chú Út: em của Bố, có vợ (thím út) và con gái Na 5 tuổi, mất sau 3 ngày (nguồn). Đề xuất thiết kế: nam người lớn dáng gầy hơn Bố và Lâm, tóc đen, đồ tang áo xô."
+    },
+    "co_gai_tre_buoi_toc_do_tang": {
+      "name": "Em gái Ngân",
+      "role": "Cô gái trẻ búi tóc, mặc đồ tang",
+      "age": "",
+      "gender": "nữ",
+      "rig": {
+        "archetype": "young_adult_f",
+        "outfit": "mourning"
+      },
+      "voice_hint": "Trúc Ly",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 70
+      },
+      "tags": [
+        "nữ",
+        "thiếu nữ",
+        "trẻ",
+        "tang"
+      ],
+      "keywords": [
+        "em gái",
+        "cô gái",
+        "thức canh",
+        "chạy vào buồng",
+        "đồ tang"
+      ],
+      "sheet": "sheets/cast/co_gai_tre_buoi_toc_do_tang.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "ngan"
+      },
+      "design": "Em gái của Lâm, thức canh đêm trong rạp (nguồn); tuổi không có trong nguồn nên chọn khung thiếu nữ/cô gái trẻ (đề xuất thiết kế), đồ tang áo xô."
+    },
+    "be_gai_5_tuoi_do_tang": {
+      "name": "Bé Na",
+      "role": "Bé gái 5 tuổi, tóc hai búi, đội khăn trắng bé xíu",
+      "age": "5",
+      "gender": "nữ",
+      "rig": {
+        "archetype": "child_f",
+        "outfit": "mourning"
+      },
+      "voice_hint": "Trúc Ly",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 21
+      },
+      "tags": [
+        "nữ",
+        "trẻ em",
+        "bé",
+        "tang"
+      ],
+      "keywords": [
+        "bé",
+        "bé gái",
+        "con gái chú",
+        "em bé",
+        "khăn trắng bé xíu",
+        "5 tuổi"
+      ],
+      "sheet": "sheets/cast/be_gai_5_tuoi_do_tang.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "be_na"
+      },
+      "design": "Con gái chú Út, 5 tuổi (nguồn); ngồi trong lòng thím, đội khăn trắng bé xíu (nguồn) nên dùng đồ tang + khăn tang. Khung bé gái, đầu to."
+    },
+    "co_gai_toc_ngang_ao_thuong": {
+      "name": "Vy",
+      "role": "Cô gái trẻ tóc ngang vai, áo thường (người yêu ở thành phố, hiện qua điện thoại)",
+      "age": "",
+      "gender": "nữ",
+      "rig": {
+        "archetype": "young_adult_f",
+        "outfit": "plain_light",
+        "hair": "bob"
+      },
+      "voice_hint": "Trúc Ly",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 19
+      },
+      "tags": [
+        "nữ",
+        "trẻ",
+        "áo thường",
+        "thành phố"
+      ],
+      "keywords": [
+        "người yêu",
+        "bạn gái",
+        "cô gái",
+        "gọi điện",
+        "sài gòn"
+      ],
+      "sheet": "sheets/cast/co_gai_toc_ngang_ao_thuong.png",
+      "source": {
+        "project": "than-trung-chiec-khan-tang-thu-32",
+        "char": "vy"
+      },
+      "design": "Người yêu của Lâm ở Sài Gòn, chỉ xuất hiện qua điện thoại (nguồn). Tuổi không có trong nguồn: đề xuất thiết kế cô gái trẻ, áo thường, không đồ tang (ở Sài Gòn), khác Ngân ở trang phục."
+    },
+    "ma_nu_ao_trang": {
+      "name": "Ma nữ áo trắng",
+      "role": "ma nữ áo trắng",
+      "age": "",
+      "gender": "nữ",
+      "rig": {
+        "archetype": "ghost_woman",
+        "outfit": "ao_trang_ma",
+        "cloudy_eye": "r"
+      },
+      "voice_hint": "Thiện Minh",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.4,
+        "blink_s": [
+          2.5,
+          5.6
+        ],
+        "seed": 101
+      },
+      "tags": [
+        "ma",
+        "horror",
+        "generic",
+        "female"
+      ],
+      "keywords": [
+        "ma nữ",
+        "ma",
+        "hồn",
+        "áo trắng",
+        "tóc xõa",
+        "oan hồn"
+      ],
+      "sheet": "sheets/cast/ma_nu_ao_trang.png",
+      "source": {
+        "library": "cast_src",
+        "char": "ma_nu_ao_trang"
+      },
+      "design": "Nhân vật chung: ma nữ áo dài trắng cũ, da xám nhợt, tóc xõa dài rủ che nửa mặt, một mắt đục. Không gắn với tích truyện cụ thể."
+    },
+    "ma_da": {
+      "name": "Ma da",
+      "role": "ma da (chết đuối)",
+      "age": "",
+      "gender": "",
+      "rig": {
+        "archetype": "ghost_drowned",
+        "outfit": "rach_ma_da"
+      },
+      "voice_hint": "Thiện Minh",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.4,
+        "blink_s": [
+          2.5,
+          5.6
+        ],
+        "seed": 102
+      },
+      "tags": [
+        "ma",
+        "horror",
+        "generic",
+        "water"
+      ],
+      "keywords": [
+        "ma da",
+        "chết đuối",
+        "sông",
+        "rong rêu",
+        "ao hồ"
+      ],
+      "sheet": "sheets/cast/ma_da.png",
+      "source": {
+        "library": "cast_src",
+        "char": "ma_da"
+      },
+      "design": "Nhân vật chung: ma da (chết đuối): da xám xanh, tóc ướt bám rong rêu rủ che mặt, vải rách xanh rêu, hơi còng."
+    },
+    "hon_nam_do_tang": {
+      "name": "Hồn nam đồ tang",
+      "role": "hồn nam đồ tang",
+      "age": "",
+      "gender": "nam",
+      "rig": {
+        "archetype": "adult_m",
+        "outfit": "mourning",
+        "skin": "skin_ghost",
+        "cloudy_eye": "r",
+        "wrinkles": 1
+      },
+      "voice_hint": "Thiện Minh",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.4,
+        "blink_s": [
+          2.5,
+          5.6
+        ],
+        "seed": 103
+      },
+      "tags": [
+        "ma",
+        "horror",
+        "generic",
+        "male",
+        "funeral"
+      ],
+      "keywords": [
+        "hồn",
+        "ma nam",
+        "đồ tang",
+        "khăn tang",
+        "người chết"
+      ],
+      "sheet": "sheets/cast/hon_nam_do_tang.png",
+      "source": {
+        "library": "cast_src",
+        "char": "hon_nam_do_tang"
+      },
+      "design": "Nhân vật chung: hồn người đàn ông mặc đồ tang cũ, da xám nhợt, một mắt đục, khăn tang."
+    },
+    "ma_tre_em": {
+      "name": "Ma trẻ em",
+      "role": "ma trẻ em",
+      "age": "trẻ nhỏ",
+      "gender": "",
+      "rig": {
+        "archetype": "child",
+        "outfit": "ao_tre_em_yellow",
+        "skin": "skin_ghost",
+        "cloudy_eye": "l"
+      },
+      "voice_hint": "Trúc Ly",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.4,
+        "blink_s": [
+          2.5,
+          5.6
+        ],
+        "seed": 104
+      },
+      "tags": [
+        "ma",
+        "horror",
+        "generic",
+        "child"
+      ],
+      "keywords": [
+        "ma trẻ em",
+        "hồn trẻ",
+        "đứa trẻ",
+        "ma con nít"
+      ],
+      "sheet": "sheets/cast/ma_tre_em.png",
+      "source": {
+        "library": "cast_src",
+        "char": "ma_tre_em"
+      },
+      "design": "Nhân vật chung: hồn đứa trẻ nhỏ, da xám nhợt, áo cánh vàng đất phai, chỏm tóc."
+    },
+    "dan_lang_nam_non_la": {
+      "name": "Dân làng nam đội nón lá",
+      "role": "dân làng nam đội nón lá",
+      "age": "trung niên",
+      "gender": "nam",
+      "rig": {
+        "archetype": "adult_m",
+        "outfit": "nong_dan_non_la",
+        "wrinkles": 1
+      },
+      "voice_hint": "Hải Đăng",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.4,
+        "blink_s": [
+          2.5,
+          5.6
+        ],
+        "seed": 105
+      },
+      "tags": [
+        "villager",
+        "generic",
+        "male"
+      ],
+      "keywords": [
+        "dân làng",
+        "nông dân",
+        "nón lá",
+        "đàn ông",
+        "người làng"
+      ],
+      "sheet": "sheets/cast/dan_lang_nam_non_la.png",
+      "source": {
+        "library": "cast_src",
+        "char": "dan_lang_nam_non_la"
+      },
+      "design": "Nhân vật chung: nông dân nam trung niên đội nón lá, áo vải rêu, nếp nhăn nhẹ."
+    },
+    "dan_lang_nu_non_la": {
+      "name": "Dân làng nữ đội nón lá",
+      "role": "dân làng nữ đội nón lá",
+      "age": "trung niên",
+      "gender": "nữ",
+      "rig": {
+        "archetype": "adult_f",
+        "outfit": "ba_ba_non_la"
+      },
+      "voice_hint": "Kim Thanh",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.4,
+        "blink_s": [
+          2.5,
+          5.6
+        ],
+        "seed": 106
+      },
+      "tags": [
+        "villager",
+        "generic",
+        "female"
+      ],
+      "keywords": [
+        "dân làng",
+        "nón lá",
+        "phụ nữ",
+        "bà ba",
+        "người làng"
+      ],
+      "sheet": "sheets/cast/dan_lang_nu_non_la.png",
+      "source": {
+        "library": "cast_src",
+        "char": "dan_lang_nu_non_la"
+      },
+      "design": "Nhân vật chung: phụ nữ làng đội nón lá, áo bà ba đỏ gạch."
+    },
+    "ong_lao_lang": {
+      "name": "Ông lão trong làng",
+      "role": "ông lão trong làng",
+      "age": "già",
+      "gender": "nam",
+      "rig": {
+        "archetype": "elder_m",
+        "outfit": "nau_song",
+        "mustache": true
+      },
+      "voice_hint": "Xuân Vĩnh",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.4,
+        "blink_s": [
+          2.5,
+          5.6
+        ],
+        "seed": 107
+      },
+      "tags": [
+        "villager",
+        "generic",
+        "elder",
+        "male"
+      ],
+      "keywords": [
+        "ông lão",
+        "cụ ông",
+        "già làng",
+        "người già",
+        "trưởng làng"
+      ],
+      "sheet": "sheets/cast/ong_lao_lang.png",
+      "source": {
+        "library": "cast_src",
+        "char": "ong_lao_lang"
+      },
+      "design": "Nhân vật chung: ông lão nhà quê, áo nâu sồng, lưng còng, ria bạc."
+    },
+    "thanh_nien_lang": {
+      "name": "Thanh niên làng",
+      "role": "thanh niên làng",
+      "age": "thanh niên",
+      "gender": "nam",
+      "rig": {
+        "archetype": "young_adult_m",
+        "outfit": "ao_ba_ba_cyan"
+      },
+      "voice_hint": "Hải Đăng",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.4,
+        "blink_s": [
+          2.5,
+          5.6
+        ],
+        "seed": 108
+      },
+      "tags": [
+        "villager",
+        "generic",
+        "male",
+        "young"
+      ],
+      "keywords": [
+        "thanh niên",
+        "trai làng",
+        "người làng"
+      ],
+      "sheet": "sheets/cast/thanh_nien_lang.png",
+      "source": {
+        "library": "cast_src",
+        "char": "thanh_nien_lang"
+      },
+      "design": "Nhân vật chung: thanh niên trong làng, áo bà ba lam xám."
+    },
+    "co_gai_lang": {
+      "name": "Cô gái làng",
+      "role": "cô gái làng",
+      "age": "thanh niên",
+      "gender": "nữ",
+      "rig": {
+        "archetype": "young_adult_f",
+        "outfit": "ao_ba_ba_brick"
+      },
+      "voice_hint": "Trúc Ly",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.4,
+        "blink_s": [
+          2.5,
+          5.6
+        ],
+        "seed": 109
+      },
+      "tags": [
+        "villager",
+        "generic",
+        "female",
+        "young"
+      ],
+      "keywords": [
+        "cô gái",
+        "thiếu nữ",
+        "gái làng",
+        "người làng"
+      ],
+      "sheet": "sheets/cast/co_gai_lang.png",
+      "source": {
+        "library": "cast_src",
+        "char": "co_gai_lang"
+      },
+      "design": "Nhân vật chung: cô gái trẻ trong làng, áo bà ba đỏ gạch, tóc búi."
+    },
+    "be_trai_lang": {
+      "name": "Bé trai làng",
+      "role": "bé trai làng",
+      "age": "trẻ nhỏ",
+      "gender": "nam",
+      "rig": {
+        "archetype": "child",
+        "outfit": "ao_tre_em_yellow"
+      },
+      "voice_hint": "Trúc Ly",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.4,
+        "blink_s": [
+          2.5,
+          5.6
+        ],
+        "seed": 110
+      },
+      "tags": [
+        "villager",
+        "generic",
+        "male",
+        "child"
+      ],
+      "keywords": [
+        "bé trai",
+        "trẻ con",
+        "con nít",
+        "cậu bé"
+      ],
+      "sheet": "sheets/cast/be_trai_lang.png",
+      "source": {
+        "library": "cast_src",
+        "char": "be_trai_lang"
+      },
+      "design": "Nhân vật chung: bé trai nhỏ trong làng, chỏm tóc, áo cánh vàng đất."
+    },
+    "thieu_nien_lang": {
+      "name": "Thiếu niên làng",
+      "role": "thiếu niên nam làng",
+      "age": "thiếu niên",
+      "gender": "nam",
+      "rig": {
+        "archetype": "teen",
+        "outfit": "ao_ba_ba_cyan"
+      },
+      "voice_hint": "Hải Đăng",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.4,
+        "blink_s": [
+          2.5,
+          5.6
+        ],
+        "seed": 111
+      },
+      "tags": [
+        "villager",
+        "generic",
+        "male",
+        "teen"
+      ],
+      "keywords": [
+        "thiếu niên",
+        "cậu bé",
+        "học trò",
+        "nam sinh"
+      ],
+      "sheet": "sheets/cast/thieu_nien_lang.png",
+      "source": {
+        "library": "cast_src",
+        "char": "thieu_nien_lang"
+      },
+      "design": "Nhân vật chung: thiếu niên nam trong làng, áo bà ba lam xám."
+    },
+    "thieu_nu_lang": {
+      "name": "Thiếu nữ làng",
+      "role": "thiếu nữ làng",
+      "age": "thiếu niên",
+      "gender": "nữ",
+      "rig": {
+        "archetype": "teen_f",
+        "outfit": "ao_ba_ba_brick"
+      },
+      "voice_hint": "Trúc Ly",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.4,
+        "blink_s": [
+          2.5,
+          5.6
+        ],
+        "seed": 112
+      },
+      "tags": [
+        "villager",
+        "generic",
+        "female",
+        "teen"
+      ],
+      "keywords": [
+        "thiếu nữ",
+        "cô bé",
+        "học trò",
+        "nữ sinh"
+      ],
+      "sheet": "sheets/cast/thieu_nu_lang.png",
+      "source": {
+        "library": "cast_src",
+        "char": "thieu_nu_lang"
+      },
+      "design": "Nhân vật chung: thiếu nữ tuổi teen trong làng, tóc hai búi, áo bà ba đỏ gạch."
+    }
+  }
+}

@@ -1,0 +1,538 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "video2d/script.schema.json",
+  "title": "script/script.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "required": [
+    "meta",
+    "characters",
+    "scenes"
+  ],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "project",
+        "title",
+        "format",
+        "width",
+        "height",
+        "fps",
+        "language"
+      ],
+      "properties": {
+        "format": {
+          "enum": [
+            "9:16",
+            "16:9"
+          ]
+        },
+        "fps": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        },
+        "language": {
+          "const": "vi"
+        }
+      }
+    },
+    "characters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "role",
+          "voice"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "role": {
+            "enum": [
+              "narrator",
+              "character"
+            ]
+          },
+          "voice": {
+            "type": "string",
+            "minLength": 1
+          },
+          "temperature": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "speed": {
+            "type": "number",
+            "minimum": 1.0,
+            "maximum": 2.0,
+            "description": "tốc độ đọc riêng của nhân vật (atempo); thắng --speed chung của build_voiceover.py"
+          }
+        }
+      }
+    },
+    "scenes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "lines"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^S\\d{2}$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "goal": {
+            "type": "string"
+          },
+          "visual": {
+            "type": "string"
+          },
+          "pause_after": {
+            "type": "number",
+            "minimum": 0
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "speaker",
+                "text"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^S\\d{2}_L\\d{2}[a-z]?$"
+                },
+                "speaker": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*$"
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "pause_after": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "speed": {
+                  "type": "number",
+                  "minimum": 1.0,
+                  "maximum": 2.0,
+                  "description": "tốc độ đọc riêng của line; thắng speed của nhân vật"
+                }
+              }
+            }
+          },
+          "setting": {
+            "type": "object",
+            "required": [
+              "location",
+              "int_ext",
+              "time"
+            ],
+            "description": "đầu cảnh kiểu scene heading: INT/EXT, địa điểm (bible.locations), thời gian; xem references/script-continuity-guide.md",
+            "properties": {
+              "location": {
+                "type": "string"
+              },
+              "int_ext": {
+                "enum": [
+                  "int",
+                  "ext"
+                ]
+              },
+              "time": {
+                "enum": [
+                  "day",
+                  "night",
+                  "dawn",
+                  "dusk"
+                ]
+              },
+              "story_time": {
+                "type": "string",
+                "pattern": "^[A-Za-z]*\\s*\\d+\\s+\\d{1,2}:\\d{2}$",
+                "description": "mốc trong truyện, vd 'N1 15:00'"
+              },
+              "frame": {
+                "enum": [
+                  "present",
+                  "flashback",
+                  "dream",
+                  "phone",
+                  "cutaway"
+                ],
+                "default": "present"
+              },
+              "link": {
+                "enum": [
+                  "continuous",
+                  "later",
+                  "cut",
+                  "travel"
+                ],
+                "default": "cut",
+                "description": "quan hệ với cảnh present liền trước"
+              },
+              "link_note": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              },
+              "moves": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "after",
+                    "to"
+                  ],
+                  "properties": {
+                    "after": {
+                      "type": "string"
+                    },
+                    "to": {
+                      "type": "string"
+                    },
+                    "via": {
+                      "type": "string"
+                    },
+                    "note": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "cast": {
+            "type": "array",
+            "description": "ai có mặt trong cảnh (narrator không cần)",
+            "items": {
+              "type": "object",
+              "required": [
+                "id"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "presence": {
+                  "enum": [
+                    "physical",
+                    "remote",
+                    "voice"
+                  ],
+                  "default": "physical"
+                },
+                "start": {
+                  "type": "boolean",
+                  "default": true
+                },
+                "from": {
+                  "type": "string",
+                  "description": "địa điểm (bible) nhân vật đến từ, bắt buộc khi đổi chỗ so với cảnh trước"
+                },
+                "at": {
+                  "type": "string"
+                },
+                "stance": {
+                  "type": "string"
+                },
+                "holding": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "role_note": {
+                  "type": "string"
+                },
+                "note": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "staging": {
+            "type": "array",
+            "description": "hành động có hệ quả logic, theo thứ tự line",
+            "items": {
+              "type": "object",
+              "required": [
+                "who",
+                "do"
+              ],
+              "properties": {
+                "after": {
+                  "type": "string"
+                },
+                "who": {
+                  "type": "string"
+                },
+                "do": {
+                  "enum": [
+                    "enter",
+                    "exit",
+                    "move",
+                    "sit",
+                    "stand",
+                    "take",
+                    "give",
+                    "put",
+                    "set_state",
+                    "look",
+                    "react",
+                    "gesture"
+                  ]
+                },
+                "from": {
+                  "type": "string"
+                },
+                "to": {
+                  "type": "string"
+                },
+                "via": {
+                  "type": "string"
+                },
+                "prop": {
+                  "type": "string"
+                },
+                "state": {
+                  "type": "string"
+                },
+                "note": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "drama": {
+            "type": "object",
+            "properties": {
+              "beat": {
+                "enum": [
+                  "hook",
+                  "setup",
+                  "warning",
+                  "inciting",
+                  "first_disaster",
+                  "point_of_no_return",
+                  "debate",
+                  "plan",
+                  "midpoint",
+                  "escalation",
+                  "lowest",
+                  "climax",
+                  "reveal",
+                  "resolution",
+                  "aftermath"
+                ]
+              },
+              "tension": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 10
+              },
+              "turn": {
+                "type": "string"
+              },
+              "turn_at": {
+                "type": "string",
+                "description": "line id, vd S05_L09b"
+              },
+              "hook_out": {
+                "type": "string"
+              },
+              "causes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "drama": {
+      "type": "object",
+      "description": "Khối kịch tính: promise, genre, tension_pattern, rules, loops, motives (check_script_drama.py, references/script-drama-guide.md).",
+      "properties": {
+        "promise": {
+          "type": "string"
+        },
+        "logline": {
+          "type": "string"
+        },
+        "genre": {
+          "enum": [
+            "ghost_ritual",
+            "feud_curse",
+            "love_charm",
+            "mystery",
+            "other"
+          ]
+        },
+        "tension_pattern": {
+          "enum": [
+            "escalating_peaks",
+            "slow_burn"
+          ]
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "text",
+              "cost",
+              "plant"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "cost": {
+                "type": "string"
+              },
+              "plant": {
+                "type": "string",
+                "description": "line id, vd S05_L09b"
+              },
+              "first_use": {
+                "type": "string",
+                "description": "line id, vd S05_L09b"
+              },
+              "violations": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "line id, vd S05_L09b"
+                }
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "loops": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "type",
+              "plant"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "clue",
+                  "object",
+                  "rule",
+                  "promise",
+                  "mystery",
+                  "red_herring",
+                  "line"
+                ]
+              },
+              "question": {
+                "type": "string"
+              },
+              "plant": {
+                "type": "string",
+                "description": "line id, vd S05_L09b"
+              },
+              "trigger": {
+                "type": "string",
+                "description": "line id, vd S05_L09b"
+              },
+              "payoff": {
+                "type": "string",
+                "description": "line id, vd S05_L09b"
+              },
+              "clues": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "line id, vd S05_L09b"
+                }
+              },
+              "open": {
+                "type": "boolean"
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "motives": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "char",
+              "want",
+              "obstacle"
+            ],
+            "properties": {
+              "char": {
+                "type": "string"
+              },
+              "role": {
+                "enum": [
+                  "protagonist",
+                  "antagonist",
+                  "force",
+                  "support"
+                ]
+              },
+              "want": {
+                "type": "string"
+              },
+              "obstacle": {
+                "type": "string"
+              },
+              "secret": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

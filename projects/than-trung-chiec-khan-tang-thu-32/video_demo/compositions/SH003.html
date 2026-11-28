@@ -1,0 +1,410 @@
+<template>
+  <style>
+    :root { --pal-ink: #1f140b; --pal-shadow: #000000; --pal-skin: #cf9063; --pal-skin_old: #c48a5d; --pal-eye_white: #fffdf7; --pal-pupil: #1b120c; --pal-mouth_dark: #4a1a14; --pal-shoe: #120d09; --pal-hair_black: #1b120c; --pal-hair_white: #eae4db; --pal-hair_grey: #6f6a66; --pal-brow_white: #8d857a; --pal-brow_grey: #4d4845; --pal-scar: #e6b99a; --pal-cloud: #c9d6d8; --pal-tear: #cfe6ee; --pal-khan_white: #f4f1ea; --pal-wood_light: #8a6a47; --pal-wood: #6b4d31; --pal-wood_dark: #3e2a1a; --pal-wood_black: #1b120c; --pal-bamboo: #b59a5a; --pal-bamboo_dark: #8a7240; --pal-bamboo_shadow: #5e4d28; --pal-clay: #6f4a32; --pal-clay_dark: #4d3222; --pal-clay_light: #8b6144; --pal-brass: #b08a3a; --pal-brass_dark: #7c5e22; --pal-wax: #efe6d2; --pal-wax_shadow: #c9bda3; --pal-flame_core: #fff3c4; --pal-flame: #ffb347; --pal-flame_edge: #e8741f; --pal-ember: #e0451f; --pal-ash: #8d8a85; --pal-ash_dark: #5d5a56; --pal-smoke: #cfcac0; --pal-cloth_red: #a8201a; --pal-cloth_red_dark: #761410; --pal-cloth_white: #ece6d8; --pal-cloth_grey: #c9c2b2; --pal-paper: #d9c48a; --pal-phone_body: #25272b; --pal-phone_screen_off: #0d1013; --pal-screen_glow: #6fd0ff; --pal-screen_call: #1f3a4d; --pal-ok_green: #3fae5a; --pal-end_red: #d0332b; --pal-sky_night: #121b22; --pal-sky_night_low: #1d2b31; --pal-sky_dawn: #8aa0a6; --pal-sky_dawn_low: #e3c49a; --pal-moon: #e8e6d2; --pal-mist: #9fb0b0; --pal-leaf: #2d4a35; --pal-leaf_dark: #1b3224; --pal-thatch: #7a6538; --pal-earth: #5a4630; --pal-earth_dark: #3b2e20; --pal-wall_wood: #3a281b; --pal-wall_wood_dark: #241a13; --pal-window_night: #1a2428; --pal-floor: #4a3626; --pal-floor_dark: #31241a; --pal-tile: #5a4636; --pal-light_warm: #ffb060; --pal-light_red: #c01818; --pal-light_dawn: #ffd9a0; --pal-light_cold: #5c7fa8; --pal-vignette: #000000; --pal-robe_mourning: #e6e0d3; --pal-robe_mourning_dark: #cfc8b8; --pal-robe_brown: #584333; --pal-robe_brown_dark: #483424; --pal-robe_indigo: #2b2f45; --pal-robe_indigo_dark: #20233a; --pal-robe_moss: #3b4737; --pal-robe_moss_dark: #2a3427; --pal-robe_brick: #8c4331; --pal-robe_brick_dark: #6b3123; --pal-robe_yellow: #c49a45; --pal-robe_yellow_dark: #9b7730; --pal-robe_cyan: #436b75; --pal-robe_cyan_dark: #2f4d54; --pal-shadow_body: #07070a; --pal-shadow_ink: #000000; --pal-shadow_eye: #ffffff; --pal-shadow_pupil: #d01010; --pal-shadow_line: #e8e4db }
+    #root { position: absolute; inset: 0; overflow: hidden; background: var(--pal-ink); }
+    #root > svg { display: block; }
+  </style>
+  <div id="root" data-composition-id="SH003" data-width="1920" data-height="1080" data-layout-allow-overflow>
+    <svg id="SH003-stage" xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="580.0 716.2 600.0 337.5" data-layout-allow-overflow><svg x="0.0" y="0.0" width="1920.0" height="1080.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" data-lib-id="SH003-bg-house_altar_room" data-lib-kind="location" role="img" aria-label="Gian thờ nhà quê ban đêm"><style data-palette="1">svg[data-lib-id="SH003-bg-house_altar_room"]{--pal-ash:#8d8a85;--pal-ash_dark:#5d5a56;--pal-bamboo:#b59a5a;--pal-bamboo_dark:#8a7240;--pal-bamboo_shadow:#5e4d28;--pal-brass:#b08a3a;--pal-brass_dark:#7c5e22;--pal-brow_white:#8d857a;--pal-clay:#6f4a32;--pal-clay_dark:#4d3222;--pal-clay_light:#8b6144;--pal-cloth_grey:#c9c2b2;--pal-cloth_red:#a8201a;--pal-cloth_red_dark:#761410;--pal-cloth_white:#ece6d8;--pal-cloud:#c9d6d8;--pal-earth:#5a4630;--pal-earth_dark:#3b2e20;--pal-ember:#e0451f;--pal-end_red:#d0332b;--pal-eye_white:#fffdf7;--pal-flame:#ffb347;--pal-flame_core:#fff3c4;--pal-flame_edge:#e8741f;--pal-floor:#4a3626;--pal-floor_dark:#31241a;--pal-hair_black:#1b120c;--pal-hair_white:#eae4db;--pal-ink:#1f140b;--pal-khan_white:#f4f1ea;--pal-leaf:#2d4a35;--pal-leaf_dark:#1b3224;--pal-light_cold:#5c7fa8;--pal-light_dawn:#ffd9a0;--pal-light_red:#c01818;--pal-light_warm:#ffb060;--pal-mist:#9fb0b0;--pal-moon:#e8e6d2;--pal-mouth_dark:#4a1a14;--pal-ok_green:#3fae5a;--pal-paper:#d9c48a;--pal-phone_body:#25272b;--pal-phone_screen_off:#0d1013;--pal-pupil:#1b120c;--pal-robe_brown:#584333;--pal-robe_brown_dark:#483424;--pal-robe_indigo:#2b2f45;--pal-robe_indigo_dark:#20233a;--pal-robe_mourning:#e6e0d3;--pal-robe_mourning_dark:#cfc8b8;--pal-scar:#e6b99a;--pal-screen_call:#1f3a4d;--pal-screen_glow:#6fd0ff;--pal-shadow:#000000;--pal-shadow_body:#07070a;--pal-shadow_eye:#ffffff;--pal-shadow_ink:#000000;--pal-shadow_line:#e8e4db;--pal-shadow_pupil:#d01010;--pal-shoe:#120d09;--pal-skin:#cf9063;--pal-skin_old:#c48a5d;--pal-sky_dawn:#8aa0a6;--pal-sky_dawn_low:#e3c49a;--pal-sky_night:#121b22;--pal-sky_night_low:#1d2b31;--pal-smoke:#cfcac0;--pal-tear:#cfe6ee;--pal-thatch:#7a6538;--pal-tile:#5a4636;--pal-vignette:#000000;--pal-wall_wood:#3a281b;--pal-wall_wood_dark:#241a13;--pal-wax:#efe6d2;--pal-wax_shadow:#c9bda3;--pal-window_night:#1a2428;--pal-wood:#6b4d31;--pal-wood_black:#1b120c;--pal-wood_dark:#3e2a1a;--pal-wood_light:#8a6a47}</style>
+<title>house_altar_room — gian thờ nhà quê (vách gỗ, cửa sổ nhìn ra vườn chuối, nền gạch)</title>
+<defs>
+  <linearGradient id="SH003-bg-har-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--pal-sky_night)"/><stop offset="1" stop-color="var(--pal-sky_night_low)"/></linearGradient>
+  <radialGradient id="SH003-bg-har-vig" cx="50%" cy="48%" r="75%"><stop offset=".55" stop-color="var(--pal-vignette)" stop-opacity="0"/><stop offset="1" stop-color="var(--pal-vignette)" stop-opacity=".72"/></radialGradient>
+  <clipPath id="SH003-bg-har-floor"><rect x="0" y="800" width="1920" height="280"/></clipPath>
+  <path id="SH003-bg-har-leaf" d="M0 0 Q70 -46 190 -8 Q100 14 0 0 Z"/>
+</defs>
+<style>
+.loc-house_altar_room .lw{opacity:0}
+.loc-house_altar_room[data-light='warm'] .lw-warm{opacity:.20}
+.loc-house_altar_room[data-light='dark'] .lw-dark{opacity:.62}
+.loc-house_altar_room[data-light='red_flash'] .lw-red{opacity:.36}
+.loc-house_altar_room[data-light='dawn'] .lw-dawn{opacity:.26}
+.loc-house_altar_room[data-light='warm'] .win-glow{opacity:.15}
+.loc-house_altar_room[data-light='dawn'] .win-dawn{opacity:1}
+.loc-house_altar_room .win-dawn{opacity:0}
+</style>
+<g class="loc loc-house_altar_room" data-light="warm" id="SH003-light">
+  <g class="layer layer-far">
+    <rect width="1920" height="800" fill="var(--pal-wall_wood)"/>
+    <g stroke="var(--pal-wall_wood_dark)" stroke-width="6">
+      <line x1="120" y1="0" x2="120" y2="800"/><line x1="240" y1="0" x2="240" y2="800"/><line x1="360" y1="0" x2="360" y2="800"/><line x1="480" y1="0" x2="480" y2="800"/>
+      <line x1="600" y1="0" x2="600" y2="800"/><line x1="720" y1="0" x2="720" y2="800"/><line x1="840" y1="0" x2="840" y2="800"/><line x1="960" y1="0" x2="960" y2="800"/>
+      <line x1="1080" y1="0" x2="1080" y2="800"/><line x1="1200" y1="0" x2="1200" y2="800"/><line x1="1320" y1="0" x2="1320" y2="800"/><line x1="1440" y1="0" x2="1440" y2="800"/>
+      <line x1="1560" y1="0" x2="1560" y2="800"/><line x1="1680" y1="0" x2="1680" y2="800"/><line x1="1800" y1="0" x2="1800" y2="800"/>
+    </g>
+    <g stroke="var(--pal-wall_wood_dark)" stroke-width="3" opacity=".6"><path d="M60 140 L100 150 M300 420 L340 410 M780 220 L820 232 M1010 600 L1050 590 M1620 300 L1660 312 M420 690 L470 700"/></g>
+    <!-- cửa sổ nhìn ra vườn chuối -->
+    <rect x="1190" y="200" width="330" height="380" fill="var(--pal-window_night)" stroke="var(--pal-ink)" stroke-width="10"/>
+    <rect x="1200" y="210" width="310" height="360" fill="url(#SH003-bg-har-sky)"/>
+    <rect class="win-dawn" x="1200" y="210" width="310" height="360" fill="var(--pal-sky_dawn_low)" opacity="0"/>
+    <circle cx="1420" cy="290" r="34" fill="var(--pal-moon)"/>
+    <g fill="var(--pal-leaf_dark)">
+      <use href="#SH003-bg-har-leaf" transform="translate(1230 560) rotate(-80) scale(1.5)"/><use href="#SH003-bg-har-leaf" transform="translate(1230 560) rotate(-45) scale(1.7)"/><use href="#SH003-bg-har-leaf" transform="translate(1230 560) rotate(-12) scale(1.3)"/>
+      <use href="#SH003-bg-har-leaf" transform="translate(1470 560) rotate(-170) scale(1.5)"/><use href="#SH003-bg-har-leaf" transform="translate(1470 560) rotate(-130) scale(1.8)"/><rect x="1224" y="470" width="14" height="100"/><rect x="1464" y="470" width="14" height="100"/>
+    </g>
+    <path d="M1200 440 Q1355 400 1510 440 L1510 570 L1200 570 Z" fill="var(--pal-mist)" opacity=".18"/>
+    <line x1="1355" y1="200" x2="1355" y2="580" stroke="var(--pal-ink)" stroke-width="8"/><line x1="1190" y1="390" x2="1520" y2="390" stroke="var(--pal-ink)" stroke-width="8"/>
+    <rect class="win-glow" x="1200" y="210" width="310" height="360" fill="var(--pal-light_cold)" opacity="0"/>
+    <rect x="1170" y="580" width="370" height="22" fill="var(--pal-wood_dark)" stroke="var(--pal-ink)" stroke-width="6"/>
+    <!-- cửa trái dẫn ra nhà ngoài -->
+    <rect x="70" y="170" width="250" height="630" fill="var(--pal-wood_black)" stroke="var(--pal-ink)" stroke-width="10"/>
+    <rect x="86" y="186" width="218" height="614" fill="var(--pal-shadow)" opacity=".85"/>
+    <!-- sàn gạch -->
+    <rect y="800" width="1920" height="280" fill="var(--pal-floor)"/>
+    <g clip-path="url(#SH003-bg-har-floor)" stroke="var(--pal-floor_dark)" stroke-width="4">
+      <line x1="960" y1="560" x2="-500" y2="1080"/><line x1="960" y1="560" x2="-100" y2="1080"/><line x1="960" y1="560" x2="300" y2="1080"/><line x1="960" y1="560" x2="700" y2="1080"/>
+      <line x1="960" y1="560" x2="1220" y2="1080"/><line x1="960" y1="560" x2="1620" y2="1080"/><line x1="960" y1="560" x2="2020" y2="1080"/><line x1="960" y1="560" x2="2420" y2="1080"/>
+      <line x1="0" y1="850" x2="1920" y2="850"/><line x1="0" y1="920" x2="1920" y2="920"/><line x1="0" y1="1000" x2="1920" y2="1000"/>
+    </g>
+    <rect y="796" width="1920" height="12" fill="var(--pal-wood_black)"/>
+  </g>
+  <g class="layer layer-mid">
+    <rect x="340" y="0" width="50" height="806" fill="var(--pal-wood_black)" stroke="var(--pal-ink)" stroke-width="6"/>
+    <rect x="1640" y="0" width="56" height="806" fill="var(--pal-wood_black)" stroke="var(--pal-ink)" stroke-width="6"/>
+    <rect x="0" y="0" width="1920" height="84" fill="var(--pal-wood_black)" stroke="var(--pal-ink)" stroke-width="6"/>
+    <g fill="var(--pal-cloth_red_dark)" stroke="var(--pal-ink)" stroke-width="5">
+      <rect x="430" y="190" width="70" height="420"/><rect x="830" y="190" width="70" height="420"/>
+    </g>
+    <g stroke="var(--pal-paper)" stroke-width="3" fill="none" opacity=".7"><rect x="438" y="198" width="54" height="404"/><rect x="838" y="198" width="54" height="404"/></g>
+    <ellipse cx="620" cy="868" rx="320" ry="26" fill="var(--pal-shadow)" opacity=".28"/>
+  </g>
+  <g class="layer layer-near">
+    <path d="M0 84 L1920 84 L1920 130 Q960 112 0 130 Z" fill="var(--pal-shadow)" opacity=".55"/>
+    <rect y="960" width="1920" height="120" fill="var(--pal-shadow)" opacity=".22"/>
+    <rect width="1920" height="1080" fill="url(#SH003-bg-har-vig)"/>
+  </g>
+  <g class="lights" pointer-events="none">
+    <rect class="lw lw-warm" width="1920" height="1080" fill="var(--pal-light_warm)"/>
+    <rect class="lw lw-dark" width="1920" height="1080" fill="var(--pal-shadow)"/>
+    <rect class="lw lw-red" width="1920" height="1080" fill="var(--pal-light_red)"/>
+    <rect class="lw lw-dawn" width="1920" height="1080" fill="var(--pal-light_dawn)"/>
+  </g>
+</g>
+</svg><svg id="SH003-p2-pos" x="561.0" y="554.8" width="54.0" height="126.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 280" data-lib-id="SH003-p2-candle" data-lib-kind="prop" role="img" aria-label="Nến trên chân đèn đồng"><style data-palette="1">svg[data-lib-id="SH003-p2-candle"]{--pal-ash:#8d8a85;--pal-ash_dark:#5d5a56;--pal-bamboo:#b59a5a;--pal-bamboo_dark:#8a7240;--pal-bamboo_shadow:#5e4d28;--pal-brass:#b08a3a;--pal-brass_dark:#7c5e22;--pal-brow_white:#8d857a;--pal-clay:#6f4a32;--pal-clay_dark:#4d3222;--pal-clay_light:#8b6144;--pal-cloth_grey:#c9c2b2;--pal-cloth_red:#a8201a;--pal-cloth_red_dark:#761410;--pal-cloth_white:#ece6d8;--pal-cloud:#c9d6d8;--pal-earth:#5a4630;--pal-earth_dark:#3b2e20;--pal-ember:#e0451f;--pal-end_red:#d0332b;--pal-eye_white:#fffdf7;--pal-flame:#ffb347;--pal-flame_core:#fff3c4;--pal-flame_edge:#e8741f;--pal-floor:#4a3626;--pal-floor_dark:#31241a;--pal-hair_black:#1b120c;--pal-hair_white:#eae4db;--pal-ink:#1f140b;--pal-khan_white:#f4f1ea;--pal-leaf:#2d4a35;--pal-leaf_dark:#1b3224;--pal-light_cold:#5c7fa8;--pal-light_dawn:#ffd9a0;--pal-light_red:#c01818;--pal-light_warm:#ffb060;--pal-mist:#9fb0b0;--pal-moon:#e8e6d2;--pal-mouth_dark:#4a1a14;--pal-ok_green:#3fae5a;--pal-paper:#d9c48a;--pal-phone_body:#25272b;--pal-phone_screen_off:#0d1013;--pal-pupil:#1b120c;--pal-robe_brown:#584333;--pal-robe_brown_dark:#483424;--pal-robe_indigo:#2b2f45;--pal-robe_indigo_dark:#20233a;--pal-robe_mourning:#e6e0d3;--pal-robe_mourning_dark:#cfc8b8;--pal-scar:#e6b99a;--pal-screen_call:#1f3a4d;--pal-screen_glow:#6fd0ff;--pal-shadow:#000000;--pal-shadow_body:#07070a;--pal-shadow_eye:#ffffff;--pal-shadow_ink:#000000;--pal-shadow_line:#e8e4db;--pal-shadow_pupil:#d01010;--pal-shoe:#120d09;--pal-skin:#cf9063;--pal-skin_old:#c48a5d;--pal-sky_dawn:#8aa0a6;--pal-sky_dawn_low:#e3c49a;--pal-sky_night:#121b22;--pal-sky_night_low:#1d2b31;--pal-smoke:#cfcac0;--pal-tear:#cfe6ee;--pal-thatch:#7a6538;--pal-tile:#5a4636;--pal-vignette:#000000;--pal-wall_wood:#3a281b;--pal-wall_wood_dark:#241a13;--pal-wax:#efe6d2;--pal-wax_shadow:#c9bda3;--pal-window_night:#1a2428;--pal-wood:#6b4d31;--pal-wood_black:#1b120c;--pal-wood_dark:#3e2a1a;--pal-wood_light:#8a6a47}</style>
+<title>candle — nến trên chân đèn đồng</title>
+<defs><radialGradient id="SH003-p2-cndl-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="var(--pal-light_warm)" stop-opacity=".55"/><stop offset="1" stop-color="var(--pal-light_warm)" stop-opacity="0"/></radialGradient></defs>
+<style>
+.prop-candle .st{display:none}
+.prop-candle[data-state='lit'] .st-lit,.prop-candle[data-state='low'] .st-low,.prop-candle[data-state='out'] .st-out,
+.prop-candle[data-state='lit'] .st-flame,.prop-candle[data-state='low'] .st-flame,
+.prop-candle[data-state='lit'] .st-tall,.prop-candle[data-state='out'] .st-tall,.prop-candle[data-state='low'] .st-short{display:inline}
+.prop-candle .flame{transform-box:view-box;transform-origin:60px 92px}
+.prop-candle[data-state='low'] .flame{transform:scale(.55)}
+</style>
+<g class="prop prop-candle" data-state="lit" id="SH003-p2">
+  <ellipse cx="60" cy="270" rx="36" ry="9" fill="var(--pal-brass_dark)" stroke="var(--pal-ink)" stroke-width="4"/>
+  <rect x="53" y="206" width="14" height="64" rx="5" fill="var(--pal-brass)" stroke="var(--pal-ink)" stroke-width="4"/>
+  <path d="M30 196 L90 196 L80 214 L40 214 Z" fill="var(--pal-brass)" stroke="var(--pal-ink)" stroke-width="4" stroke-linejoin="round"/>
+  <g class="st st-tall">
+    <rect x="44" y="100" width="32" height="104" rx="4" fill="var(--pal-wax)" stroke="var(--pal-ink)" stroke-width="4"/>
+    <path d="M44 100 L52 100 L52 136 Q48 142 44 134 Z M70 100 L76 100 L76 150 Q73 158 70 148 Z" fill="var(--pal-wax_shadow)"/>
+  </g>
+  <g class="st st-short">
+    <rect x="44" y="160" width="32" height="44" rx="4" fill="var(--pal-wax)" stroke="var(--pal-ink)" stroke-width="4"/>
+    <path d="M44 160 L52 160 L52 182 Q48 188 44 180 Z" fill="var(--pal-wax_shadow)"/>
+  </g>
+  <g class="wick-low st st-low"><line x1="60" y1="160" x2="60" y2="150" stroke="var(--pal-ink)" stroke-width="3" stroke-linecap="round"/></g>
+  <line class="wick st st-tall" x1="60" y1="100" x2="60" y2="88" stroke="var(--pal-ink)" stroke-width="3" stroke-linecap="round"/>
+  <circle class="glow st st-low" cx="60" cy="140" r="40" fill="url(#SH003-p2-cndl-glow)" opacity=".7"/>
+  <circle class="glow st st-lit" cx="60" cy="70" r="64" fill="url(#SH003-p2-cndl-glow)"/>
+  <g class="flame st st-flame" transform="translate(0 0)">
+    <path d="M60 38 Q84 68 75 92 Q60 108 45 92 Q36 68 60 38 Z" fill="var(--pal-flame)" stroke="var(--pal-flame_edge)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M60 62 Q72 78 67 92 Q60 99 53 92 Q48 78 60 62 Z" fill="var(--pal-flame_core)"/>
+  </g>
+  <path class="smoke st st-out" d="M60 88 Q48 70 62 54 Q74 40 60 22" stroke="var(--pal-smoke)" stroke-width="5" stroke-linecap="round" fill="none" opacity=".6"/>
+</g>
+</svg><svg id="SH003-p3-pos" x="785.0" y="554.8" width="54.0" height="126.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 280" data-lib-id="SH003-p3-candle" data-lib-kind="prop" role="img" aria-label="Nến trên chân đèn đồng"><style data-palette="1">svg[data-lib-id="SH003-p3-candle"]{--pal-ash:#8d8a85;--pal-ash_dark:#5d5a56;--pal-bamboo:#b59a5a;--pal-bamboo_dark:#8a7240;--pal-bamboo_shadow:#5e4d28;--pal-brass:#b08a3a;--pal-brass_dark:#7c5e22;--pal-brow_white:#8d857a;--pal-clay:#6f4a32;--pal-clay_dark:#4d3222;--pal-clay_light:#8b6144;--pal-cloth_grey:#c9c2b2;--pal-cloth_red:#a8201a;--pal-cloth_red_dark:#761410;--pal-cloth_white:#ece6d8;--pal-cloud:#c9d6d8;--pal-earth:#5a4630;--pal-earth_dark:#3b2e20;--pal-ember:#e0451f;--pal-end_red:#d0332b;--pal-eye_white:#fffdf7;--pal-flame:#ffb347;--pal-flame_core:#fff3c4;--pal-flame_edge:#e8741f;--pal-floor:#4a3626;--pal-floor_dark:#31241a;--pal-hair_black:#1b120c;--pal-hair_white:#eae4db;--pal-ink:#1f140b;--pal-khan_white:#f4f1ea;--pal-leaf:#2d4a35;--pal-leaf_dark:#1b3224;--pal-light_cold:#5c7fa8;--pal-light_dawn:#ffd9a0;--pal-light_red:#c01818;--pal-light_warm:#ffb060;--pal-mist:#9fb0b0;--pal-moon:#e8e6d2;--pal-mouth_dark:#4a1a14;--pal-ok_green:#3fae5a;--pal-paper:#d9c48a;--pal-phone_body:#25272b;--pal-phone_screen_off:#0d1013;--pal-pupil:#1b120c;--pal-robe_brown:#584333;--pal-robe_brown_dark:#483424;--pal-robe_indigo:#2b2f45;--pal-robe_indigo_dark:#20233a;--pal-robe_mourning:#e6e0d3;--pal-robe_mourning_dark:#cfc8b8;--pal-scar:#e6b99a;--pal-screen_call:#1f3a4d;--pal-screen_glow:#6fd0ff;--pal-shadow:#000000;--pal-shadow_body:#07070a;--pal-shadow_eye:#ffffff;--pal-shadow_ink:#000000;--pal-shadow_line:#e8e4db;--pal-shadow_pupil:#d01010;--pal-shoe:#120d09;--pal-skin:#cf9063;--pal-skin_old:#c48a5d;--pal-sky_dawn:#8aa0a6;--pal-sky_dawn_low:#e3c49a;--pal-sky_night:#121b22;--pal-sky_night_low:#1d2b31;--pal-smoke:#cfcac0;--pal-tear:#cfe6ee;--pal-thatch:#7a6538;--pal-tile:#5a4636;--pal-vignette:#000000;--pal-wall_wood:#3a281b;--pal-wall_wood_dark:#241a13;--pal-wax:#efe6d2;--pal-wax_shadow:#c9bda3;--pal-window_night:#1a2428;--pal-wood:#6b4d31;--pal-wood_black:#1b120c;--pal-wood_dark:#3e2a1a;--pal-wood_light:#8a6a47}</style>
+<title>candle — nến trên chân đèn đồng</title>
+<defs><radialGradient id="SH003-p3-cndl-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="var(--pal-light_warm)" stop-opacity=".55"/><stop offset="1" stop-color="var(--pal-light_warm)" stop-opacity="0"/></radialGradient></defs>
+<style>
+.prop-candle .st{display:none}
+.prop-candle[data-state='lit'] .st-lit,.prop-candle[data-state='low'] .st-low,.prop-candle[data-state='out'] .st-out,
+.prop-candle[data-state='lit'] .st-flame,.prop-candle[data-state='low'] .st-flame,
+.prop-candle[data-state='lit'] .st-tall,.prop-candle[data-state='out'] .st-tall,.prop-candle[data-state='low'] .st-short{display:inline}
+.prop-candle .flame{transform-box:view-box;transform-origin:60px 92px}
+.prop-candle[data-state='low'] .flame{transform:scale(.55)}
+</style>
+<g class="prop prop-candle" data-state="lit" id="SH003-p3">
+  <ellipse cx="60" cy="270" rx="36" ry="9" fill="var(--pal-brass_dark)" stroke="var(--pal-ink)" stroke-width="4"/>
+  <rect x="53" y="206" width="14" height="64" rx="5" fill="var(--pal-brass)" stroke="var(--pal-ink)" stroke-width="4"/>
+  <path d="M30 196 L90 196 L80 214 L40 214 Z" fill="var(--pal-brass)" stroke="var(--pal-ink)" stroke-width="4" stroke-linejoin="round"/>
+  <g class="st st-tall">
+    <rect x="44" y="100" width="32" height="104" rx="4" fill="var(--pal-wax)" stroke="var(--pal-ink)" stroke-width="4"/>
+    <path d="M44 100 L52 100 L52 136 Q48 142 44 134 Z M70 100 L76 100 L76 150 Q73 158 70 148 Z" fill="var(--pal-wax_shadow)"/>
+  </g>
+  <g class="st st-short">
+    <rect x="44" y="160" width="32" height="44" rx="4" fill="var(--pal-wax)" stroke="var(--pal-ink)" stroke-width="4"/>
+    <path d="M44 160 L52 160 L52 182 Q48 188 44 180 Z" fill="var(--pal-wax_shadow)"/>
+  </g>
+  <g class="wick-low st st-low"><line x1="60" y1="160" x2="60" y2="150" stroke="var(--pal-ink)" stroke-width="3" stroke-linecap="round"/></g>
+  <line class="wick st st-tall" x1="60" y1="100" x2="60" y2="88" stroke="var(--pal-ink)" stroke-width="3" stroke-linecap="round"/>
+  <circle class="glow st st-low" cx="60" cy="140" r="40" fill="url(#SH003-p3-cndl-glow)" opacity=".7"/>
+  <circle class="glow st st-lit" cx="60" cy="70" r="64" fill="url(#SH003-p3-cndl-glow)"/>
+  <g class="flame st st-flame" transform="translate(0 0)">
+    <path d="M60 38 Q84 68 75 92 Q60 108 45 92 Q36 68 60 38 Z" fill="var(--pal-flame)" stroke="var(--pal-flame_edge)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M60 62 Q72 78 67 92 Q60 99 53 92 Q48 78 60 62 Z" fill="var(--pal-flame_core)"/>
+  </g>
+  <path class="smoke st st-out" d="M60 88 Q48 70 62 54 Q74 40 60 22" stroke="var(--pal-smoke)" stroke-width="5" stroke-linecap="round" fill="none" opacity=".6"/>
+</g>
+</svg><svg id="SH003-p4-pos" x="658.0" y="572.3" width="84.0" height="108.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 -10 240 310" data-lib-id="SH003-p4-incense_burner" data-lib-kind="prop" role="img" aria-label="Bát hương cắm nhang"><style data-palette="1">svg[data-lib-id="SH003-p4-incense_burner"]{--pal-ash:#8d8a85;--pal-ash_dark:#5d5a56;--pal-bamboo:#b59a5a;--pal-bamboo_dark:#8a7240;--pal-bamboo_shadow:#5e4d28;--pal-brass:#b08a3a;--pal-brass_dark:#7c5e22;--pal-brow_white:#8d857a;--pal-clay:#6f4a32;--pal-clay_dark:#4d3222;--pal-clay_light:#8b6144;--pal-cloth_grey:#c9c2b2;--pal-cloth_red:#a8201a;--pal-cloth_red_dark:#761410;--pal-cloth_white:#ece6d8;--pal-cloud:#c9d6d8;--pal-earth:#5a4630;--pal-earth_dark:#3b2e20;--pal-ember:#e0451f;--pal-end_red:#d0332b;--pal-eye_white:#fffdf7;--pal-flame:#ffb347;--pal-flame_core:#fff3c4;--pal-flame_edge:#e8741f;--pal-floor:#4a3626;--pal-floor_dark:#31241a;--pal-hair_black:#1b120c;--pal-hair_white:#eae4db;--pal-ink:#1f140b;--pal-khan_white:#f4f1ea;--pal-leaf:#2d4a35;--pal-leaf_dark:#1b3224;--pal-light_cold:#5c7fa8;--pal-light_dawn:#ffd9a0;--pal-light_red:#c01818;--pal-light_warm:#ffb060;--pal-mist:#9fb0b0;--pal-moon:#e8e6d2;--pal-mouth_dark:#4a1a14;--pal-ok_green:#3fae5a;--pal-paper:#d9c48a;--pal-phone_body:#25272b;--pal-phone_screen_off:#0d1013;--pal-pupil:#1b120c;--pal-robe_brown:#584333;--pal-robe_brown_dark:#483424;--pal-robe_indigo:#2b2f45;--pal-robe_indigo_dark:#20233a;--pal-robe_mourning:#e6e0d3;--pal-robe_mourning_dark:#cfc8b8;--pal-scar:#e6b99a;--pal-screen_call:#1f3a4d;--pal-screen_glow:#6fd0ff;--pal-shadow:#000000;--pal-shadow_body:#07070a;--pal-shadow_eye:#ffffff;--pal-shadow_ink:#000000;--pal-shadow_line:#e8e4db;--pal-shadow_pupil:#d01010;--pal-shoe:#120d09;--pal-skin:#cf9063;--pal-skin_old:#c48a5d;--pal-sky_dawn:#8aa0a6;--pal-sky_dawn_low:#e3c49a;--pal-sky_night:#121b22;--pal-sky_night_low:#1d2b31;--pal-smoke:#cfcac0;--pal-tear:#cfe6ee;--pal-thatch:#7a6538;--pal-tile:#5a4636;--pal-vignette:#000000;--pal-wall_wood:#3a281b;--pal-wall_wood_dark:#241a13;--pal-wax:#efe6d2;--pal-wax_shadow:#c9bda3;--pal-window_night:#1a2428;--pal-wood:#6b4d31;--pal-wood_black:#1b120c;--pal-wood_dark:#3e2a1a;--pal-wood_light:#8a6a47}</style>
+<title>incense_burner — bát hương</title>
+<style>
+.prop-incense_burner .st{display:none}
+.prop-incense_burner[data-state='burning'] .st-burning,.prop-incense_burner[data-state='spent'] .st-spent,
+.prop-incense_burner[data-state='burning'] .st-sticks,.prop-incense_burner[data-state='spent'] .st-stubs{display:inline}
+</style>
+<g class="prop prop-incense_burner" data-state="burning" id="SH003-p4">
+  <g class="st st-burning st-sticks">
+    <g stroke="var(--pal-wood_light)" stroke-width="5" stroke-linecap="round">
+      <line x1="92" y1="170" x2="84" y2="60"/><line x1="106" y1="170" x2="104" y2="46"/>
+      <line x1="120" y1="170" x2="120" y2="38"/><line x1="134" y1="170" x2="136" y2="46"/>
+      <line x1="148" y1="170" x2="156" y2="60"/>
+    </g>
+    <g fill="var(--pal-ember)">
+      <circle cx="84" cy="60" r="4.5"/><circle cx="104" cy="46" r="4.5"/><circle cx="120" cy="38" r="4.5"/>
+      <circle cx="136" cy="46" r="4.5"/><circle cx="156" cy="60" r="4.5"/>
+    </g>
+    <g class="smoke" stroke="var(--pal-smoke)" stroke-width="5" stroke-linecap="round" fill="none" opacity=".55">
+      <path d="M84 54 Q72 44 84 34 Q96 24 84 12"/><path d="M120 32 Q108 22 120 12 Q132 2 120 -6"/><path d="M156 54 Q144 44 156 34 Q168 24 156 12"/>
+    </g>
+  </g>
+  <g class="st st-spent st-stubs">
+    <g stroke="var(--pal-wood_dark)" stroke-width="5" stroke-linecap="round">
+      <line x1="92" y1="170" x2="90" y2="146"/><line x1="112" y1="170" x2="112" y2="140"/>
+      <line x1="128" y1="170" x2="130" y2="142"/><line x1="148" y1="170" x2="150" y2="148"/>
+    </g>
+    <g fill="var(--pal-ash_dark)"><circle cx="90" cy="146" r="3.5"/><circle cx="112" cy="140" r="3.5"/><circle cx="130" cy="142" r="3.5"/><circle cx="150" cy="148" r="3.5"/></g>
+  </g>
+  <path d="M18 168 Q16 280 120 284 Q224 280 222 168 Z" fill="var(--pal-brass)" stroke="var(--pal-ink)" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M40 200 Q42 248 78 266" stroke="var(--pal-flame_core)" stroke-width="5" stroke-linecap="round" fill="none" opacity=".45"/>
+  <path d="M30 214 Q120 232 210 214" stroke="var(--pal-brass_dark)" stroke-width="5" fill="none"/>
+  <path d="M82 284 L90 296 L150 296 L158 284 Z" fill="var(--pal-brass_dark)" stroke="var(--pal-ink)" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M18 186 Q-2 186 2 206 Q6 222 22 220 M222 186 Q242 186 238 206 Q234 222 218 220" stroke="var(--pal-ink)" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M18 186 Q-2 186 2 206 Q6 222 22 220 M222 186 Q242 186 238 206 Q234 222 218 220" stroke="var(--pal-brass)" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <ellipse cx="120" cy="168" rx="102" ry="16" fill="var(--pal-brass_dark)" stroke="var(--pal-ink)" stroke-width="6"/>
+  <ellipse cx="120" cy="170" rx="86" ry="10" fill="var(--pal-ash)" stroke="var(--pal-ink)" stroke-width="3"/>
+</g>
+</svg><svg id="SH003-p1-pos" x="476.0" y="364.0" width="448.0" height="496.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 620" data-lib-id="SH003-p1-ancestral_altar" data-lib-kind="prop" role="img" aria-label="Tủ thờ có di ảnh"><style data-palette="1">svg[data-lib-id="SH003-p1-ancestral_altar"]{--pal-ash:#8d8a85;--pal-ash_dark:#5d5a56;--pal-bamboo:#b59a5a;--pal-bamboo_dark:#8a7240;--pal-bamboo_shadow:#5e4d28;--pal-brass:#b08a3a;--pal-brass_dark:#7c5e22;--pal-brow_white:#8d857a;--pal-clay:#6f4a32;--pal-clay_dark:#4d3222;--pal-clay_light:#8b6144;--pal-cloth_grey:#c9c2b2;--pal-cloth_red:#a8201a;--pal-cloth_red_dark:#761410;--pal-cloth_white:#ece6d8;--pal-cloud:#c9d6d8;--pal-earth:#5a4630;--pal-earth_dark:#3b2e20;--pal-ember:#e0451f;--pal-end_red:#d0332b;--pal-eye_white:#fffdf7;--pal-flame:#ffb347;--pal-flame_core:#fff3c4;--pal-flame_edge:#e8741f;--pal-floor:#4a3626;--pal-floor_dark:#31241a;--pal-hair_black:#1b120c;--pal-hair_white:#eae4db;--pal-ink:#1f140b;--pal-khan_white:#f4f1ea;--pal-leaf:#2d4a35;--pal-leaf_dark:#1b3224;--pal-light_cold:#5c7fa8;--pal-light_dawn:#ffd9a0;--pal-light_red:#c01818;--pal-light_warm:#ffb060;--pal-mist:#9fb0b0;--pal-moon:#e8e6d2;--pal-mouth_dark:#4a1a14;--pal-ok_green:#3fae5a;--pal-paper:#d9c48a;--pal-phone_body:#25272b;--pal-phone_screen_off:#0d1013;--pal-pupil:#1b120c;--pal-robe_brown:#584333;--pal-robe_brown_dark:#483424;--pal-robe_indigo:#2b2f45;--pal-robe_indigo_dark:#20233a;--pal-robe_mourning:#e6e0d3;--pal-robe_mourning_dark:#cfc8b8;--pal-scar:#e6b99a;--pal-screen_call:#1f3a4d;--pal-screen_glow:#6fd0ff;--pal-shadow:#000000;--pal-shadow_body:#07070a;--pal-shadow_eye:#ffffff;--pal-shadow_ink:#000000;--pal-shadow_line:#e8e4db;--pal-shadow_pupil:#d01010;--pal-shoe:#120d09;--pal-skin:#cf9063;--pal-skin_old:#c48a5d;--pal-sky_dawn:#8aa0a6;--pal-sky_dawn_low:#e3c49a;--pal-sky_night:#121b22;--pal-sky_night_low:#1d2b31;--pal-smoke:#cfcac0;--pal-tear:#cfe6ee;--pal-thatch:#7a6538;--pal-tile:#5a4636;--pal-vignette:#000000;--pal-wall_wood:#3a281b;--pal-wall_wood_dark:#241a13;--pal-wax:#efe6d2;--pal-wax_shadow:#c9bda3;--pal-window_night:#1a2428;--pal-wood:#6b4d31;--pal-wood_black:#1b120c;--pal-wood_dark:#3e2a1a;--pal-wood_light:#8a6a47}</style>
+<title>ancestral_altar — tủ thờ + di ảnh (đặt nến/bát hương vào các slot)</title>
+<style>
+.prop-ancestral_altar .st{display:none}
+.prop-ancestral_altar[data-state='normal'] .st-normal,.prop-ancestral_altar[data-state='covered'] .st-covered,
+.prop-ancestral_altar[data-state='blank'] .st-blank,.prop-ancestral_altar[data-state='normal'] .st-photo,.prop-ancestral_altar[data-state='covered'] .st-photo{display:inline}
+.prop-ancestral_altar .cover{transform-box:view-box;transform-origin:280px 120px}
+</style>
+<g class="prop prop-ancestral_altar" data-state="normal" id="SH003-p1">
+  <!-- di ảnh -->
+  <rect x="186" y="96" width="188" height="252" rx="6" fill="var(--pal-wood_black)" stroke="var(--pal-ink)" stroke-width="6"/>
+  <rect x="200" y="110" width="160" height="224" rx="3" fill="var(--pal-paper)" stroke="var(--pal-wood)" stroke-width="3"/>
+  <g class="st st-photo">
+    <circle cx="280" cy="198" r="38" fill="var(--pal-ash)" stroke="var(--pal-ash_dark)" stroke-width="3"/>
+    <path d="M206 334 Q210 262 280 250 Q350 262 354 334 Z" fill="var(--pal-ash_dark)"/>
+  </g>
+  <g class="st st-blank"><rect x="200" y="110" width="160" height="224" fill="var(--pal-shadow)" opacity=".82"/></g>
+  <g class="st st-covered cover">
+    <path d="M176 88 L384 88 L392 356 L168 356 Z" fill="var(--pal-cloth_white)" stroke="var(--pal-ink)" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M214 92 Q220 220 206 352 M280 92 Q286 230 280 352 M346 92 Q340 220 356 352" stroke="var(--pal-cloth_grey)" stroke-width="4" fill="none"/>
+  </g>
+  <!-- tủ thờ -->
+  <rect x="14" y="396" width="532" height="28" rx="6" fill="var(--pal-wood_light)" stroke="var(--pal-ink)" stroke-width="6"/>
+  <rect x="34" y="424" width="492" height="188" fill="var(--pal-wood)" stroke="var(--pal-ink)" stroke-width="6"/>
+  <rect x="58" y="446" width="208" height="146" fill="var(--pal-wood_dark)" stroke="var(--pal-ink)" stroke-width="5"/>
+  <rect x="294" y="446" width="208" height="146" fill="var(--pal-wood_dark)" stroke="var(--pal-ink)" stroke-width="5"/>
+  <g stroke="var(--pal-wood_light)" stroke-width="3" fill="none" opacity=".75">
+    <path d="M82 470 L242 470 M82 568 L242 568 M82 470 L82 568 M242 470 L242 568 M162 470 L162 568 M82 518 L242 518"/>
+    <path d="M318 470 L478 470 M318 568 L478 568 M318 470 L318 568 M478 470 L478 568 M398 470 L398 568 M318 518 L478 518"/>
+  </g>
+  <circle cx="262" cy="520" r="6" fill="var(--pal-brass)" stroke="var(--pal-ink)" stroke-width="3"/>
+  <circle cx="298" cy="520" r="6" fill="var(--pal-brass)" stroke="var(--pal-ink)" stroke-width="3"/>
+  <rect x="34" y="608" width="48" height="12" fill="var(--pal-wood_dark)" stroke="var(--pal-ink)" stroke-width="4"/>
+  <rect x="478" y="608" width="48" height="12" fill="var(--pal-wood_dark)" stroke="var(--pal-ink)" stroke-width="4"/>
+  <!-- slot: candle-l (140,396) · candle-r (420,396) · incense (280,396) — xem index.json -->
+</g>
+</svg><svg id="SH003-p5-pos" x="848.0" y="840.0" width="204.0" height="90.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 150" data-lib-id="SH003-p5-bamboo_tray" data-lib-kind="prop" role="img" aria-label="Mâm tre đan"><style data-palette="1">svg[data-lib-id="SH003-p5-bamboo_tray"]{--pal-ash:#8d8a85;--pal-ash_dark:#5d5a56;--pal-bamboo:#b59a5a;--pal-bamboo_dark:#8a7240;--pal-bamboo_shadow:#5e4d28;--pal-brass:#b08a3a;--pal-brass_dark:#7c5e22;--pal-brow_white:#8d857a;--pal-clay:#6f4a32;--pal-clay_dark:#4d3222;--pal-clay_light:#8b6144;--pal-cloth_grey:#c9c2b2;--pal-cloth_red:#a8201a;--pal-cloth_red_dark:#761410;--pal-cloth_white:#ece6d8;--pal-cloud:#c9d6d8;--pal-earth:#5a4630;--pal-earth_dark:#3b2e20;--pal-ember:#e0451f;--pal-end_red:#d0332b;--pal-eye_white:#fffdf7;--pal-flame:#ffb347;--pal-flame_core:#fff3c4;--pal-flame_edge:#e8741f;--pal-floor:#4a3626;--pal-floor_dark:#31241a;--pal-hair_black:#1b120c;--pal-hair_white:#eae4db;--pal-ink:#1f140b;--pal-khan_white:#f4f1ea;--pal-leaf:#2d4a35;--pal-leaf_dark:#1b3224;--pal-light_cold:#5c7fa8;--pal-light_dawn:#ffd9a0;--pal-light_red:#c01818;--pal-light_warm:#ffb060;--pal-mist:#9fb0b0;--pal-moon:#e8e6d2;--pal-mouth_dark:#4a1a14;--pal-ok_green:#3fae5a;--pal-paper:#d9c48a;--pal-phone_body:#25272b;--pal-phone_screen_off:#0d1013;--pal-pupil:#1b120c;--pal-robe_brown:#584333;--pal-robe_brown_dark:#483424;--pal-robe_indigo:#2b2f45;--pal-robe_indigo_dark:#20233a;--pal-robe_mourning:#e6e0d3;--pal-robe_mourning_dark:#cfc8b8;--pal-scar:#e6b99a;--pal-screen_call:#1f3a4d;--pal-screen_glow:#6fd0ff;--pal-shadow:#000000;--pal-shadow_body:#07070a;--pal-shadow_eye:#ffffff;--pal-shadow_ink:#000000;--pal-shadow_line:#e8e4db;--pal-shadow_pupil:#d01010;--pal-shoe:#120d09;--pal-skin:#cf9063;--pal-skin_old:#c48a5d;--pal-sky_dawn:#8aa0a6;--pal-sky_dawn_low:#e3c49a;--pal-sky_night:#121b22;--pal-sky_night_low:#1d2b31;--pal-smoke:#cfcac0;--pal-tear:#cfe6ee;--pal-thatch:#7a6538;--pal-tile:#5a4636;--pal-vignette:#000000;--pal-wall_wood:#3a281b;--pal-wall_wood_dark:#241a13;--pal-wax:#efe6d2;--pal-wax_shadow:#c9bda3;--pal-window_night:#1a2428;--pal-wood:#6b4d31;--pal-wood_black:#1b120c;--pal-wood_dark:#3e2a1a;--pal-wood_light:#8a6a47}</style>
+<title>bamboo_tray — mâm tre đan (đựng khăn / trầu cau)</title>
+<style>
+.prop-bamboo_tray .st{display:none}
+.prop-bamboo_tray[data-state='cloths'] .st-cloths,.prop-bamboo_tray[data-state='scattered'] .st-scattered{display:inline}
+</style>
+<g class="prop prop-bamboo_tray" data-state="cloths" id="SH003-p5">
+  <path d="M90 128 L96 146 L244 146 L250 128 Z" fill="var(--pal-bamboo_dark)" stroke="var(--pal-ink)" stroke-width="5" stroke-linejoin="round"/>
+  <ellipse cx="170" cy="104" rx="160" ry="36" fill="var(--pal-bamboo_dark)" stroke="var(--pal-ink)" stroke-width="6"/>
+  <ellipse cx="170" cy="100" rx="142" ry="28" fill="var(--pal-bamboo)" stroke="var(--pal-bamboo_shadow)" stroke-width="3"/>
+  <g stroke="var(--pal-bamboo_shadow)" stroke-width="2.5" fill="none" opacity=".8">
+    <path d="M60 100 Q170 128 280 100 M80 112 Q170 134 260 112 M100 90 Q170 108 240 90"/>
+    <path d="M110 76 L96 124 M140 74 L130 128 M170 72 L170 128 M200 74 L210 128 M230 76 L244 124"/>
+  </g>
+  <g class="st st-cloths">
+    <rect x="120" y="58" width="100" height="36" rx="3" fill="var(--pal-cloth_white)" stroke="var(--pal-ink)" stroke-width="4"/>
+    <rect x="124" y="42" width="92" height="18" rx="3" fill="var(--pal-cloth_grey)" stroke="var(--pal-ink)" stroke-width="4"/>
+    <rect x="128" y="28" width="84" height="16" rx="3" fill="var(--pal-cloth_white)" stroke="var(--pal-ink)" stroke-width="4"/>
+    <path d="M122 76 L218 76 M126 50 L214 50" stroke="var(--pal-cloth_grey)" stroke-width="2.5"/>
+  </g>
+  <g class="st st-scattered">
+    <path d="M70 92 L128 80 L136 104 L80 114 Z" fill="var(--pal-cloth_white)" stroke="var(--pal-ink)" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M176 78 L240 86 L228 112 L170 104 Z" fill="var(--pal-cloth_grey)" stroke="var(--pal-ink)" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M130 66 L178 62 L182 82 L134 86 Z" fill="var(--pal-cloth_white)" stroke="var(--pal-ink)" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+</g>
+</svg><svg x="920.0" y="350.0" width="520.0" height="600.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 600" role="img" aria-label="Người Mẹ (me)"><title>Người Mẹ (me)</title><style>.rig-me .arm,.rig-me .fore{transform-box:view-box}
+.rig-me .arm-l{transform-origin:300px 318px}
+.rig-me .arm-r{transform-origin:220px 318px}
+.rig-me .fore-l{transform-origin:300px 388px}
+.rig-me .fore-r{transform-origin:220px 388px}
+.rig-me .eye,.rig-me .sclera,.rig-me .pupil,.rig-me .brow,.rig-me .m-closed{transform-box:fill-box;transform-origin:50% 50%}
+.rig-me .lid{transform-box:fill-box;transform-origin:50% 0%;transform:scaleY(var(--lid,0))}
+.rig-me .eye{transform:scale(calc(var(--es,1) * var(--exs,1)),var(--es,1))}
+.rig-me .pupil{transform:translate(var(--gx,0px),var(--gy,0px)) scale(var(--ps,1))}
+.rig-me .brow-r{transform:translateY(calc(var(--byr,0) * 1px)) rotate(calc(var(--br,0) * -1deg))}
+.rig-me .brow-l{transform:translateY(calc(var(--byl,0) * 1px)) rotate(calc(var(--br,0) * 1deg))}
+.rig-me .shade{opacity:var(--shade,0)}
+.rig-me .tears{opacity:var(--tear,0)}
+.rig-me .m-closed{transform:scaleY(var(--mc,.9))}
+.rig-me .mouth *{display:none}
+.rig-me[data-khan='off'] .acc-khan{display:none}
+.rig-me .lap{display:none}
+.rig-me[data-stance='sit'] .lap{display:inline}
+.rig-me .leg{transform-box:view-box}
+.rig-me .leg-l{transform-origin:284px 470px}
+.rig-me .leg-r{transform-origin:236px 470px}
+.rig-me[data-stance='sit'] .legs{display:none}
+.rig-me[data-stance='sit'] .body{transform:translateY(56px)}
+.rig-me .kfoot{display:none}
+.rig-me[data-stance='kneel'] .legs,.rig-me[data-stance='lay'] .legs{display:none}
+.rig-me[data-stance='kneel'] .lap,.rig-me[data-stance='lay'] .lap{display:inline}
+.rig-me[data-stance='kneel'] .kfoot,.rig-me[data-stance='lay'] .kfoot{display:inline}
+.rig-me[data-stance='kneel'] .lap,.rig-me[data-stance='lay'] .lap{transform:translateY(-22px)}
+.rig-me .kleg{display:none}
+.rig-me[data-stance='kneel'][data-view='tq-r'] .kleg-r,.rig-me[data-stance='lay'][data-view='tq-r'] .kleg-r,.rig-me[data-stance='kneel'][data-view='tq-l'] .kleg-l,.rig-me[data-stance='lay'][data-view='tq-l'] .kleg-l{display:inline}
+.rig-me[data-stance='kneel'][data-view^='tq'] .lap,.rig-me[data-stance='lay'][data-view^='tq'] .lap,.rig-me[data-stance='kneel'][data-view^='tq'] .kfoot,.rig-me[data-stance='lay'][data-view^='tq'] .kfoot{display:none}
+.rig-me[data-stance='kneel'] .body,.rig-me[data-stance='lay'] .body{transform:translateY(74px)}
+.rig-me .upper{transform-box:view-box;transform-origin:260px 470px;transform:rotate(calc(var(--lean,0) * 1deg))}
+.rig-me .trunk,.rig-me .arms{transform-box:view-box;transform-origin:260px 495px}
+.rig-me[data-stance='lay'] .trunk,.rig-me[data-stance='lay'] .arms{transform:scaleY(.42)}
+.rig-me[data-stance='lay'] .headg{transform:translateY(112px)}
+.rig-me .view{transform-box:view-box;transform-origin:260px 0px}
+.rig-me .feat,.rig-me .hair-front,.rig-me .bun-r,.rig-me .bun-l{transform-box:view-box;transform-origin:260px 215px}
+.rig-me[data-view='tq-r'] .view{transform:translateX(5px) scaleX(0.88)}
+.rig-me[data-view='tq-r'] .feat{transform:translateX(13px)}
+.rig-me[data-view='tq-r'] .hair-front{transform:translateX(0px)}
+.rig-me[data-view='tq-r'] .bun-l{transform:scale(0.72)}
+.rig-me[data-view='tq-r'] .chk-l,.rig-me[data-view='tq-r'] .scar-l{transform:translateX(-19px)}
+.rig-me[data-view='tq-r'] .eye-l{--exs:0.72}
+.rig-me[data-view='tq-r'] .ear-l{display:none}
+.rig-me[data-view='tq-l'] .view{transform:translateX(-5px) scaleX(0.88)}
+.rig-me[data-view='tq-l'] .feat{transform:translateX(-13px)}
+.rig-me[data-view='tq-l'] .hair-front{transform:translateX(0px)}
+.rig-me[data-view='tq-l'] .bun-r{transform:scale(0.72)}
+.rig-me[data-view='tq-l'] .chk-r,.rig-me[data-view='tq-l'] .scar-r{transform:translateX(19px)}
+.rig-me[data-view='tq-l'] .eye-r{--exs:0.72}
+.rig-me[data-view='tq-l'] .ear-r{display:none}
+.rig-me[data-stance='stagger'] .view{transform-origin:260px 580px;transform:rotate(-12deg)}
+.rig-me[data-stance='tilt'] .view{transform-origin:260px 580px;transform:translateX(115px) rotate(-42deg)}
+.rig-me[data-stance='lie'] .view{transform-origin:260px 340px;transform:translateY(183px) rotate(-90deg)}
+.rig-me[data-stance='stagger-r'] .view{transform-origin:260px 580px;transform:rotate(12deg)}
+.rig-me[data-stance='tilt-r'] .view{transform-origin:260px 580px;transform:translateX(-115px) rotate(42deg)}
+.rig-me[data-stance='lie-r'] .view{transform-origin:260px 340px;transform:translateY(183px) rotate(90deg)}
+.rig-me[data-stance='lie'] .lid,.rig-me[data-stance='lie-r'] .lid{transform:scaleY(1)}
+.rig-me[data-stance='lie'] .tears,.rig-me[data-stance='lie-r'] .tears{display:none}
+.rig-me[data-pose^='run'] .body{transform-box:view-box;transform-origin:260px 470px}
+.rig-me[data-emotion='calm']{--byl:0;--byr:0;--br:0;--lid:0.0;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:0.9;--gx:0px}
+.rig-me[data-emotion='calm'][data-mouth='auto'] .m-closed{display:inline}
+.rig-me[data-emotion='focused']{--byl:2;--byr:2;--br:-7;--lid:0.18;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:0.15;--gx:0px}
+.rig-me[data-emotion='focused'][data-mouth='auto'] .m-closed{display:inline}
+.rig-me[data-emotion='worried']{--byl:-3;--byr:-3;--br:14;--lid:0.0;--ps:0.95;--es:1.0;--shade:0.0;--tear:0;--mc:-0.9;--gx:0px}
+.rig-me[data-emotion='worried'][data-mouth='auto'] .m-closed{display:inline}
+.rig-me[data-emotion='afraid']{--byl:-9;--byr:-9;--br:10;--lid:0.0;--ps:0.7;--es:1.12;--shade:0.0;--tear:0;--mc:0.0;--gx:0px}
+.rig-me[data-emotion='afraid'][data-mouth='auto'] .m-half{display:inline}
+.rig-me[data-emotion='shocked']{--byl:-11;--byr:-11;--br:0;--lid:0.0;--ps:0.5;--es:1.15;--shade:0.0;--tear:0;--mc:0.0;--gx:0px}
+.rig-me[data-emotion='shocked'][data-mouth='auto'] .m-round{display:inline}
+.rig-me[data-emotion='dread']{--byl:-2;--byr:-2;--br:8;--lid:0.32;--ps:0.7;--es:1.0;--shade:0.28;--tear:0;--mc:-1.1;--gx:0px}
+.rig-me[data-emotion='dread'][data-mouth='auto'] .m-closed{display:inline}
+.rig-me[data-emotion='sad']{--byl:-2;--byr:-2;--br:16;--lid:0.28;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:-1.0;--gx:0px}
+.rig-me[data-emotion='sad'][data-mouth='auto'] .m-closed{display:inline}
+.rig-me[data-emotion='grief']{--byl:-3;--byr:-3;--br:20;--lid:0.42;--ps:1.0;--es:1.0;--shade:0.0;--tear:1;--mc:0.0;--gx:0px}
+.rig-me[data-emotion='grief'][data-mouth='auto'] .m-half{display:inline}
+.rig-me[data-emotion='angry']{--byl:3;--byr:3;--br:-18;--lid:0.2;--ps:0.9;--es:1.0;--shade:0.0;--tear:0;--mc:-1.3;--gx:0px}
+.rig-me[data-emotion='angry'][data-mouth='auto'] .m-closed{display:inline}
+.rig-me[data-emotion='suspicious']{--byl:-9;--byr:3;--br:-4;--lid:0.34;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:-0.3;--gx:6px}
+.rig-me[data-emotion='suspicious'][data-mouth='auto'] .m-closed{display:inline}
+.rig-me[data-emotion='relieved']{--byl:-4;--byr:-4;--br:8;--lid:0.3;--ps:1.0;--es:1.0;--shade:0.0;--tear:0;--mc:1.7;--gx:0px}
+.rig-me[data-emotion='relieved'][data-mouth='auto'] .m-closed{display:inline}
+.rig-me[data-mouth='closed'] .m-closed{display:inline}
+.rig-me[data-mouth='half'] .m-half{display:inline}
+.rig-me[data-mouth='open'] .m-open{display:inline}
+.rig-me[data-mouth='round'] .m-round{display:inline}
+.rig-me[data-blink='1'][data-emotion]{--lid:1}
+.rig-me[data-gaze='left']{--gx:-5px;--gy:0px}
+.rig-me[data-gaze='right']{--gx:5px;--gy:0px}
+.rig-me[data-gaze='up']{--gx:0px;--gy:-4px}
+.rig-me[data-gaze='down']{--gx:0px;--gy:4px}
+.rig-me[data-pose='idle'] .arm-l{transform:rotate(calc(var(--ik-ul,-4) * 1deg))}
+.rig-me[data-pose='idle'] .fore-l{transform:rotate(calc(var(--ik-fl,0) * 1deg))}
+.rig-me[data-pose='idle'] .arm-r{transform:rotate(calc(var(--ik-ur,4) * 1deg))}
+.rig-me[data-pose='idle'] .fore-r{transform:rotate(calc(var(--ik-fr,0) * 1deg))}
+.rig-me[data-pose='clasp'] .arm-l{transform:rotate(calc(var(--ik-ul,-8) * 1deg))}
+.rig-me[data-pose='clasp'] .fore-l{transform:rotate(calc(var(--ik-fl,92) * 1deg))}
+.rig-me[data-pose='clasp'] .arm-r{transform:rotate(calc(var(--ik-ur,8) * 1deg))}
+.rig-me[data-pose='clasp'] .fore-r{transform:rotate(calc(var(--ik-fr,-92) * 1deg))}
+.rig-me[data-pose='point-l'] .arm-l{transform:rotate(calc(var(--ik-ul,-72) * 1deg))}
+.rig-me[data-pose='point-l'] .fore-l{transform:rotate(calc(var(--ik-fl,-8) * 1deg))}
+.rig-me[data-pose='point-l'] .arm-r{transform:rotate(calc(var(--ik-ur,4) * 1deg))}
+.rig-me[data-pose='point-l'] .fore-r{transform:rotate(calc(var(--ik-fr,0) * 1deg))}
+.rig-me[data-pose='reach-l'] .arm-l{transform:rotate(calc(var(--ik-ul,-95) * 1deg))}
+.rig-me[data-pose='reach-l'] .fore-l{transform:rotate(calc(var(--ik-fl,-4) * 1deg))}
+.rig-me[data-pose='reach-l'] .arm-r{transform:rotate(calc(var(--ik-ur,4) * 1deg))}
+.rig-me[data-pose='reach-l'] .fore-r{transform:rotate(calc(var(--ik-fr,0) * 1deg))}
+.rig-me[data-pose='raise-both'] .arm-l{transform:rotate(calc(var(--ik-ul,-50) * 1deg))}
+.rig-me[data-pose='raise-both'] .fore-l{transform:rotate(calc(var(--ik-fl,-130) * 1deg))}
+.rig-me[data-pose='raise-both'] .arm-r{transform:rotate(calc(var(--ik-ur,50) * 1deg))}
+.rig-me[data-pose='raise-both'] .fore-r{transform:rotate(calc(var(--ik-fr,130) * 1deg))}
+.rig-me[data-pose='walk-a'] .arm-l{transform:rotate(calc(var(--ik-ul,-4) * 1deg))}
+.rig-me[data-pose='walk-a'] .fore-l{transform:rotate(calc(var(--ik-fl,0) * 1deg))}
+.rig-me[data-pose='walk-a'] .arm-r{transform:rotate(calc(var(--ik-ur,4) * 1deg))}
+.rig-me[data-pose='walk-a'] .fore-r{transform:rotate(calc(var(--ik-fr,0) * 1deg))}
+.rig-me[data-pose='walk-b'] .arm-l{transform:rotate(calc(var(--ik-ul,-4) * 1deg))}
+.rig-me[data-pose='walk-b'] .fore-l{transform:rotate(calc(var(--ik-fl,0) * 1deg))}
+.rig-me[data-pose='walk-b'] .arm-r{transform:rotate(calc(var(--ik-ur,4) * 1deg))}
+.rig-me[data-pose='walk-b'] .fore-r{transform:rotate(calc(var(--ik-fr,0) * 1deg))}
+.rig-me[data-pose='run-a'] .arm-l{transform:rotate(calc(var(--ik-ul,-62) * 1deg))}
+.rig-me[data-pose='run-a'] .fore-l{transform:rotate(calc(var(--ik-fl,-88) * 1deg))}
+.rig-me[data-pose='run-a'] .arm-r{transform:rotate(calc(var(--ik-ur,14) * 1deg))}
+.rig-me[data-pose='run-a'] .fore-r{transform:rotate(calc(var(--ik-fr,30) * 1deg))}
+.rig-me[data-pose='run-b'] .arm-l{transform:rotate(calc(var(--ik-ul,-14) * 1deg))}
+.rig-me[data-pose='run-b'] .fore-l{transform:rotate(calc(var(--ik-fl,-30) * 1deg))}
+.rig-me[data-pose='run-b'] .arm-r{transform:rotate(calc(var(--ik-ur,62) * 1deg))}
+.rig-me[data-pose='run-b'] .fore-r{transform:rotate(calc(var(--ik-fr,88) * 1deg))}
+.rig-me[data-pose='cover-head'] .arm-l{transform:rotate(calc(var(--ik-ul,-150) * 1deg))}
+.rig-me[data-pose='cover-head'] .fore-l{transform:rotate(calc(var(--ik-fl,-135) * 1deg))}
+.rig-me[data-pose='cover-head'] .arm-r{transform:rotate(calc(var(--ik-ur,150) * 1deg))}
+.rig-me[data-pose='cover-head'] .fore-r{transform:rotate(calc(var(--ik-fr,135) * 1deg))}
+.rig-me[data-pose='pray'] .arm-l{transform:rotate(calc(var(--ik-ul,-14) * 1deg))}
+.rig-me[data-pose='pray'] .fore-l{transform:rotate(calc(var(--ik-fl,112) * 1deg))}
+.rig-me[data-pose='pray'] .arm-r{transform:rotate(calc(var(--ik-ur,14) * 1deg))}
+.rig-me[data-pose='pray'] .fore-r{transform:rotate(calc(var(--ik-fr,-112) * 1deg))}
+.rig-me[data-pose='prostrate'] .arm-l{transform:rotate(calc(var(--ik-ul,-30) * 1deg))}
+.rig-me[data-pose='prostrate'] .fore-l{transform:rotate(calc(var(--ik-fl,-8) * 1deg))}
+.rig-me[data-pose='prostrate'] .arm-r{transform:rotate(calc(var(--ik-ur,30) * 1deg))}
+.rig-me[data-pose='prostrate'] .fore-r{transform:rotate(calc(var(--ik-fr,8) * 1deg))}
+.rig-me[data-pose='walk-a'] .leg-l{transform:translate(6px,-16px)}
+.rig-me[data-pose='walk-a'] .leg-r{transform:translate(0px,0px)}
+.rig-me[data-pose='walk-b'] .leg-l{transform:translate(0px,0px)}
+.rig-me[data-pose='walk-b'] .leg-r{transform:translate(-6px,-16px)}
+.rig-me[data-pose='run-a'] .leg-l{transform:translate(10px,-34px)}
+.rig-me[data-pose='run-a'] .leg-r{transform:translate(-4px,0px)}
+.rig-me[data-pose='run-b'] .leg-l{transform:translate(4px,0px)}
+.rig-me[data-pose='run-b'] .leg-r{transform:translate(-10px,-34px)}</style><g class="rig rig-me" data-emotion="focused" data-mouth="auto" data-pose="idle" data-stance="stand" data-gaze="down" data-view="front" data-blink="0" data-khan="on" id="SH003-me"><ellipse class="floor-shadow" cx="260" cy="578" rx="86.4" ry="9" fill="#000" opacity="0.28"/><g class="scale" transform="translate(260 580) scale(0.95) translate(-260 -580)"><g class="view"><ellipse class="kfoot" cx="200.48" cy="573" rx="22" ry="10" fill="#120d09" stroke="#1f140b" stroke-width="3"/><ellipse class="kfoot" cx="319.52" cy="573" rx="22" ry="10" fill="#120d09" stroke="#1f140b" stroke-width="3"/><g class="body"><g class="legs"><g class="leg leg-r"><rect x="224" y="470" width="24" height="98" rx="10" fill="#cfc8b8" stroke="#1f140b" stroke-width="5"/><ellipse cx="236" cy="572" rx="23" ry="11" fill="#120d09" stroke="#1f140b" stroke-width="3"/></g><g class="leg leg-l"><rect x="272" y="470" width="24" height="98" rx="10" fill="#cfc8b8" stroke="#1f140b" stroke-width="5"/><ellipse cx="284" cy="572" rx="23" ry="11" fill="#120d09" stroke="#1f140b" stroke-width="3"/></g></g><ellipse class="lap" cx="260" cy="500" rx="91.2" ry="30" fill="#cfc8b8" stroke="#1f140b" stroke-width="6"/><g class="kleg kleg-r"><line x1="326" y1="492" x2="198" y2="494" stroke="#1f140b" stroke-width="32" stroke-linecap="round"/><line x1="326" y1="492" x2="198" y2="494" stroke="#cfc8b8" stroke-width="22" stroke-linecap="round"/><ellipse cx="190" cy="486" rx="11" ry="19" fill="#120d09" stroke="#1f140b" stroke-width="3"/><line x1="256" y1="474" x2="326" y2="484" stroke="#1f140b" stroke-width="38" stroke-linecap="round"/><line x1="256" y1="474" x2="326" y2="484" stroke="#cfc8b8" stroke-width="28" stroke-linecap="round"/></g><g class="kleg kleg-l"><line x1="194" y1="492" x2="322" y2="494" stroke="#1f140b" stroke-width="32" stroke-linecap="round"/><line x1="194" y1="492" x2="322" y2="494" stroke="#cfc8b8" stroke-width="22" stroke-linecap="round"/><ellipse cx="330" cy="486" rx="11" ry="19" fill="#120d09" stroke="#1f140b" stroke-width="3"/><line x1="264" y1="474" x2="194" y2="484" stroke="#1f140b" stroke-width="38" stroke-linecap="round"/><line x1="264" y1="474" x2="194" y2="484" stroke="#cfc8b8" stroke-width="28" stroke-linecap="round"/></g><g class="upper"><g class="trunk"><rect class="neck" x="248" y="266" width="24" height="44" rx="6" fill="#cf9063" stroke="#1f140b" stroke-width="5"/><rect class="torso" x="212" y="300" width="96" height="195" rx="26" fill="#e6e0d3" stroke="#1f140b" stroke-width="6"/><path class="collar" d="M 240 302 L 260 338 L 280 302 Z" fill="#cf9063" stroke="#1f140b" stroke-width="4" stroke-linejoin="round"/></g><g class="arms"><g class="arm arm-r"><line x1="220" y1="318" x2="220" y2="388" stroke="#1f140b" stroke-width="36" stroke-linecap="round"/><line x1="220" y1="318" x2="220" y2="388" stroke="#cfc8b8" stroke-width="26" stroke-linecap="round"/><g class="fore fore-r"><line x1="220" y1="388" x2="220" y2="450" stroke="#1f140b" stroke-width="34" stroke-linecap="round"/><line x1="220" y1="388" x2="220" y2="450" stroke="#cfc8b8" stroke-width="24" stroke-linecap="round"/><circle class="hand" cx="220" cy="462" r="15" fill="#cf9063" stroke="#1f140b" stroke-width="4"/></g></g><g class="arm arm-l"><line x1="300" y1="318" x2="300" y2="388" stroke="#1f140b" stroke-width="36" stroke-linecap="round"/><line x1="300" y1="318" x2="300" y2="388" stroke="#cfc8b8" stroke-width="26" stroke-linecap="round"/><g class="fore fore-l"><line x1="300" y1="388" x2="300" y2="450" stroke="#1f140b" stroke-width="34" stroke-linecap="round"/><line x1="300" y1="388" x2="300" y2="450" stroke="#cfc8b8" stroke-width="24" stroke-linecap="round"/><circle class="hand" cx="300" cy="462" r="15" fill="#cf9063" stroke="#1f140b" stroke-width="4"/></g></g></g><g class="headg"><g class="head" transform="translate(0 1.4)"><ellipse cx="260" cy="205" rx="62" ry="66" fill="#1b120c" stroke="#1f140b" stroke-width="5"/><circle class="bun" cx="260" cy="132" r="24" fill="#1b120c" stroke="#1f140b" stroke-width="5"/><circle class="ear ear-r" cx="202" cy="226" r="10" fill="#cf9063" stroke="#1f140b" stroke-width="4"/><circle class="ear ear-l" cx="318" cy="226" r="10" fill="#cf9063" stroke="#1f140b" stroke-width="4"/><ellipse class="face" cx="260" cy="215" rx="58" ry="62" fill="#cf9063" stroke="#1f140b" stroke-width="6"/><path class="hair-front" d="M 200 206 Q 196 148 260 146 Q 324 148 320 206 Q 302 176 260 174 Q 218 176 200 206 Z" fill="#1b120c" stroke="#1f140b" stroke-width="5" stroke-linejoin="round"/><g class="feat"><path d="M 230 190 Q 260 184 290 190" stroke="#1f140b" stroke-width="2.6" stroke-linecap="round" fill="none" opacity="0.5"/><path class="chk-r" d="M 208 232 l 8 3 M 208 241 l 8 -2" stroke="#1f140b" stroke-width="2.6" stroke-linecap="round" fill="none" opacity="0.5"/><path class="chk-l" d="M 312 232 l -8 3 M 312 241 l -8 -2" stroke="#1f140b" stroke-width="2.6" stroke-linecap="round" fill="none" opacity="0.5"/><path d="M 255 236 Q 260 242 266 236" stroke="#1f140b" stroke-width="3.5" stroke-linecap="round" fill="none"/><g class="eye eye-r"><ellipse class="sclera" cx="236" cy="222" rx="13" ry="15" fill="#fffdf7" stroke="#1f140b" stroke-width="4"/><circle class="pupil" cx="236" cy="224" r="6.5" fill="#1b120c"/><ellipse class="lid" cx="236" cy="222" rx="14.5" ry="16.5" fill="#cf9063"/></g><g class="eye eye-l"><ellipse class="sclera" cx="284" cy="222" rx="13" ry="15" fill="#fffdf7" stroke="#1f140b" stroke-width="4"/><circle class="pupil" cx="284" cy="224" r="6.5" fill="#1b120c"/><ellipse class="lid" cx="284" cy="222" rx="14.5" ry="16.5" fill="#cf9063"/></g><path class="brow brow-r" d="M 222 200 Q 236 192 250 200" stroke="#1b120c" stroke-width="5.5" stroke-linecap="round" fill="none"/><path class="brow brow-l" d="M 270 200 Q 284 192 298 200" stroke="#1b120c" stroke-width="5.5" stroke-linecap="round" fill="none"/><path class="tears" d="M 230 238 q -3 14 0 22 M 290 238 q 3 14 0 22" stroke="#cfe6ee" stroke-width="5" stroke-linecap="round" fill="none"/><g class="mouth" transform="translate(260 262) scale(1.0)"><path class="m-closed" d="M -16 -2 Q 0 8 16 -2" stroke="#1f140b" stroke-width="4.5" stroke-linecap="round" fill="none"/><ellipse class="m-half" cx="0" cy="1" rx="11" ry="5.5" fill="#4a1a14" stroke="#1f140b" stroke-width="4"/><ellipse class="m-open" cx="0" cy="3" rx="12" ry="12" fill="#4a1a14" stroke="#1f140b" stroke-width="4"/><ellipse class="m-round" cx="0" cy="2" rx="7" ry="8" fill="#4a1a14" stroke="#1f140b" stroke-width="4"/></g><ellipse class="shade" cx="260" cy="215" rx="58" ry="62" fill="#000"/></g><g class="acc-khan"><path d="M 316 176 Q 348 216 334 276" stroke="#1f140b" stroke-width="20" stroke-linecap="round" fill="none"/><path d="M 316 176 Q 348 216 334 276" stroke="#f4f1ea" stroke-width="12" stroke-linecap="round" fill="none"/><path d="M 200 167 Q 260 148 320 167 L 320 183 Q 260 164 200 183 Z" fill="#f4f1ea" stroke="#1f140b" stroke-width="4" stroke-linejoin="round"/></g></g></g></g></g></g></g></g></svg></svg>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#SH003-stage", {attr: {viewBox: "580.0 716.2 600.0 337.5"}}, {attr: {viewBox: "720.0 716.2 600.0 337.5"}, duration: 5.115, ease: "none"}, 0);
+    tl.fromTo("#SH003-me .head", {y: 0}, {y: -2.5, duration: 1.70, ease: "sine.inOut", yoyo: true, repeat: 2}, 0);
+    tl.fromTo("#SH003-me .torso", {y: 0}, {y: -1.2, duration: 1.70, ease: "sine.inOut", yoyo: true, repeat: 2}, 0);
+    tl.set("#SH003-me", {attr: {"data-blink": 1}}, 0.79); tl.set("#SH003-me", {attr: {"data-blink": 0}}, 0.91);
+    tl.set("#SH003-me", {attr: {"data-blink": 1}}, 3.35); tl.set("#SH003-me", {attr: {"data-blink": 0}}, 3.47);
+    tl.fromTo("#SH003-p2 .flame", {scaleY: 1, scaleX: 1, transformOrigin: "50% 100%"}, {scaleY: 1.08, scaleX: 0.95, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 11}, 0.04);
+    tl.fromTo("#SH003-p3 .flame", {scaleY: 1, scaleX: 1, transformOrigin: "50% 100%"}, {scaleY: 1.08, scaleX: 0.95, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 11}, 0.22);
+    tl.set("#SH003-me", {attr: {"data-pose": "reach-l"}}, 2.20);
+    window.__timelines["SH003"] = tl;
+  </script>
+</template>

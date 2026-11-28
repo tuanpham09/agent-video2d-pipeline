@@ -1,0 +1,652 @@
+{
+  "meta": {
+    "project": "than-trung-chiec-khan-tang-thu-32",
+    "status": "nháp — 5 nhân vật chính có rig; bối cảnh/đạo cụ lấy từ library/ (đề xuất, đối chiếu script khi chốt)",
+    "provenance": "Nhân vật lấy từ brief.md (nguồn h2vVFeUv7a4). Theo workflow-v2, nếu viết lại kịch bản (chế độ A/B) thì tên/quan hệ sẽ đổi; rig dùng lại được, chỉ cần đổi id/name/voice/design.",
+    "side_convention": "l/r theo giải phẫu nhân vật: l = bên trái nhân vật = bên phải người xem"
+  },
+  "emotion_vocab": [
+    "calm",
+    "focused",
+    "worried",
+    "afraid",
+    "shocked",
+    "dread",
+    "sad",
+    "grief",
+    "angry",
+    "suspicious",
+    "relieved"
+  ],
+  "style": {
+    "line": "nét viền dày 4-6px màu ink; line-boil bằng filter ở lớp cảnh, không đặt trong rig",
+    "palette": {},
+    "palette_ref": [
+      "base",
+      "folk-horror-vn"
+    ]
+  },
+  "pivots_note": "Khớp vai/khuỷu: transform-box view-box, toạ độ theo viewBox 0 0 520 600 của file rig (đọc <id>.rig.json). Chỉ nhúng rig dưới dạng <svg> lồng nhau. Chi tiết mặt: 50% 50%.",
+  "characters": [
+    {
+      "id": "host",
+      "name": "Đỗ Văn Lâm (Người kể)",
+      "voice": "Đức Trí",
+      "design": "31 tuổi, kỹ sư cầu đường ở Sài Gòn (nguồn). Tóc đen ngắn; sẹo nhỏ trên lông mày trái (nguồn: sẹo trên lông mày, bên trái là chọn thiết kế); đồ tang áo xô trắng ngà (đề xuất thiết kế); khăn tang có thể tháo (prop khan_xo).",
+      "rig": {
+        "file": "assets/rig/host.svg",
+        "archetype": "adult_m",
+        "outfit": "mourning",
+        "scar": "l"
+      },
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.6,
+        "blink_s": [
+          2.5,
+          5.5
+        ],
+        "seed": 31
+      },
+      "also_voices": [
+        "lam_that (Lâm thật trong hũ) cùng giọng Đức Trí: khác cảnh, không bao giờ cùng khung"
+      ]
+    },
+    {
+      "id": "ong_cuu",
+      "name": "Ông Cửu (Thầy nhốt trùng)",
+      "voice": "Thiền Tâm Đức",
+      "design": "84 tuổi, mắt trái đục (nguồn). Khăn xếp đen, râu dê bạc, áo the thâm (đề xuất thiết kế). Prop đi kèm: hũ sành bịt vải đỏ.",
+      "rig": {
+        "file": "assets/rig/ong_cuu.svg",
+        "archetype": "elder_m",
+        "outfit": "ao_the_indigo",
+        "beard": true,
+        "cloudy_eye": "l"
+      },
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.0,
+        "blink_s": [
+          3.0,
+          6.5
+        ],
+        "seed": 84
+      }
+    },
+    {
+      "id": "me",
+      "name": "Người Mẹ",
+      "voice": "Kim Thanh",
+      "design": "Trung niên (tuổi cụ thể chưa có trong nguồn). Tóc đen búi, đồ tang áo xô, khăn tang (đề xuất thiết kế). Chung giọng Kim Thanh với Bà nội: hai người không được cùng nói trong một cảnh.",
+      "rig": {
+        "file": "assets/rig/me.svg",
+        "archetype": "adult_f",
+        "outfit": "mourning"
+      },
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.4,
+        "blink_s": [
+          2.5,
+          5.0
+        ],
+        "seed": 52
+      }
+    },
+    {
+      "id": "ba_noi",
+      "name": "Bà nội",
+      "voice": "Kim Thanh",
+      "design": "89 tuổi (nguồn: bà cụ 89 tuổi giã trầu), lưng còng, tóc bạc búi, áo nâu sồng (theo preview đã có). Prop đi kèm: cối giã trầu. Đã mất lúc 3:40 chiều: xuất hiện qua cuộc gọi video / hồi tưởng / hình bóng.",
+      "rig": {
+        "file": "assets/rig/ba_noi.svg",
+        "archetype": "elder_f",
+        "outfit": "nau_song"
+      },
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 2.8,
+        "blink_s": [
+          3.0,
+          6.0
+        ],
+        "seed": 89
+      }
+    },
+    {
+      "id": "than_trung",
+      "name": "Thần Trùng",
+      "voice": "Thiện Minh",
+      "design": "Bóng đen không có mặt thật, khăn tang trắng rách buộc đầu, mắt trắng đồng tử đỏ, miệng ngoác rộng (theo bản preview shot 8). Nguồn: Trùng 'không có mặt, soi vào đâu học mặt người đó'.",
+      "rig": {
+        "file": "assets/rig/than_trung.svg",
+        "archetype": "spirit_shadow"
+      },
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 4.5,
+        "blink_s": [
+          4.0,
+          9.0
+        ],
+        "seed": 666
+      }
+    },
+    {
+      "id": "bo",
+      "name": "Bố",
+      "voice": "Hải Đăng",
+      "rig": {
+        "file": "assets/rig/bo.svg",
+        "archetype": "adult_m",
+        "outfit": "mourning",
+        "hair_color": "hair_grey",
+        "brow_color": "brow_grey",
+        "wrinkles": 1,
+        "hunch": 0.15,
+        "body_w": 106
+      },
+      "design": "Bố của Lâm (nguồn: 'Bố gọi tôi về', nhắn tin 4:45, cùng bác trưởng họ). Tuổi cụ thể không có trong nguồn: đề xuất thiết kế người trung niên, tóc muối tiêu, dáng chắc hơn Lâm để không na ná; đồ tang áo xô vì có mặt ở đám.",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 20
+      },
+      "status": "vai phụ (1 line): đã dựng rig (đề xuất thiết kế)"
+    },
+    {
+      "id": "chu_hai",
+      "name": "Chú Hai",
+      "voice": "Hải Đăng",
+      "rig": {
+        "file": "assets/rig/chu_hai.svg",
+        "archetype": "adult_m",
+        "outfit": "plain_light",
+        "beard": true,
+        "wrinkles": 1,
+        "beard_color": "hair_black"
+      },
+      "design": "Chú Hai: xuất hiện qua cuộc gọi video ở Đức (bible); tuổi không có trong nguồn. Đề xuất thiết kế: người lớn, râu cằm, áo thường (không ở đám tang), khác Bố vì không cùng cảnh nhưng vẫn nhận ra bằng râu.",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 9
+      },
+      "status": "vai phụ (2 line): xuất hiện qua cuộc gọi video ở Đức; chung giọng với Bố, không chung cảnh"
+    },
+    {
+      "id": "chu_ut",
+      "name": "Chú Út",
+      "voice": "Xuân Vĩnh",
+      "rig": {
+        "file": "assets/rig/chu_ut.svg",
+        "archetype": "adult_m",
+        "outfit": "mourning",
+        "body_w": 90,
+        "scale": 1.02,
+        "mustache": true
+      },
+      "design": "Chú Út: em của Bố, có vợ (thím út) và con gái Na 5 tuổi, mất sau 3 ngày (nguồn). Đề xuất thiết kế: nam người lớn dáng gầy hơn Bố và Lâm, tóc đen, đồ tang áo xô.",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 65
+      },
+      "status": "vai phụ (1 line); mất sau 3 ngày"
+    },
+    {
+      "id": "ngan",
+      "name": "Em gái Ngân",
+      "voice": "Trúc Ly",
+      "rig": {
+        "file": "assets/rig/ngan.svg",
+        "archetype": "young_adult_f",
+        "outfit": "mourning"
+      },
+      "design": "Em gái của Lâm, thức canh đêm trong rạp (nguồn); tuổi không có trong nguồn nên chọn khung thiếu nữ/cô gái trẻ (đề xuất thiết kế), đồ tang áo xô.",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 70
+      },
+      "status": "vai phụ (2 line)"
+    },
+    {
+      "id": "be_na",
+      "name": "Bé Na",
+      "voice": "Trúc Ly",
+      "rig": {
+        "file": "assets/rig/be_na.svg",
+        "archetype": "child_f",
+        "outfit": "mourning"
+      },
+      "design": "Con gái chú Út, 5 tuổi (nguồn); ngồi trong lòng thím, đội khăn trắng bé xíu (nguồn) nên dùng đồ tang + khăn tang. Khung bé gái, đầu to.",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 21
+      },
+      "status": "vai phụ (1 line): khung dáng trẻ em"
+    },
+    {
+      "id": "vy",
+      "name": "Vy",
+      "voice": "Trúc Ly",
+      "rig": {
+        "file": "assets/rig/vy.svg",
+        "archetype": "young_adult_f",
+        "outfit": "plain_light",
+        "hair": "bob"
+      },
+      "design": "Người yêu của Lâm ở Sài Gòn, chỉ xuất hiện qua điện thoại (nguồn). Tuổi không có trong nguồn: đề xuất thiết kế cô gái trẻ, áo thường, không đồ tang (ở Sài Gòn), khác Ngân ở trang phục.",
+      "mouth_shapes": [
+        "closed",
+        "half",
+        "open",
+        "round"
+      ],
+      "idle": {
+        "breath_s": 3.3,
+        "blink_s": [
+          2.5,
+          5.8
+        ],
+        "seed": 19
+      },
+      "status": "vai phụ (2 line, người yêu của Lâm): chung giọng với Ngân và Bé Na, không chung cảnh"
+    },
+    {
+      "id": "lam_that",
+      "name": "Lâm thật (trong hũ)",
+      "voice": "Đức Trí",
+      "rig": null,
+      "status": "chỉ có tiếng (2 line, trong hũ): không cần rig; ghi chú: thân phận Lâm thật được lật ở cú twist"
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_gian_tho",
+      "lib": "house_altar_room",
+      "name": "Gian thờ nhà quê",
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "note": "đề xuất: cảnh chính (bàn thờ, hũ, khăn tang)",
+      "kind": "int",
+      "connects": [
+        {
+          "to": "loc_san_dem",
+          "via": "cửa chính"
+        },
+        {
+          "to": "loc_hien_nha",
+          "via": "cửa hông"
+        },
+        {
+          "to": "loc_rap_tang",
+          "via": "cửa chính ra rạp"
+        },
+        {
+          "to": "loc_buong_ngu",
+          "via": "cửa buồng"
+        },
+        {
+          "to": "loc_buong_ba",
+          "via": "cửa buồng bà"
+        }
+      ]
+    },
+    {
+      "id": "loc_san_dem",
+      "lib": "village_yard_night",
+      "name": "Sân nhà quê ban đêm",
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "note": "đề xuất: cảnh ngoài, vườn chuối",
+      "kind": "ext",
+      "connects": [
+        {
+          "to": "loc_hien_nha",
+          "via": "bậc thềm"
+        },
+        {
+          "to": "loc_rap_tang",
+          "via": "rạp dựng giữa sân"
+        },
+        {
+          "to": "loc_duong_que",
+          "via": "ngõ"
+        },
+        {
+          "to": "loc_dong",
+          "via": "đường làng"
+        }
+      ]
+    },
+    {
+      "id": "loc_hien_nha",
+      "lib": "veranda_night",
+      "name": "Hiên nhà",
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "note": "đề xuất: bà nội giã trầu, chõng tre",
+      "kind": "ext",
+      "connects": [
+        {
+          "to": "loc_bep",
+          "via": "cửa bếp"
+        }
+      ]
+    },
+    {
+      "id": "loc_rap_tang",
+      "lib": "rap_dam_tang",
+      "kind": "ext",
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "note": "đề xuất: rạp tang dựng trong sân (S08)"
+    },
+    {
+      "id": "loc_duong_que",
+      "lib": "toan_canh_lang",
+      "kind": "ext",
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "note": "đề xuất: ngõ/đầu làng ban đêm (S04); tra library chưa thấy cảnh đường quê riêng, toan_canh_lang là gần nhất"
+    },
+    {
+      "id": "loc_cong_truong",
+      "pending": "library chưa có bối cảnh công trường/lán tôn (S03); cần tạo theo chuẩn bg_lib rồi promote",
+      "kind": "ext",
+      "light_states": [
+        "warm",
+        "dark",
+        "dawn"
+      ],
+      "note": "Lâm ở công trường khi gọi video"
+    },
+    {
+      "id": "loc_buong_ngu",
+      "lib": "phong_ngu",
+      "kind": "int",
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "note": "đề xuất: buồng ngủ của Lâm (S09), cũng dùng làm phòng chú Út ốm (S13)"
+    },
+    {
+      "id": "loc_buong_ba",
+      "lib": "phong_ngu",
+      "kind": "int",
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "note": "đề xuất: buồng của bà nội, nơi giã trầu và nhốt trùng (S11, S14, S15)"
+    },
+    {
+      "id": "loc_bep",
+      "lib": "nha_bep",
+      "kind": "int",
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "note": "đề xuất: bếp nhà (S16–S17)"
+    },
+    {
+      "id": "loc_dong",
+      "lib": "canh_dong_lua",
+      "kind": "ext",
+      "light_states": [
+        "warm",
+        "dark",
+        "red_flash",
+        "dawn"
+      ],
+      "note": "đề xuất: cánh đồng/bãi chôn khi đưa tang (S13)"
+    },
+    {
+      "id": "loc_chua_kho",
+      "pending": "library chưa có gian kho đặt hũ sau chùa (S17, S20); cần tạo theo chuẩn bg_lib rồi promote",
+      "kind": "int",
+      "light_states": [
+        "warm",
+        "dark",
+        "dawn"
+      ],
+      "note": "gian kho mái thấp, tối và mát (theo S17_L12)"
+    }
+  ],
+  "props": [
+    {
+      "id": "ban_tho",
+      "lib": "ancestral_altar",
+      "states": [
+        "normal",
+        "covered",
+        "blank"
+      ],
+      "locations": [
+        "loc_gian_tho"
+      ]
+    },
+    {
+      "id": "nen",
+      "lib": "candle",
+      "states": [
+        "lit",
+        "low",
+        "out"
+      ],
+      "locations": [
+        "loc_gian_tho",
+        "loc_hien_nha"
+      ],
+      "note": "đặt vào slot candle-l/candle-r của bàn thờ"
+    },
+    {
+      "id": "bat_huong",
+      "lib": "incense_burner",
+      "states": [
+        "burning",
+        "spent"
+      ],
+      "locations": [
+        "loc_gian_tho"
+      ],
+      "note": "đặt vào slot incense của bàn thờ"
+    },
+    {
+      "id": "den_dau",
+      "lib": "oil_lamp",
+      "states": [
+        "lit",
+        "low",
+        "out"
+      ],
+      "locations": [
+        "loc_hien_nha",
+        "loc_gian_tho",
+        "loc_san_dem"
+      ]
+    },
+    {
+      "id": "hu_sanh",
+      "lib": "clay_jar",
+      "states": [
+        "sealed",
+        "open",
+        "cracked"
+      ],
+      "locations": [
+        "loc_gian_tho",
+        "loc_hien_nha"
+      ],
+      "note": "hũ sành bịt vải đỏ (nguồn)"
+    },
+    {
+      "id": "khan_xo",
+      "lib": "mourning_cloth",
+      "states": [
+        "folded",
+        "spread",
+        "torn"
+      ],
+      "locations": [
+        "loc_gian_tho",
+        "loc_hien_nha"
+      ],
+      "note": "trạng thái 'missing' = không vẽ prop trong shot"
+    },
+    {
+      "id": "mam_tre",
+      "lib": "bamboo_tray",
+      "states": [
+        "empty",
+        "cloths",
+        "scattered"
+      ],
+      "locations": [
+        "loc_gian_tho"
+      ]
+    },
+    {
+      "id": "coi_giau_trau",
+      "lib": "betel_mortar",
+      "states": [
+        "rest",
+        "raised",
+        "strike"
+      ],
+      "locations": [
+        "loc_hien_nha"
+      ],
+      "note": "strike đồng bộ SFX cối đồng (±0.15s)"
+    },
+    {
+      "id": "chong_tre",
+      "lib": "bamboo_bed",
+      "states": [
+        "bare",
+        "mat",
+        "blanket"
+      ],
+      "locations": [
+        "loc_hien_nha"
+      ]
+    },
+    {
+      "id": "dien_thoai",
+      "lib": "smartphone",
+      "states": [
+        "off",
+        "ringing",
+        "call",
+        "ended"
+      ],
+      "locations": [
+        "loc_gian_tho",
+        "loc_hien_nha"
+      ],
+      "note": "cuộc gọi video với Chú Hai ở Đức"
+    }
+  ]
+}

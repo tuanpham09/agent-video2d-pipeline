@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "video2d/bible.schema.json",
+  "title": "script/bible.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "required": [
+    "meta",
+    "emotion_vocab",
+    "characters",
+    "locations",
+    "props"
+  ],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "project"
+      ]
+    },
+    "emotion_vocab": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "characters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "voice"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "voice": {
+            "type": "string"
+          },
+          "archetype": {
+            "type": "string"
+          },
+          "outfit": {
+            "type": "string"
+          },
+          "extends": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "scale": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "lib": {
+            "type": "string"
+          },
+          "scope": {
+            "enum": [
+              "shared",
+              "project-only"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "locations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "lib": {
+            "type": "string"
+          },
+          "light_states": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "scope": {
+            "enum": [
+              "shared",
+              "project-only"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "int",
+              "ext"
+            ],
+            "description": "trong nhà / ngoài trời; script.setting.int_ext phải khớp"
+          },
+          "connects": {
+            "type": "array",
+            "description": "địa điểm kề nhau (đi bộ được): dùng cho enter/exit/continuous",
+            "items": {
+              "type": "object",
+              "required": [
+                "to"
+              ],
+              "properties": {
+                "to": {
+                  "type": "string"
+                },
+                "via": {
+                  "type": "string"
+                },
+                "oneway": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "pending": {
+            "type": "string",
+            "description": "lý do chưa có bối cảnh trong library; thay cho lib cho tới khi tạo + promote"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "anyOf": [
+          {
+            "required": [
+              "lib"
+            ]
+          },
+          {
+            "required": [
+              "pending"
+            ]
+          },
+          {
+            "required": [
+              "scope"
+            ]
+          }
+        ]
+      }
+    },
+    "props": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "lib",
+          "states"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "lib": {
+            "type": "string"
+          },
+          "states": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "locations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "scope": {
+            "enum": [
+              "shared",
+              "project-only"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

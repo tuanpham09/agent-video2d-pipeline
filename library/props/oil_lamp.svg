@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 280" data-lib-id="oil_lamp" data-lib-kind="prop" role="img" aria-label="Đèn dầu thuỷ tinh">
+<title>oil_lamp — đèn dầu bóng thuỷ tinh</title>
+<defs><radialGradient id="olmp-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="var(--pal-light_warm)" stop-opacity=".55"/><stop offset="1" stop-color="var(--pal-light_warm)" stop-opacity="0"/></radialGradient></defs>
+<style>
+.prop-oil_lamp .st{display:none}
+.prop-oil_lamp[data-state='lit'] .st-lit,.prop-oil_lamp[data-state='low'] .st-low,
+.prop-oil_lamp[data-state='lit'] .st-on,.prop-oil_lamp[data-state='low'] .st-on,.prop-oil_lamp[data-state='out'] .st-out{display:inline}
+.prop-oil_lamp .flame{transform-box:view-box;transform-origin:80px 176px}
+.prop-oil_lamp[data-state='low'] .flame{transform:scale(.5)}
+</style>
+<g class="prop prop-oil_lamp" data-state="lit">
+  <circle class="glow st st-lit" cx="80" cy="140" r="96" fill="url(#olmp-glow)"/>
+  <circle class="glow st st-low" cx="80" cy="170" r="50" fill="url(#olmp-glow)" opacity=".7"/>
+  <path d="M40 270 L120 270 L112 250 L48 250 Z" fill="var(--pal-brass_dark)" stroke="var(--pal-ink)" stroke-width="4" stroke-linejoin="round"/>
+  <ellipse cx="80" cy="232" rx="50" ry="34" fill="var(--pal-brass)" stroke="var(--pal-ink)" stroke-width="5"/>
+  <path d="M52 226 Q64 214 80 214" stroke="var(--pal-flame_core)" stroke-width="4" stroke-linecap="round" fill="none" opacity=".5"/>
+  <path d="M128 214 Q154 214 150 240 Q146 258 124 256" stroke="var(--pal-ink)" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M128 214 Q154 214 150 240 Q146 258 124 256" stroke="var(--pal-brass)" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <rect x="64" y="190" width="32" height="18" rx="4" fill="var(--pal-brass_dark)" stroke="var(--pal-ink)" stroke-width="4"/>
+  <path d="M66 190 C 38 154 46 112 62 56 L98 56 C 114 112 122 154 94 190 Z" fill="var(--pal-smoke)" fill-opacity=".22" stroke="var(--pal-ink)" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M58 150 Q54 110 66 72" stroke="var(--pal-wax)" stroke-width="4" stroke-linecap="round" fill="none" opacity=".5"/>
+  <line x1="80" y1="190" x2="80" y2="180" stroke="var(--pal-ink)" stroke-width="4" stroke-linecap="round"/>
+  <g class="flame st st-on">
+    <path d="M80 118 Q100 148 92 172 Q80 186 68 172 Q60 148 80 118 Z" fill="var(--pal-flame)" stroke="var(--pal-flame_edge)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M80 142 Q89 156 85 170 Q80 176 75 170 Q71 156 80 142 Z" fill="var(--pal-flame_core)"/>
+  </g>
+  <path class="smoke st st-out" d="M80 176 Q68 150 82 130 Q94 112 80 84" stroke="var(--pal-smoke)" stroke-width="5" stroke-linecap="round" fill="none" opacity=".55"/>
+</g>
+</svg>

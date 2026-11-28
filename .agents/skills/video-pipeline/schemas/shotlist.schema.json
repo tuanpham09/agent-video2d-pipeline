@@ -1,0 +1,370 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "video2d/shotlist.schema.json",
+  "title": "script/shotlist.json",
+  "x-schema-version": 1,
+  "type": "object",
+  "required": [
+    "scope",
+    "shots"
+  ],
+  "properties": {
+    "scope": {
+      "type": "string"
+    },
+    "shots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "line_ids",
+          "location",
+          "light",
+          "size",
+          "camera",
+          "focus",
+          "characters",
+          "beats"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^SH\\d{3}$"
+          },
+          "line_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "span": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {
+              "type": "number"
+            }
+          },
+          "kind": {
+            "enum": [
+              "cutaway",
+              "establishing",
+              "insert",
+              "speaker"
+            ]
+          },
+          "size": {
+            "enum": [
+              "close",
+              "macro",
+              "medium",
+              "wide"
+            ]
+          },
+          "camera": {
+            "enum": [
+              "pan_l",
+              "pan_r",
+              "pull_out",
+              "push_in",
+              "static"
+            ]
+          },
+          "light": {
+            "enum": [
+              "warm",
+              "dark",
+              "red_flash",
+              "dawn"
+            ]
+          },
+          "location": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "focus": {
+            "type": "string",
+            "pattern": "^(prop:[a-z0-9_-]+|slot:[a-z0-9_-]+|[a-z][a-z0-9_]*)$"
+          },
+          "characters": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "at"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*$"
+                },
+                "at": {
+                  "enum": [
+                    "L",
+                    "C",
+                    "R"
+                  ]
+                },
+                "stance": {
+                  "enum": [
+                    "stand",
+                    "sit",
+                    "kneel",
+                    "lay",
+                    "stagger",
+                    "tilt",
+                    "lie",
+                    "stagger-r",
+                    "tilt-r",
+                    "lie-r"
+                  ]
+                },
+                "emotion": {
+                  "type": "string"
+                },
+                "view": {
+                  "enum": [
+                    "front",
+                    "tq-r",
+                    "tq-l"
+                  ]
+                },
+                "gaze": {
+                  "enum": [
+                    "center",
+                    "left",
+                    "right",
+                    "up",
+                    "down"
+                  ]
+                },
+                "pose": {
+                  "type": "string"
+                },
+                "scale": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "mouth": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "props": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "state",
+                "at"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*$"
+                },
+                "key": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]*$"
+                },
+                "state": {
+                  "type": "string"
+                },
+                "at": {
+                  "type": "string"
+                },
+                "dx": {
+                  "type": "number"
+                },
+                "dy": {
+                  "type": "number"
+                },
+                "scale": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                }
+              }
+            }
+          },
+          "beats": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "line_id"
+              ],
+              "properties": {
+                "line_id": {
+                  "type": "string"
+                },
+                "do": {
+                  "type": "string"
+                },
+                "t": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "word": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "edge": {
+                  "enum": [
+                    "start",
+                    "end"
+                  ]
+                },
+                "physical": {
+                  "type": "boolean"
+                },
+                "set": {
+                  "type": "object"
+                },
+                "look": {
+                  "type": "object"
+                },
+                "react": {
+                  "type": "object"
+                },
+                "reach": {
+                  "type": "object",
+                  "description": "Tay với tới đích bằng IK 2 khúc (ik.py). to = {prop}|{char,hand}|{x,y}; side l|r (mặc định: phía đích); dur, hold, release_dur (s). Chỉ stance stand|sit, view front.",
+                  "required": ["char", "to"],
+                  "properties": {
+                    "char": {"type": "string"},
+                    "side": {"enum": ["l", "r"]},
+                    "to": {"type": "object"},
+                    "dur": {"type": "number"},
+                    "hold": {"type": "number"},
+                    "release_dur": {"type": "number"}
+                  }
+                },
+                "move": {
+                  "type": "object",
+                  "required": [
+                    "char",
+                    "to"
+                  ],
+                  "properties": {
+                    "char": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]*$"
+                    },
+                    "to": {
+                      "enum": [
+                        "L",
+                        "C",
+                        "R"
+                      ]
+                    },
+                    "dur": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    },
+                    "gait": {
+                      "enum": [
+                        "walk",
+                        "run"
+                      ]
+                    }
+                  }
+                },
+                "hand_over": {
+                  "type": "object",
+                  "required": [
+                    "prop",
+                    "from",
+                    "to"
+                  ],
+                  "properties": {
+                    "prop": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]*$"
+                    },
+                    "from": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]*$"
+                    },
+                    "to": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]*$"
+                    },
+                    "dur": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    }
+                  }
+                },
+                "macro": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*$"
+                },
+                "args": {
+                  "type": "object"
+                },
+                "dt": {
+                  "type": "number"
+                }
+              },
+              "allOf": [
+                {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "t"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "word"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "do"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "macro"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "sfx": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "t",
+                "src"
+              ],
+              "properties": {
+                "t": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "src": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -68,6 +68,26 @@ Dùng `/long-form-youtube` cho khung chuẩn. Rút gọn áp dụng ở đây:
 - **Số và tên riêng**: xem `references/vietnamese-style.md` để viết sao cho TTS đọc đúng.
 - **Câu hỏi tu từ** dùng có liều lượng; mỗi scene 1 câu là đủ.
 
+## 3.0. Bối cảnh, hành trình, logic liền mạch (BẮT BUỘC, làm trước 3.1)
+
+Mỗi cảnh phải có `setting` (địa điểm của bible, trong/ngoài, thời gian, `frame`, `link` với cảnh trước), `cast` (ai có mặt, đến từ đâu) và `staging` (ai vào/ra/đưa/cầm/đổi trạng thái đạo cụ, theo thứ tự câu). Nhân vật đổi chỗ giữa hai cảnh phải khai `from` (đi từ đâu tới đâu); địa điểm nối nhau theo `bible.locations[].connects`. Hồi tưởng, điện thoại, giấc mơ khai `frame` đúng. Làm đúng quy trình trong [`video-pipeline/references/script-continuity-guide.md`](../video-pipeline/references/script-continuity-guide.md) (mô hình dữ liệu, các bước, ví dụ than-trung, mã lỗi SL1–SL11), rồi chạy:
+
+```bash
+python .agents/skills/video-pipeline/scripts/check_script_logic.py --project projects/<slug> [--strict]
+```
+
+`--strict` (cảnh thiếu `setting` là lỗi) phải 0 lỗi trước khi chốt kịch bản và chạy TTS. Trường `visual` (3.1) mô tả hình; `setting/cast/staging` là dữ liệu máy đọc được, hai bên không được mâu thuẫn.
+
+## 3.0b. Kịch tính, gài mở–đóng, review độc lập (BẮT BUỘC cho truyện/kịch bản dài, sau 3.0)
+
+Trước khi viết lời: chốt `drama.promise`, `motives` (muốn gì, bị cản bởi gì), `rules` của thế lực siêu nhiên (mỗi luật có `cost`), chuỗi nhân quả "vì A nên B, nhưng C nên D" (không "và rồi"), rồi `loops` (setup→trigger→payoff, viết payoff trước, plant sau; mystery cần ≥2 manh mối công bằng). Mỗi cảnh có `beat`, `tension`, `turn`, `hook_out`, `causes`. Cảnh 1 vào thẳng mâu thuẫn, câu đầu ≤14 từ, không chào, gài vòng lặp đầu trong 6 câu đầu. Mẫu và ví dụ cầu cơ / thù nhà + thầy / bùa yêu: [`video-pipeline/references/script-drama-guide.md`](../video-pipeline/references/script-drama-guide.md). Chi tiết dân gian không có trong nguồn phải ghi `note: đề xuất` (R7.1).
+
+```bash
+python .agents/skills/video-pipeline/scripts/check_script_drama.py --project projects/<slug> [--strict]
+```
+
+Sau khi cả hai gate (logic, drama) 0 lỗi: review độc lập bằng agent khác (≥3 lens) theo [`video-pipeline/references/script-review-protocol.md`](../video-pipeline/references/script-review-protocol.md); mọi `must` phải sửa hoặc ghi lý do trước khi chốt và chạy TTS. Gate chỉ kiểm dữ liệu gài–mở nhất quán với chính nó; không thay cho review và người duyệt.
+
 ## 3.1. Mô tả quang cảnh & thị giác (Bắt buộc cho HyperFrames dựng mượt)
 
 **Tuyệt đối không ghi chung chung** kiểu "cảnh đêm rạp tang hiu hắt" hay "người mẹ lo âu". Để bộ phận dựng video (HyperFrames + SVG vector) tạo được chuyển động chân thực, mượt mà và nhịp điệu dồn dập, gay cấn, kịch bản phải tuân thủ 2 nguyên tắc thiết kế:
@@ -90,7 +110,7 @@ Dùng `/long-form-youtube` cho khung chuẩn. Rút gọn áp dụng ở đây:
 3. **Cử động & Biểu cảm (Action & Motion Rig):**
    * Động tác tay chân cụ thể: Tay cầm chày giã cối nhịp nhàng, tay lật đếm từng nếp khăn, tay vung ra chỉ hướng cửa, ngực phập phồng theo nhịp thở.
    * Hướng mắt & cử động mắt: Mắt nhìn chăm chú vào mâm khăn, mắt liếc sợ hãi sang góc tối, mắt chớp tự nhiên.
-   * Cảm xúc biến đổi (theo thang 31 sắc thái `claude-animation-base`): Từ bình thản, tập trung, nghiêm nghị sang bàng hoàng, lạnh gáy.
+   * Cảm xúc biến đổi (chọn trong `emotion_vocab` của `bible.json`: calm, focused, worried, afraid, shocked, dread, sad, grief, angry, suspicious, relieved): Từ bình thản, tập trung, nghiêm nghị sang bàng hoàng, lạnh gáy.
    * Khẩu hình miệng: Miệng mở đóng đồng bộ với âm tiết của câu thoại.
 4. **Nguồn sáng & Ánh sáng động (Dynamic Lighting & Mood):**
    * Nguồn sáng từ đâu: Ánh nến vàng cam lập lòe, ngọn đèn dầu hoa kỳ hay ngọn lửa bập bùng?

@@ -7,6 +7,13 @@ description: Orchestrate the full YouTube-to-video pipeline for this workspace -
 
 Một video = một project riêng trong `projects/<slug>/`. Không viết file rác ra root, không trộn asset giữa các video.
 
+## Luật cấp cao nhất
+
+**Trước mọi việc, đọc `RULES.md` ở gốc repo.** Skill này không được nới luật đó; mâu thuẫn thì `RULES.md` thắng (R0.1).
+Trọng tâm khi dựng nhân vật/đạo cụ/bối cảnh: **tra `library/` trước, dùng lại bằng `library.py use`, làm mới thì đạt chuẩn rồi `promote`** (R2.x).
+Cổng cuối mỗi giai đoạn: `check_rules.py`, `check_shots.py`, `check_sync.py` phải sạch (R8.2).
+**Tay nghề bắt buộc:** trước khi tạo/sửa nhân vật, đạo cụ, bối cảnh hoặc dựng video, đọc `references/craft-playbook.md` và làm đúng từng bước — nhất là *mở ảnh render ra xem trước khi báo xong*, clone mẫu vàng thay vì vẽ từ trắng, chỉ dựng bằng `build_video.py`.
+
 ## Nguyên tắc vàng
 
 1. **Một nguồn sự thật cho thời lượng:** `audio/manifest.json`. Mọi `data-start` / `data-duration` trong HyperFrames lấy từ đó, không đoán.
@@ -37,7 +44,7 @@ Mặc định nếu người dùng không nói:
 - Format: `9:16` (1080×1920) cho TikTok/Shorts; `16:9` (1920×1080) cho video dài YouTube.
 - Thời lượng: short 35–60 s; long-form 8–15 phút.
 - Giọng: nam `Hải Đăng` (mặc định) hoặc nữ `Đoan Trang`; đa nhân vật thì mỗi nhân vật một giọng.
-- Tốc độ đọc: `--speed 1.25` (mặc định của `build_voiceover.py`, dải 1.2–1.3).
+- Tốc độ đọc: `--speed 1.25` (mặc định chung của `build_voiceover.py`, dải 1.2–1.3); tốc độ riêng từng nhân vật khai `speed` trong `script.json` (giọng kể Đức Trí 1.3, nhân vật miền Bắc 1.2, miền Nam 1.0 — luật Tuấn 23/11).
 - Thể loại **truyện ma / kinh dị**: `Đức Trí` @1.3 (**luôn dùng**), `Thiền Tâm Đức`
   (phương án phụ), `Thiện Minh` (hook), nhân vật `Xuân Vĩnh` — chi tiết + cảnh báo trùng quãng:
   `/script-rewrite` → `references/casting-genres.md`.
@@ -101,7 +108,7 @@ Khi làm video hoạt hình hoặc kể chuyện (truyện ma, explainer, drama)
    * Bố cục rõ ràng tiền cảnh – trung cảnh – hậu cảnh: Vách nhà, sàn gỗ, bàn thờ, mâm đan, chõng tre, cửa mở ra vườn sương đêm...
    * Góc máy có chủ đích: Toàn cảnh thiết lập bối cảnh, chuyển cảnh cắt sắc bén (hard cut) vào cận cảnh hành động chính (đếm khăn, giã trầu...).
 
-2. **`claude-animation-base` — Vẽ tay hữu cơ, Line Boil & 31 Biểu cảm:**
+2. **Vẽ tay hữu cơ, Line Boil & biểu cảm theo `emotion_vocab` (rig từ `library/` + `build_rig.py`):**
    * **Hiệu ứng rung nét vẽ tay (Line Boil):** Tích hợp SVG filter `<feTurbulence type="fractalNoise">` + `<feDisplacementMap scale="2.4">` thay đổi seed theo nhịp 6–12fps (`animating on twos`), tạo cảm giác vẽ tay sống động thay vì nét vector phẳng đơ.
    * **Rig cử động nhân vật (Character Motion Rig):**
      * Thở tự nhiên: Ngực và thân sways nhẹ nhàng theo trục Y (`yoyo: true`).
@@ -120,14 +127,29 @@ Khi làm video hoạt hình hoặc kể chuyện (truyện ma, explainer, drama)
 
 ## Bước 5 — Kiểm và render
 
+Gộp 4 gate chế độ C thành 1 lệnh (chạy song song, `gates.py`): rules + shots + sync + hyperframes lint/check — kết quả gộp, mã thoát 1 nếu gate nào fail. Chế độ A/B chạy thêm `originality_check.py` riêng.
+
+```bash
+python ../../../.agents/skills/video-pipeline/scripts/gates.py --project ../ [--phase demo] [--scenes S01]
+```
+
 ```bash
 cd projects/<slug>/video
 npx hyperframes lint
 npx hyperframes check --json
 python ../../../.agents/skills/video-pipeline/scripts/check_sync.py --project ../
 npx hyperframes preview --background
-npx hyperframes render --quality delivery -o ../output/final.mp4
+# render nháp (draft, nhanh) để xem chuyển động — lặp bao nhiêu lần cũng được:
+python ../../../.agents/skills/video-pipeline/scripts/render.py --project ../
+# chỉ sửa 1 shot thì render riêng shot đó (nhanh hơn render cả video, không kèm track giọng):
+python ../../../.agents/skills/video-pipeline/scripts/render.py --project ../ --shots SH002
+# chỉ khi đã chốt preview mới render delivery, 1 lần cuối:
+python ../../../.agents/skills/video-pipeline/scripts/render.py --project ../ --delivery
 ```
+
+**Quy tắc render:** bản nháp luôn dùng `--quality draft` + 15 fps (mặc định của `render.py`, ra `output/draft-<thời gian>.mp4`); `--quality delivery` (ra `output/final.mp4`) chỉ 1 lần cuối sau khi chốt preview. Không render delivery cho bản xem thử — tốn thời gian mà không xem được gì hơn.
+
+**Khóa timing giọng đã duyệt:** sau khi duyệt giọng, chạy `python ../../../.agents/skills/voice-sync/scripts/freeze_manifest.py --project ../` để ghi `audio/timing.md` rồi commit cùng `audio/manifest.json`. Chỉ rebuild giọng khi đổi chữ — VieNeu đọc lại lệch ±0,1s/line nên rebuild vô cớ làm timing trôi.
 
 QC bắt buộc: duration video = `manifest.duration` ±0.1 s; không có clip vượt `data-duration`; ảnh snapshot từng scene đã xem; tiếng Việt không lỗi dấu; caption không đè UI.
 

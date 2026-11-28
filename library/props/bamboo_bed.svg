@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 230" data-lib-id="bamboo_bed" data-lib-kind="prop" role="img" aria-label="Chõng tre">
+<title>bamboo_bed — chõng tre</title>
+<style>
+.prop-bamboo_bed .st{display:none}
+.prop-bamboo_bed[data-state='mat'] .st-mat,.prop-bamboo_bed[data-state='blanket'] .st-mat,.prop-bamboo_bed[data-state='blanket'] .st-blanket{display:inline}
+</style>
+<g class="prop prop-bamboo_bed" data-state="bare">
+  <rect x="44" y="120" width="26" height="104" rx="6" fill="var(--pal-bamboo_dark)" stroke="var(--pal-ink)" stroke-width="5"/>
+  <rect x="490" y="120" width="26" height="104" rx="6" fill="var(--pal-bamboo_dark)" stroke="var(--pal-ink)" stroke-width="5"/>
+  <rect x="62" y="178" width="436" height="14" rx="5" fill="var(--pal-bamboo_shadow)" stroke="var(--pal-ink)" stroke-width="4"/>
+  <rect x="20" y="86" width="520" height="40" rx="8" fill="var(--pal-bamboo)" stroke="var(--pal-ink)" stroke-width="6"/>
+  <g stroke="var(--pal-bamboo_dark)" stroke-width="3">
+    <line x1="52" y1="90" x2="52" y2="122"/><line x1="84" y1="90" x2="84" y2="122"/><line x1="116" y1="90" x2="116" y2="122"/><line x1="148" y1="90" x2="148" y2="122"/>
+    <line x1="180" y1="90" x2="180" y2="122"/><line x1="212" y1="90" x2="212" y2="122"/><line x1="244" y1="90" x2="244" y2="122"/><line x1="276" y1="90" x2="276" y2="122"/>
+    <line x1="308" y1="90" x2="308" y2="122"/><line x1="340" y1="90" x2="340" y2="122"/><line x1="372" y1="90" x2="372" y2="122"/><line x1="404" y1="90" x2="404" y2="122"/>
+    <line x1="436" y1="90" x2="436" y2="122"/><line x1="468" y1="90" x2="468" y2="122"/><line x1="500" y1="90" x2="500" y2="122"/>
+  </g>
+  <g class="st st-mat">
+    <path d="M30 86 L530 86 L520 70 L40 70 Z" fill="var(--pal-paper)" stroke="var(--pal-ink)" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M60 78 L500 78" stroke="var(--pal-bamboo_dark)" stroke-width="3" stroke-dasharray="14 8"/>
+  </g>
+  <g class="st st-blanket">
+    <path d="M86 72 Q96 22 170 22 Q250 18 320 34 Q440 40 480 72 Z" fill="var(--pal-cloth_grey)" stroke="var(--pal-ink)" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M150 34 Q160 54 150 72 M250 30 Q262 52 254 72 M350 40 Q362 58 356 72" stroke="var(--pal-ash)" stroke-width="4" fill="none"/>
+  </g>
+</g>
+</svg>

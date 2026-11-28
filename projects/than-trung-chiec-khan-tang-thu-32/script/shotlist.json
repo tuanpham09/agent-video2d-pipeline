@@ -1,0 +1,895 @@
+{
+ "scope": "S01 trọn scene (0–46,3 s); bản demo dựng tới SH010 (0–34,4 s)",
+ "shots": [
+  {
+   "id": "SH001",
+   "line_ids": [
+    "S01_L01"
+   ],
+   "span": [
+    0,
+    3.0
+   ],
+   "kind": "establishing",
+   "size": "wide",
+   "camera": "push_in",
+   "focus": "ong_cuu",
+   "location": "loc_gian_tho",
+   "light": "warm",
+   "characters": [
+    {
+     "id": "ong_cuu",
+     "at": "L",
+     "stance": "sit",
+     "emotion": "calm",
+     "gaze": "left",
+     "pose": "idle"
+    }
+   ],
+   "props": [
+    {
+     "id": "ban_tho",
+     "state": "normal",
+     "at": "altar"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-l"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-r",
+     "key": "nen-r"
+    },
+    {
+     "id": "bat_huong",
+     "state": "burning",
+     "at": "ban_tho.incense"
+    }
+   ],
+   "beats": [
+    {
+     "line_id": "S01_L01",
+     "t": 0.2,
+     "do": "ông Cửu ngồi cạnh bàn thờ, mắt hướng ra cửa, thở chậm",
+     "physical": false
+    },
+    {
+     "line_id": "S01_L01",
+     "t": 1.8,
+     "do": "ông chớp mắt, đầu hơi ngẩng nhìn cửa chính",
+     "physical": false,
+     "set": {
+      "ong_cuu": {
+       "gaze": "up"
+      }
+     }
+    }
+   ],
+   "sfx": []
+  },
+  {
+   "id": "SH002",
+   "line_ids": [
+    "S01_L01"
+   ],
+   "span": [
+    3.0,
+    5.8492
+   ],
+   "kind": "insert",
+   "size": "medium",
+   "camera": "static",
+   "focus": "ong_cuu",
+   "location": "loc_gian_tho",
+   "light": "warm",
+   "characters": [
+    {
+     "id": "ong_cuu",
+     "at": "L",
+     "stance": "stand",
+     "emotion": "focused",
+     "gaze": "left",
+     "pose": "idle"
+    }
+   ],
+   "props": [
+    {
+     "id": "ban_tho",
+     "state": "normal",
+     "at": "altar"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-l"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-r",
+     "key": "nen-r"
+    },
+    {
+     "id": "bat_huong",
+     "state": "burning",
+     "at": "ban_tho.incense"
+    }
+   ],
+   "beats": [
+    {
+     "line_id": "S01_L01",
+     "t": 0.4,
+     "macro": "chi_tay",
+     "args": {
+      "char": "ong_cuu",
+      "side": "l"
+     },
+     "do": "ông vung tay chỉ về phía cửa, nét mặt nghiêm"
+    }
+   ],
+   "sfx": []
+  },
+  {
+   "id": "SH003",
+   "line_ids": [
+    "S01_L02",
+    "S01_L03"
+   ],
+   "kind": "insert",
+   "size": "macro",
+   "camera": "pan_r",
+   "focus": "prop:mam_tre",
+   "location": "loc_gian_tho",
+   "light": "warm",
+   "characters": [
+    {
+     "id": "me",
+     "at": "C",
+     "stance": "stand",
+     "emotion": "focused",
+     "gaze": "down",
+     "pose": "idle"
+    }
+   ],
+   "props": [
+    {
+     "id": "ban_tho",
+     "state": "normal",
+     "at": "altar"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-l"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-r",
+     "key": "nen-r"
+    },
+    {
+     "id": "bat_huong",
+     "state": "burning",
+     "at": "ban_tho.incense"
+    },
+    {
+     "id": "mam_tre",
+     "state": "cloths",
+     "at": "stand:C",
+     "dx": -230
+    }
+   ],
+   "beats": [
+    {
+     "line_id": "S01_L02",
+     "t": 0.2,
+     "do": "mắt mẹ rơi xuống mâm khăn xô",
+     "physical": false
+    },
+    {
+     "line_id": "S01_L03",
+     "t": 2.2,
+     "macro": "cham_khan",
+     "args": {
+      "char": "me"
+     },
+     "do": "tay mẹ nhấc một nếp khăn trên mâm"
+    }
+   ]
+  },
+  {
+   "id": "SH004",
+   "line_ids": [
+    "S01_L04"
+   ],
+   "kind": "speaker",
+   "size": "medium",
+   "camera": "push_in",
+   "focus": "me",
+   "location": "loc_gian_tho",
+   "light": "warm",
+   "characters": [
+    {
+     "id": "me",
+     "at": "C",
+     "stance": "stand",
+     "emotion": "focused",
+     "gaze": "down",
+     "pose": "reach-l"
+    }
+   ],
+   "props": [
+    {
+     "id": "ban_tho",
+     "state": "normal",
+     "at": "altar"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-l"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-r",
+     "key": "nen-r"
+    },
+    {
+     "id": "bat_huong",
+     "state": "burning",
+     "at": "ban_tho.incense"
+    },
+    {
+     "id": "mam_tre",
+     "state": "cloths",
+     "at": "stand:C",
+     "dx": -230
+    }
+   ],
+   "beats": [
+    {
+     "line_id": "S01_L04",
+     "t": 0.3,
+     "do": "mẹ đếm lại từng nếp khăn, môi mấp máy nhẩm",
+     "physical": false
+    },
+    {
+     "line_id": "S01_L04",
+     "t": 1.6,
+     "do": "tay gạt các nếp khăn đã đếm sang một bên",
+     "physical": true,
+     "set": {
+      "me": {
+       "pose": "idle"
+      }
+     }
+    }
+   ],
+   "sfx": [
+    {
+     "cue": "foley.cloth_slide",
+     "src": "sfx/ambience/foley/foley-fabric-slide.wav",
+     "t": 1.6
+    }
+   ]
+  },
+  {
+   "id": "SH005",
+   "line_ids": [
+    "S01_L05a"
+   ],
+   "kind": "speaker",
+   "size": "close",
+   "camera": "push_in",
+   "focus": "ong_cuu",
+   "location": "loc_gian_tho",
+   "light": "warm",
+   "characters": [
+    {
+     "id": "ong_cuu",
+     "at": "L",
+     "stance": "stand",
+     "emotion": "suspicious",
+     "gaze": "center",
+     "pose": "idle"
+    }
+   ],
+   "props": [
+    {
+     "id": "ban_tho",
+     "state": "normal",
+     "at": "altar"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-l"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-r",
+     "key": "nen-r"
+    },
+    {
+     "id": "bat_huong",
+     "state": "burning",
+     "at": "ban_tho.incense"
+    }
+   ],
+   "beats": [
+    {
+     "line_id": "S01_L05a",
+     "t": 0.3,
+     "do": "ông ngước lên, nheo mắt đục",
+     "physical": false,
+     "set": {
+      "ong_cuu": {
+       "gaze": "up"
+      }
+     }
+    },
+    {
+     "line_id": "S01_L05a",
+     "t": 2.0,
+     "macro": "lo_lang",
+     "args": {
+      "char": "ong_cuu"
+     },
+     "do": "ông cau mày, nét mặt chuyển lo ngại"
+    }
+   ],
+   "sfx": []
+  },
+  {
+   "id": "SH006",
+   "line_ids": [
+    "S01_L05b"
+   ],
+   "kind": "cutaway",
+   "size": "wide",
+   "camera": "pan_l",
+   "focus": "slot:house-door",
+   "location": "loc_san_dem",
+   "light": "dark",
+   "characters": [],
+   "props": [
+    {
+     "id": "den_dau",
+     "state": "lit",
+     "at": "house-door"
+    }
+   ],
+   "beats": [
+    {
+     "line_id": "S01_L05b",
+     "t": 0.4,
+     "do": "gió lay rặng chuối ngoài sân tối, đèn dầu hắt trước cửa nhà",
+     "physical": false
+    }
+   ],
+   "sfx": []
+  },
+  {
+   "id": "SH007",
+   "line_ids": [
+    "S01_L06"
+   ],
+   "kind": "speaker",
+   "size": "close",
+   "camera": "static",
+   "focus": "ong_cuu",
+   "location": "loc_gian_tho",
+   "light": "dark",
+   "characters": [
+    {
+     "id": "ong_cuu",
+     "at": "L",
+     "stance": "stand",
+     "emotion": "dread",
+     "gaze": "center",
+     "pose": "idle"
+    }
+   ],
+   "props": [
+    {
+     "id": "ban_tho",
+     "state": "normal",
+     "at": "altar"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-l"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-r",
+     "key": "nen-r"
+    },
+    {
+     "id": "bat_huong",
+     "state": "burning",
+     "at": "ban_tho.incense"
+    }
+   ],
+   "beats": [
+    {
+     "line_id": "S01_L06",
+     "t": 0.2,
+     "do": "ông hạ giọng, mắt đục nhìn thẳng ra phía người xem",
+     "physical": false
+    }
+   ],
+   "sfx": []
+  },
+  {
+   "id": "SH008",
+   "line_ids": [
+    "S01_L07"
+   ],
+   "kind": "speaker",
+   "size": "medium",
+   "camera": "pan_r",
+   "focus": "me",
+   "location": "loc_gian_tho",
+   "light": "warm",
+   "characters": [
+    {
+     "id": "host",
+     "at": "L",
+     "stance": "stand",
+     "emotion": "sad",
+     "gaze": "down",
+     "pose": "clasp"
+    },
+    {
+     "id": "me",
+     "at": "C",
+     "stance": "stand",
+     "emotion": "grief",
+     "gaze": "down",
+     "pose": "idle"
+    }
+   ],
+   "props": [
+    {
+     "id": "ban_tho",
+     "state": "normal",
+     "at": "altar"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-l"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-r",
+     "key": "nen-r"
+    },
+    {
+     "id": "bat_huong",
+     "state": "burning",
+     "at": "ban_tho.incense"
+    },
+    {
+     "id": "mam_tre",
+     "state": "cloths",
+     "at": "stand:L",
+     "dx": -260
+    }
+   ],
+   "beats": [
+    {
+     "line_id": "S01_L07",
+     "t": 0.3,
+     "do": "tôi cúi đầu trước bàn thờ bà, hai tay chắp",
+     "physical": false
+    },
+    {
+     "line_id": "S01_L07",
+     "t": 2.4,
+     "macro": "cham_khan",
+     "args": {
+      "char": "me"
+     },
+     "do": "mẹ chìa tay phát khăn xô cho từng người"
+    },
+    {
+     "line_id": "S01_L07",
+     "word": 9,
+     "do": "chị ngước nhìn mẹ khi nhắc người đã mất",
+     "physical": false,
+     "set": {
+      "host": {
+       "gaze": "right"
+      }
+     }
+    },
+    {
+     "line_id": "S01_L07",
+     "word": 17,
+     "edge": "end",
+     "macro": "nghe_gat",
+     "args": {
+      "char": "host"
+     },
+     "do": "chị khẽ gật, mắt rơi xuống chiếc khăn"
+    }
+   ]
+  },
+  {
+   "id": "SH009",
+   "line_ids": [
+    "S01_L08"
+   ],
+   "kind": "speaker",
+   "size": "close",
+   "camera": "push_in",
+   "focus": "me",
+   "location": "loc_gian_tho",
+   "light": "warm",
+   "characters": [
+    {
+     "id": "me",
+     "at": "C",
+     "stance": "stand",
+     "emotion": "focused",
+     "gaze": "down",
+     "pose": "idle"
+    }
+   ],
+   "props": [
+    {
+     "id": "ban_tho",
+     "state": "normal",
+     "at": "altar"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-l"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-r",
+     "key": "nen-r"
+    },
+    {
+     "id": "bat_huong",
+     "state": "burning",
+     "at": "ban_tho.incense"
+    },
+    {
+     "id": "mam_tre",
+     "state": "cloths",
+     "at": "stand:C",
+     "dx": -230
+    }
+   ],
+   "beats": [
+    {
+     "line_id": "S01_L08",
+     "t": 0.3,
+     "do": "mẹ nhẩm đếm từng cái đầu quanh rạp",
+     "physical": false,
+     "set": {
+      "me": {
+       "gaze": "left"
+      }
+     }
+    },
+    {
+     "line_id": "S01_L08",
+     "t": 2.2,
+     "do": "mẹ khựng lại, trố mắt; đèn tối sầm, bóng đen đổ xuống",
+     "physical": false,
+     "set": {
+      "me": {
+       "emotion": "shocked",
+       "gaze": "center"
+      },
+      "light": "dark"
+     }
+    }
+   ],
+   "sfx": [
+    {
+     "cue": "hit.boom_strong",
+     "src": "sfx/impacts_hits/booms-and-bass/boom-hit-strong.wav",
+     "t": 2.2
+    }
+   ]
+  },
+  {
+   "id": "SH010",
+   "line_ids": [
+    "S01_L09a"
+   ],
+   "kind": "speaker",
+   "size": "medium",
+   "camera": "static",
+   "focus": "host",
+   "location": "loc_gian_tho",
+   "light": "dark",
+   "characters": [
+    {
+     "id": "host",
+     "at": "C",
+     "stance": "stand",
+     "emotion": "worried",
+     "gaze": "down",
+     "pose": "idle"
+    }
+   ],
+   "props": [
+    {
+     "id": "ban_tho",
+     "state": "normal",
+     "at": "altar"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-l"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-r",
+     "key": "nen-r"
+    },
+    {
+     "id": "bat_huong",
+     "state": "burning",
+     "at": "ban_tho.incense"
+    }
+   ],
+   "beats": [
+    {
+     "line_id": "S01_L09a",
+     "t": 0.3,
+     "do": "tôi ngẩng lên, thở ra, ánh mắt lảng đi chỗ khác",
+     "physical": false,
+     "set": {
+      "host": {
+       "gaze": "left"
+      }
+     }
+    }
+   ],
+   "sfx": []
+  },
+  {
+   "id": "SH011",
+   "line_ids": [
+    "S01_L09b"
+   ],
+   "kind": "speaker",
+   "size": "close",
+   "camera": "push_in",
+   "focus": "host",
+   "location": "loc_gian_tho",
+   "light": "dark",
+   "characters": [
+    {
+     "id": "host",
+     "at": "C",
+     "stance": "stand",
+     "emotion": "worried",
+     "gaze": "right",
+     "pose": "idle"
+    }
+   ],
+   "props": [
+    {
+     "id": "ban_tho",
+     "state": "normal",
+     "at": "altar"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-l"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-r",
+     "key": "nen-r"
+    },
+    {
+     "id": "bat_huong",
+     "state": "burning",
+     "at": "ban_tho.incense"
+    }
+   ],
+   "beats": [
+    {
+     "line_id": "S01_L09b",
+     "t": 0.3,
+     "do": "tôi nhìn sang bên như nhớ lại những người đã hỏi",
+     "physical": false
+    },
+    {
+     "line_id": "S01_L09b",
+     "t": 2.0,
+     "do": "tôi nhướng mày, mắt tìm câu trả lời",
+     "physical": false,
+     "set": {
+      "host": {
+       "emotion": "suspicious"
+      }
+     }
+    }
+   ],
+   "sfx": []
+  },
+  {
+   "id": "SH012",
+   "line_ids": [
+    "S01_L10"
+   ],
+   "kind": "speaker",
+   "size": "wide",
+   "camera": "pull_out",
+   "focus": "host",
+   "location": "loc_gian_tho",
+   "light": "dark",
+   "characters": [
+    {
+     "id": "host",
+     "at": "C",
+     "stance": "stand",
+     "emotion": "focused",
+     "gaze": "center",
+     "pose": "idle"
+    },
+    {
+     "id": "ong_cuu",
+     "at": "L",
+     "stance": "sit",
+     "emotion": "calm",
+     "gaze": "center",
+     "pose": "idle"
+    }
+   ],
+   "props": [
+    {
+     "id": "ban_tho",
+     "state": "normal",
+     "at": "altar"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-l"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-r",
+     "key": "nen-r"
+    },
+    {
+     "id": "bat_huong",
+     "state": "burning",
+     "at": "ban_tho.incense"
+    }
+   ],
+   "beats": [
+    {
+     "line_id": "S01_L10",
+     "t": 0.4,
+     "do": "tôi nhìn thẳng người xem, quyết định kể hết",
+     "physical": false
+    },
+    {
+     "line_id": "S01_L10",
+     "t": 2.0,
+     "macro": "chap_tay",
+     "args": {
+      "char": "host"
+     },
+     "do": "tôi hít sâu, hai tay chắp lại trước ngực"
+    },
+    {
+     "line_id": "S01_L10",
+     "word": 4,
+     "macro": "nhin_sang",
+     "args": {
+      "char": "ong_cuu",
+      "target": "host"
+     },
+     "do": "ông ngước nhìn cháu khi cháu nói sẽ kể hết"
+    },
+    {
+     "line_id": "S01_L10",
+     "word": 13,
+     "edge": "end",
+     "macro": "nghe_gat",
+     "args": {
+      "char": "ong_cuu"
+     },
+     "do": "ông gật khẽ, chậm rãi"
+    }
+   ],
+   "sfx": []
+  },
+  {
+   "id": "SH013",
+   "line_ids": [
+    "S01_L11"
+   ],
+   "kind": "speaker",
+   "size": "close",
+   "camera": "push_in",
+   "focus": "host",
+   "location": "loc_gian_tho",
+   "light": "dark",
+   "characters": [
+    {
+     "id": "host",
+     "at": "C",
+     "stance": "stand",
+     "emotion": "focused",
+     "gaze": "center",
+     "pose": "idle"
+    }
+   ],
+   "props": [
+    {
+     "id": "ban_tho",
+     "state": "normal",
+     "at": "altar"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-l"
+    },
+    {
+     "id": "nen",
+     "state": "lit",
+     "at": "ban_tho.candle-r",
+     "key": "nen-r"
+    },
+    {
+     "id": "bat_huong",
+     "state": "burning",
+     "at": "ban_tho.incense"
+    }
+   ],
+   "beats": [
+    {
+     "line_id": "S01_L11",
+     "t": 0.3,
+     "do": "tôi nhìn thẳng, giọng chậm lại",
+     "physical": false
+    },
+    {
+     "line_id": "S01_L11",
+     "t": 2.8,
+     "do": "tôi liếc về góc tối, mặt biến sắc",
+     "physical": false,
+     "set": {
+      "host": {
+       "gaze": "right",
+       "emotion": "afraid"
+      }
+     }
+    }
+   ],
+   "sfx": []
+  }
+ ]
+}

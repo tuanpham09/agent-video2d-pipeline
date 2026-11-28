@@ -2,7 +2,7 @@
 
 Tài liệu này lưu trữ phương pháp sản xuất video hoạt hình 2D chuyển động biểu cảm trong không gian HyperFrames, kết hợp 3 kỹ năng cốt lõi:
 1. **`reverse-any-video`**: Đo đạc và tái hiện chính xác bố cục khung hình, vị trí đạo cụ và chuyển cảnh.
-2. **`claude-animation-base`**: Rung nét vẽ tay hữu cơ (Line Boil), mô phỏng 12fps (animating on twos), và biểu cảm 31 sắc thái.
+2. **Line boil & biểu cảm**: rung nét vẽ tay hữu cơ (Line Boil), mô phỏng 12fps (animating on twos); biểu cảm theo `emotion_vocab` của bible (11 trạng thái rig hỗ trợ, xem `library/` + `build_rig.py`). Skill `claude-animation-base` không có trong repo này — không dẫn chiếu.
 3. **`hyperframes` + `media-use`**: Lập trình vector HTML/SVG, GSAP timeline theo frame chính xác, và hòa âm 4 tầng (Voice, BGM, SFX, Stinger).
 
 ---
@@ -36,7 +36,7 @@ Tài liệu này lưu trữ phương pháp sản xuất video hoạt hình 2D ch
 
 ---
 
-## 2. Kỹ thuật Line Boil & Hiệu ứng vẽ tay (`claude-animation-base`)
+## 2. Kỹ thuật Line Boil & Hiệu ứng vẽ tay
 
 Thay vì nét vẽ vector kỹ thuật số phẳng lì, áp dụng bộ lọc rung nét vẽ tay hữu cơ:
 
@@ -90,7 +90,7 @@ tl.to("#eyebrow-left", { attr: { d: "M 915 346 Q 935 334 950 350" }, duration: 0
 ```
 
 ### D. Khẩu hình nói & Quy chuẩn TransformOrigin chống bay chi tiết:
-* **Khẩu hình mấp máy (`scaleY`):** Luôn dùng `transformOrigin: "50% 50%"` để khẩu hình đóng mở đối xứng quanh tâm môi:
+* **Khẩu hình:** rig có 4 hình miệng (`data-mouth`: closed/half/open/round) — đổi hình theo âm, không scale một hình duy nhất. (Cách `scaleY` dưới đây chỉ là phương án cũ cho SVG vẽ tay ngoài rig.) **Khẩu hình mấp máy (`scaleY`):** Luôn dùng `transformOrigin: "50% 50%"` để khẩu hình đóng mở đối xứng quanh tâm môi:
 ```javascript
 tl.to("#mouth", {
   scaleY: 2.0,
@@ -101,11 +101,12 @@ tl.to("#mouth", {
 }, lineStart);
 ```
 * **Chống bay rời chi tiết SVG:**
-  - *Mắt, con ngươi, miệng, ngực thở:* luôn dùng `transformOrigin: "50% 50%"`.
-  - *Khớp vai, cánh tay, cẳng chân:* luôn dùng `transformOrigin: "0% 0%"` (đỉnh trên của bounding box khớp vai) để tay luôn dính khít vào thân khi vung chày hay ra hiệu.
+  - *Mắt, con ngươi, miệng, ngực thở:* luôn dùng `transformOrigin: "50% 50%"` (đã cài sẵn trong rig, điều khiển bằng `data-*`).
+  - *Khớp vai, cánh tay, cẳng chân:* dùng pivot trong `<id>.rig.json` (toạ độ viewBox của rig, `transform-box: view-box`) — **RULES.md R3.4 thay cho quy ước `0% 0%` cũ**. Rig chỉ được nhúng dưới dạng `<svg>` lồng nhau; không truyền px toạ độ cảnh vào `transformOrigin`.
 
 ### E. Cử động tay cầm nắm & Tương tác (Hand Actions):
-* **Giã cối đồng bộ:** Cánh tay nâng lên hạ xuống (`rotation: 10` lên, `rotation: -12` đập chạm đáy cối) với `transformOrigin: "0% 0%"`, khớp chính xác từng mili-giây với tiếng gõ SFX cối đồng.
+> Cập nhật: tay nay có IK 2 khúc (`reach`, `hand_over`, thân nghiêng, mắt theo đích, giới hạn khớp). Cách dùng và giới hạn: [`shotlist-guide.md`](shotlist-guide.md) mục 3.3–3.4; mô tả dưới đây là cơ chế pose cũ.
+* **Giã cối đồng bộ:** Cánh tay nâng lên hạ xuống (`rotation: 10` lên, `rotation: -12` đập chạm đáy cối) quanh pivot vai trong `rig.json`; chày là part `pestle` của prop `betel_mortar` (state `rest/raised/strike`), khớp chính xác từng mili-giây với tiếng gõ SFX cối đồng.
 * **Đếm khăn:** Bàn tay đưa ra gắp nếp khăn tang, nhấc nhẹ lên (`y: -30`) rồi đặt xuống nếp đếm mới kèm tiếng vải sột soạt.
 * **Chỉ tay:** Cánh tay vung ra chỉ về phía cửa hoặc góc tối khi giảng giải bí mật.
 

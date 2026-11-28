@@ -1,0 +1,28 @@
+{
+ "_doc": "sha256 của rig SVG dựng từ tham số cast (library.py cast-verify). Cập nhật bằng --update SAU KHI đã xem ảnh so sánh.",
+ "rigs": {
+  "ba_cu_nau_song": "fa76b922382969032340af820ff6ce5e91431d7bdbcec5c037959c5153ae5cfc",
+  "be_gai_5_tuoi_do_tang": "14e6ca848eb3031fc6f5148535bab22ff3c2dff72c0ce69641445022df09f938",
+  "be_trai_lang": "dc87faab1fd1dcef90ea6bd55c1186b346ca4494ce08bf932c25c49d5663ebb8",
+  "bong_den_mat_trang": "0e38f09c7f36f3c4dae88e3b47c289a4e57d3daef47fd7eb3fb8f9d24ca0d1f6",
+  "co_gai_lang": "67d05b5678063b5b2ae6ba88a74651fadb6e4f2836202afb0efe640fc3665b8d",
+  "co_gai_toc_ngang_ao_thuong": "af9a78e75bb0e9d260e0c9ed3ac886ec0dcbb3dceda7c48f79d517fff05f7e25",
+  "co_gai_tre_buoi_toc_do_tang": "e618b37d7b78890c3f3f1b57cacd4b3572b07b79a1ae9bd63e070ef67f6456de",
+  "dan_lang_nam_non_la": "4f1f670f44add5ac67db6da5b9b7852eb902cacb19e04bec18ffa64cfc0797e5",
+  "dan_lang_nu_non_la": "b67754c765f03ae69fd702cf46634a19f6a5263b8f8b69c0b5c735ab55a4eaa6",
+  "hon_nam_do_tang": "ec76955456f094f1637f5a01165a766049637aeca62466e7b6989c66acce9799",
+  "ma_da": "2c7f4d59db2546fb821819c8df6776a167b0eed9f26d3a4b64f95144d3fdb887",
+  "ma_nu_ao_trang": "1972e279b180fcd2d9a1781332907035b29eb3190c983fdadc84019efb3e2412",
+  "ma_tre_em": "5f9f5e0396fa99120bc743ccc3bc5b4c5357c3364fb6c377849922749d38fd2f",
+  "nam_gay_ria_do_tang": "1c8ee5c903b8412ca53a94c73d17eddb5e3a39a2defc25516dda8322e96ac178",
+  "nam_rau_ao_thuong": "08364c50f76ccef2f7391c24fbc46a558ae4cbe3bfbc11af3b171351dd73251e",
+  "nam_tre_do_tang": "79a6459e928db894121205ef32f3e3d24e33d983936f8365e941fd365e073943",
+  "nam_trung_nien_toc_muoi_tieu_do_tang": "0cde50a8b9bf6fffd31bbfa306cd1acb1e24ce0885832cbcf30cf5bde26d45e2",
+  "nu_trung_nien_do_tang": "3955672fa36c81e4af8492d9f8c6082dcbcc951f1644cea861d25a2d9b51e35d",
+  "ong_lao_lang": "2815d3fddf4649796a0a1e94226eb1ceaffb095ac3d886ff8b1bca6c73efe795",
+  "thanh_nien_lang": "3cb354c2119cce08546ded70593a8b4122aaf51c87d9dea547a98a1f6277615a",
+  "thay_cung_ong_gia": "742ff10a329626f22a1f09b84a8bff39e681adcd7c6631b9c336dbef259f49b3",
+  "thieu_nien_lang": "fb6afa9a936c5fd370dc6a9c5dc4393555ee884bc53181a934221dde24015aed",
+  "thieu_nu_lang": "4ec14deafb7251e17c418fa6b763b4aa2d0cfb2dfefe98f999c4885a035c0e25"
+ }
+}

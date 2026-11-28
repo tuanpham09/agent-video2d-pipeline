@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 280" data-lib-id="candle" data-lib-kind="prop" role="img" aria-label="Nến trên chân đèn đồng">
+<title>candle — nến trên chân đèn đồng</title>
+<defs><radialGradient id="cndl-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="var(--pal-light_warm)" stop-opacity=".55"/><stop offset="1" stop-color="var(--pal-light_warm)" stop-opacity="0"/></radialGradient></defs>
+<style>
+.prop-candle .st{display:none}
+.prop-candle[data-state='lit'] .st-lit,.prop-candle[data-state='low'] .st-low,.prop-candle[data-state='out'] .st-out,
+.prop-candle[data-state='lit'] .st-flame,.prop-candle[data-state='low'] .st-flame,
+.prop-candle[data-state='lit'] .st-tall,.prop-candle[data-state='out'] .st-tall,.prop-candle[data-state='low'] .st-short{display:inline}
+.prop-candle .flame{transform-box:view-box;transform-origin:60px 92px}
+.prop-candle[data-state='low'] .flame{transform:scale(.55)}
+</style>
+<g class="prop prop-candle" data-state="lit">
+  <ellipse cx="60" cy="270" rx="36" ry="9" fill="var(--pal-brass_dark)" stroke="var(--pal-ink)" stroke-width="4"/>
+  <rect x="53" y="206" width="14" height="64" rx="5" fill="var(--pal-brass)" stroke="var(--pal-ink)" stroke-width="4"/>
+  <path d="M30 196 L90 196 L80 214 L40 214 Z" fill="var(--pal-brass)" stroke="var(--pal-ink)" stroke-width="4" stroke-linejoin="round"/>
+  <g class="st st-tall">
+    <rect x="44" y="100" width="32" height="104" rx="4" fill="var(--pal-wax)" stroke="var(--pal-ink)" stroke-width="4"/>
+    <path d="M44 100 L52 100 L52 136 Q48 142 44 134 Z M70 100 L76 100 L76 150 Q73 158 70 148 Z" fill="var(--pal-wax_shadow)"/>
+  </g>
+  <g class="st st-short">
+    <rect x="44" y="160" width="32" height="44" rx="4" fill="var(--pal-wax)" stroke="var(--pal-ink)" stroke-width="4"/>
+    <path d="M44 160 L52 160 L52 182 Q48 188 44 180 Z" fill="var(--pal-wax_shadow)"/>
+  </g>
+  <g class="wick-low st st-low"><line x1="60" y1="160" x2="60" y2="150" stroke="var(--pal-ink)" stroke-width="3" stroke-linecap="round"/></g>
+  <line class="wick st st-tall" x1="60" y1="100" x2="60" y2="88" stroke="var(--pal-ink)" stroke-width="3" stroke-linecap="round"/>
+  <circle class="glow st st-low" cx="60" cy="140" r="40" fill="url(#cndl-glow)" opacity=".7"/>
+  <circle class="glow st st-lit" cx="60" cy="70" r="64" fill="url(#cndl-glow)"/>
+  <g class="flame st st-flame" transform="translate(0 0)">
+    <path d="M60 38 Q84 68 75 92 Q60 108 45 92 Q36 68 60 38 Z" fill="var(--pal-flame)" stroke="var(--pal-flame_edge)" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M60 62 Q72 78 67 92 Q60 99 53 92 Q48 78 60 62 Z" fill="var(--pal-flame_core)"/>
+  </g>
+  <path class="smoke st st-out" d="M60 88 Q48 70 62 54 Q74 40 60 22" stroke="var(--pal-smoke)" stroke-width="5" stroke-linecap="round" fill="none" opacity=".6"/>
+</g>
+</svg>

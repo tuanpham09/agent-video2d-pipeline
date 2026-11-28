@@ -1,0 +1,93 @@
+{
+  "id": "than_trung",
+  "svg": "than_trung.svg",
+  "viewBox": [
+    0,
+    0,
+    520,
+    600
+  ],
+  "floor": {
+    "x": 260,
+    "y": 580
+  },
+  "scale": 1.12,
+  "embed": "nested-svg-only",
+  "pivots": {
+    "arm-l": "317px 318px",
+    "arm-r": "203px 318px",
+    "fore-l": "317px 388px",
+    "fore-r": "203px 388px",
+    "note": "transform-box: view-box; toạ độ theo viewBox 0 0 520 600 của file rig (trước scale)"
+  },
+  "archetype": "spirit_shadow",
+  "outfit": null,
+  "states": {
+    "emotion": [
+      "calm",
+      "focused",
+      "worried",
+      "afraid",
+      "shocked",
+      "dread",
+      "sad",
+      "grief",
+      "angry",
+      "suspicious",
+      "relieved"
+    ],
+    "mouth": [
+      "auto",
+      "closed",
+      "half",
+      "open",
+      "round"
+    ],
+    "pose": [
+      "idle",
+      "clasp",
+      "point-l",
+      "reach-l",
+      "raise-both",
+      "walk-a",
+      "walk-b",
+      "run-a",
+      "run-b",
+      "cover-head",
+      "pray",
+      "prostrate"
+    ],
+    "stance": [
+      "stand",
+      "sit",
+      "kneel",
+      "lay",
+      "stagger",
+      "tilt",
+      "lie",
+      "stagger-r",
+      "tilt-r",
+      "lie-r"
+    ],
+    "gaze": [
+      "center",
+      "left",
+      "right",
+      "up",
+      "down"
+    ],
+    "blink": [
+      0,
+      1
+    ],
+    "khan": [
+      "on",
+      "off"
+    ],
+    "view": [
+      "front",
+      "tq-r",
+      "tq-l"
+    ]
+  }
+}

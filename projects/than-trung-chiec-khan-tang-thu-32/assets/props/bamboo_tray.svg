@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 150" data-lib-id="bamboo_tray" data-lib-kind="prop" role="img" aria-label="Mâm tre đan"><style data-palette="1">svg[data-lib-id="bamboo_tray"]{--pal-ash:#8d8a85;--pal-ash_dark:#5d5a56;--pal-bamboo:#b59a5a;--pal-bamboo_dark:#8a7240;--pal-bamboo_shadow:#5e4d28;--pal-brass:#b08a3a;--pal-brass_dark:#7c5e22;--pal-brow_white:#8d857a;--pal-clay:#6f4a32;--pal-clay_dark:#4d3222;--pal-clay_light:#8b6144;--pal-cloth_grey:#c9c2b2;--pal-cloth_red:#a8201a;--pal-cloth_red_dark:#761410;--pal-cloth_white:#ece6d8;--pal-cloud:#c9d6d8;--pal-earth:#5a4630;--pal-earth_dark:#3b2e20;--pal-ember:#e0451f;--pal-end_red:#d0332b;--pal-eye_white:#fffdf7;--pal-flame:#ffb347;--pal-flame_core:#fff3c4;--pal-flame_edge:#e8741f;--pal-floor:#4a3626;--pal-floor_dark:#31241a;--pal-hair_black:#1b120c;--pal-hair_white:#eae4db;--pal-ink:#1f140b;--pal-khan_white:#f4f1ea;--pal-leaf:#2d4a35;--pal-leaf_dark:#1b3224;--pal-light_cold:#5c7fa8;--pal-light_dawn:#ffd9a0;--pal-light_red:#c01818;--pal-light_warm:#ffb060;--pal-mist:#9fb0b0;--pal-moon:#e8e6d2;--pal-mouth_dark:#4a1a14;--pal-ok_green:#3fae5a;--pal-paper:#d9c48a;--pal-phone_body:#25272b;--pal-phone_screen_off:#0d1013;--pal-pupil:#1b120c;--pal-robe_brown:#584333;--pal-robe_brown_dark:#483424;--pal-robe_indigo:#2b2f45;--pal-robe_indigo_dark:#20233a;--pal-robe_mourning:#e6e0d3;--pal-robe_mourning_dark:#cfc8b8;--pal-scar:#e6b99a;--pal-screen_call:#1f3a4d;--pal-screen_glow:#6fd0ff;--pal-shadow:#000000;--pal-shadow_body:#07070a;--pal-shadow_eye:#ffffff;--pal-shadow_ink:#000000;--pal-shadow_line:#e8e4db;--pal-shadow_pupil:#d01010;--pal-shoe:#120d09;--pal-skin:#cf9063;--pal-skin_old:#c48a5d;--pal-sky_dawn:#8aa0a6;--pal-sky_dawn_low:#e3c49a;--pal-sky_night:#121b22;--pal-sky_night_low:#1d2b31;--pal-smoke:#cfcac0;--pal-tear:#cfe6ee;--pal-thatch:#7a6538;--pal-tile:#5a4636;--pal-vignette:#000000;--pal-wall_wood:#3a281b;--pal-wall_wood_dark:#241a13;--pal-wax:#efe6d2;--pal-wax_shadow:#c9bda3;--pal-window_night:#1a2428;--pal-wood:#6b4d31;--pal-wood_black:#1b120c;--pal-wood_dark:#3e2a1a;--pal-wood_light:#8a6a47}</style>
+<title>bamboo_tray — mâm tre đan (đựng khăn / trầu cau)</title>
+<style>
+.prop-bamboo_tray .st{display:none}
+.prop-bamboo_tray[data-state='cloths'] .st-cloths,.prop-bamboo_tray[data-state='scattered'] .st-scattered{display:inline}
+</style>
+<g class="prop prop-bamboo_tray" data-state="empty">
+  <path d="M90 128 L96 146 L244 146 L250 128 Z" fill="var(--pal-bamboo_dark)" stroke="var(--pal-ink)" stroke-width="5" stroke-linejoin="round"/>
+  <ellipse cx="170" cy="104" rx="160" ry="36" fill="var(--pal-bamboo_dark)" stroke="var(--pal-ink)" stroke-width="6"/>
+  <ellipse cx="170" cy="100" rx="142" ry="28" fill="var(--pal-bamboo)" stroke="var(--pal-bamboo_shadow)" stroke-width="3"/>
+  <g stroke="var(--pal-bamboo_shadow)" stroke-width="2.5" fill="none" opacity=".8">
+    <path d="M60 100 Q170 128 280 100 M80 112 Q170 134 260 112 M100 90 Q170 108 240 90"/>
+    <path d="M110 76 L96 124 M140 74 L130 128 M170 72 L170 128 M200 74 L210 128 M230 76 L244 124"/>
+  </g>
+  <g class="st st-cloths">
+    <rect x="120" y="58" width="100" height="36" rx="3" fill="var(--pal-cloth_white)" stroke="var(--pal-ink)" stroke-width="4"/>
+    <rect x="124" y="42" width="92" height="18" rx="3" fill="var(--pal-cloth_grey)" stroke="var(--pal-ink)" stroke-width="4"/>
+    <rect x="128" y="28" width="84" height="16" rx="3" fill="var(--pal-cloth_white)" stroke="var(--pal-ink)" stroke-width="4"/>
+    <path d="M122 76 L218 76 M126 50 L214 50" stroke="var(--pal-cloth_grey)" stroke-width="2.5"/>
+  </g>
+  <g class="st st-scattered">
+    <path d="M70 92 L128 80 L136 104 L80 114 Z" fill="var(--pal-cloth_white)" stroke="var(--pal-ink)" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M176 78 L240 86 L228 112 L170 104 Z" fill="var(--pal-cloth_grey)" stroke="var(--pal-ink)" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M130 66 L178 62 L182 82 L134 86 Z" fill="var(--pal-cloth_white)" stroke="var(--pal-ink)" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+</g>
+</svg>
