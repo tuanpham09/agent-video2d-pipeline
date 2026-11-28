@@ -80,6 +80,15 @@ def gate_script(proj: Path, scenes: str | None, phase: str) -> tuple[str, int, s
     return "check_script_logic", code, out
 
 
+def gate_drama(proj: Path, phase: str) -> tuple[str, int, str]:
+    """Kịch tính & gài mở-đóng (check_script_drama.py). Demo: thiếu khối drama chỉ cảnh báo; full/final: --strict."""
+    cmd = [sys.executable, str(SCRIPTS / "check_script_drama.py"), "--project", str(proj)]
+    if phase in ("full", "final"):
+        cmd.append("--strict")
+    code, out = run(cmd, cwd=REPO)
+    return "check_script_drama", code, out
+
+
 def gate_sync(proj: Path) -> tuple[str, int, str]:
     code, out = run([sys.executable, str(SCRIPTS / "check_sync.py"),
                      "--project", str(proj)], cwd=REPO)
@@ -179,6 +188,7 @@ def main() -> int:
         lambda: gate_rules(proj, args.phase),
         lambda: gate_shots(proj, args.scenes),
         lambda: gate_script(proj, args.scenes, args.phase),
+        lambda: gate_drama(proj, args.phase),
         lambda: gate_sync(proj),
     ]
     hf_skipped = ""
@@ -209,7 +219,7 @@ def main() -> int:
 
     print(f"gates ({len(jobs)} gate song song): {total:.1f}s")
     failed: list[str] = []
-    for name in ("check_rules", "check_shots", "check_script_logic", "check_sync", "hyperframes"):
+    for name in ("check_rules", "check_shots", "check_script_logic", "check_script_drama", "check_sync", "hyperframes"):
         if name not in results:
             continue
         code, out, _ = results[name]

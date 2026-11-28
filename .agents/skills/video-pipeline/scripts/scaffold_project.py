@@ -70,6 +70,7 @@ PHASE_SOURCE = """\
 - [ ] `script/rewrite_plan.md` + `script/diff_matrix.md`
 - [ ] `script/script.md` + `script/script.json`
 - [ ] Mỗi cảnh có `setting`/`cast`/`staging`; `check_script_logic.py --strict` = 0 lỗi (references/script-continuity-guide.md)
+- [ ] Khối `drama` + `scene.drama`; `check_script_drama.py --strict` = 0 lỗi; review độc lập ≥3 lens, mọi `must` đã xử lý (references/script-drama-guide.md, script-review-protocol.md)
 - [ ] `originality_check.py` = OK
 - [ ] 👤 Duyệt script + packaging
 """
@@ -82,6 +83,7 @@ PHASE_IDEA = """\
 - [ ] I4 kiểm tra ý tưởng gốc (không dùng tác phẩm có bản quyền)
 - [ ] I5 `script/script.md` + `script/script.json` — đo thời lượng bằng `--dry-run` 👤
 - [ ] I5b mỗi cảnh có `setting`/`cast`/`staging`; `check_script_logic.py --strict` = 0 lỗi (references/script-continuity-guide.md)
+- [ ] I5c khối `drama` + `check_script_drama.py --strict` = 0 lỗi; review độc lập ≥3 lens, mọi `must` đã xử lý (references/script-drama-guide.md)
 """
 
 PROJECT_MD = """# {title}

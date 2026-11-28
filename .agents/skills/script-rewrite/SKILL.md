@@ -78,6 +78,16 @@ python .agents/skills/video-pipeline/scripts/check_script_logic.py --project pro
 
 `--strict` (cảnh thiếu `setting` là lỗi) phải 0 lỗi trước khi chốt kịch bản và chạy TTS. Trường `visual` (3.1) mô tả hình; `setting/cast/staging` là dữ liệu máy đọc được, hai bên không được mâu thuẫn.
 
+## 3.0b. Kịch tính, gài mở–đóng, review độc lập (BẮT BUỘC cho truyện/kịch bản dài, sau 3.0)
+
+Trước khi viết lời: chốt `drama.promise`, `motives` (muốn gì, bị cản bởi gì), `rules` của thế lực siêu nhiên (mỗi luật có `cost`), chuỗi nhân quả "vì A nên B, nhưng C nên D" (không "và rồi"), rồi `loops` (setup→trigger→payoff, viết payoff trước, plant sau; mystery cần ≥2 manh mối công bằng). Mỗi cảnh có `beat`, `tension`, `turn`, `hook_out`, `causes`. Cảnh 1 vào thẳng mâu thuẫn, câu đầu ≤14 từ, không chào, gài vòng lặp đầu trong 6 câu đầu. Mẫu và ví dụ cầu cơ / thù nhà + thầy / bùa yêu: [`video-pipeline/references/script-drama-guide.md`](../video-pipeline/references/script-drama-guide.md). Chi tiết dân gian không có trong nguồn phải ghi `note: đề xuất` (R7.1).
+
+```bash
+python .agents/skills/video-pipeline/scripts/check_script_drama.py --project projects/<slug> [--strict]
+```
+
+Sau khi cả hai gate (logic, drama) 0 lỗi: review độc lập bằng agent khác (≥3 lens) theo [`video-pipeline/references/script-review-protocol.md`](../video-pipeline/references/script-review-protocol.md); mọi `must` phải sửa hoặc ghi lý do trước khi chốt và chạy TTS. Gate chỉ kiểm dữ liệu gài–mở nhất quán với chính nó; không thay cho review và người duyệt.
+
 ## 3.1. Mô tả quang cảnh & thị giác (Bắt buộc cho HyperFrames dựng mượt)
 
 **Tuyệt đối không ghi chung chung** kiểu "cảnh đêm rạp tang hiu hắt" hay "người mẹ lo âu". Để bộ phận dựng video (HyperFrames + SVG vector) tạo được chuyển động chân thực, mượt mà và nhịp điệu dồn dập, gay cấn, kịch bản phải tuân thủ 2 nguyên tắc thiết kế:

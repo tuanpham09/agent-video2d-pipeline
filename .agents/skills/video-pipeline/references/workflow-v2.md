@@ -206,6 +206,11 @@ Quy ước (đã kiểm bằng cách ghép thử một cảnh: bối cảnh + b�
 - [ ] `python .agents/skills/video-pipeline/scripts/check_script_logic.py --project projects/<slug> --strict` → 0 lỗi (demo chỉ bắt buộc với các cảnh nằm trong demo: thêm `--scenes S01,...`). `gates.py` đã gồm gate này (demo: cảnh thiếu setting chỉ cảnh báo; `--phase full`: `--strict`).
 - [ ] Cảnh báo SL10 (lời nhân vật gán nhầm người, tên gõ lệch) phải được đọc và xử lý hoặc giải thích trong `PROJECT.md`.
 
+### C1c. Kịch tính & review độc lập (gate sau C1b, trước TTS)
+- [ ] Khối `drama` (promise, genre, tension_pattern, rules, loops, motives) và `scene.drama` (beat, tension, turn, hook_out, causes) theo [`script-drama-guide.md`](script-drama-guide.md).
+- [ ] `python .agents/skills/video-pipeline/scripts/check_script_drama.py --project projects/<slug> --strict` → 0 lỗi (`gates.py` đã gồm: demo chỉ cảnh báo, `--phase full`: `--strict`).
+- [ ] Review độc lập ≥3 lens (logic, loops, retention) bằng agent khác theo [`script-review-protocol.md`](script-review-protocol.md); mọi `must` đã sửa hoặc có lý do trong `PROJECT.md`; `script/review/REVIEW.md` có trong project.
+
 ### C2. Shotlist (`script/shotlist.json`) — mỗi câu thoại một beat diễn
 
 ```json

@@ -329,6 +329,207 @@
                 }
               }
             }
+          },
+          "drama": {
+            "type": "object",
+            "properties": {
+              "beat": {
+                "enum": [
+                  "hook",
+                  "setup",
+                  "warning",
+                  "inciting",
+                  "first_disaster",
+                  "point_of_no_return",
+                  "debate",
+                  "plan",
+                  "midpoint",
+                  "escalation",
+                  "lowest",
+                  "climax",
+                  "reveal",
+                  "resolution",
+                  "aftermath"
+                ]
+              },
+              "tension": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 10
+              },
+              "turn": {
+                "type": "string"
+              },
+              "turn_at": {
+                "type": "string",
+                "description": "line id, vd S05_L09b"
+              },
+              "hook_out": {
+                "type": "string"
+              },
+              "causes": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "drama": {
+      "type": "object",
+      "description": "Khối kịch tính: promise, genre, tension_pattern, rules, loops, motives (check_script_drama.py, references/script-drama-guide.md).",
+      "properties": {
+        "promise": {
+          "type": "string"
+        },
+        "logline": {
+          "type": "string"
+        },
+        "genre": {
+          "enum": [
+            "ghost_ritual",
+            "feud_curse",
+            "love_charm",
+            "mystery",
+            "other"
+          ]
+        },
+        "tension_pattern": {
+          "enum": [
+            "escalating_peaks",
+            "slow_burn"
+          ]
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "text",
+              "cost",
+              "plant"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "cost": {
+                "type": "string"
+              },
+              "plant": {
+                "type": "string",
+                "description": "line id, vd S05_L09b"
+              },
+              "first_use": {
+                "type": "string",
+                "description": "line id, vd S05_L09b"
+              },
+              "violations": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "line id, vd S05_L09b"
+                }
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "loops": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "type",
+              "plant"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "clue",
+                  "object",
+                  "rule",
+                  "promise",
+                  "mystery",
+                  "red_herring",
+                  "line"
+                ]
+              },
+              "question": {
+                "type": "string"
+              },
+              "plant": {
+                "type": "string",
+                "description": "line id, vd S05_L09b"
+              },
+              "trigger": {
+                "type": "string",
+                "description": "line id, vd S05_L09b"
+              },
+              "payoff": {
+                "type": "string",
+                "description": "line id, vd S05_L09b"
+              },
+              "clues": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "line id, vd S05_L09b"
+                }
+              },
+              "open": {
+                "type": "boolean"
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "motives": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "char",
+              "want",
+              "obstacle"
+            ],
+            "properties": {
+              "char": {
+                "type": "string"
+              },
+              "role": {
+                "enum": [
+                  "protagonist",
+                  "antagonist",
+                  "force",
+                  "support"
+                ]
+              },
+              "want": {
+                "type": "string"
+              },
+              "obstacle": {
+                "type": "string"
+              },
+              "secret": {
+                "type": "string"
+              }
+            }
           }
         }
       }
